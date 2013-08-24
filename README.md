@@ -5,6 +5,10 @@ multi-graph. This library is used as part of the
 [dagre](https://github.com/cpettitt/dagre) library, but is available here in a
 light-weight, standalone form.
 
+[![Build Status](https://secure.travis-ci.org/cpettitt/graphlib.png)](http://travis-ci.org/cpettitt/graphlib)
+
+[![browser support](https://ci.testling.com/cpettitt/graphlib.png)](https://ci.testling.com/cpettitt/graphlib)
+
 # Build / Install
 
 Before building this library you need to install the [npm package manager].
