@@ -1,0 +1,39 @@
+{
+  "name": "graphlib",
+  "version": "0.0.1",
+  "description": "A directed multi-graph library",
+  "main": "graphlib.js",
+  "keywords": [
+    "graph"
+  ],
+  "devDependencies": {
+    "chai": "1.7.x",
+    "mocha": "1.12.x",
+    "uglify-js": "1.2.3"
+  },
+  "author": "Chris Pettitt <chris@samsarin.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cpettitt/dagre.git"
+  },
+  "license": "MIT",
+  "testling": {
+    "files": [
+      "test/**/*.js"
+    ],
+    "browsers": [
+      "ie/8..latest",
+      "firefox/17..latest",
+      "firefox/nightly",
+      "chrome/22..latest",
+      "chrome/canary",
+      "opera/12..latest",
+      "opera/next",
+      "safari/5.1..latest",
+      "ipad/6.0..latest",
+      "iphone/6.0..latest",
+      "android-browser/4.2..latest"
+    ],
+    "harness": "mocha"
+  }
+}
