@@ -2,7 +2,7 @@
 
 Graphlib is a JavaScript library that provides an implementation of a directed
 multi-graph. This library is used as part of the
-[dagre])https://github.com/cpettitt/dagre) library, but is available here in a
+[dagre](https://github.com/cpettitt/dagre) library, but is available here in a
 light-weight, standalone form.
 
 # Build / Install
@@ -15,7 +15,7 @@ To get graphlib from npm, use:
 
 # Use
 
-Graphlib currently exports a single Graph object. The graphlib.js file includes
+Graphlib currently exports a single Graph object. The `graphlib.js` file includes
 documentation for each of the functions on this Object.
 
 Here we'll show a running example of the Graph API.
