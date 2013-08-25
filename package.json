@@ -10,7 +10,8 @@
     "browserify": "2.28.x",
     "chai": "1.7.x",
     "mocha": "1.12.x",
-    "uglify-js": "1.2.3"
+    "uglify-js": "1.2.3",
+    "gendocs": "~0.4.1"
   },
   "author": "Chris Pettitt <chris@samsarin.com>",
   "repository": {
