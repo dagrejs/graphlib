@@ -94,6 +94,44 @@ describe("Graph", function() {
     });
   });
 
+  describe("sources", function() {
+    it("returns all nodes for a graph with no edges", function() {
+      var g = new Graph();
+      g.addNode("a");
+      g.addNode("b");
+      g.addNode("c");
+      assert.deepEqual(g.sources().sort(), ["a", "b", "c"]);
+    });
+
+    it("returns only nodes that have no in-edges", function() {
+      var g = new Graph();
+      g.addNode("a");
+      g.addNode("b");
+      g.addNode("c");
+      g.addEdge(null, "a", "b");
+      assert.deepEqual(g.sources().sort(), ["a", "c"]);
+    });
+  });
+
+  describe("sinks", function() {
+    it("returns all nodes for a graph with no edges", function() {
+      var g = new Graph();
+      g.addNode("a");
+      g.addNode("b");
+      g.addNode("c");
+      assert.deepEqual(g.sinks().sort(), ["a", "b", "c"]);
+    });
+
+    it("returns only nodes that have no out-edges", function() {
+      var g = new Graph();
+      g.addNode("a");
+      g.addNode("b");
+      g.addNode("c");
+      g.addEdge(null, "a", "b");
+      assert.deepEqual(g.sinks().sort(), ["b", "c"]);
+    });
+  });
+
   describe("edge", function() {
     it("throws if the edge isn't in the graph", function() {
       assert.throws(function() { g.edge(3); });
