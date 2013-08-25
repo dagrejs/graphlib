@@ -87,7 +87,7 @@ functions.
 
 # API
 
-[API documentation](./blob/master/api.md)
+[API documentation](./api.md)
 
 ## 
 
