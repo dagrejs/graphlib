@@ -1,5 +1,6 @@
 NODE?=node
 NPM?=npm
+BROWSERIFY?=node_modules/browserify/bin/cmd.js
 MOCHA?=node_modules/mocha/bin/mocha
 MOCHA_OPTS?=
 JS_COMPILER=node_modules/uglify-js/bin/uglifyjs
@@ -10,9 +11,15 @@ MAIN_MIN_JS=graphlib.min.js
 
 # There does not appear to be an easy way to define recursive expansion, so
 # we do our own expansion a few levels deep.
+JS_SRC:=$(wilcard lib/*.js lib/*/*.js lib/*/*/*.js)
 JS_TEST:=$(wildcard test/*.js test/*/*.js test/*/*/*.js)
 
-all: $(MAIN_MIN_JS) test
+all: $(MAIN_JS) $(MAIN_MIN_JS) test
+
+$(MAIN_JS): Makefile browser.js lib/version.js node_modules $(JS_SRC)
+	@rm -f $@
+	$(NODE) $(BROWSERIFY) browser.js > $@
+	@chmod a-w $@
 
 $(MAIN_MIN_JS): $(MAIN_JS)
 	@rm -f $@
@@ -30,4 +37,4 @@ test: $(MAIN_JS) $(JS_TEST)
 	$(NODE) $(MOCHA) $(MOCHA_OPTS) $(JS_TEST)
 
 clean:
-	rm -f $(MAIN_MIN_JS)
+	rm -f $(MAIN_JS) $(MAIN_MIN_JS)

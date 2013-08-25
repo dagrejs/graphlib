@@ -2,11 +2,12 @@
   "name": "graphlib",
   "version": "0.0.1",
   "description": "A directed multi-graph library",
-  "main": "graphlib.js",
+  "main": "index.js",
   "keywords": [
     "graph"
   ],
   "devDependencies": {
+    "browserify": "2.28.x",
     "chai": "1.7.x",
     "mocha": "1.12.x",
     "uglify-js": "1.2.3"

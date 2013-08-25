@@ -1,5 +1,5 @@
 var assert = require("chai").assert,
-    Graph = require("../graphlib").Graph;
+    Graph = require("../lib/Graph");
 
 describe("Graph", function() {
   var g;
