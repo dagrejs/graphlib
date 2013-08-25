@@ -5,6 +5,7 @@ MOCHA?=node_modules/mocha/bin/mocha
 MOCHA_OPTS?=
 JS_COMPILER=node_modules/uglify-js/bin/uglifyjs
 JS_COMPILER_OPTS?=--no-seqs
+GENDOCS=node_modules/gendocs/bin/gendocs
 
 MAIN_JS=graphlib.js
 MAIN_MIN_JS=graphlib.min.js
@@ -16,7 +17,7 @@ JS_TEST:=$(wildcard test/*.js test/*/*.js test/*/*/*.js)
 
 all: $(MAIN_JS) $(MAIN_MIN_JS) test
 
-$(MAIN_JS): Makefile browser.js lib/version.js node_modules $(JS_SRC)
+$(MAIN_JS): Makefile browser.js lib/version.js node_modules $(JS_SRC) api_docs
 	@rm -f $@
 	$(NODE) $(BROWSERIFY) browser.js > $@
 	@chmod a-w $@
@@ -31,6 +32,9 @@ lib/version.js: src/version.js package.json
 
 node_modules: package.json
 	$(NPM) install
+
+api_docs: 
+	$(GENDOCS) ./lib/Graph.js > api.md
 
 .PHONY: test
 test: $(MAIN_JS) $(JS_TEST)
