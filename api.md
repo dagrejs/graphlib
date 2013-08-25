@@ -20,6 +20,13 @@ Error.
 ### Graph#order()
 Returns the number of nodes in this graph.
 
+### Graph#size
+Returns the number of edges in this graph.
+
+### Graph#hasNode(u)
+Returns `true` if this graph contains a node with the id `u`. Otherwise
+returns false.
+
 ### Graph#node(u)
 Returns the value for a node in the graph with the id `u`. If no such node
 is in the graph this function will throw an Error.
@@ -39,6 +46,13 @@ that have the node `u` as their source are returned.
  
 If no node `u` exists in the graph this function throws an Error.
 
+### Graph#predecessors(u)
+
+Returns all predecessors of the node with the id `u`. That is, all nodes
+that have the node `u` as their target are returned.
+ 
+If no node `u` exists in the graph this function throws an Error.
+
 ### Graph#neighbors(u)
 
 Returns all nodes that are adjacent to the node with the id `u`. In other
@@ -48,6 +62,10 @@ node `u`.
 ### Graph#sources()
 
 Returns all nodes in the graph that have no in-edges.
+
+### Graph#sinks()
+
+Returns all nodes in the graph that have no out-edges.
 
 ### Graph#hasEdge(e)
 
