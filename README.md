@@ -82,8 +82,14 @@ console.log(g2.nodes());
 console.log(g2.edges());
 ```
 There are a number of other functions for doing queries on `Graph` objects.
-Please see `graphlib.js` which includes documentation for each of the
+Please see `lib/Graph.js` which includes documentation for each of the
 functions.
+
+# API
+
+[API documentation](./blob/master/api.md)
+
+## 
 
 # License
 
