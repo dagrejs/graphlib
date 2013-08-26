@@ -5,19 +5,21 @@ MOCHA?=node_modules/mocha/bin/mocha
 MOCHA_OPTS?=
 JS_COMPILER=node_modules/uglify-js/bin/uglifyjs
 JS_COMPILER_OPTS?=--no-seqs
-GENDOCS=node_modules/gendocs/bin/gendocs
+DOCGEN=node_modules/dox-foundation/bin/dox-foundation
 
 MAIN_JS=graphlib.js
 MAIN_MIN_JS=graphlib.min.js
 
+DOC?=doc
+
 # There does not appear to be an easy way to define recursive expansion, so
 # we do our own expansion a few levels deep.
-JS_SRC:=$(wilcard lib/*.js lib/*/*.js lib/*/*/*.js)
+JS_SRC:=$(wildcard lib/*.js lib/*/*.js lib/*/*/*.js)
 JS_TEST:=$(wildcard test/*.js test/*/*.js test/*/*/*.js)
 
-all: $(MAIN_JS) $(MAIN_MIN_JS) test
+all: $(MAIN_JS) $(MAIN_MIN_JS) $(DOC) test
 
-$(MAIN_JS): Makefile browser.js lib/version.js node_modules $(JS_SRC) api_docs
+$(MAIN_JS): Makefile browser.js lib/version.js node_modules $(JS_SRC)
 	@rm -f $@
 	$(NODE) $(BROWSERIFY) browser.js > $@
 	@chmod a-w $@
@@ -33,8 +35,9 @@ lib/version.js: src/version.js package.json
 node_modules: package.json
 	$(NPM) install
 
-api_docs: 
-	$(GENDOCS) ./lib/Graph.js > api.md
+$(DOC): $(JS_SRC)
+	@rm -rf $@
+	$(NODE) $(DOCGEN) --ignore lib/version.js --source lib --target $@
 
 .PHONY: test
 test: $(MAIN_JS) $(JS_TEST)
@@ -42,3 +45,7 @@ test: $(MAIN_JS) $(JS_TEST)
 
 clean:
 	rm -f $(MAIN_JS) $(MAIN_MIN_JS)
+	rm -rf $(DOC)
+
+fullclean: clean
+	rm -rf node_modules

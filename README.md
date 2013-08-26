@@ -87,7 +87,7 @@ functions.
 
 # API
 
-[API documentation](./api.md)
+[API documentation](./doc)
 
 ## 
 
