@@ -87,7 +87,7 @@ functions.
 
 # API
 
-[API documentation](./doc/index.html)
+[API documentation](http://cpettitt.github.io/project/graphlib/doc/index.html)
 
 ## 
 
