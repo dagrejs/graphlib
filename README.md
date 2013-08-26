@@ -17,12 +17,7 @@ To get graphlib from npm, use:
 
     $ npm install graphlib
 
-# Use
-
-Graphlib currently exports a single Graph object. The `graphlib.js` file includes
-documentation for each of the functions on this Object.
-
-Here we'll show a running example of the Graph API.
+# Example
 
 ```js
 var Graph = require("graphlib").Graph;
@@ -81,9 +76,6 @@ console.log(g2.nodes());
 // source and target nodes in the graph are also included in the subgraph.
 console.log(g2.edges());
 ```
-There are a number of other functions for doing queries on `Graph` objects.
-Please see `lib/Graph.js` which includes documentation for each of the
-functions.
 
 # API
 
