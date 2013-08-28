@@ -11,6 +11,7 @@
     "chai": "1.7.x",
     "dox-foundation": "~0.5.2",
     "mocha": "1.12.x",
+    "semver": "2.1.x",
     "uglify-js": "1.2.3"
   },
   "author": "Chris Pettitt <chris@samsarin.com>",

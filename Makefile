@@ -19,6 +19,9 @@ JS_TEST:=$(wildcard test/*.js test/*/*.js test/*/*/*.js)
 
 all: $(MAIN_JS) $(MAIN_MIN_JS) $(DOC) test
 
+release: all
+	src/release/release.sh
+
 $(MAIN_JS): Makefile browser.js lib/version.js node_modules $(JS_SRC)
 	@rm -f $@
 	$(NODE) $(BROWSERIFY) browser.js > $@
