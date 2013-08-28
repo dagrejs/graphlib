@@ -24,6 +24,6 @@ console.log(ver.toString());
 
 // Write an error message to stderr and then exit immediately with an error.
 function bail(msg) {
-  stderr.write(msg + "\n");
+  process.stderr.write(msg + "\n");
   process.exit(1);
 }
