@@ -103,7 +103,7 @@ console.log(g2.edges());
 
 # API
 
-[API documentation](http://cpettitt.github.io/project/graphlib/doc/index.html)
+[API documentation](http://cpettitt.github.io/project/graphlib/latest/doc/index.html)
 
 ## 
 
