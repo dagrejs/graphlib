@@ -62,6 +62,12 @@ unset GIT_WORK_TREE
 cd $PROJECT_ROOT
 echo Done with docs
 
+
+# Publish to npm
+npm publish
+echo Published to npm
+
+
 # Update patch level version + commit
 # -----------------------------------
 node src/release/bump-version.js
