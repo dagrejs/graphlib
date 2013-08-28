@@ -13,7 +13,7 @@ if (!("version" in packageJson)) {
 }
 
 var ver = semver.parse(packageJson.version);
-packageJson.version = ver.inc("patch").toString();
+packageJson.version = ver.inc("patch").toString() + "-pre";
 
 fs.writeFileSync("package.json", JSON.stringify(packageJson, undefined, 2));
 
