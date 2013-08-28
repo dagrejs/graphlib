@@ -44,7 +44,7 @@ test: $(MAIN_JS) $(JS_TEST)
 	$(NODE) $(MOCHA) $(MOCHA_OPTS) $(JS_TEST)
 
 clean:
-	rm -f $(MAIN_JS) $(MAIN_MIN_JS)
+	rm -f $(MAIN_JS) $(MAIN_MIN_JS) lib/version.js
 	rm -rf $(DOC)
 
 fullclean: clean
