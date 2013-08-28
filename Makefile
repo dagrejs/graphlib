@@ -47,9 +47,11 @@ lib/version.js: src/version.js package.json
 $(NODE_MODULES): package.json
 	$(NPM) install
 
-$(DOC): init $(JS_SRC)
-	@rm -rf $@
-	$(NODE) $(DOCGEN) --ignore lib/version.js --source lib --target $@
+$(DOC): init $(SRC_JS)
+	@rm -rf doc $@
+	mkdir doc
+	$(NODE) $(DOCGEN) --ignore lib/version.js --source lib --target doc
+	mv doc $(DOC)
 
 .PHONY: test
 test: $(MODULE_JS) $(JS_TEST)

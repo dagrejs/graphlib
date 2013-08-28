@@ -37,6 +37,7 @@ rm -rf $PUB_ROOT
 git clone git@github.com:cpettitt/cpettitt.github.com.git $PUB_ROOT
 cd $PUB_ROOT
 
+mkdir -p project/$PROJECT
 TARGET=project/$PROJECT/latest
 git rm -r $TARGET || true
 cp -r $PROJECT_ROOT/dist $TARGET
