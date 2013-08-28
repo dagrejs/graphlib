@@ -1,6 +1,6 @@
 # Graphlib
 
-Graphlib is a JavaScript library that provides an implementation of a directed
+Graphlib is a JavaScript library that provides an implementation of a
 multi-graph. This library is used as part of the
 [dagre](https://github.com/cpettitt/dagre) library, but is available here in a
 light-weight, standalone form.
