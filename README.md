@@ -14,13 +14,32 @@ maintain backwards compatibility, for patch level increases (e.g. 0.0.1 to
 0.0.2) but make no claim to backwards compatibility across minor releases (e.g.
 0.0.1 to 0.1.0). Watch our [CHANGELOG](CHANGELOG.md) for details on changes.
 
-# Build / Install
+# Getting Graphlib
 
-Before building this library you need to install the [npm package manager].
+## NPM Install
+
+Before installing this library you need to install the [npm package manager].
 
 To get graphlib from npm, use:
 
     $ npm install graphlib
+
+## Browser Scripts
+
+You can get the latest browser-ready scripts:
+
+* [graphlib.js](http://cpettitt.github.io/project/graphlib/latest/graphlib.js)
+* [graphlib.min.js](http://cpettitt.github.io/project/graphlib/latest/graphlib.min.js)
+
+## Build From Source
+
+Before building this library you need to install the [npm package manager].
+
+Check out this project and run this command from the root of the project:
+
+    $ make
+
+This will generate `graphlib.js` and `graphlib.min.js` in the root of the project.
 
 # Example
 
