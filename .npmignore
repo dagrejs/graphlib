@@ -1,8 +1,6 @@
 /Makefile
 /browser.js
-/doc
-/graphlib.js
-/graphlib.min.js
+/dist
 /node_modules
 /src
 /test

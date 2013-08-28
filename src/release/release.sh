@@ -37,20 +37,13 @@ rm -rf $PUB_ROOT
 git clone git@github.com:cpettitt/cpettitt.github.com.git $PUB_ROOT
 cd $PUB_ROOT
 
-# TODO: it would be nice to stage this with a package Makefile target...
 TARGET=project/$PROJECT/latest
 git rm -r $TARGET || true
-mkdir $TARGET
-cp -r $PROJECT_ROOT/doc $TARGET
-cp $PROJECT_ROOT/$PROJECT.js $TARGET
-cp $PROJECT_ROOT/$PROJECT.min.js $TARGET
+cp -r $PROJECT_ROOT/dist $TARGET
 git add $TARGET
 
 TARGET=project/$PROJECT/v$VERSION
-mkdir $TARGET
-cp -r $PROJECT_ROOT/doc $TARGET
-cp $PROJECT_ROOT/$PROJECT.js $TARGET
-cp $PROJECT_ROOT/$PROJECT.min.js $TARGET
+cp -r $PROJECT_ROOT/dist $TARGET
 git add $TARGET
 
 git ci -m "Publish $PROJECT v$VERSION"

@@ -7,22 +7,29 @@ JS_COMPILER=node_modules/uglify-js/bin/uglifyjs
 JS_COMPILER_OPTS?=--no-seqs
 DOCGEN=node_modules/dox-foundation/bin/dox-foundation
 
-MAIN_JS=graphlib.js
-MAIN_MIN_JS=graphlib.min.js
-
-DOC?=doc
+DIST?=dist
+MAIN_JS=$(DIST)/graphlib.js
+MAIN_MIN_JS=$(DIST)/graphlib.min.js
+DOC=$(DIST)/doc
 
 # There does not appear to be an easy way to define recursive expansion, so
 # we do our own expansion a few levels deep.
 JS_SRC:=$(wildcard lib/*.js lib/*/*.js lib/*/*/*.js)
 JS_TEST:=$(wildcard test/*.js test/*/*.js test/*/*/*.js)
 
+.PHONY: all
 all: $(MAIN_JS) $(MAIN_MIN_JS) $(DOC) test
 
+.PHONY: init
+init:
+	rm -rf $(DIST)
+	mkdir -p $(DIST)
+
+.PHONY: all
 release: all
 	src/release/release.sh
 
-$(MAIN_JS): Makefile browser.js lib/version.js node_modules $(JS_SRC)
+$(MAIN_JS): init Makefile browser.js lib/version.js node_modules $(JS_SRC)
 	@rm -f $@
 	$(NODE) $(BROWSERIFY) browser.js > $@
 	@chmod a-w $@
@@ -38,7 +45,7 @@ lib/version.js: src/version.js package.json
 node_modules: package.json
 	$(NPM) install
 
-$(DOC): $(JS_SRC)
+$(DOC): init $(JS_SRC)
 	@rm -rf $@
 	$(NODE) $(DOCGEN) --ignore lib/version.js --source lib --target $@
 
@@ -46,9 +53,11 @@ $(DOC): $(JS_SRC)
 test: $(MAIN_JS) $(JS_TEST)
 	$(NODE) $(MOCHA) $(MOCHA_OPTS) $(JS_TEST)
 
+.PHONY: clean
 clean:
-	rm -f $(MAIN_JS) $(MAIN_MIN_JS) lib/version.js
-	rm -rf $(DOC)
+	rm -f lib/version.js
+	rm -rf $(DIST)
 
+.PHONY: fullclean
 fullclean: clean
 	rm -rf node_modules
