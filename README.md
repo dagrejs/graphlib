@@ -25,10 +25,10 @@ To get graphlib from npm, use:
 # Example
 
 ```js
-var Graph = require("graphlib").Graph;
+var Digraph = require("graphlib").Digraph;
 
 // Create a new empty graph
-var g = new Graph();
+var g = new Digraph();
 
 // Add node "A" to the graph with no value
 g.addNode("A");
@@ -52,13 +52,13 @@ console.log(g.nodes());
 // Add a directed edge with the ID "AB" from "A" to "B", but assign no value
 g.addEdge("AB", "A", "B");
 
-// Add a directed edge with no ID (Graph will assign one) from "B" to "C"
+// Add a directed edge with no ID (Diraph will assign one) from "B" to "C"
 g.addEdge(null, "B", "C");
 
 // Add a directed edge from "C" to "D" with an Object value
 g.addEdge("CD", "C", "D", { k: 456 });
 
-// Since Graph is a multi-graph, we can have multiple edges incident on the
+// Since Digraph is a multi-graph, we can have multiple edges incident on the
 // same source and target nodes.
 g.addEdge("AB2", "A", "B");
 

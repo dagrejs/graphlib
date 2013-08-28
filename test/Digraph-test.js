@@ -1,14 +1,14 @@
 var assert = require("chai").assert,
-    Graph = require("../lib/Graph");
+    Graph = require("../lib/Digraph");
 
-describe("Graph", function() {
+describe("Digraph", function() {
   var g;
 
   beforeEach(function() {
     g = new Graph();
   });
 
-  describe("new Graph()", function() {
+  describe("new Digraph()", function() {
     it("has no nodes", function() {
       assert.equal(g.order(), 0);
       assert.lengthOf(g.nodes(), 0);
