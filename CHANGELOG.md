@@ -1,3 +1,13 @@
+v0.0.4
+======
+
+* Added a value to the graph itself, similar to the values for nodes and edges.
+  Use `Digraph.graph()` to get the value and `Digraph.graph(x)` to set the
+  graph's value to `x`.
+* Added support for changing the value of node's and edge's by supply
+  additional value argument. For example, to set the value `x` on node `u`,
+  call `Digraph.node(u, x)`.
+
 v0.0.3
 ======
 

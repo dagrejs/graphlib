@@ -77,6 +77,17 @@ describe("Digraph", function() {
     });
   });
 
+  describe("graph", function() {
+    it("returns undefined if a value has not been set", function() {
+      assert.isUndefined(g.graph());
+    });
+
+    it("sets the value for the graph if called with a single argument", function() {
+      g.graph("test");
+      assert.equal(g.graph(), "test");
+    });
+  });
+
   describe("node", function() {
     it("throws if the node isn't in the graph", function() {
       assert.throws(function() { g.node(1); });
@@ -91,6 +102,12 @@ describe("Digraph", function() {
       var value = { abc: 123 };
       g.addNode(1, value);
       assert.strictEqual(g.node(1), value);
+    });
+
+    it("sets the value for the node if called with two arguments", function() {
+      g.addNode(1);
+      g.node(1, "abc");
+      assert.equal(g.node(1), "abc");
     });
   });
 
@@ -158,6 +175,14 @@ describe("Digraph", function() {
       g.addNode(2);
       g.addEdge(3, 1, 2, value);
       assert.strictEqual(g.edge(3), value);
+    });
+
+    it("sets the value for the edge if called with 2 arguments", function() {
+      g.addNode(1);
+      g.addNode(2);
+      g.addEdge(3, 1, 2);
+      g.edge(3, "abc");
+      assert.equal(g.edge(3), "abc");
     });
   });
 
