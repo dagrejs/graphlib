@@ -1,11 +1,11 @@
 var assert = require("chai").assert,
-    Graph = require("../lib/Digraph");
+    Digraph = require("..").Digraph;
 
 describe("Digraph", function() {
   var g;
 
   beforeEach(function() {
-    g = new Graph();
+    g = new Digraph();
   });
 
   describe("new Digraph()", function() {
@@ -22,7 +22,7 @@ describe("Digraph", function() {
 
   describe("subgraph", function() {
     it("returns a graph containing a subset of nodes", function() {
-      var g = new Graph();
+      var g = new Digraph();
       [1,2,3].forEach(function(u) { g.addNode(u); });
       g.addEdge("a", 1, 2);
       g.addEdge("b", 2, 3);
@@ -33,7 +33,7 @@ describe("Digraph", function() {
     });
 
     it("includes each node's value in the subgraph", function() {
-      var g = new Graph();
+      var g = new Digraph();
       [1,2,3].forEach(function(u) { g.addNode(u, "V" + u); });
       g.addEdge("a", 1, 2);
       g.addEdge("b", 2, 3);
@@ -44,7 +44,7 @@ describe("Digraph", function() {
     });
 
     it("includes each edge's value in the subgraph", function() {
-      var g = new Graph();
+      var g = new Digraph();
       [1,2,3].forEach(function(u) { g.addNode(u); });
       g.addEdge("a", 1, 2, "VA");
       g.addEdge("b", 2, 3);
@@ -56,7 +56,7 @@ describe("Digraph", function() {
 
   describe("order", function() {
     it("returns the number of nodes in the graph", function() {
-      var g = new Graph();
+      var g = new Digraph();
       g.addNode("a");
       g.addNode("b");
       assert.equal(g.order(), 2);
@@ -65,7 +65,7 @@ describe("Digraph", function() {
 
   describe("size", function() {
     it("returns the number of edges in the graph", function() {
-      var g = new Graph();
+      var g = new Digraph();
       g.addNode("a");
       g.addNode("b");
 
@@ -113,7 +113,7 @@ describe("Digraph", function() {
 
   describe("sources", function() {
     it("returns all nodes for a graph with no edges", function() {
-      var g = new Graph();
+      var g = new Digraph();
       g.addNode("a");
       g.addNode("b");
       g.addNode("c");
@@ -121,7 +121,7 @@ describe("Digraph", function() {
     });
 
     it("returns only nodes that have no in-edges", function() {
-      var g = new Graph();
+      var g = new Digraph();
       g.addNode("a");
       g.addNode("b");
       g.addNode("c");
@@ -132,7 +132,7 @@ describe("Digraph", function() {
 
   describe("sinks", function() {
     it("returns all nodes for a graph with no edges", function() {
-      var g = new Graph();
+      var g = new Digraph();
       g.addNode("a");
       g.addNode("b");
       g.addNode("c");
@@ -140,7 +140,7 @@ describe("Digraph", function() {
     });
 
     it("returns only nodes that have no out-edges", function() {
-      var g = new Graph();
+      var g = new Digraph();
       g.addNode("a");
       g.addNode("b");
       g.addNode("c");
@@ -258,11 +258,11 @@ describe("Digraph", function() {
 
   describe("equals", function() {
     it("returns `true` if both graphs are empty", function() {
-      assert.isTrue(new Graph().equals(new Graph()));
+      assert.isTrue(new Digraph().equals(new Digraph()));
     });
 
     it("returns `true` if both graphs have the same nodes", function() {
-      var g1 = new Graph();
+      var g1 = new Digraph();
       g1.addNode("A", 123);
       g1.addNode("B", 456);
       var g2 = g1.subgraph(["A", "B"]);
@@ -270,15 +270,15 @@ describe("Digraph", function() {
     });
 
     it("returns `false` if both graphs have different nodes", function() {
-      var g1 = new Graph();
+      var g1 = new Digraph();
       g1.addNode("A", 123);
-      var g2 = new Graph();
+      var g2 = new Digraph();
       g2.addNode("B", 456);
       assert.isFalse(g1.equals(g2));
     });
 
     it("returns `false` if other graph has a strict superset of nodes", function() {
-      var g1 = new Graph();
+      var g1 = new Digraph();
       g1.addNode("A", 123);
       var g2 = g1.subgraph(["A"]);
       g2.addNode("B", "456");
@@ -286,15 +286,15 @@ describe("Digraph", function() {
     });
 
     it("returns `false` if both graphs have different node values", function() {
-      var g1 = new Graph();
+      var g1 = new Digraph();
       g1.addNode("A", 123);
-      var g2 = new Graph();
+      var g2 = new Digraph();
       g2.addNode("A", 456);
       assert.isFalse(g1.equals(g2));
     });
 
     it("returns `true` if both graphs have the same edges", function() {
-      var g1 = new Graph();
+      var g1 = new Digraph();
       g1.addNode("A");
       g1.addNode("B");
       g1.addEdge("AB", "A", "B", 123);
@@ -303,11 +303,11 @@ describe("Digraph", function() {
     });
 
     it("returns `false` if both graphs have different edges", function() {
-      var g1 = new Graph();
+      var g1 = new Digraph();
       g1.addNode("A");
       g1.addNode("B");
       g1.addEdge("AB", "A", "B", 123);
-      var g2 = new Graph();
+      var g2 = new Digraph();
       g2.addNode("A");
       g2.addNode("B");
       g2.addEdge("BA", "B", "A", 123);
@@ -315,7 +315,7 @@ describe("Digraph", function() {
     });
 
     it("returns `false` if other graph has a strict superset of edges", function() {
-      var g1 = new Graph();
+      var g1 = new Digraph();
       g1.addNode("A");
       g1.addNode("B");
       g1.addEdge("AB", "A", "B", 123);
@@ -325,11 +325,11 @@ describe("Digraph", function() {
     });
 
     it("returns `false` if both graphs have different edge values", function() {
-      var g1 = new Graph();
+      var g1 = new Digraph();
       g1.addNode("A");
       g1.addNode("B");
       g1.addEdge("AB", "A", "B", 123);
-      var g2 = new Graph();
+      var g2 = new Digraph();
       g2.addNode("A");
       g2.addNode("B");
       g2.addEdge("AB", "A", "B", 456);

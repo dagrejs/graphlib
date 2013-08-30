@@ -1,6 +1,6 @@
 var assert = require("chai").assert,
-    Digraph = require("../../lib/Digraph"),
-    tarjan = require("../../").alg.tarjan;
+    Digraph = require("../..").Digraph,
+    tarjan = require("../..").alg.tarjan;
 
 describe("alg.tarjan", function() {
   it("returns an empty array for an empty graph", function() {

@@ -1,6 +1,6 @@
 var assert = require("chai").assert,
-    Digraph = require("../../lib/Digraph"),
-    topsort = require("../../lib/alg/topsort");
+    Digraph = require("../..").Digraph,
+    topsort = require("../..").alg.topsort;
 
 describe("alg.topsort", function() {
   it("sorts nodes such that earlier nodes have directed edges to later nodes", function() {

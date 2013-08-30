@@ -1,6 +1,6 @@
 var assert = require("chai").assert,
-    Digraph = require("../../lib/Digraph"),
-    isAcyclic = require("../../lib/alg/isAcyclic");
+    Digraph = require("../..").Digraph,
+    isAcyclic = require("../..").alg.isAcyclic;
 
 describe("alg.isAcylic", function() {
   it("returns `true` if the graph has no cycles", function() {
