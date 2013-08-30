@@ -27,7 +27,7 @@ init:
 	rm -rf $(DIST)
 	mkdir -p $(DIST)
 
-.PHONY: all
+.PHONY: release
 release: all
 	src/release/release.sh
 

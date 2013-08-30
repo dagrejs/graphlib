@@ -10,7 +10,7 @@ light-weight, standalone form.
 [![browser support](https://ci.testling.com/cpettitt/graphlib.png)](https://ci.testling.com/cpettitt/graphlib)
 
 Note that graphlib is current a pre-1.0.0 library. We will do our best to
-maintain backwards compatibility, for patch level increases (e.g. 0.0.1 to
+maintain backwards compatibility for patch level increases (e.g. 0.0.1 to
 0.0.2) but make no claim to backwards compatibility across minor releases (e.g.
 0.0.1 to 0.1.0). Watch our [CHANGELOG](CHANGELOG.md) for details on changes.
 
