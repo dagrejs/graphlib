@@ -47,6 +47,9 @@ lib/version.js: src/version.js package.json
 $(NODE_MODULES): package.json
 	$(NPM) install
 
+.PHONY: doc
+doc: $(DOC)
+
 $(DOC): init $(SRC_JS)
 	@rm -rf doc $@
 	mkdir doc
