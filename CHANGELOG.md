@@ -1,3 +1,8 @@
+v0.0.5
+======
+
+* Add an implementation of Tarjan's algorithm (alg.tarjan).
+
 v0.0.4
 ======
 
