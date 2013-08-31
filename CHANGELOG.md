@@ -1,7 +1,9 @@
 v0.1.1
 ======
 
-* Added Dijkstra's Algorithm for finding all single source shortest paths.
+* Added Dijkstra's Algorithm (`alg.dijkstra`) for finding all single source
+  shortest paths.
+* Added `alg.dijkstraAll` for finding all shortest paths.
 
 v0.1.0
 ======
