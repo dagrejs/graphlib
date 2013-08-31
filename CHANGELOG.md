@@ -1,3 +1,8 @@
+v0.0.6
+======
+
+* Add an min priority queue (data.PriorityQeuue).
+
 v0.0.5
 ======
 
