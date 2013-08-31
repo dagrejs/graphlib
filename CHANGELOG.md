@@ -1,3 +1,8 @@
+v0.1.1
+======
+
+* Added Dijkstra's Algorithm for finding all single source shortest paths.
+
 v0.1.0
 ======
 
