@@ -1,10 +1,19 @@
 v0.1.0
 ======
 
-This release introduces backwards incompatible changes.
+This release introduces **backwards incompatible** changes.
 
 * `Graph` was renamed to `Digraph` in v0.0.4. This release removes `Graph`.
   Please use `Digraph` in its place.
+* `Digraph.edges` no longer takes 2 arguments. The equivalent to
+  `Digraph.edges(u, v)` is now `Digraph.outEdges(u, v)`.
+
+The following are backwards compatible changes:
+
+* Added a new optional parameter to `Digraph.outEdges` to filter the results by
+  the source node. See API documentation for details.
+* Added a new optional parameter to `Digraph.inEdges` to filter the results by
+  the target node. See API documentation for details.
 
 v0.0.6
 ======

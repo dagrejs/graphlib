@@ -210,7 +210,7 @@ describe("Digraph", function() {
       assert.deepEqual(g.edges(2).sort(), ["A", "B", "D", "E"]);
     });
 
-    it("returns all edges from a source to a target", function() {
+    it("throws an error if called with two arguments", function() {
       g.addNode(1);
       g.addNode(2);
       g.addNode(3);
@@ -219,10 +219,7 @@ describe("Digraph", function() {
       g.addEdge("C", 2, 1);
       g.addEdge("D", 2, 3);
 
-      assert.deepEqual(g.edges(1, 2).sort(), ["A", "B"]);
-      assert.deepEqual(g.edges(2, 1).sort(), ["C"]);
-      assert.deepEqual(g.edges(2, 3).sort(), ["D"]);
-      assert.deepEqual(g.edges(3, 1).sort(), []);
+      assert.throws(function() { g.edges(1, 2); });
     });
   });
 
@@ -239,6 +236,21 @@ describe("Digraph", function() {
       assert.deepEqual(g.outEdges(1).sort(), ["A", "B", "C"]);
       assert.deepEqual(g.outEdges(2).sort(), ["D", "E"]);
     });
+
+    it("optionally returns all out edges from a source filtered by target", function() {
+      g.addNode(1);
+      g.addNode(2);
+      g.addEdge("A", 1, 2);
+      g.addEdge("B", 1, 2);
+      g.addEdge("C", 1, 1);
+      g.addEdge("D", 2, 1);
+      g.addEdge("E", 2, 2);
+
+      assert.deepEqual(g.outEdges(1, 1).sort(), ["C"]);
+      assert.deepEqual(g.outEdges(1, 2).sort(), ["A", "B"]);
+      assert.deepEqual(g.outEdges(2, 1).sort(), ["D"]);
+      assert.deepEqual(g.outEdges(2, 2).sort(), ["E"]);
+    });
   });
 
   describe("inEdges", function() {
@@ -253,6 +265,21 @@ describe("Digraph", function() {
 
       assert.deepEqual(g.inEdges(1).sort(), ["C", "D"]);
       assert.deepEqual(g.inEdges(2).sort(), ["A", "B", "E"]);
+    });
+
+    it("optionally returns all in edges to a target filtered by source", function() {
+      g.addNode(1);
+      g.addNode(2);
+      g.addEdge("A", 1, 2);
+      g.addEdge("B", 1, 2);
+      g.addEdge("C", 1, 1);
+      g.addEdge("D", 2, 1);
+      g.addEdge("E", 2, 2);
+
+      assert.deepEqual(g.inEdges(1, 1).sort(), ["C"]);
+      assert.deepEqual(g.inEdges(1, 2).sort(), ["D"]);
+      assert.deepEqual(g.inEdges(2, 1).sort(), ["A", "B"]);
+      assert.deepEqual(g.inEdges(2, 2).sort(), ["E"]);
     });
   });
 
