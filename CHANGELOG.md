@@ -1,3 +1,11 @@
+v0.1.0
+======
+
+This release introduces backwards incompatible changes.
+
+* `Graph` was renamed to `Digraph` in v0.0.4. This release removes `Graph`.
+  Please use `Digraph` in its place.
+
 v0.0.6
 ======
 
