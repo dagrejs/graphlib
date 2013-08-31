@@ -23,8 +23,8 @@ The following are backwards compatible changes:
 * Added a new optional parameter to `Digraph.inEdges` to filter the results by
   the target node. See API documentation for details.
 * Added a new method, `Digraph.incidentEdges`, that returns all edges incident
-  on a node `u` with `Digraph.incidentEdges(u)` or all edges between two nodes
-  - regardless of direction - with `Digraph.incidentEdges(u, v)`.
+  on a node `u` with `Digraph.incidentEdges(u)` or all edges between two nodes -
+  regardless of direction - with `Digraph.incidentEdges(u, v)`.
 
 v0.0.6
 ======
