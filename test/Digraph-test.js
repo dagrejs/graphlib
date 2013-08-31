@@ -197,17 +197,16 @@ describe("Digraph", function() {
       assert.deepEqual(g.edges().sort(), ["A", "B", "C"]);
     });
 
-    it("returns all edges that are incident on a node", function() {
+    it("throws an error if called with one argument", function() {
       g.addNode(1);
       g.addNode(2);
+      g.addNode(3);
       g.addEdge("A", 1, 2);
       g.addEdge("B", 1, 2);
-      g.addEdge("C", 1, 1);
-      g.addEdge("D", 2, 1);
-      g.addEdge("E", 2, 2);
+      g.addEdge("C", 2, 1);
+      g.addEdge("D", 2, 3);
 
-      assert.deepEqual(g.edges(1).sort(), ["A", "B", "C", "D"]);
-      assert.deepEqual(g.edges(2).sort(), ["A", "B", "D", "E"]);
+      assert.throws(function() { g.edges(1); });
     });
 
     it("throws an error if called with two arguments", function() {
@@ -280,6 +279,36 @@ describe("Digraph", function() {
       assert.deepEqual(g.inEdges(1, 2).sort(), ["D"]);
       assert.deepEqual(g.inEdges(2, 1).sort(), ["A", "B"]);
       assert.deepEqual(g.inEdges(2, 2).sort(), ["E"]);
+    });
+  });
+
+  describe("incidentEdges", function() {
+    it("returns all edges incident on a particular node", function() {
+      g.addNode(1);
+      g.addNode(2);
+      g.addEdge("A", 1, 2);
+      g.addEdge("B", 1, 2);
+      g.addEdge("C", 1, 1);
+      g.addEdge("D", 2, 1);
+      g.addEdge("E", 2, 2);
+
+      assert.deepEqual(g.incidentEdges(1).sort(), ["A", "B", "C", "D"]);
+      assert.deepEqual(g.incidentEdges(2).sort(), ["A", "B", "D", "E"]);
+    });
+
+    it("optionally returns all edges between two nodes regardless of direction", function() {
+      g.addNode(1);
+      g.addNode(2);
+      g.addEdge("A", 1, 2);
+      g.addEdge("B", 1, 2);
+      g.addEdge("C", 1, 1);
+      g.addEdge("D", 2, 1);
+      g.addEdge("E", 2, 2);
+
+      assert.deepEqual(g.incidentEdges(1, 1).sort(), ["C"]);
+      assert.deepEqual(g.incidentEdges(1, 2).sort(), ["A", "B", "D"]);
+      assert.deepEqual(g.incidentEdges(2, 1).sort(), g.incidentEdges(1, 2));
+      assert.deepEqual(g.incidentEdges(2, 2).sort(), ["E"]);
     });
   });
 

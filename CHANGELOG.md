@@ -5,8 +5,11 @@ This release introduces **backwards incompatible** changes.
 
 * `Graph` was renamed to `Digraph` in v0.0.4. This release removes `Graph`.
   Please use `Digraph` in its place.
-* `Digraph.edges` no longer takes 2 arguments. The equivalent to
-  `Digraph.edges(u, v)` is now `Digraph.outEdges(u, v)`.
+* `Digraph.edges` no longer takes any arguments. It always returns all edges in
+  the graph.
+    * The equivalent of `Digraph.edges(u)` is now `Digraph.incidentEdges(u)`.
+    * The equivalent of `Digraph.edges(u, v)` is now `Digraph.outEdges(u, v)`
+      or `Digraph.inEdges(v, u)`.
 
 The following are backwards compatible changes:
 
@@ -14,6 +17,9 @@ The following are backwards compatible changes:
   the source node. See API documentation for details.
 * Added a new optional parameter to `Digraph.inEdges` to filter the results by
   the target node. See API documentation for details.
+* Added a new method, `Digraph.incidentEdges`, that returns all edges incident
+  on a node `u` with `Digraph.incidentEdges(u)` or all edges between two nodes
+  - regardless of direction - with `Digraph.incidentEdges(u, v)`.
 
 v0.0.6
 ======

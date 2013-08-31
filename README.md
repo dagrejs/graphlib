@@ -86,10 +86,10 @@ g.addEdge("AB2", "A", "B");
 console.log(g.edges());
 
 // Which edges go from "A" to "B"? This prints `[ 'AB', 'AB2' ]`
-console.log(g.edges("A", "B"));
+console.log(g.outEdges("A", "B"));
 
 // Which edges are incident on "D"? This prints `[ 'CD' ]`
-console.log(g.edges("D"));
+console.log(g.incidentEdges("D"));
 
 // How about a subgraph?
 var g2 = g.subgraph(["A", "B", "C"]);
