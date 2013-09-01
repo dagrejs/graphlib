@@ -75,10 +75,22 @@ describe("data.Set", function() {
       assert.isFalse(set.has("a"));
     });
 
+    it("decreases the size if the key was removed", function() {
+      var size = set.size();
+      set.remove("a");
+      assert.equal(set.size(), size - 1);
+    });
+
     it("does nothing if the key was not in the set", function() {
       assert.isFalse(set.has("foo"));
       assert.isFalse(set.remove("foo"));
       assert.isFalse(set.has("foo"));
+    });
+
+    it("does not decrease the size if the key was not removed", function() {
+      var size = set.size();
+      set.remove("foo");
+      assert.equal(set.size(), size);
     });
   });
 
