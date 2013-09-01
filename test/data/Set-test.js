@@ -18,6 +18,27 @@ describe("data.Set", function() {
     });
   });
 
+  describe("intersectAll", function() {
+    it("intersects all sets", function() {
+      var set1 = new Set([1, 2, 3]);
+      var set2 = new Set([2, 3, "A"]);
+      var set3 = new Set([3, "A", "B"]);
+      assert.deepEqual(Set.intersectAll([set1, set2, set3]).keys().sort(),
+                       [3]);
+    });
+  });
+
+  describe("unionAll", function() {
+    it("union all sets", function() {
+      var set1 = new Set([1, 2, 3]);
+      var set2 = new Set([2, 3, "A"]);
+      var set3 = new Set([3, "A", "B"]);
+      var set4 = new Set(["1"]);
+      assert.deepEqual(Set.unionAll([set1, set2, set3, set4]).keys().sort(),
+                       [1, 2, 3, "A", "B"]);
+    });
+  });
+
   describe("size", function() {
     it("returns the size of the set", function() {
       assert.equal(set.size(), 3);
@@ -95,44 +116,70 @@ describe("data.Set", function() {
   });
 
   describe("intersect", function() {
-    it("returns a new set that is the intesection of this set and the other set", function() {
+    it("returns a set that only includes elements that are present in both sets", function() {
       var s1 = new Set([1, 2]);
       var s2 = new Set([1, 3]);
       assert.deepEqual(s1.intersect(s2).keys().sort(), [1]);
     });
 
-    it("does not change the original set", function() {
+    it("does not change this set", function() {
       var s1 = new Set([1, 2]);
       var s2 = new Set([1, 3]);
       s1.intersect(s2);
       assert.deepEqual(s1.keys().sort(), [1, 2]);
     });
 
+    it("does not change the other set", function() {
+      var s1 = new Set([1, 2]);
+      var s2 = new Set([1, 3]);
+      s1.intersect(s2);
+      assert.deepEqual(s2.keys().sort(), [1, 3]);
+    });
+
     it("biases to the keys in 'this' set", function() {
       var s1 = new Set([1, 2]);
       var s2 = new Set(["1", 3]);
       assert.deepEqual(s1.intersect(s2).keys().sort(), [1]);
     });
+
+    it("also works with other being an array", function() {
+      var s1 = new Set([1, 2]);
+      var a2 = ["1", 3];
+      assert.deepEqual(s1.intersect(a2).keys().sort(), [1]);
+    });
   });
 
   describe("union", function() {
-    it("returns a new set that is the union of this set and the other set", function() {
+    it("returns a Set that has keys from both this and other", function() {
       var s1 = new Set([1, 2]);
       var s2 = new Set([1, 3]);
       assert.deepEqual(s1.union(s2).keys().sort(), [1, 2, 3]);
     });
 
-    it("does not change the original set", function() {
+    it("does not change this set", function() {
       var s1 = new Set([1, 2]);
       var s2 = new Set([1, 3]);
       s1.union(s2);
       assert.deepEqual(s1.keys().sort(), [1, 2]);
     });
 
+    it("does not change the other set", function() {
+      var s1 = new Set([1, 2]);
+      var s2 = new Set([1, 3]);
+      s1.union(s2);
+      assert.deepEqual(s2.keys().sort(), [1, 3]);
+    });
+
     it("biases to the keys in 'this' set", function() {
       var s1 = new Set([1, 2]);
       var s2 = new Set(["1", 3]);
       assert.deepEqual(s1.union(s2).keys().sort(), [1, 2, 3]);
+    });
+
+    it("also works with other being an array", function() {
+      var s1 = new Set([1, 2]);
+      var a2 = ["1", 3];
+      assert.deepEqual(s1.union(a2).keys().sort(), [1, 2, 3]);
     });
   });
 });
