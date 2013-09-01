@@ -8,6 +8,7 @@ exports.alg = {
   topsort: require("./lib/alg/topsort")
 };
 exports.data = {
-  PriorityQueue: require("./lib/data/PriorityQueue")
+  PriorityQueue: require("./lib/data/PriorityQueue"),
+  Set: require("./lib/data/Set")
 };
 exports.version = require("./lib/version");

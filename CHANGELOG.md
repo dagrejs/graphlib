@@ -1,3 +1,8 @@
+v0.1.2
+======
+
+* Added a Set datatype (`data.Set`).
+
 v0.1.1
 ======
 
