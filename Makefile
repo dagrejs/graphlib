@@ -20,7 +20,7 @@ JS_SRC:=$(wildcard lib/*.js lib/*/*.js lib/*/*/*.js)
 JS_TEST:=$(wildcard test/*.js test/*/*.js test/*/*/*.js)
 
 .PHONY: all
-all: $(MODULE_JS) $(MODULE_MIN_JS) $(DOC) test
+all: $(MODULE_JS) $(MODULE_MIN_JS) $(DOC) test coverage
 
 .PHONY: init
 init:
@@ -58,7 +58,11 @@ $(DOC): init $(SRC_JS)
 
 .PHONY: test
 test: $(MODULE_JS) $(JS_TEST)
-	$(NODE) $(MOCHA) $(MOCHA_OPTS) $(JS_TEST)
+	$(NODE) $(MOCHA) $(JS_TEST) $(MOCHA_OPTS)
+
+.PHONY: coverage
+coverage: $(MODULE_JS) $(JS_TEST)
+	$(NODE) $(MOCHA) $(JS_TEST) --require blanket -R html-cov > coverage.html
 
 .PHONY: clean
 clean:

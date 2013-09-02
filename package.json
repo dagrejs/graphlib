@@ -6,7 +6,14 @@
   "keywords": [
     "graph"
   ],
+  "scripts": {
+    "blanket": {
+      "pattern": "lib",
+      "data-cover-never": "node_modules"
+    }
+  },
   "devDependencies": {
+    "blanket": "1.x.x",
     "browserify": "2.28.x",
     "chai": "1.7.x",
     "dox-foundation": "~0.5.2",
