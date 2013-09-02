@@ -2,6 +2,7 @@ exports.Digraph = require("./lib/Digraph");
 exports.Graph = require("./lib/Graph");
 exports.alg = {
   isAcyclic: require("./lib/alg/isAcyclic"),
+  components: require("./lib/alg/components"),
   dijkstra: require("./lib/alg/dijkstra"),
   dijkstraAll: require("./lib/alg/dijkstraAll"),
   findCycles: require("./lib/alg/findCycles"),
