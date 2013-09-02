@@ -56,6 +56,10 @@ describe("alg.tarjan", function() {
 
     assert.deepEqual(sort(tarjan(g)), [[1, 2], [3, 4, 5], [6]]);
   });
+
+  it("throws an Error for undirected graphs", function() {
+    assert.throws(function() { isAcyclic(new Graph()); });
+  });
 });
 
 // A helper that sorts components and their contents

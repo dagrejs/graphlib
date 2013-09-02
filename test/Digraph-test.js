@@ -160,6 +160,7 @@ describe("Digraph", function() {
       g.addEdge(3, 1, 2);
       assert.equal(g.source(3), 1);
       assert.equal(g.target(3), 2);
+      assert.deepEqual(g.incidentNodes(3), [1, 2]);
     });
 
     it("has an undefined value if no value was assigned to the edge", function() {

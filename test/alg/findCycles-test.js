@@ -1,5 +1,6 @@
 var assert = require("chai").assert,
     Digraph = require("../..").Digraph,
+    Graph = require("../..").Graph,
     findCycles = require("../..").alg.findCycles;
 
 describe("alg.findCycles", function() {
@@ -55,6 +56,10 @@ describe("alg.findCycles", function() {
     g.addEdge(null, 5, 3);
 
     assert.deepEqual(sort(findCycles(g)), [[1, 2], [3, 4, 5]]);
+  });
+
+  it("throws an Error for undirected graphs", function() {
+    assert.throws(function() { findCycles(new Graph()); });
   });
 });
 

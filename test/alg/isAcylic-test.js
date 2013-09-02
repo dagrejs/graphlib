@@ -1,5 +1,6 @@
 var assert = require("chai").assert,
     Digraph = require("../..").Digraph,
+    Graph = require("../..").Graph,
     isAcyclic = require("../..").alg.isAcyclic;
 
 describe("alg.isAcylic", function() {
@@ -22,5 +23,9 @@ describe("alg.isAcylic", function() {
     g.addEdge(null, "c", "a");
     g.addEdge(null, "a", "b");
     assert.isFalse(isAcyclic(g));
+  });
+
+  it("throws an Error for undirected graphs", function() {
+    assert.throws(function() { isAcyclic(new Graph()); });
   });
 });
