@@ -1,11 +1,7 @@
-v0.1.3
+v0.2.0
 ======
 
 * Added an undirected multi-graph implementation (`Graph`).
-
-v0.1.2
-======
-
 * Added a Set datatype (`data.Set`).
 
 v0.1.1
