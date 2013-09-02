@@ -1,3 +1,8 @@
+v0.1.3
+======
+
+* Added an undirected multi-graph implementation (`Graph`).
+
 v0.1.2
 ======
 

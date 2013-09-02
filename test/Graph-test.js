@@ -1,14 +1,14 @@
 var assert = require("./assert"),
-    Digraph = require("..").Digraph;
+    Graph = require("..").Graph;
 
-describe("Digraph", function() {
+describe("Graph", function() {
   var g;
 
   beforeEach(function() {
-    g = new Digraph();
+    g = new Graph();
   });
 
-  describe("new Digraph()", function() {
+  describe("new Graph()", function() {
     it("has no nodes", function() {
       assert.equal(g.order(), 0);
       assert.lengthOf(g.nodes(), 0);
@@ -22,7 +22,7 @@ describe("Digraph", function() {
 
   describe("subgraph", function() {
     it("returns a graph containing a subset of nodes", function() {
-      var g = new Digraph();
+      var g = new Graph();
       [1,2,3].forEach(function(u) { g.addNode(u); });
       g.addEdge("a", 1, 2);
       g.addEdge("b", 2, 3);
@@ -33,7 +33,7 @@ describe("Digraph", function() {
     });
 
     it("includes each node's value in the subgraph", function() {
-      var g = new Digraph();
+      var g = new Graph();
       [1,2,3].forEach(function(u) { g.addNode(u, "V" + u); });
       g.addEdge("a", 1, 2);
       g.addEdge("b", 2, 3);
@@ -44,7 +44,7 @@ describe("Digraph", function() {
     });
 
     it("includes each edge's value in the subgraph", function() {
-      var g = new Digraph();
+      var g = new Graph();
       [1,2,3].forEach(function(u) { g.addNode(u); });
       g.addEdge("a", 1, 2, "VA");
       g.addEdge("b", 2, 3);
@@ -56,7 +56,7 @@ describe("Digraph", function() {
 
   describe("order", function() {
     it("returns the number of nodes in the graph", function() {
-      var g = new Digraph();
+      var g = new Graph();
       g.addNode("a");
       g.addNode("b");
       assert.equal(g.order(), 2);
@@ -65,7 +65,7 @@ describe("Digraph", function() {
 
   describe("size", function() {
     it("returns the number of edges in the graph", function() {
-      var g = new Digraph();
+      var g = new Graph();
       g.addNode("a");
       g.addNode("b");
 
@@ -111,44 +111,6 @@ describe("Digraph", function() {
     });
   });
 
-  describe("sources", function() {
-    it("returns all nodes for a graph with no edges", function() {
-      var g = new Digraph();
-      g.addNode("a");
-      g.addNode("b");
-      g.addNode("c");
-      assert.deepEqual(g.sources().sort(), ["a", "b", "c"]);
-    });
-
-    it("returns only nodes that have no in-edges", function() {
-      var g = new Digraph();
-      g.addNode("a");
-      g.addNode("b");
-      g.addNode("c");
-      g.addEdge(null, "a", "b");
-      assert.deepEqual(g.sources().sort(), ["a", "c"]);
-    });
-  });
-
-  describe("sinks", function() {
-    it("returns all nodes for a graph with no edges", function() {
-      var g = new Digraph();
-      g.addNode("a");
-      g.addNode("b");
-      g.addNode("c");
-      assert.deepEqual(g.sinks().sort(), ["a", "b", "c"]);
-    });
-
-    it("returns only nodes that have no out-edges", function() {
-      var g = new Digraph();
-      g.addNode("a");
-      g.addNode("b");
-      g.addNode("c");
-      g.addEdge(null, "a", "b");
-      assert.deepEqual(g.sinks().sort(), ["b", "c"]);
-    });
-  });
-
   describe("edge", function() {
     it("throws if the edge isn't in the graph", function() {
       assert.throws(function() { g.edge(3); });
@@ -158,8 +120,7 @@ describe("Digraph", function() {
       g.addNode(1);
       g.addNode(2);
       g.addEdge(3, 1, 2);
-      assert.equal(g.source(3), 1);
-      assert.equal(g.target(3), 2);
+      assert.deepEqual(g.incidentNodes(3).sort(), [1, 2]);
     });
 
     it("has an undefined value if no value was assigned to the edge", function() {
@@ -196,129 +157,53 @@ describe("Digraph", function() {
 
       assert.deepEqual(g.edges().sort(), ["A", "B", "C"]);
     });
-
-    it("throws an error if called with one argument", function() {
-      g.addNode(1);
-      g.addNode(2);
-      g.addNode(3);
-      g.addEdge("A", 1, 2);
-      g.addEdge("B", 1, 2);
-      g.addEdge("C", 2, 1);
-      g.addEdge("D", 2, 3);
-
-      assert.throws(function() { g.edges(1); });
-    });
-
-    it("throws an error if called with two arguments", function() {
-      g.addNode(1);
-      g.addNode(2);
-      g.addNode(3);
-      g.addEdge("A", 1, 2);
-      g.addEdge("B", 1, 2);
-      g.addEdge("C", 2, 1);
-      g.addEdge("D", 2, 3);
-
-      assert.throws(function() { g.edges(1, 2); });
-    });
-  });
-
-  describe("outEdges", function() {
-    it("returns all out edges from a source", function() {
-      g.addNode(1);
-      g.addNode(2);
-      g.addEdge("A", 1, 2);
-      g.addEdge("B", 1, 2);
-      g.addEdge("C", 1, 1);
-      g.addEdge("D", 2, 1);
-      g.addEdge("E", 2, 2);
-
-      assert.deepEqual(g.outEdges(1).sort(), ["A", "B", "C"]);
-      assert.deepEqual(g.outEdges(2).sort(), ["D", "E"]);
-    });
-
-    it("optionally returns all out edges from a source filtered by target", function() {
-      g.addNode(1);
-      g.addNode(2);
-      g.addEdge("A", 1, 2);
-      g.addEdge("B", 1, 2);
-      g.addEdge("C", 1, 1);
-      g.addEdge("D", 2, 1);
-      g.addEdge("E", 2, 2);
-
-      assert.deepEqual(g.outEdges(1, 1).sort(), ["C"]);
-      assert.deepEqual(g.outEdges(1, 2).sort(), ["A", "B"]);
-      assert.deepEqual(g.outEdges(2, 1).sort(), ["D"]);
-      assert.deepEqual(g.outEdges(2, 2).sort(), ["E"]);
-    });
-  });
-
-  describe("inEdges", function() {
-    it("returns all in edges to a target", function() {
-      g.addNode(1);
-      g.addNode(2);
-      g.addEdge("A", 1, 2);
-      g.addEdge("B", 1, 2);
-      g.addEdge("C", 1, 1);
-      g.addEdge("D", 2, 1);
-      g.addEdge("E", 2, 2);
-
-      assert.deepEqual(g.inEdges(1).sort(), ["C", "D"]);
-      assert.deepEqual(g.inEdges(2).sort(), ["A", "B", "E"]);
-    });
-
-    it("optionally returns all in edges to a target filtered by source", function() {
-      g.addNode(1);
-      g.addNode(2);
-      g.addEdge("A", 1, 2);
-      g.addEdge("B", 1, 2);
-      g.addEdge("C", 1, 1);
-      g.addEdge("D", 2, 1);
-      g.addEdge("E", 2, 2);
-
-      assert.deepEqual(g.inEdges(1, 1).sort(), ["C"]);
-      assert.deepEqual(g.inEdges(1, 2).sort(), ["D"]);
-      assert.deepEqual(g.inEdges(2, 1).sort(), ["A", "B"]);
-      assert.deepEqual(g.inEdges(2, 2).sort(), ["E"]);
-    });
   });
 
   describe("incidentEdges", function() {
-    it("returns all edges incident on a particular node", function() {
+    it("returns all edges incident on a node", function() {
       g.addNode(1);
       g.addNode(2);
+      g.addNode(3);
       g.addEdge("A", 1, 2);
       g.addEdge("B", 1, 2);
       g.addEdge("C", 1, 1);
       g.addEdge("D", 2, 1);
-      g.addEdge("E", 2, 2);
+      g.addEdge("E", 2, 3);
 
       assert.deepEqual(g.incidentEdges(1).sort(), ["A", "B", "C", "D"]);
       assert.deepEqual(g.incidentEdges(2).sort(), ["A", "B", "D", "E"]);
+      assert.deepEqual(g.incidentEdges(3).sort(), ["E"]);
     });
 
-    it("optionally returns all edges between two nodes regardless of direction", function() {
+    it("optional returns all edges between two nodes", function() {
       g.addNode(1);
       g.addNode(2);
+      g.addNode(3);
       g.addEdge("A", 1, 2);
       g.addEdge("B", 1, 2);
       g.addEdge("C", 1, 1);
       g.addEdge("D", 2, 1);
-      g.addEdge("E", 2, 2);
+      g.addEdge("E", 2, 3);
 
       assert.deepEqual(g.incidentEdges(1, 1).sort(), ["C"]);
       assert.deepEqual(g.incidentEdges(1, 2).sort(), ["A", "B", "D"]);
-      assert.deepEqual(g.incidentEdges(2, 1).sort(), g.incidentEdges(1, 2));
-      assert.deepEqual(g.incidentEdges(2, 2).sort(), ["E"]);
+      assert.deepEqual(g.incidentEdges(1, 3).sort(), []);
+      assert.deepEqual(g.incidentEdges(2, 1).sort(), ["A", "B", "D"]);
+      assert.deepEqual(g.incidentEdges(2, 2).sort(), []);
+      assert.deepEqual(g.incidentEdges(2, 3).sort(), ["E"]);
+      assert.deepEqual(g.incidentEdges(3, 1).sort(), []);
+      assert.deepEqual(g.incidentEdges(3, 2).sort(), ["E"]);
+      assert.deepEqual(g.incidentEdges(3, 3).sort(), []);
     });
   });
 
   describe("equals", function() {
     it("returns `true` if both graphs are empty", function() {
-      assert.isTrue(new Digraph().equals(new Digraph()));
+      assert.isTrue(new Graph().equals(new Graph()));
     });
 
     it("returns `true` if both graphs have the same nodes", function() {
-      var g1 = new Digraph();
+      var g1 = new Graph();
       g1.addNode("A", 123);
       g1.addNode("B", 456);
       var g2 = g1.subgraph(["A", "B"]);
@@ -326,15 +211,15 @@ describe("Digraph", function() {
     });
 
     it("returns `false` if both graphs have different nodes", function() {
-      var g1 = new Digraph();
+      var g1 = new Graph();
       g1.addNode("A", 123);
-      var g2 = new Digraph();
+      var g2 = new Graph();
       g2.addNode("B", 456);
       assert.isFalse(g1.equals(g2));
     });
 
     it("returns `false` if other graph has a strict superset of nodes", function() {
-      var g1 = new Digraph();
+      var g1 = new Graph();
       g1.addNode("A", 123);
       var g2 = g1.subgraph(["A"]);
       g2.addNode("B", "456");
@@ -342,15 +227,15 @@ describe("Digraph", function() {
     });
 
     it("returns `false` if both graphs have different node values", function() {
-      var g1 = new Digraph();
+      var g1 = new Graph();
       g1.addNode("A", 123);
-      var g2 = new Digraph();
+      var g2 = new Graph();
       g2.addNode("A", 456);
       assert.isFalse(g1.equals(g2));
     });
 
     it("returns `true` if both graphs have the same edges", function() {
-      var g1 = new Digraph();
+      var g1 = new Graph();
       g1.addNode("A");
       g1.addNode("B");
       g1.addEdge("AB", "A", "B", 123);
@@ -359,11 +244,11 @@ describe("Digraph", function() {
     });
 
     it("returns `false` if both graphs have different edges", function() {
-      var g1 = new Digraph();
+      var g1 = new Graph();
       g1.addNode("A");
       g1.addNode("B");
       g1.addEdge("AB", "A", "B", 123);
-      var g2 = new Digraph();
+      var g2 = new Graph();
       g2.addNode("A");
       g2.addNode("B");
       g2.addEdge("BA", "B", "A", 123);
@@ -371,7 +256,7 @@ describe("Digraph", function() {
     });
 
     it("returns `false` if other graph has a strict superset of edges", function() {
-      var g1 = new Digraph();
+      var g1 = new Graph();
       g1.addNode("A");
       g1.addNode("B");
       g1.addEdge("AB", "A", "B", 123);
@@ -381,11 +266,11 @@ describe("Digraph", function() {
     });
 
     it("returns `false` if both graphs have different edge values", function() {
-      var g1 = new Digraph();
+      var g1 = new Graph();
       g1.addNode("A");
       g1.addNode("B");
       g1.addEdge("AB", "A", "B", 123);
-      var g2 = new Digraph();
+      var g2 = new Graph();
       g2.addNode("A");
       g2.addNode("B");
       g2.addEdge("AB", "A", "B", 456);
@@ -406,11 +291,7 @@ describe("Digraph", function() {
   describe("addNode", function() {
     it("adds a new node to the graph", function() {
       g.addNode(1);
-
       assert.deepEqual(g.nodes(), [1]);
-
-      assert.lengthOf(g.successors(1), 0);
-      assert.lengthOf(g.predecessors(1), 0);
       assert.lengthOf(g.neighbors(1), 0);
     });
   });
@@ -428,7 +309,7 @@ describe("Digraph", function() {
       g.addNode(2);
       g.addEdge("1 -> 2", 1, 2);
       g.delNode(1);
-      assert.lengthOf(g.predecessors(2), 0);
+      assert.lengthOf(g.neighbors(2), 0);
     });
 
     it("removes in edges", function() {
@@ -436,7 +317,7 @@ describe("Digraph", function() {
       g.addNode(2);
       g.addEdge("2 -> 1", 2, 1);
       g.delNode(1);
-      assert.lengthOf(g.successors(2), 0);
+      assert.lengthOf(g.neighbors(2), 0);
     });
   });
 
@@ -448,8 +329,6 @@ describe("Digraph", function() {
 
       assert.deepEqual(g.edges(), ["a"]);
 
-      assert.deepEqual(g.successors(1), [2]);
-      assert.deepEqual(g.predecessors(2), [1]);
       assert.deepEqual(g.neighbors(1), [2]);
       assert.deepEqual(g.neighbors(2), [1]);
     });
@@ -461,8 +340,9 @@ describe("Digraph", function() {
       g.addEdge(null, 1, 2);
       g.addEdge(null, 2, 3);
 
-      assert.deepEqual(g.successors(1), [2]);
-      assert.deepEqual(g.successors(2), [3]);
+      assert.deepEqual(g.neighbors(1), [2]);
+      assert.deepEqual(g.neighbors(2), [1, 3]);
+      assert.deepEqual(g.neighbors(3), [2]);
     });
   });
 
@@ -475,8 +355,6 @@ describe("Digraph", function() {
 
       assert.lengthOf(g.edges(), 0);
 
-      assert.lengthOf(g.successors(1), 0);
-      assert.lengthOf(g.predecessors(1), 0);
       assert.lengthOf(g.neighbors(1), 0);
     });
   });
