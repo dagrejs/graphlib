@@ -3,6 +3,7 @@ v0.2.1
 
 * Added algorithm for finding connected components in an undirected Graph
   (`alg.components`).
+* Added Floyd-Warshall algorithm (`alg.floydWarshall`).
 
 v0.2.0
 ======
