@@ -77,6 +77,12 @@ describe("Digraph", function() {
     });
   });
 
+  describe("isDirected", function() {
+    it("always returns true", function() {
+      assert.isTrue(new Digraph().isDirected());
+    });
+  });
+
   describe("graph", function() {
     it("returns undefined if a value has not been set", function() {
       assert.isUndefined(g.graph());
