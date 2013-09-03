@@ -106,9 +106,11 @@ console.log(g2.edges());
 
 # Contributing
 
-We welcome contributions under the MIT license! Here are a few suggested areas
-for improvements:
+We welcome contributions under the MIT license! Here are a few ways you can
+help:
 
+* Bug reports
+* Bug fixes
 * New algorithms
 * More test cases
 * Documentation improvements
