@@ -54,6 +54,53 @@ describe("Digraph", function() {
     });
   });
 
+  describe("asUndirected", function() {
+    var g;
+
+    beforeEach(function() {
+      g = new Digraph();
+      g.addNode(1);
+      g.addNode(2);
+      g.addNode(3);
+      g.addNode(4);
+      g.addEdge("A", 1, 2, "A");
+      g.addEdge("B", 2, 3, "B");
+      g.addEdge("C", 3, 4, "C");
+      g.addEdge("D", 4, 1, "D");
+      g.addEdge("E", 4, 2, "E");
+    });
+
+    it("returns an undirected graph", function() {
+      assert.isFalse(g.asUndirected().isDirected());
+    });
+
+    it("has the same nodes", function() {
+      assert.deepEqual(g.asUndirected().nodes().sort(), [1, 2, 3, 4]);
+    });
+
+    it("has the same size", function() {
+      assert.equal(g.asUndirected().size(), 5);
+    });
+
+    it("preserves edge ids", function() {
+      var ug = g.asUndirected();
+      assert.deepEqual(ug.incidentNodes("A").sort(), [1, 2]);
+      assert.deepEqual(ug.incidentNodes("B").sort(), [2, 3]);
+      assert.deepEqual(ug.incidentNodes("C").sort(), [3, 4]);
+      assert.deepEqual(ug.incidentNodes("D").sort(), [1, 4]);
+      assert.deepEqual(ug.incidentNodes("E").sort(), [2, 4]);
+    });
+
+    it("preserves edge labels", function() {
+      var ug = g.asUndirected();
+      assert.equal(ug.edge(ug.incidentEdges(1, 2)[0]), "A");
+      assert.equal(ug.edge(ug.incidentEdges(2, 3)[0]), "B");
+      assert.equal(ug.edge(ug.incidentEdges(3, 4)[0]), "C");
+      assert.equal(ug.edge(ug.incidentEdges(4, 1)[0]), "D");
+      assert.equal(ug.edge(ug.incidentEdges(4, 2)[0]), "E");
+    });
+  });
+
   describe("order", function() {
     it("returns the number of nodes in the graph", function() {
       var g = new Digraph();
