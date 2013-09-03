@@ -1,3 +1,8 @@
+v0.2.2
+======
+
+* Added Prim's Algorithm (`alg.prim`).
+
 v0.2.1
 ======
 

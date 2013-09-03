@@ -7,6 +7,7 @@ exports.alg = {
   dijkstraAll: require("./lib/alg/dijkstraAll"),
   findCycles: require("./lib/alg/findCycles"),
   floydWarshall: require("./lib/alg/floydWarshall"),
+  prim: require("./lib/alg/prim"),
   tarjan: require("./lib/alg/tarjan"),
   topsort: require("./lib/alg/topsort")
 };
