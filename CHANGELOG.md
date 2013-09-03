@@ -4,6 +4,8 @@ v0.2.2
 * Added Prim's Algorithm (`alg.prim`).
 * Added method to change a directed graph to an undirected graph
   (`Digraph.asUndirected`).
+* Added method to change an undirected graph to a directed graph
+  (`Graph.asDirected`).
 
 v0.2.1
 ======

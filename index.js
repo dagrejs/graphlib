@@ -1,5 +1,7 @@
 exports.Digraph = require("./lib/Digraph");
 exports.Graph = require("./lib/Graph");
+require("./lib/graph-converters");
+
 exports.alg = {
   isAcyclic: require("./lib/alg/isAcyclic"),
   components: require("./lib/alg/components"),
@@ -11,8 +13,10 @@ exports.alg = {
   tarjan: require("./lib/alg/tarjan"),
   topsort: require("./lib/alg/topsort")
 };
+
 exports.data = {
   PriorityQueue: require("./lib/data/PriorityQueue"),
   Set: require("./lib/data/Set")
 };
+
 exports.version = require("./lib/version");
