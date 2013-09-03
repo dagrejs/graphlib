@@ -1,9 +1,7 @@
 # Graphlib
 
-Graphlib is a JavaScript library that provides an implementation of a
-multi-graph. This library is used as part of the
-[dagre](https://github.com/cpettitt/dagre) library, but is available here in a
-light-weight, standalone form.
+Graphlib is a JavaScript library that provides data structures for undirected
+and directed multi-graphs along with algorithms that can be used with them.
 
 [![Build Status](https://secure.travis-ci.org/cpettitt/graphlib.png)](http://travis-ci.org/cpettitt/graphlib)
 
@@ -106,7 +104,19 @@ console.log(g2.edges());
 
 [API documentation](http://cpettitt.github.io/project/graphlib/latest/doc/index.html)
 
-## 
+# Contributing
+
+We welcome contributions under the MIT license! Here are a few suggested areas
+for improvements:
+
+* New algorithms
+* More test cases
+* Documentation improvements
+* Imrpovements to the core Graph API
+
+If your change involves change to the core Graph API, we recommend discussing
+the idea via a [GitHub issue](https://github.com/cpettitt/graphlib/issues)
+first.
 
 # License
 

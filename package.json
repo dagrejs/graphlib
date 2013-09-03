@@ -1,7 +1,7 @@
 {
   "name": "graphlib",
   "version": "0.2.2-pre",
-  "description": "A  multi-graph library",
+  "description": "A directed and undirected multi-graph library",
   "main": "index.js",
   "keywords": [
     "graph"
