@@ -54,6 +54,10 @@ describe("alg.floydWarshall", function() {
 
     function w(e) { return g.edge(e); }
 
-    assert.deepEqual(alg(g), { 1: { 1: { distance: -2, predecessor: 1 } }});
+    assert.deepEqual(floydWarshall(g, w), {
+      1: {
+        1: { distance: -2, predecessor: 1 }
+      }
+    });
   });
 });
