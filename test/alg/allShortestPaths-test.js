@@ -12,7 +12,7 @@ function allShortestPaths(alg) {
     assert.deepEqual(alg(g), { 1: { 1: { distance: 0 } }});
   });
 
-  it("returns 0 for the node itself when there are self edges", function() {
+  it("does not include positive weight self edges", function() {
     var g = new Digraph();
     g.addNode(1);
     g.addEdge(null, 1, 1);
