@@ -46,4 +46,18 @@ describe("alg.floydWarshall", function() {
       }
     });
   });
+
+  it("does include negative weight self edges", function() {
+    var g = new Digraph();
+    g.addNode(1);
+    g.addEdge(null, 1, 1, -1);
+
+    function w(e) { return g.edge(e); }
+
+    assert.deepEqual(floydWarshall(g, w), {
+      1: {
+        1: { distance: -2, predecessor: 1 }
+      }
+    });
+  });
 });
