@@ -1,3 +1,9 @@
+v0.3.1
+======
+
+* @solleks fixed a bug in which `alg.floydWarshall` could return the wrong
+  shortest path with multiple edges between the same nodes (#10).
+
 v0.3.0
 ======
 
