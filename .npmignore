@@ -1,7 +1,7 @@
-/Makefile
 /browser.js
 /coverage.html
-/dist
+/Makefile
 /node_modules
+/out
 /src
 /test

@@ -1,17 +1,13 @@
 NODE?=node
 NPM?=npm
-NODE_MODULES=node_modules
-BROWSERIFY?=$(NODE_MODULES)/browserify/bin/cmd.js
-MOCHA?=$(NODE_MODULES)/mocha/bin/mocha
+BROWSERIFY?=node_modules/browserify/bin/cmd.js
+MOCHA?=node_modules/mocha/bin/mocha
 MOCHA_OPTS?=
-JS_COMPILER=$(NODE_MODULES)/uglify-js/bin/uglifyjs
+JS_COMPILER=node_modules/uglify-js/bin/uglifyjs
 JS_COMPILER_OPTS?=--no-seqs
-DOCGEN=$(NODE_MODULES)/dox-foundation/bin/dox-foundation
+DOCGEN=node_modules/dox-foundation/bin/dox-foundation
 
 MODULE=graphlib
-DIST?=dist
-MODULE_JS=$(DIST)/$(MODULE).js
-MODULE_MIN_JS=$(DIST)/$(MODULE).min.js
 DOC=$(DIST)/doc
 
 # There does not appear to be an easy way to define recursive expansion, so
@@ -19,56 +15,51 @@ DOC=$(DIST)/doc
 JS_SRC:=$(wildcard lib/*.js lib/*/*.js lib/*/*/*.js)
 JS_TEST:=$(wildcard test/*.js test/*/*.js test/*/*/*.js)
 
-.PHONY: all
-all: $(MODULE_JS) $(MODULE_MIN_JS) $(DOC) test coverage
+OUT_DIRS=out out/dist
 
-.PHONY: init
-init:
-	rm -rf $(DIST)
-	mkdir -p $(DIST)
+.PHONY: all release dist doc test coverage clean fullclean
 
-.PHONY: release
+all: dist doc test coverage
+
 release: all
-	src/release/release.sh
+	src/release/release.sh $(MODULE) out/dist
 
-$(MODULE_JS): init Makefile $(NODE_MODULES) browser.js lib/version.js $(JS_SRC)
-	@rm -f $@
+dist: out/dist/$(MODULE).js out/dist/$(MODULE).min.js
+
+doc: out/dist/doc
+
+test: out/dist/$(MODULE).js $(JS_TEST)
+	$(NODE) $(MOCHA) $(JS_TEST) $(MOCHA_OPTS)
+
+coverage: out/coverage.html
+
+clean:
+	rm -f lib/version.js
+	rm -rf out
+
+fullclean: clean
+	rm -rf node_modules
+
+$(OUT_DIRS):
+	mkdir -p $@
+
+out/dist/$(MODULE).js: out/dist Makefile node_modules browser.js lib/version.js $(JS_SRC)
 	$(NODE) $(BROWSERIFY) browser.js > $@
-	@chmod a-w $@
 
-$(MODULE_MIN_JS): $(MODULE_JS)
-	@rm -f $@
+out/dist/$(MODULE).min.js: out/dist/$(MODULE).js
 	$(NODE) $(JS_COMPILER) $(JS_COMPILER_OPTS) $< > $@
-	@chmod a-w $@
+
+out/dist/doc: out/dist $(SRC_JS)
+	@rm -rf doc $@
+	mkdir doc
+	$(NODE) $(DOCGEN) --ignore lib/version.js --source lib --target doc
+	mv doc $@ 
+
+out/coverage.html: $(MODULE_JS) $(JS_TEST)
+	$(NODE) $(MOCHA) $(JS_TEST) --require blanket -R html-cov > $@
 
 lib/version.js: src/version.js package.json
 	$(NODE) src/version.js > $@
 
-$(NODE_MODULES): package.json
+node_modules: package.json
 	$(NPM) install
-
-.PHONY: doc
-doc: $(DOC)
-
-$(DOC): init $(SRC_JS)
-	@rm -rf doc $@
-	mkdir doc
-	$(NODE) $(DOCGEN) --ignore lib/version.js --source lib --target doc
-	mv doc $(DOC)
-
-.PHONY: test
-test: $(MODULE_JS) $(JS_TEST)
-	$(NODE) $(MOCHA) $(JS_TEST) $(MOCHA_OPTS)
-
-.PHONY: coverage
-coverage: $(MODULE_JS) $(JS_TEST)
-	$(NODE) $(MOCHA) $(JS_TEST) --require blanket -R html-cov > coverage.html
-
-.PHONY: clean
-clean:
-	rm -f lib/version.js
-	rm -rf $(DIST)
-
-.PHONY: fullclean
-fullclean: clean
-	rm -rf $(NODE_MODULES)
