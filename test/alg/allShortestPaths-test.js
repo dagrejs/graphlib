@@ -90,6 +90,28 @@ function allShortestPaths(alg) {
     });
   });
 
+  it("finds the shortest edge with multiple edges", function() {
+    var g = new Digraph();
+    g.addNode(1);
+    g.addNode(2);
+    g.addEdge(null, 1, 2, 3);
+    g.addEdge(null, 1, 2, 2);
+    g.addEdge(null, 1, 2, 5);
+
+    function w(e) { return g.edge(e); }
+
+    assert.deepEqual(alg(g, w), {
+      1: {
+        1: { distance: 0 },
+        2: { distance: 2, predecessor: 1 }
+      },
+      2: {
+        1: { distance: Number.POSITIVE_INFINITY },
+        2: { distance: 0 }
+      }
+    });
+  });
+
   it("uses an optionally supplied incident function", function() {
     var g = new Digraph();
     g.addNode(1);
