@@ -17,9 +17,9 @@ PROJECT=$1
 DIST_DIR=$2
 VERSION=$(node src/release/check-version.js)
 
-[ -z "$PROJECT" ] || usage
-[ -z "$DIST_DIR" ] || usage
-[ -z "$VERSION" ] || bail "ERROR: Could not determine version from package.json"
+[ -n "$PROJECT" ] || usage
+[ -n "$DIST_DIR" ] || usage
+[ -n "$VERSION" ] || bail "ERROR: Could not determine version from package.json"
 
 echo Attempting to publish version: $VERSION
 
