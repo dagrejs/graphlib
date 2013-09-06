@@ -1,7 +1,17 @@
 h2#Graph Graph
 :markdown
-    The `Graph` class represents an undirected multi-graph. To use this class
-    use `require('graphlib').Graph`.
+    The `Graph` class represents an [undirected][] [multi-graph][].
+
+    Subsequent examples in this section assume that `Graph` has been required
+    as follows:
+
+    ```js
+    var Graph = require("graphlib").Graph;
+    var graph = new Graph();
+    ```
+
+    [undirected]: https://en.wikipedia.org/wiki/Undirected_graph
+    [multigraph]: https://en.wikipedia.org/wiki/Multigraph
 
 h3#Graph-constructor new Graph()
 :markdown
@@ -12,7 +22,9 @@ h3#Graph-order graph.order()
     Returns the number of nodes in the graph. For example:
 
     ```js
-    var graph = new Graph();
+    graph.order();
+    // => 0
+
     graph.addNode(1);
     graph.addNode(2);
 
@@ -25,7 +37,9 @@ h3#Graph-size graph.size()
     Returns the number of edges in the graph. For example:
 
     ```js
-    var graph = new Graph();
+    graph.size();
+    // => 0
+
     graph.addNode(1);
     graph.addNode(2);
     graph.addEdge(null, 1, 2);
@@ -47,7 +61,6 @@ h3#Graph-graph graph.graph([value])
     `undefined`.
 
     ```js
-    var graph = new Graph();
     graph.graph();
     // => undefined
     
@@ -61,6 +74,15 @@ h3#Graph-hasNode graph.hasNode(u)
     Returns `true` if the node with the id `u` is a member of the graph and
     `false` if not.
 
+    ```js
+    graph.hasNode(1);
+    // => false
+
+    graph.addNode(1);
+    graph.hasNode(1);
+    // => true
+    ```
+
 h3#Graph-node graph.node(u, [value])
 :markdown
     The `node` function provides a mechanism to get and set some user-defined
@@ -72,7 +94,6 @@ h3#Graph-node graph.node(u, [value])
     If there is no node `u` in the graph this function will throw an `Error`.
 
     ```js
-    var graph = new Graph();
     graph.addNode(1);
     graph.node(1);
     // => undefined
@@ -90,19 +111,68 @@ h3#Graph-nodes graph.nodes()
     Returns the ids of all nodes in this graph. Use
     [`graph.node(u)`](#Graph-node) to get the value for a specific node.
 
+    ```js
+    graph.nodes();
+    // => []
+
+    graph.addNode(1);
+    graph.addNode(2);
+
+    graph.nodes()
+    // => [1, 2]
+    ```
+
 h3#Graph-eachNode graph.eachNode(f)
 :markdown
-    Applies the function `f(id, value)` to each node in the graph in arbitrary
-    order.
+    Applies the function `f(u, value)` to each node in the graph in arbitrary
+    order, where `u` is the id of the node and `value` is its currently
+    assigned value.
+
+    ```js
+    graph.addNode(1, "label-1");
+    graph.addNode(2, "label-2");
+
+    var results = {};
+    graph.eachNode(function(u, value) {
+        results[u] = value;
+    });
+
+    results
+    // => { "1": "label-1", "2": "label-2" }
+    ```
 
 h3#Graph-neighbors graph.neighbors(u)
 :markdown
     Returns the ids of all nodes that are adjacent to the node with the id `u`.
+    If `u` is not a member of the graph this function throws an `Error`.
+
+    ```js
+    graph.addNode(1);
+    graph.addNode(2);
+    graph.addEdge(null, 1, 2);
+
+    graph.neighbors(1);
+    // => [2]
+
+    graph.neighbors(2);
+    // => [1]
+    ```
 
 h3#Graph-hasEdge graph.hasEdge(e)
 :markdown
     Returns `true` if an edge with the id `e` exists in the graph or `false` if
     not.
+
+    ```js
+    graph.hasEdge("A");
+    // => false
+
+    graph.addNode(1);
+    graph.addNode(2);
+    graph.addEdge("A", 1, 2);
+    graph.hasEdge("A");
+    // => true
+    ```
 
 h3#Graph-edge graph.edge(e, [value])
 :markdown
@@ -115,7 +185,6 @@ h3#Graph-edge graph.edge(e, [value])
     If there is no edge `e` in the graph this function will throw an `Error`.
 
     ```js
-    var graph = new Graph();
     graph.addNode(1);
     graph.addNode(2);
     graph.edge("A", 1, 2);
@@ -134,6 +203,15 @@ h3#Graph-edges graph.edges()
     Returns the ids of all edges in this graph. Use
     [`graph.edge(e)`](#Graph-edge) to get the value for a specific edge.
 
+    ```js
+    graph.addNode(1);
+    graph.addNode(2);
+    graph.addEdge("A", 1, 2);
+    graph.addEdge("B", 1, 2);
+    graph.edges();
+    // => ["A", "B"]
+    ```
+    
 h3#Graph-eachEdge graph.eachEdge(f)
 :markdown
     Applies the function `f(e, u, v, value)` to each edge in the graph in
@@ -141,11 +219,35 @@ h3#Graph-eachEdge graph.eachEdge(f)
     node ids, and `value` it the value assigned to the edge. Note that the
     order of `u` and `v` is not significant since this is an undirected graph.
 
+    ```js
+    graph.addNode(1);
+    graph.addNode(2);
+    graph.addEdge("A", 1, 2, "A-label");
+    graph.addEdge("B", 2, 1, "B-label");
+
+    var results = {};
+    graph.eachEdge(function(e, u, v, label) {
+        results[e] = "U: " + u + " V: " + v + " L: " + label;
+    });
+
+    results
+    // => { "A": "U: 1 V: 2 L: A-label",
+    //      "B": "U: 2 V: 1 L: B-label" }
+    ```
+
 h3#Graph-incidentNodes graph.incidentNodes(e)
 :markdown
     Returns the nodes that are a part of the edge `e` in a 2-element array.
     There is no significance to the order in which the nodes appear in the
     array.
+
+    ```js
+    graph.addNode(1);
+    graph.addNode(2);
+    graph.addEdge("A", 1, 2);
+    graph.incidentNodes("A");
+    // => [ 1, 2 ]
+    ```
 
 h3#Graph-incidentEdges graph.incidentEdges(u, [v])
 :markdown
@@ -157,6 +259,22 @@ h3#Graph-incidentEdges graph.incidentEdges(u, [v])
     the results to be filtered such that only edges between `u` and `v` are
     included in the returned array. If the node `v` is specified but not a
     member of the graph this function raises an `Error`.
+
+    ```js
+    graph.addNode(1);
+    graph.addNode(2);
+    graph.addNode(3);
+    graph.addEdge("A", 1, 2);
+    graph.addEdge("B", 2, 3);
+    graph.addEdge("C", 3, 1);
+    graph.addEdge("D", 3, 2);
+
+    graph.incidentEdges(3);
+    // => [ "B", "C", "D" ]
+
+    graph.inEdges(3, 2);
+    // => [ "B", "D" ]
+    ```
 
 h3#Graph-equals graph.equals(other)
 :markdown
