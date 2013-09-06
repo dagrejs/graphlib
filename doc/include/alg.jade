@@ -1,0 +1,145 @@
+h2#alg alg
+:markdown
+    The `alg` modules includes a number of algorithms that can be used with the
+    graph classes included in graphlib. You can either get to all algorithms
+    using `var alg = require("graphlib").alg` or you can get a single
+    algorithm, e.g. [`topsort`](#alg-topsort), using `var topsort =
+    require("graphlib").alg.topsort`.
+
+h3#alg-topsort alg.topsort(g)
+:markdown
+    An implementation of [topographical
+    sorting](https://en.wikipedia.org/wiki/Topological_sorting).
+
+    Given a graph `g` this function returns an array of nodes such that for
+    each edge `u -> v`, `u` appears before `v` in the array. If the graph has a
+    cycle it is impossible to generate such a list and `CycleException` is
+    thrown.
+
+h3#isAcyclic alg.isAyclic(g)
+:markdown
+    Given a [`Digraph`](#Digraph), `g`, this function returns `true` if the
+    graph has no cycles and returns `false` if it does. This algorithm returns
+    as soon as it detects the first cycle. You can use
+    [`alg.findCycles`](#alg-findCycles) to get the actual list of cycles in the
+    graph.
+
+h3#findCycles alg.findCycles(g)
+:markdown
+    Given a [`Digraph`](#Digraph), `g`, this function returns all nodes that
+    are part of a cycle. As there may be more than one cycle in a graph this
+    function return an array of these cycles, where each cycle is itself
+    represented by an array of ids for each node involved in that cycle.
+    [`alg.isAcyclic`](#alg-isAcyclic) is more efficient if you only need to
+    determine whether a graph has a cycle or not.
+
+h3#alg-dijkstra alg.dijkstra(g, source, [weightFunc], [incidentFunc])
+:markdown
+    This function is an implementation of [Dijkstra's algorithm][] which finds
+    the shortest path from `source` to all other nodes in `g`. This
+    function returns a map of `u -> { distance, predecessor }`. The distance
+    property holds the sum of the weights from `source` to `u` along the
+    shortest path or `Number.POSITIVE_INFINITY` if there is no path from
+    `source`. The predecessor property can be used to walk the individual
+    elements of the path from `source` to `u` in reverse order.
+    
+    It takes an optional `weightFunc(e)` which returns the weight of the edge
+    `e`. If no weightFunc is supplied then each edge is assumed to have a
+    weight of 1. This function throws an `Error` if any of the traversed edges
+    have a negative edge weight.  
+
+    It takes an optional `incidentFunc(u)` which returns the ids of all edges
+    incident to the node `u` for the purposes of shortest path traversal. By
+    default this function uses the `g.outEdges` for Digraphs and
+    `g.incidentEdges` for Graphs.
+    
+    It takes `O((|E| + |V|) * log |V|)` time.
+    
+    [Dijkstra's algorithm]: http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+
+h3#alg-dijkstraAll alg.dijkstraAll(g, [weightFunc], [incidentFunc])
+:markdown
+    This function finds the shortest path from each node to every other
+    reachable node in the graph. It is similar to
+    [`alg.dijkstra`](#alg-dijkstra), but instead of returning a single-source
+    array, it returns a mapping of of `source -> alg.dijksta(g, source,
+    weightFunc, incidentFunc)`.
+    
+    This function takes an optional `weightFunc(e)` which returns the
+    weight of the edge `e`. If no weightFunc is supplied then each edge is
+    assumed to have a weight of 1. This function throws an Error if any of
+    the traversed edges have a negative edge weight.
+    
+    This function takes an optional `incidentFunc(u)` which returns the ids of
+    all edges incident to the node `u` for the purposes of shortest path
+    traversal. By default this function uses the `outEdges` function on the
+    supplied graph.
+    
+    This function takes `O(|V| * (|E| + |V|) * log |V|)` time.
+
+h3#floydWarshall alg.floydWarshall(g, [weightFunc], [incidentFunc])
+:markdown
+    This function is an implementation of the [Floyd-Warshall algorithm][],
+    which finds the shortest path from each node to every other reachable node
+    in the graph. It is similar to [`alg.dijkstraAll`](#alg-dijkstraAll), but
+    it handles negative edge weights and is more efficient for some types of
+    graphs. This function returns a map of `source -> { target -> { distance,
+    predecessor }`. The distance property holds the sum of the weights from
+    `source` to `target` along the shortest path of `Number.POSITIVE_INFINITY`
+    if there is no path from `source`. The predecessor property can be used to
+    walk the individual elements of the path from `source` to `target` in
+    reverse order.
+    
+    This function takes an optional `weightFunc(e)` which returns the
+    weight of the edge `e`. If no weightFunc is supplied then each edge is
+    assumed to have a weight of 1.
+    
+    This function takes an optional `incidentFunc(u)` which returns the ids of
+    all edges incident to the node `u` for the purposes of shortest path
+    traversal. By default this function uses the `outEdges` function on the
+    supplied graph.
+    
+    This algorithm takes O(|V|^3) time.
+    
+    [Floyd-Warshall algorithm]: https://en.wikipedia.org/wiki/Floyd-Warshall_algorithm
+
+h3#tarjan alg.tarjan(g)
+:markdown
+    This function is an implementation of [Tarjan's algorithm][] which finds
+    all [strongly connected components][] in the directed graph **g**. Each
+    strongly connected component is composed of nodes that can reach all other
+    nodes in the component via directed edges. A strongly connected component
+    can consist of a single node if that node cannot both reach and be reached
+    by any other specific node in the graph. Components of more than one node
+    are guaranteed to have at least one cycle.
+    
+    This function returns an array of components. Each component is itself an
+    array that contains the ids of all nodes in the component.
+    
+    [Tarjan's algorithm]: http://en.wikipedia.org/wiki/Tarjan's_strongly_connected_components_algorithm
+    [strongly connected components]: http://en.wikipedia.org/wiki/Strongly_connected_component
+
+h3#components alg.components(g)
+:markdown
+    Finds all [connected components][] in a graph and returns an array of these
+    components. Each component is itself an array that contains the ids of nodes
+    in the component.
+    
+    This function only works with undirected Graphs.
+    
+    [connected components]: http://en.wikipedia.org/wiki/Connected_component_(graph_theory)
+
+h3#prim alg.prim(g, weightFunc)
+:markdown
+    [Prim's algorithm][] takes a connected undirected graph and generates a
+    [minimum spanning tree][]. This function returns the minimum spanning
+    tree as an undirected graph. This algorithm is derived from the description
+    in "Introduction to Algorithms", Third Edition, Cormen, et al., Pg 634.
+    
+    This function takes a `weightFunc(e)` which returns the weight of the edge
+    `e`. It throws an Error if the graph is not connected.
+    
+    This function takes `O(|E| log |V|)` time.
+    
+    [Prim's algorithm]: https://en.wikipedia.org/wiki/Prim's_algorithm
+    [minimum spanning tree]: https://en.wikipedia.org/wiki/Minimum_spanning_tree

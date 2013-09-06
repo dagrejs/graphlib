@@ -1,0 +1,111 @@
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial;
+  font-size: 14px;
+  line-height: 1.5em;
+  margin: 0;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 160px;
+  border-right: 1px solid #ddd;
+  background: #eee;
+  margin: 0;
+  padding: 20px;
+  display: block;
+}
+
+#sidebar p {
+  margin-top: 1em;
+  margin-bottom: 0;
+}
+
+#sidebar p a {
+  font-weight: bold;
+}
+
+#sidebar a {
+  color: #333;
+}
+
+#sidebar ul {
+  list-style: none;
+  margin-top: 0;
+  margin-left: 1em;
+  padding-left: 1em;
+  text-indent: -1em;
+}
+
+#sidebar ul li {
+  line-height: 1.2em;
+}
+
+#sidebar ul li:before {
+  content: "- ";
+}
+
+#content {
+  overflow: auto;
+  width: 600px;
+  margin-left: 240px;
+}
+
+#content h1,
+#content h2,
+#content h3 {
+  padding-top: 1em;
+  padding-bottom: 0.5em;
+}
+
+#content h2,
+#content h3 {
+  border-bottom: 1px solid #eee;
+}
+
+#content h1 {
+  font-size: 40px;
+  text-align: center;
+}
+
+#content h2 {
+  font-size: 32px;
+}
+
+#content h3 {
+  font-size: 24px;
+}
+
+#content a {
+  color: #0198e1;
+}
+
+#content code {
+  font-family: Monaco, Menlo, "Courier New", monospace;
+  font-size: 12px;
+  margin: 0 2px;
+  padding: 0 5px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  background: #f5f5f5;
+}
+
+#content pre code {
+  border-left: 8px solid #ddd;
+  padding: 5px 10px;
+  overflow: auto;
+  display: block;
+}

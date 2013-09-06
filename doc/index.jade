@@ -1,0 +1,21 @@
+doctype 5
+html(lang="en")
+    head
+        include include/style.css
+    body
+        include include/sidebar
+        #content
+            h1#title Graphlib v#{version}
+        
+            :markdown
+                Graphlib is a JavaScript library that provides data
+                structures for undirected and directed multi-graphs along with
+                algorithms that can be used with them.
+
+                This documentation describes the Graphlib API. Please visit our
+                [GitHub repository](https://github.com/cpettitt/graphlib) for
+                more general information.
+
+            include include/Graph 
+            include include/Digraph
+            include include/alg

@@ -1,0 +1,249 @@
+h2#Digraph Digraph
+:markdown
+    The `Digraph` class represents a directed multi-digraph. To use this class
+    use `require('graphlib').Digraph`.
+
+h3#Digraph-constructor new Digraph()
+:markdown
+    Constructs a new empty `Digraph`.
+
+h3#Digraph-order digraph.order()
+:markdown
+    Returns the number of nodes in the digraph. For example:
+
+    ```js
+    var graph = new Digraph();
+    digraph.addNode(1);
+    digraph.addNode(2);
+
+    digraph.order();
+    // => 2
+    ```
+
+h3#Digraph-size digraph.size()
+:markdown
+    Returns the number of edges in the digraph. For example:
+
+    ```js
+    var graph = new Digraph();
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addEdge(null, 1, 2);
+
+    digraph.size();
+    // => 1
+    ```
+
+h3#Digraph-isDirected digraph.isDirected()
+:markdown
+    Always returns `true` for `Digraph` because it creates directed graphs.
+
+h3#Digraph-graph digraph.graph([value])
+:markdown
+    The `graph` function provides a mechansim to get and set some user-defined
+    information on the graph object itself. With no arguments `graph` returns
+    the currently set value. With one argument `graph` replaces the current
+    value on the graph with `value`. The initial value for the graph is
+    `undefined`.
+
+    ```js
+    var graph = new Digraph();
+    digraph.graph();
+    // => undefined
+    
+    digraph.graph("Some graph value");
+    digraph.graph();
+    // => "Some graph value" 
+    ```
+
+h3#Digraph-hasNode digraph.hasNode(u)
+:markdown
+    Returns `true` if the node with the id `u` is a member of the graph and
+    `false` if not.
+
+h3#Digraph-node digraph.node(u, [value])
+:markdown
+    The `node` function provides a mechanism to get and set some user-defined
+    information on an individual node. With one argument this function returns
+    the value currently assigned to the node with the id `u`. With two
+    arguments this function replaces the current value of the node `u` with
+    `value`. The initial value for nodes is `undefined`.
+
+    If there is no node `u` in the graph this function will throw an `Error`.
+
+    ```js
+    var graph = new Digraph();
+    digraph.addNode(1);
+    digraph.node(1);
+    // => undefined
+
+    digraph.node(1, "Some node value");
+    digraph.node(1);
+    // => "Some node value"
+
+    digraph.node(2);
+    // throws an Error
+    ```
+
+h3#Digraph-nodes digraph.nodes()
+:markdown
+    Returns the ids of all nodes in this digraph. Use
+    [`digraph.node(u)`](#Digraph-node) to get the value for a specific node.
+
+h3#Digraph-eachNode digraph.eachNode(f)
+:markdown
+    Applies the function `f(id, value)` to each node in the graph in arbitrary
+    order.
+
+h3#Digraph-successors digraph.successors(u)
+:markdown
+    Returns the ids of all nodes that are successors of the node with the id
+    `u`. If `u` is not a member of the graph this function throws an `Error`.
+
+h3#Digraph-predecessors digraph.predecessors(u)
+:markdown
+    Returns the ids of all nodes that are predecessors of the node with the id
+    `u`. If `u` is not a member of the graph this function throws an `Error`.
+
+h3#Digraph-neighbors digraph.neighbors(u)
+:markdown
+    Returns the ids of all nodes that are adjacent to the node with the id `u`.
+
+h3#Digraph-sources digraph.sources()
+:markdown
+    Returns the ids of all nodes that are in the graph that are sources. A
+    source in a directed graph is a node that has no in-edges.
+
+h3#Digraph-sinks digraph.sinks()
+:markdown
+    Returns the ids of all nodes that are in the graph that are sinks. A
+    sink in a directed graph is a node that has no in-edges.
+
+h3#Digraph-hasEdge digraph.hasEdge(e)
+:markdown
+    Returns `true` if an edge with the id `e` exists in the graph or `false` if
+    not.
+
+h3#Digraph-edge digraph.edge(e, [value])
+:markdown
+    The `edge` function provides a mechanism to get and set some user-defined
+    information on an individual edge. With one argument this function returns
+    the value currently assigned to the edge with the id `e`. With two
+    arguments this function replaces the current value of the edge `e` with
+    `value`. The initial value for edges is `undefined`.
+
+    If there is no edge `e` in the graph this function will throw an `Error`.
+
+    ```js
+    var graph = new Digraph();
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.edge("A", 1, 2);
+    // => undefined
+
+    digraph.edge("A", "Some edge value");
+    digraph.edge("A");
+    // => "Some edge value"
+
+    digraph.edge("B");
+    // throws an Error
+    ```
+
+h3#Digraph-edges digraph.edges()
+:markdown
+    Returns the ids of all edges in this digraph. Use
+    [`digraph.edge(e)`](#Digraph-edge) to get the value for a specific edge.
+
+h3#Digraph-eachEdge digraph.eachEdge(f)
+:markdown
+    Applies the function `f(e, source, target, value)` to each edge in the
+    graph in arbitrary order, where `e` is the edge's id, `source` is the id of
+    the source node, `target` is the id of the target node, and `value` it the
+    value assigned to the edge.
+
+h3#Digraph-source digraph.source(e)
+:markdown
+    Returns the source node incident on the edge with the id `e`. If no such
+    edge exists in the graph this function throws an `Error`.
+
+h3#Digraph-target digraph.target(e)
+:markdown
+    Returns the target node incident on the edge with the id `e`. If no such
+    edge exists in the graph this function throws an `Error`.
+
+h3#Digraph-incidentNodes digraph.incidentNodes(e)
+:markdown
+    Returns the nodes that are a part of the edge `e` in a 2-element array.
+    There is no significance to the order in which the nodes appear in the
+    array.
+
+h3#Digraph-inEdges digraph.inEdges(target, [source])
+:markdown
+    Returns an array of ids for all edges in the graph that have the node
+    identified by `target` as their target. If the node `target` is not in the
+    graph this function raises an `Error`.
+
+    Optionally a node identified by `source` can be specified. This causes the
+    results to be filtered such that only edges pointing from `source` to
+    `target` are included. If the node `source` is specified but is not in the
+    graph then this function raises an `Error`.
+
+h3#Digraph-outEdges digraph.outEdges(source, [target])
+:markdown
+    Returns an array of ids for all edges in the graph that have the node
+    identified by `source` as their source. If the node `source` is not in the
+    graph this function raises an `Error`.
+
+    Optionally a node identified by `target` can be specified. This causes the
+    results to be filtered such that only edges pointing from `source` to
+    `target` are included. If the node `target` is specified but is not in the
+    graph then this function raises an `Error`.
+
+h3#Digraph-incidentEdges digraph.incidentEdges(u, [v])
+:markdown
+    Returns an arrray of ids for all edges in the graph that are incident on
+    the node `u`, regardless of the direction of the edge. If the node `u` is
+    not in the graph this function raises an `Error`.
+
+    Optionally the id of another node, `v`, may be be specified. This causes
+    the results to be filtered such that only edges between `u` and `v` are
+    included in the returned array. If the node `v` is specified but not a
+    member of the graph this function raises an `Error`.
+
+h3#Digraph-equals digraph.equals(other)
+:markdown
+    Returns `true` if `other` has the same set of nodes and edges, and the
+    values of those nodes and edges are equal (`===`). Returns `false`
+    otherwise.
+
+h3#Digraph-toString digraph.toString()
+:markdown
+    Returns a `String` representation of this graph for debugging purposes. The
+    format of this string is arbitrary and subject to change at any time.
+
+h3#Digraph-addNode digraph.addNode(u, [value])
+:markdown
+    Adds a new node with the id `u` to the digraph. The node `u` is assigned the
+    value of `value` if it is specified. Otherwise it defaults to the value
+    `undefined`. If a node with the id `u` is already a member of the graph
+    this function throws an `Error`.
+
+h3#Digraph-delNode digraph.delNode(u)
+:markdown
+    Removes a node from the graph that has the id `u`. Any edges incident on
+    the node `u` are also removed. If the graph does not contain a node `u`
+    then this function will raise an `Error`.
+
+h3#Digraph-addEdge digraph.addEdge([e], u, v, [value])
+:markdown
+    Adds a new edge to the graph with the id `e` between a node with the id `u`
+    and a node with the id `v`. The edge `e` is assigned the value of `value`
+    if it is specified. Otherwise it defaults to the value `undefined`. If `e`
+    is `null` the graph will assign an arbitrary id to the edge. This function
+    will throw an `Error` if `u` or `v` are not members of this graph or if `e`
+    is already a member of this digraph.
+
+h3#Digraph-delEdge digraph.delEdge(e)
+:markdown
+    Removes an edge in the graph with the id `e`. If no edge in the graph has
+    the id `u` this function will thrown an `Error`.

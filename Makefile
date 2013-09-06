@@ -5,19 +5,21 @@ MOCHA?=node_modules/mocha/bin/mocha
 MOCHA_OPTS?=
 JS_COMPILER=node_modules/uglify-js/bin/uglifyjs
 JS_COMPILER_OPTS?=--no-seqs
-DOCGEN=node_modules/dox-foundation/bin/dox-foundation
 
 MODULE=graphlib
-DOC=$(DIST)/doc
 
 # There does not appear to be an easy way to define recursive expansion, so
 # we do our own expansion a few levels deep.
 JS_SRC:=$(wildcard lib/*.js lib/*/*.js lib/*/*/*.js)
 JS_TEST:=$(wildcard test/*.js test/*/*.js test/*/*/*.js)
 
-OUT_DIRS=out out/dist
+DOC_JADE:=$(wildcard doc/*.jade)
+DOC_JADE_OUT:=$(addprefix out/dist/, $(DOC_JADE:.jade=.html))
+DOC_JADE_INCLUDE:=$(wildcard doc/include/*)
 
-.PHONY: all release dist doc test coverage clean fullclean
+OUT_DIRS=out out/dist out/dist/doc
+
+.PHONY: all release dist clean-doc doc test coverage clean fullclean
 
 all: dist doc test coverage
 
@@ -26,7 +28,7 @@ release: all
 
 dist: out/dist/$(MODULE).js out/dist/$(MODULE).min.js
 
-doc: out/dist/doc
+doc: node_modules src/docgen.js clean-doc out/dist/doc $(DOC_JADE_OUT)
 
 test: out/dist/$(MODULE).js $(JS_TEST)
 	$(NODE) $(MOCHA) $(JS_TEST) $(MOCHA_OPTS)
@@ -36,6 +38,9 @@ coverage: out/coverage.html
 clean:
 	rm -f lib/version.js
 	rm -rf out
+
+clean-doc:
+	rm -rf out/dist/doc
 
 fullclean: clean
 	rm -rf node_modules
@@ -49,11 +54,8 @@ out/dist/$(MODULE).js: out/dist Makefile node_modules browser.js lib/version.js 
 out/dist/$(MODULE).min.js: out/dist/$(MODULE).js
 	$(NODE) $(JS_COMPILER) $(JS_COMPILER_OPTS) $< > $@
 
-out/dist/doc: out/dist $(SRC_JS)
-	@rm -rf doc $@
-	mkdir doc
-	$(NODE) $(DOCGEN) --ignore lib/version.js --source lib --target doc
-	mv doc $@ 
+$(DOC_JADE_OUT): $(DOC_JADE)
+	$(NODE) src/docgen.js $< > $@
 
 out/coverage.html: $(MODULE_JS) $(JS_TEST)
 	$(NODE) $(MOCHA) $(JS_TEST) --require blanket -R html-cov > $@

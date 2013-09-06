@@ -19,7 +19,8 @@
     "blanket": "1.x.x",
     "browserify": "2.28.x",
     "chai": "1.7.x",
-    "dox-foundation": "~0.5.2",
+    "jade": "0.35.x",
+    "marked": "0.2.x",
     "mocha": "1.12.x",
     "semver": "2.1.x",
     "uglify-js": "1.2.3"
