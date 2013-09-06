@@ -1,3 +1,8 @@
+v0.3.2
+======
+
+* Initial pass at nicer documentation.
+
 v0.3.1
 ======
 
