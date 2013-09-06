@@ -1,7 +1,17 @@
 h2#Digraph Digraph
 :markdown
-    The `Digraph` class represents a directed multi-digraph. To use this class
-    use `require('graphlib').Digraph`.
+    The `Digraph` class represents a [directed][] [multigraph][].
+
+    Subsequent examples in this section assume that `Digraph` has been required
+    as follows:
+
+    ```js
+    var Digraph = require("graphlib").Digraph;
+    var digraph = new Digraph();
+    ```
+
+    [directed]: https://en.wikipedia.org/wiki/Directed_graph
+    [multigraph]: https://en.wikipedia.org/wiki/Multigraph
 
 h3#Digraph-constructor new Digraph()
 :markdown
@@ -12,7 +22,9 @@ h3#Digraph-order digraph.order()
     Returns the number of nodes in the digraph. For example:
 
     ```js
-    var graph = new Digraph();
+    digraph.order();
+    // => 0
+
     digraph.addNode(1);
     digraph.addNode(2);
 
@@ -25,7 +37,9 @@ h3#Digraph-size digraph.size()
     Returns the number of edges in the digraph. For example:
 
     ```js
-    var graph = new Digraph();
+    digraph.size();
+    // => 0
+
     digraph.addNode(1);
     digraph.addNode(2);
     digraph.addEdge(null, 1, 2);
@@ -47,7 +61,6 @@ h3#Digraph-graph digraph.graph([value])
     `undefined`.
 
     ```js
-    var graph = new Digraph();
     digraph.graph();
     // => undefined
     
@@ -61,6 +74,15 @@ h3#Digraph-hasNode digraph.hasNode(u)
     Returns `true` if the node with the id `u` is a member of the graph and
     `false` if not.
 
+    ```js
+    digraph.hasNode(1);
+    // => false
+
+    digraph.addNode(1);
+    digraph.hasNode(1);
+    // => true
+    ```
+
 h3#Digraph-node digraph.node(u, [value])
 :markdown
     The `node` function provides a mechanism to get and set some user-defined
@@ -72,7 +94,6 @@ h3#Digraph-node digraph.node(u, [value])
     If there is no node `u` in the graph this function will throw an `Error`.
 
     ```js
-    var graph = new Digraph();
     digraph.addNode(1);
     digraph.node(1);
     // => undefined
@@ -90,39 +111,129 @@ h3#Digraph-nodes digraph.nodes()
     Returns the ids of all nodes in this digraph. Use
     [`digraph.node(u)`](#Digraph-node) to get the value for a specific node.
 
+    ```js
+    digraph.nodes();
+    // => []
+
+    digraph.addNode(1);
+    digraph.addNode(2);
+
+    digraph.nodes()
+    // => [1, 2]
+    ```
+
 h3#Digraph-eachNode digraph.eachNode(f)
 :markdown
-    Applies the function `f(id, value)` to each node in the graph in arbitrary
-    order.
+    Applies the function `f(u, value)` to each node in the graph in arbitrary
+    order, where `u` is the id of the node and `value` is its currently
+    assigned value.
+
+    ```js
+    digraph.addNode(1, "label-1");
+    digraph.addNode(2, "label-2");
+
+    var results = {};
+    digraph.eachNode(function(u, value) {
+        results[u] = value;
+    });
+
+    results
+    // => { "1": "label-1", "2": "label-2" }
+    ```
 
 h3#Digraph-successors digraph.successors(u)
 :markdown
     Returns the ids of all nodes that are successors of the node with the id
     `u`. If `u` is not a member of the graph this function throws an `Error`.
 
+    ```js
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addEdge(null, 1, 2);
+
+    digraph.successors(1);
+    // => [2]
+
+    digraph.successors(2);
+    // => []
+    ```
+
 h3#Digraph-predecessors digraph.predecessors(u)
 :markdown
     Returns the ids of all nodes that are predecessors of the node with the id
     `u`. If `u` is not a member of the graph this function throws an `Error`.
 
+    ```js
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addEdge(null, 1, 2);
+
+    digraph.predecessors(1);
+    // => []
+
+    digraph.predecessors(2);
+    // => [1]
+    ```
+
 h3#Digraph-neighbors digraph.neighbors(u)
 :markdown
     Returns the ids of all nodes that are adjacent to the node with the id `u`.
+
+    ```js
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addEdge(null, 1, 2);
+
+    digraph.neighbors(1);
+    // => [2]
+
+    digraph.neighbors(2);
+    // => [1]
+    ```
 
 h3#Digraph-sources digraph.sources()
 :markdown
     Returns the ids of all nodes that are in the graph that are sources. A
     source in a directed graph is a node that has no in-edges.
 
+    ```js
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addEdge(null, 1, 2);
+
+    digraph.sources();
+    // => [1]
+    ```
+
 h3#Digraph-sinks digraph.sinks()
 :markdown
     Returns the ids of all nodes that are in the graph that are sinks. A
     sink in a directed graph is a node that has no in-edges.
 
+    ```js
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addEdge(null, 1, 2);
+
+    digraph.sinks();
+    // => [2]
+    ```
+
 h3#Digraph-hasEdge digraph.hasEdge(e)
 :markdown
     Returns `true` if an edge with the id `e` exists in the graph or `false` if
     not.
+
+    ```js
+    digraph.hasEdge("A");
+    // => false
+
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addEdge("A", 1, 2);
+    digraph.hasEdge("A");
+    // => true
+    ```
 
 h3#Digraph-edge digraph.edge(e, [value])
 :markdown
@@ -135,7 +246,6 @@ h3#Digraph-edge digraph.edge(e, [value])
     If there is no edge `e` in the graph this function will throw an `Error`.
 
     ```js
-    var graph = new Digraph();
     digraph.addNode(1);
     digraph.addNode(2);
     digraph.edge("A", 1, 2);
@@ -154,6 +264,15 @@ h3#Digraph-edges digraph.edges()
     Returns the ids of all edges in this digraph. Use
     [`digraph.edge(e)`](#Digraph-edge) to get the value for a specific edge.
 
+    ```js
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addEdge("A", 1, 2);
+    digraph.addEdge("B", 1, 2);
+    digraph.edges();
+    // => ["A", "B"]
+    ```
+
 h3#Digraph-eachEdge digraph.eachEdge(f)
 :markdown
     Applies the function `f(e, source, target, value)` to each edge in the
@@ -161,21 +280,60 @@ h3#Digraph-eachEdge digraph.eachEdge(f)
     the source node, `target` is the id of the target node, and `value` it the
     value assigned to the edge.
 
+    ```js
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addEdge("A", 1, 2, "A-label");
+    digraph.addEdge("B", 2, 1, "B-label");
+
+    var results = {};
+    digraph.eachEdge(function(e, source, target, value) {
+        results[e] = "S: " + source + " T: " + target + " V: " + value;
+    });
+
+    results
+    // => { "A": "S: 1 T: 2 V: A-label",
+    //      "B": "S: 2 T: 1 V: B-label" }
+    ```
+
 h3#Digraph-source digraph.source(e)
 :markdown
     Returns the source node incident on the edge with the id `e`. If no such
     edge exists in the graph this function throws an `Error`.
+
+    ```js
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addEdge("A", 1, 2);
+    digraph.source("A");
+    // => 1
+    ```
 
 h3#Digraph-target digraph.target(e)
 :markdown
     Returns the target node incident on the edge with the id `e`. If no such
     edge exists in the graph this function throws an `Error`.
 
+    ```js
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addEdge("A", 1, 2);
+    digraph.target("A");
+    // => 2
+    ```
+
 h3#Digraph-incidentNodes digraph.incidentNodes(e)
 :markdown
     Returns the nodes that are a part of the edge `e` in a 2-element array.
-    There is no significance to the order in which the nodes appear in the
-    array.
+    This is equivalent to `[digraph.source(e), digraph.target(e)]`.
+
+    ```js
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addEdge("A", 1, 2);
+    digraph.incidentNodes("A");
+    // => [ 1, 2 ]
+    ```
 
 h3#Digraph-inEdges digraph.inEdges(target, [source])
 :markdown
@@ -188,6 +346,25 @@ h3#Digraph-inEdges digraph.inEdges(target, [source])
     `target` are included. If the node `source` is specified but is not in the
     graph then this function raises an `Error`.
 
+    ```js
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addNode(3);
+    digraph.addEdge("A", 1, 2);
+    digraph.addEdge("B", 2, 3);
+    digraph.addEdge("C", 3, 1);
+    digraph.addEdge("D", 3, 2);
+
+    digraph.inEdges(2);
+    // => [ "A", "D" ]
+
+    digraph.inEdges(2, 3);
+    // => [ "D" ]
+    ```
+
+    Note that `digraph.inEdges(target, source)` yields the same result as
+    `digraph.outEdges(source, target)`.
+
 h3#Digraph-outEdges digraph.outEdges(source, [target])
 :markdown
     Returns an array of ids for all edges in the graph that have the node
@@ -199,6 +376,22 @@ h3#Digraph-outEdges digraph.outEdges(source, [target])
     `target` are included. If the node `target` is specified but is not in the
     graph then this function raises an `Error`.
 
+    ```js
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addNode(3);
+    digraph.addEdge("A", 1, 2);
+    digraph.addEdge("B", 2, 3);
+    digraph.addEdge("C", 3, 1);
+    digraph.addEdge("D", 3, 2);
+
+    digraph.outEdges(3);
+    // => [ "C", "D" ]
+
+    digraph.inEdges(3, 2);
+    // => [ "D" ]
+    ```
+
 h3#Digraph-incidentEdges digraph.incidentEdges(u, [v])
 :markdown
     Returns an arrray of ids for all edges in the graph that are incident on
@@ -209,6 +402,22 @@ h3#Digraph-incidentEdges digraph.incidentEdges(u, [v])
     the results to be filtered such that only edges between `u` and `v` are
     included in the returned array. If the node `v` is specified but not a
     member of the graph this function raises an `Error`.
+
+    ```js
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addNode(3);
+    digraph.addEdge("A", 1, 2);
+    digraph.addEdge("B", 2, 3);
+    digraph.addEdge("C", 3, 1);
+    digraph.addEdge("D", 3, 2);
+
+    digraph.incidentEdges(3);
+    // => [ "B", "C", "D" ]
+
+    digraph.inEdges(3, 2);
+    // => [ "B", "D" ]
+    ```
 
 h3#Digraph-equals digraph.equals(other)
 :markdown
