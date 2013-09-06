@@ -178,6 +178,7 @@ h3#Digraph-predecessors digraph.predecessors(u)
 h3#Digraph-neighbors digraph.neighbors(u)
 :markdown
     Returns the ids of all nodes that are adjacent to the node with the id `u`.
+    If `u` is not a member of the graph this function throws an `Error`.
 
     ```js
     digraph.addNode(1);

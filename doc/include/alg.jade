@@ -6,15 +6,31 @@ h2#alg alg
     algorithm, e.g. [`topsort`](#alg-topsort), using `var topsort =
     require("graphlib").alg.topsort`.
 
+    For the purposes of this section, we assume the following requires:
+
+    ```js
+    var alg = require("graphlib").alg;
+    ```
+
 h3#alg-topsort alg.topsort(g)
 :markdown
     An implementation of [topographical
     sorting](https://en.wikipedia.org/wiki/Topological_sorting).
 
-    Given a graph `g` this function returns an array of nodes such that for
-    each edge `u -> v`, `u` appears before `v` in the array. If the graph has a
-    cycle it is impossible to generate such a list and `CycleException` is
-    thrown.
+    Given a [`Digraph`](#Digraph) `g` this function returns an array of nodes
+    such that for each edge `u -> v`, `u` appears before `v` in the array. If
+    the graph has a cycle it is impossible to generate such a list and
+    `CycleException` is thrown.
+
+img(src="static/topsort-source.png")
+
+:markdown
+    ```js
+    alg.topsort(digraph);
+    // => [ 1, 2, 3, 4 ] 
+    // OR
+    // => [ 1, 3, 2, 4 ] 
+    ```    
 
 h3#alg-isAcyclic alg.isAyclic(g)
 :markdown
@@ -24,6 +40,22 @@ h3#alg-isAcyclic alg.isAyclic(g)
     [`alg.findCycles`](#alg-findCycles) to get the actual list of cycles in the
     graph.
 
+    ```js
+    var digraph = new Digraph();
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addNode(3);
+    digraph.addEdge(null, 1, 2);
+    digraph.addEdge(null, 2, 3);
+    
+    alg.isAcyclic(digraph);
+    // => true
+
+    digraph.addEdge(null, 3, 1);
+    alg.isAcyclic(digraph);
+    // => false
+    ```
+
 h3#alg-findCycles alg.findCycles(g)
 :markdown
     Given a [`Digraph`](#Digraph), `g`, this function returns all nodes that
@@ -32,6 +64,29 @@ h3#alg-findCycles alg.findCycles(g)
     represented by an array of ids for each node involved in that cycle.
     [`alg.isAcyclic`](#alg-isAcyclic) is more efficient if you only need to
     determine whether a graph has a cycle or not.
+
+    ```js
+    var digraph = new Digraph();
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addNode(3);
+    digraph.addEdge(null, 1, 2);
+    digraph.addEdge(null, 2, 3);
+    
+    alg.findCycles(digraph);
+    // => []
+
+    digraph.addEdge(null, 3, 1);
+    alg.findCycles(digraph);
+    // => [ [ 3, 2, 1 ] ]
+
+    digraph.addNode(4);
+    digraph.addNode(5);
+    digraph.addEdge(null, 4, 5);
+    digraph.addEdge(null, 5, 4);
+    alg.findCycles(digraph);
+    // => [ [ 3, 2, 1 ], [ 5, 4 ] ]
+    ```
 
 h3#alg-dijkstra alg.dijkstra(g, source, [weightFunc], [incidentFunc])
 :markdown

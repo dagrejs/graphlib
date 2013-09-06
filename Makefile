@@ -15,9 +15,11 @@ JS_TEST:=$(wildcard test/*.js test/*/*.js test/*/*/*.js)
 
 DOC_JADE:=$(wildcard doc/*.jade)
 DOC_JADE_OUT:=$(addprefix out/dist/, $(DOC_JADE:.jade=.html))
-DOC_JADE_INCLUDE:=$(wildcard doc/include/*)
 
-OUT_DIRS=out out/dist out/dist/doc
+DOC_STATIC=$(wildcard doc/static/*)
+DOC_STATIC_OUT=$(addprefix out/dist/, $(DOC_STATIC))
+
+OUT_DIRS=out out/dist out/dist/doc out/dist/doc/static
 
 .PHONY: all release dist clean-doc doc test coverage clean fullclean
 
@@ -28,7 +30,7 @@ release: all
 
 dist: out/dist/$(MODULE).js out/dist/$(MODULE).min.js
 
-doc: node_modules src/docgen.js clean-doc out/dist/doc $(DOC_JADE_OUT)
+doc: node_modules src/docgen.js clean-doc out/dist/doc out/dist/doc/static $(DOC_JADE_OUT) $(DOC_STATIC_OUT)
 
 test: out/dist/$(MODULE).js $(JS_TEST)
 	$(NODE) $(MOCHA) $(JS_TEST) $(MOCHA_OPTS)
@@ -56,6 +58,9 @@ out/dist/$(MODULE).min.js: out/dist/$(MODULE).js
 
 $(DOC_JADE_OUT): $(DOC_JADE)
 	$(NODE) src/docgen.js $< > $@
+
+$(DOC_STATIC_OUT): $(DOC_STATIC)
+	cp $< $@
 
 out/coverage.html: $(MODULE_JS) $(JS_TEST)
 	$(NODE) $(MOCHA) $(JS_TEST) --require blanket -R html-cov > $@
