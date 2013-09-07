@@ -59,8 +59,8 @@ out/dist/$(MODULE).min.js: out/dist/$(MODULE).js
 $(DOC_JADE_OUT): $(DOC_JADE)
 	$(NODE) src/docgen.js $< > $@
 
-$(DOC_STATIC_OUT): $(DOC_STATIC)
-	cp $< $@
+out/dist/doc/static/%: doc/static/%
+	@cp $< $@
 
 out/coverage.html: $(MODULE_JS) $(JS_TEST)
 	$(NODE) $(MOCHA) $(JS_TEST) --require blanket -R html-cov > $@

@@ -112,6 +112,21 @@ h3#alg-dijkstra alg.dijkstra(g, source, [weightFunc], [incidentFunc])
     
     [Dijkstra's algorithm]: http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
 
+img(src="static/dijkstra-source.png")
+
+:markdown
+    ```js
+    function weight(e) { return digraph.edge(e); }
+
+    alg.dijkstra(digraph, "A", weight);
+    // => { A: { distance: 0 },
+    //      B: { distance: 6, predecessor: 'C' },
+    //      C: { distance: 4, predecessor: 'A' },
+    //      D: { distance: 2, predecessor: 'A' },
+    //      E: { distance: 8, predecessor: 'F' },
+    //      F: { distance: 4, predecessor: 'D' } }
+    ```
+
 h3#alg-dijkstraAll alg.dijkstraAll(g, [weightFunc], [incidentFunc])
 :markdown
     This function finds the shortest path from each node to every other
@@ -131,6 +146,33 @@ h3#alg-dijkstraAll alg.dijkstraAll(g, [weightFunc], [incidentFunc])
     supplied graph.
     
     This function takes `O(|V| * (|E| + |V|) * log |V|)` time.
+
+img(src="static/dijkstra-source.png")
+
+:markdown
+    ```js
+    function weight(e) { return digraph.edge(e); }
+
+    alg.dijkstraAll(digraph, weight);
+    // => { A:
+    //       { A: { distance: 0 },
+    //         B: { distance: 6, predecessor: 'C' },
+    //         C: { distance: 4, predecessor: 'A' },
+    //         D: { distance: 2, predecessor: 'A' },
+    //         E: { distance: 8, predecessor: 'F' },
+    //         F: { distance: 4, predecessor: 'D' } },
+    //      B:
+    //       { A: { distance: Infinity },
+    //         B: { distance: 0 },
+    //         C: { distance: Infinity },
+    //         D: { distance: Infinity },
+    //         E: { distance: 6, predecessor: 'B' },
+    //         F: { distance: Infinity } },
+    //      C: { ... },
+    //      D: { ... },
+    //      E: { ... },
+    //      F: { ... } }
+    ```
 
 h3#alg-floydWarshall alg.floydWarshall(g, [weightFunc], [incidentFunc])
 :markdown
@@ -158,6 +200,33 @@ h3#alg-floydWarshall alg.floydWarshall(g, [weightFunc], [incidentFunc])
     
     [Floyd-Warshall algorithm]: https://en.wikipedia.org/wiki/Floyd-Warshall_algorithm
 
+img(src="static/dijkstra-source.png")
+
+:markdown
+    ```js
+    function weight(e) { return digraph.edge(e); }
+
+    alg.floydWarshall(digraph, weight);
+    // => { A:
+    //       { A: { distance: 0 },
+    //         B: { distance: 6, predecessor: 'C' },
+    //         C: { distance: 4, predecessor: 'A' },
+    //         D: { distance: 2, predecessor: 'A' },
+    //         E: { distance: 8, predecessor: 'F' },
+    //         F: { distance: 4, predecessor: 'D' } },
+    //      B:
+    //       { A: { distance: Infinity },
+    //         B: { distance: 0 },
+    //         C: { distance: Infinity },
+    //         D: { distance: Infinity },
+    //         E: { distance: 6, predecessor: 'B' },
+    //         F: { distance: Infinity } },
+    //      C: { ... },
+    //      D: { ... },
+    //      E: { ... },
+    //      F: { ... } }
+    ```
+
 h3#alg-tarjan alg.tarjan(g)
 :markdown
     This function is an implementation of [Tarjan's algorithm][] which finds
@@ -174,6 +243,16 @@ h3#alg-tarjan alg.tarjan(g)
     [Tarjan's algorithm]: http://en.wikipedia.org/wiki/Tarjan's_strongly_connected_components_algorithm
     [strongly connected components]: http://en.wikipedia.org/wiki/Strongly_connected_component
 
+img(src="static/tarjan-source.png")
+
+:markdown
+    ```js
+    alg.tarjan(digraph);
+    // => [ [ 'F', 'G' ],
+    //      [ 'H', 'D', 'C' ],
+    //      [ 'E', 'B', 'A' ] ]
+    ```
+
 h3#alg-components alg.components(g)
 :markdown
     Finds all [connected components][] in a graph and returns an array of these
@@ -183,6 +262,16 @@ h3#alg-components alg.components(g)
     This function only works with undirected Graphs.
     
     [connected components]: http://en.wikipedia.org/wiki/Connected_component_(graph_theory)
+
+img(src="static/components-source.png")
+
+:markdown
+    ```js
+    alg.components(digraph);
+    // => [ [ 'A', 'B', 'C', 'D' ],
+    //      [ 'E', 'F', 'G' ],
+    //      [ 'H', 'I' ] ]
+    ```
 
 h3#alg-prim alg.prim(g, weightFunc)
 :markdown
@@ -198,3 +287,15 @@ h3#alg-prim alg.prim(g, weightFunc)
     
     [Prim's algorithm]: https://en.wikipedia.org/wiki/Prim's_algorithm
     [minimum spanning tree]: https://en.wikipedia.org/wiki/Minimum_spanning_tree
+
+img(src="static/prim-source.png")
+
+:markdown
+    ```js
+    function weight(e) { return graph.edge(e); }
+    alg.prim(graph, weight);
+    ```
+
+    Returns a tree (represented with a [`Graph`](#Graph)) of the following form:
+
+img(src="static/prim-result.png")
