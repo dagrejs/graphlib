@@ -1,6 +1,6 @@
 h2#Graph Graph
 :markdown
-    The `Graph` class represents an [undirected][] [multi-graph][].
+    The `Graph` class represents an [undirected][] [multigraph][].
 
     Subsequent examples in this section assume that `Graph` has been required
     as follows:
@@ -313,3 +313,36 @@ h3#Graph-delEdge graph.delEdge(e)
 :markdown
     Removes an edge in the graph with the id `e`. If no edge in the graph has
     the id `u` this function will thrown an `Error`.
+
+h3#Graph-toDigraph graph.toDigraph()
+:markdown
+    Returns a new directed graph using the nodes and edge from this graph. The
+    new graph will have the same nodes, but will have twice the number of
+    edges: each edge is split into edges pointing in opposite directions. Edge
+    ids, consequently, are not preserved by this transformation.
+
+    ```js
+    graph.addNode(1);
+    graph.addNode(2);
+    graph.addNode(3);
+    graph.addEdge(null, 1, 2);
+    graph.addEdge(null, 2, 3);
+    graph.size();
+    // => 3
+
+    var digraph = graph.toDigraph();
+    digraph instanceof Digraph;
+    // => true
+
+    digraph.nodes();
+    // => [ 1, 2, 3 ]
+
+    digraph.size();
+    // => 6 /* twice the number of edges */
+
+    digraph.successors(2);
+    // => [ 1, 3 ]
+
+    digraph.edges();
+    // => [ "_ANON-1", "_ANON-2", "_ANON-3", "_ANON-4" ]
+    ```

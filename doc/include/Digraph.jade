@@ -457,3 +457,30 @@ h3#Digraph-delEdge digraph.delEdge(e)
 :markdown
     Removes an edge in the graph with the id `e`. If no edge in the graph has
     the id `u` this function will thrown an `Error`.
+
+h3#Digraph-toGraph digraph.toGraph()
+:markdown
+    Returns a new undirected graph using the nodes and edge from this graph.
+    The new graph will have the same nodes, but the edges will be made
+    undirected. Edge ids are preserved in this transformation.
+
+    ```js
+    digraph.addNode(1);
+    digraph.addNode(2);
+    digraph.addNode(3);
+    digraph.addEdge("A", 1, 2);
+    digraph.addEdge("B", 2, 3);
+
+    var graph = digraph.toGraph();
+    graph instanceof Graph;
+    // => true
+
+    graph.nodes();
+    // => [ 1, 2, 3 ]
+
+    graph.neighbors(2);
+    // => [ 1, 3 ]
+
+    graph.edges();
+    // => [ "A", "B" ]
+    ```
