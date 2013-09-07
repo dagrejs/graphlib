@@ -1,3 +1,8 @@
+v0.3.3
+======
+
+* More doc improvements.
+
 v0.3.2
 ======
 
