@@ -1,8 +1,10 @@
 doctype 5
 html(lang="en")
     head
-        include include/style.css
-    body
+        link(rel="stylesheet" href="static/highlight-style.css")
+        link(rel="stylesheet" href="static/style.css")
+        script(src="static/highlight.pack.js")
+    body(onLoad="hljs.initHighlighting();")
         include include/sidebar
         #content
             h1#title Graphlib v#{version}

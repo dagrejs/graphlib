@@ -93,9 +93,7 @@ a:hover {
   color: #0198e1;
 }
 
-#content code {
-  font-family: Monaco, Menlo, "Courier New", monospace;
-  font-size: 12px;
+code {
   margin: 0 2px;
   padding: 0 5px;
   border: 1px solid #ddd;
@@ -103,9 +101,9 @@ a:hover {
   background: #f5f5f5;
 }
 
-#content pre code {
-  border-left: 8px solid #ddd;
+pre code {
   padding: 5px 10px;
+  border: none;
   overflow: auto;
   display: block;
 }
