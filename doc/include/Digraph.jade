@@ -458,6 +458,38 @@ h3#Digraph-delEdge digraph.delEdge(e)
     Removes an edge in the graph with the id `e`. If no edge in the graph has
     the id `u` this function will thrown an `Error`.
 
+h3#Digraph-copy digraph.copy()
+:markdown
+    Creates a new graph that contains all of the nodes and edges from this
+    graph.
+
+h3#Digraph-filterNodes digraph.filterNodes(f)
+:markdown
+    Applies the function `f(u, value)` to each node in this graph and returns a
+    new graph that only includes those nodes for which `f` returns `true`.
+    Edges that have both incident nodes in the new graph are also copied to the
+    new graph.
+
+    ```js
+    function filter(u) { return u === 1 || u === 2; }
+
+    digraph.addNode(1, "node-1");
+    digraph.addNode(2, "node-2");
+    digraph.addNode(3, "node-3");
+    digraph.addEdge(null, 1, 2, "edge-1-2");
+    digraph.addEdge(null, 2, 3, "edge-2-3");
+
+    var subgraph = digraph.filterNodes(filter);
+    subgraph.nodes();
+    // => [1, 2]
+
+    subgraph.node(1);
+    // => "node-1"
+
+    subgraph.neighbors(2);
+    // => [1]
+    ```
+
 h3#Digraph-toGraph digraph.toGraph()
 :markdown
     Returns a new undirected graph using the nodes and edge from this graph.

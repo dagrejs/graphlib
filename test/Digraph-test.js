@@ -1,5 +1,6 @@
 var assert = require("./assert"),
-    Digraph = require("..").Digraph;
+    Digraph = require("..").Digraph,
+    filter = require("..").filter;
 
 describe("Digraph", function() {
   var g;
@@ -20,37 +21,33 @@ describe("Digraph", function() {
     });
   });
 
-  describe("subgraph", function() {
-    it("returns a graph containing a subset of nodes", function() {
+  describe("filterNodes", function() {
+    it("creates a graph containing only nodes where the filter is true", function() {
       var g = new Digraph();
       [1,2,3].forEach(function(u) { g.addNode(u); });
-      g.addEdge("a", 1, 2);
-      g.addEdge("b", 2, 3);
 
-      var subgraph = g.subgraph([1, 2]);
-      assert.deepEqual(subgraph.nodes().sort(), [1, 2]);
-      assert.deepEqual(subgraph.edges(), ["a"]);
+      var g2 = g.filterNodes(filter.nodesFromList([1, 2]));
+      assert.deepEqual(g2.nodes().sort(), [1, 2]);
     });
 
-    it("includes each node's value in the subgraph", function() {
+    it("includes the values of the filtered nodes", function() {
       var g = new Digraph();
       [1,2,3].forEach(function(u) { g.addNode(u, "V" + u); });
-      g.addEdge("a", 1, 2);
-      g.addEdge("b", 2, 3);
 
-      var subgraph = g.subgraph([1, 2]);
-      assert.equal(subgraph.node(1), "V1");
-      assert.equal(subgraph.node(2), "V2");
+      var g2 = g.filterNodes(filter.nodesFromList([1, 2]));
+      assert.equal(g2.node(1), "V1");
+      assert.equal(g2.node(2), "V2");
     });
 
-    it("includes each edge's value in the subgraph", function() {
+    it("includes edges that are are incident with nodes in the filtered set", function() {
       var g = new Digraph();
       [1,2,3].forEach(function(u) { g.addNode(u); });
       g.addEdge("a", 1, 2, "VA");
       g.addEdge("b", 2, 3);
 
-      var subgraph = g.subgraph([1, 2]);
-      assert.equal(subgraph.edge("a"), "VA");
+      var g2 = g.filterNodes(filter.nodesFromList([1, 2]));
+      assert.isTrue(g2.hasEdge("a"));
+      assert.equal(g2.edge("a"), "VA");
     });
   });
 
@@ -375,7 +372,7 @@ describe("Digraph", function() {
       var g1 = new Digraph();
       g1.addNode("A", 123);
       g1.addNode("B", 456);
-      var g2 = g1.subgraph(["A", "B"]);
+      var g2 = g1.copy();
       assert.isTrue(g1.equals(g2));
     });
 
@@ -390,7 +387,7 @@ describe("Digraph", function() {
     it("returns `false` if other graph has a strict superset of nodes", function() {
       var g1 = new Digraph();
       g1.addNode("A", 123);
-      var g2 = g1.subgraph(["A"]);
+      var g2 = g1.copy();
       g2.addNode("B", "456");
       assert.isFalse(g1.equals(g2));
     });
@@ -408,7 +405,7 @@ describe("Digraph", function() {
       g1.addNode("A");
       g1.addNode("B");
       g1.addEdge("AB", "A", "B", 123);
-      var g2 = g1.subgraph(["A", "B"]);
+      var g2 = g1.copy();
       assert.isTrue(g1.equals(g2));
     });
 
@@ -429,7 +426,7 @@ describe("Digraph", function() {
       g1.addNode("A");
       g1.addNode("B");
       g1.addEdge("AB", "A", "B", 123);
-      var g2 = g1.subgraph(["A", "B"]);
+      var g2 = g1.copy();
       g2.addEdge("BA", "B", "A", 456);
       assert.isFalse(g1.equals(g2));
     });

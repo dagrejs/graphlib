@@ -34,7 +34,7 @@ dist: out/dist/$(MODULE).js out/dist/$(MODULE).min.js
 
 doc: node_modules src/docgen.js clean-doc out/dist/doc out/dist/doc/static $(DOC_JADE_OUT) $(DOC_STATIC_OUT)
 
-test: out/dist/$(MODULE).js $(JS_TEST)
+test: out/dist/$(MODULE).js $(JS_TEST) $(JS_SRC)
 	$(NODE) $(MOCHA) $(JS_TEST) $(MOCHA_OPTS)
 
 coverage: out/coverage.html
@@ -64,7 +64,7 @@ $(DOC_JADE_OUT): $(DOC_JADE)
 out/dist/doc/static/%: doc/static/%
 	@cp $< $@
 
-out/coverage.html: $(MODULE_JS) $(JS_TEST)
+out/coverage.html: out/dist/$(MODULE).js $(JS_TEST) $(JS_SRC)
 	$(NODE) $(MOCHA) $(JS_TEST) --require blanket -R html-cov > $@
 
 lib/version.js: src/version.js package.json

@@ -19,4 +19,10 @@ exports.data = {
   Set: require("./lib/data/Set")
 };
 
+var filter = require("./lib/filter");
+exports.filter = {
+  all: filter.all,
+  nodesFromList: filter.nodesFromList
+};
+
 exports.version = require("./lib/version");

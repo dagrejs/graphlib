@@ -1,3 +1,27 @@
+v0.4.0
+======
+
+This release introduces **backwards incompatible** changes.
+
+`subgraph` has been removed. Instead of:
+
+```js
+graph.subgraph([1, 2, 3]);
+```
+
+Use:
+
+```js
+var filter = require("graphlib").filter;
+graph.filterNodes(filter.nodesFromList([1, 2, 3]));
+```
+
+The following are backwards compatible changes:
+
+* Introduced `graph.filterNodes` for creating a new graph by applying a filter
+  to nodes in `graph`.
+* Add a new module `filter` that includes some simple filters.
+
 v0.3.3
 ======
 
