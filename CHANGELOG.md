@@ -2,6 +2,7 @@ v0.4.1
 ======
 
 * `(di)graph.addEdge(...)` now returns the id of the edge added.
+* Fix bug where auto-assigned edge ids could collide with existing edge ids.
 
 v0.4.0
 ======

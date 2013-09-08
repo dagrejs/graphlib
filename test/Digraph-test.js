@@ -538,6 +538,19 @@ describe("Digraph", function() {
       assert.sameMembers(g.successors(1), [2]);
       assert.sameMembers(g.successors(2), [3]);
     });
+
+    it("avoids id collisions when given id is null", function() {
+      g.addNode(1);
+      g.addNode(2);
+
+      // We use this assert in case the internal id scheme changes...
+      assert.equal(g.addEdge(null, 1, 2), "_1");
+
+      // This would be the next id assigned by the graph
+      g.addEdge("_2", 1, 2);
+
+      assert.equal(g.addEdge(null, 1, 2), "_3");
+    });
   });
 
   describe("delEdge", function() {

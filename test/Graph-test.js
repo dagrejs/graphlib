@@ -414,6 +414,19 @@ describe("Graph", function() {
       assert.sameMembers(g.neighbors(2), [1, 3]);
       assert.sameMembers(g.neighbors(3), [2]);
     });
+
+    it("avoids id collisions when given id is null", function() {
+      g.addNode(1);
+      g.addNode(2);
+
+      // We use this assert in case the internal id scheme changes...
+      assert.equal(g.addEdge(null, 1, 2), "_1");
+
+      // This would be the next id assigned by the graph
+      g.addEdge("_2", 1, 2);
+
+      assert.equal(g.addEdge(null, 1, 2), "_3");
+    });
   });
 
   describe("delEdge", function() {
