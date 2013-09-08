@@ -1,3 +1,8 @@
+v0.4.1
+======
+
+* `(di)graph.addEdge(...)` now returns the id of the edge added.
+
 v0.4.0
 ======
 

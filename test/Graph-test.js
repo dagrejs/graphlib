@@ -383,12 +383,36 @@ describe("Graph", function() {
       g.addNode(1);
       g.addNode(2);
       g.addNode(3);
-      g.addEdge(null, 1, 2);
-      g.addEdge(null, 2, 3);
+      
+      var e1 = g.addEdge(null, 1, 2);
+      assert.isDefined(e1);
+      assert.isTrue(g.hasEdge(e1));
 
-      assert.deepEqual(g.neighbors(1), [2]);
-      assert.deepEqual(g.neighbors(2), [1, 3]);
-      assert.deepEqual(g.neighbors(3), [2]);
+      var e2 = g.addEdge(null, 2, 3);
+      assert.isDefined(e2);
+      assert.isTrue(g.hasEdge(e2));
+
+      assert.sameMembers(g.neighbors(1), [2]);
+      assert.sameMembers(g.neighbors(2), [1, 3]);
+      assert.sameMembers(g.neighbors(3), [2]);
+    });
+
+    it("assigns an arbitrary edge id if the given id is undefined", function() {
+      g.addNode(1);
+      g.addNode(2);
+      g.addNode(3);
+      
+      var e1 = g.addEdge(undefined, 1, 2);
+      assert.isDefined(e1);
+      assert.isTrue(g.hasEdge(e1));
+
+      var e2 = g.addEdge(undefined, 2, 3);
+      assert.isDefined(e2);
+      assert.isTrue(g.hasEdge(e2));
+
+      assert.sameMembers(g.neighbors(1), [2]);
+      assert.sameMembers(g.neighbors(2), [1, 3]);
+      assert.sameMembers(g.neighbors(3), [2]);
     });
   });
 

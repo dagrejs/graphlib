@@ -306,8 +306,8 @@ h3#Graph-addEdge graph.addEdge([e], u, v, [value])
     and a node with the id `v`. The edge `e` is assigned the value of `value`
     if it is specified. Otherwise it defaults to the value `undefined`. If `e`
     is `null` the graph will assign an arbitrary id to the edge. This function
-    will throw an `Error` if `u` or `v` are not members of this graph or if `e`
-    is already a member of this graph.
+    returns the id of the edge. It will throw an `Error` if `u` or `v` are not
+    members of this graph or if `e` is already a member of this graph.
 
 h3#Graph-delEdge graph.delEdge(e)
 :markdown
