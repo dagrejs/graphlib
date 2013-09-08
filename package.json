@@ -4,7 +4,8 @@
   "description": "A directed and undirected multi-graph library",
   "main": "index.js",
   "keywords": [
-    "graph"
+    "graph",
+    "algorithms"
   ],
   "scripts": {
     "blanket": {
@@ -36,7 +37,7 @@
       "test/**/*.js"
     ],
     "browsers": [
-      "ie/9..latest",
+      "ie/8..latest",
       "firefox/17..latest",
       "firefox/nightly",
       "chrome/22..latest",
@@ -51,3 +52,4 @@
     "harness": "mocha"
   }
 }
+
