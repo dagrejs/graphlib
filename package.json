@@ -1,6 +1,6 @@
 {
   "name": "graphlib",
-  "version": "0.4.0",
+  "version": "0.4.1-pre",
   "description": "A directed and undirected multi-graph library",
   "main": "index.js",
   "keywords": [
@@ -52,4 +52,3 @@
     "harness": "mocha"
   }
 }
-
