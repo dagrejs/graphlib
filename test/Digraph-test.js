@@ -30,6 +30,12 @@ describe("Digraph", function() {
       assert.deepEqual(g2.nodes().sort(), [1, 2]);
     });
 
+    it("creates a graph of type Digraph", function() {
+      var g = new Digraph();
+      [1,2,3].forEach(function(u) { g.addNode(u); });
+      assert.instanceOf(g.filterNodes(filter.all()), Digraph);
+    });
+
     it("includes the values of the filtered nodes", function() {
       var g = new Digraph();
       [1,2,3].forEach(function(u) { g.addNode(u, "V" + u); });
@@ -246,30 +252,6 @@ describe("Digraph", function() {
       g.addEdge("C", 2, 1);
 
       assert.deepEqual(g.edges().sort(), ["A", "B", "C"]);
-    });
-
-    it("throws an error if called with one argument", function() {
-      g.addNode(1);
-      g.addNode(2);
-      g.addNode(3);
-      g.addEdge("A", 1, 2);
-      g.addEdge("B", 1, 2);
-      g.addEdge("C", 2, 1);
-      g.addEdge("D", 2, 3);
-
-      assert.throws(function() { g.edges(1); });
-    });
-
-    it("throws an error if called with two arguments", function() {
-      g.addNode(1);
-      g.addNode(2);
-      g.addNode(3);
-      g.addEdge("A", 1, 2);
-      g.addEdge("B", 1, 2);
-      g.addEdge("C", 2, 1);
-      g.addEdge("D", 2, 3);
-
-      assert.throws(function() { g.edges(1, 2); });
     });
   });
 

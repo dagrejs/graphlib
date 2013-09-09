@@ -30,6 +30,12 @@ describe("Graph", function() {
       assert.deepEqual(g2.nodes().sort(), [1, 2]);
     });
 
+    it("creates a graph of type Graph", function() {
+      var g = new Graph();
+      [1,2,3].forEach(function(u) { g.addNode(u); });
+      assert.instanceOf(g.filterNodes(filter.all()), Graph);
+    });
+
     it("includes the values of the filtered nodes", function() {
       var g = new Graph();
       [1,2,3].forEach(function(u) { g.addNode(u, "V" + u); });
