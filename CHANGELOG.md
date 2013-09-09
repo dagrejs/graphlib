@@ -1,3 +1,8 @@
+v0.4.2
+======
+
+* No externally visible changes.
+
 v0.4.1
 ======
 
