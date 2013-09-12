@@ -1,5 +1,7 @@
-exports.Digraph = require("./lib/Digraph");
 exports.Graph = require("./lib/Graph");
+exports.Digraph = require("./lib/Digraph");
+exports.CGraph = require("./lib/CGraph");
+exports.CDigraph = require("./lib/CDigraph");
 require("./lib/graph-converters");
 
 exports.alg = {
