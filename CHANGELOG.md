@@ -1,3 +1,11 @@
+v0.5.0
+======
+
+The release introduces these **backwards incompatible** changes:
+
+* Removed `equals` from `Graph` and `Digraph`. This was used for test only. Use
+  `assert.deepEqual` instead.
+
 v0.4.2
 ======
 
