@@ -1,0 +1,21 @@
+h3(id="#{Graph}-parent") #{graph}.parent(u, [parent])
+:markdown
+    This function returns the current parent of the node `u` if only one
+    argument is supplied. If two arguments are supplied this function sets the
+    parent of `u` to the node `parent`. If `parent` is `null` this effectively
+    sets the parent to the root #{graph}.
+
+    This function will throw an `Error` if either `u` or `parent` are not in
+    this #{graph}.
+
+    ```js
+    #{graph}.addNode(1);
+    #{graph}.parent(1);
+    // => null
+
+    #{graph}.addNode("sg1");
+    #{graph}.parent(1, "sg1");
+    #{graph}.parent(1);
+    // => "sg1"
+    ```
+

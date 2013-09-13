@@ -1,9 +1,10 @@
-- var graph = "digraph", Graph = "Digraph";
+- var graph = "cdigraph", Graph = "CDigraph";
 - var directed = true;
 
 h2(id="#{Graph}") #{Graph}
 :markdown
-    The `#{Graph}` class represents a [directed][] [multigraph][].
+    The `#{Graph}` class represents a compound [directed][] [multigraph][].
+    It differs from [`Digraph`](#Digraph) in that its nodes can have children.
 
     Subsequent examples in this section assume that `#{Graph}` has been required
     as follows:
@@ -17,6 +18,8 @@ h2(id="#{Graph}") #{Graph}
     [multigraph]: https://en.wikipedia.org/wiki/Multigraph
 
 include graph/Graph-constructor
+include graph/CGraph-parent
+include graph/CGraph-children
 include graph/Graph-order
 include graph/Graph-size
 include graph/Graph-isDirected
