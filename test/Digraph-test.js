@@ -365,6 +365,15 @@ describe("Digraph", function() {
       assert.lengthOf(g.predecessors(1), 0);
       assert.lengthOf(g.neighbors(1), 0);
     });
+
+    it("assigns an arbitrary id to the node if the given id is undefined", function() {
+      var id = g.addNode();
+      assert.isDefined(id);
+      assert.deepEqual(g.nodes(), [id]);
+      assert.lengthOf(g.successors(id), 0);
+      assert.lengthOf(g.predecessors(id), 0);
+      assert.lengthOf(g.neighbors(id), 0);
+    });
   });
 
   describe("delNode", function() {

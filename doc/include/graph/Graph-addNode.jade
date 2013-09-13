@@ -2,6 +2,7 @@ h3(id="#{Graph}-addNode") #{graph}.addNode(u, [value])
 :markdown
     Adds a new node with the id `u` to this #{graph}. The node `u` is assigned
     the value of `value` if it is specified. Otherwise it defaults to the value
-    `undefined`. If a node with the id `u` is already a member of this #{graph}
-    this function throws an `Error`.
+    `undefined`. If `u` is `null` then a unique id is assigned to the node and
+    returned by this function. If a node with the id `u` is already a member of
+    this #{graph} this function throws an `Error`.
 

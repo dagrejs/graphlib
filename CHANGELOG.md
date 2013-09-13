@@ -1,3 +1,9 @@
+v0.5.1
+======
+
+* `addNode` now behaves like `addEdge` in that it assigns a unique id to the
+  node if the given id was `undefined` or `null`.
+
 v0.5.0
 ======
 
