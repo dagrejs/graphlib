@@ -1,0 +1,14 @@
+h3(id="#{Graph}-incidentNodes") #{graph}.incidentNodes(e)
+:markdown
+    Returns the nodes that are a part of the edge `e` in a 2-element array.
+    There is no significance to the order in which the nodes appear in the
+    array.
+
+    ```js
+    #{graph}.addNode(1);
+    #{graph}.addNode(2);
+    #{graph}.addEdge("A", 1, 2);
+    #{graph}.incidentNodes("A");
+    // => [ 1, 2 ]
+    ```
+

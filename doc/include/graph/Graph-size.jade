@@ -1,0 +1,15 @@
+h3(id="#{Graph}-size") #{graph}.size()
+:markdown
+    Returns the number of edges in this #{graph}. For example:
+
+    ```js
+    #{graph}.size();
+    // => 0
+
+    #{graph}.addNode(1);
+    #{graph}.addNode(2);
+    #{graph}.addEdge(null, 1, 2);
+
+    #{graph}.size();
+    // => 1
+    ```

@@ -1,0 +1,30 @@
+h3(id="#{Graph}-inEdges") #{graph}.inEdges(target, [source])
+:markdown
+    Returns an array of ids for all edges in this #{graph} that have the node
+    identified by `target` as their target. If the node `target` is not in this #{graph}
+    this function raises an `Error`.
+
+    Optionally a node identified by `source` can be specified. This causes the
+    results to be filtered such that only edges pointing from `source` to
+    `target` are included. If the node `source` is specified but is not in this #{graph}
+    then this function raises an `Error`.
+
+    ```js
+    #{graph}.addNode(1);
+    #{graph}.addNode(2);
+    #{graph}.addNode(3);
+    #{graph}.addEdge("A", 1, 2);
+    #{graph}.addEdge("B", 2, 3);
+    #{graph}.addEdge("C", 3, 1);
+    #{graph}.addEdge("D", 3, 2);
+
+    #{graph}.inEdges(2);
+    // => [ "A", "D" ]
+
+    #{graph}.inEdges(2, 3);
+    // => [ "D" ]
+    ```
+
+    Note that `#{graph}.inEdges(target, source)` yields the same result as
+    `#{graph}.outEdges(source, target)`.
+

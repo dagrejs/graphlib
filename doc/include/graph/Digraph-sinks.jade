@@ -1,0 +1,14 @@
+h3(id="#{Graph}-sinks") #{graph}.sinks()
+:markdown
+    Returns the ids of all nodes that are in this #{graph} that are sinks. A
+    sink in a directed graph is a node that has no in-edges.
+
+    ```js
+    #{graph}.addNode(1);
+    #{graph}.addNode(2);
+    #{graph}.addEdge(null, 1, 2);
+
+    #{graph}.sinks();
+    // => [2]
+    ```
+

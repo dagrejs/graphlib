@@ -1,0 +1,16 @@
+h3(id="#{Graph}-successors") #{graph}.successors(u)
+:markdown
+    Returns the ids of all nodes that are successors of the node with the id
+    `u`. If `u` is not a member of this #{graph} this function throws an `Error`.
+
+    ```js
+    #{graph}.addNode(1);
+    #{graph}.addNode(2);
+    #{graph}.addEdge(null, 1, 2);
+
+    #{graph}.successors(1);
+    // => [2]
+
+    #{graph}.successors(2);
+    // => []
+    ``` 

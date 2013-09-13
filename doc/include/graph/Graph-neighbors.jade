@@ -1,0 +1,18 @@
+h3(id="#{Graph}-neighbors") #{graph}.neighbors(u)
+:markdown
+    Returns the ids of all nodes that are adjacent to the node with the id `u`.
+    If `u` is not a member of this #{graph} this function throws an `Error`.
+
+    ```js
+    #{graph}.addNode(1);
+    #{graph}.addNode(2);
+    #{graph}.addEdge(null, 1, 2);
+
+    #{graph}.neighbors(1);
+    // => [2]
+
+    #{graph}.neighbors(2);
+    // => [1]
+    ```
+
+

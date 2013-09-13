@@ -1,0 +1,13 @@
+- var fromOrBetween = directed ? "from" : "between";
+- var toOrAnd = directed ? "to" : "and";
+
+h3(id="#{Graph}-addEdge") #{graph}.addEdge([e], u, v, [value])
+:markdown
+    Adds a new edge to this #{graph} with the id `e` #{fromOrBetween} a node
+    with the id `u` #{toOrAnd} a node with the id `v`. The edge `e` is assigned
+    the value of `value` if it is specified. Otherwise it defaults to the value
+    `undefined`.  If `e` is `null` this #{graph} will assign an arbitrary id to
+    the edge.  This function returns the id of the edge. It will throw an
+    `Error` if `u` or `v` are not members of this #{graph} or if `e` is already
+    a member of this #{graph}.
+

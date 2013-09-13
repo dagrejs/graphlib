@@ -1,0 +1,25 @@
+h3(id="#{Graph}-edge") #{graph}.edge(e, [value])
+:markdown
+    The `edge` function provides a mechanism to get and set some user-defined
+    information on an individual edge. With one argument this function returns
+    the value currently assigned to the edge with the id `e`. With two
+    arguments this function replaces the current value of the edge `e` with
+    `value`. The initial value for edges is `undefined`.
+
+    If there is no edge `e` in the #{graph} this function will throw an `Error`.
+
+    ```js
+    #{graph}.addNode(1);
+    #{graph}.addNode(2);
+    #{graph}.edge("A", 1, 2);
+    // => undefined
+
+    #{graph}.edge("A", "Some edge value");
+    #{graph}.edge("A");
+    // => "Some edge value"
+
+    #{graph}.edge("B");
+    // throws an Error
+    ```
+
+

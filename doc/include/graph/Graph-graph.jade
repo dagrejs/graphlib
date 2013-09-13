@@ -1,0 +1,16 @@
+h3(id="#{Graph}-graph") #{graph}.graph([value])
+:markdown
+    The `graph` function provides a mechansim to get and set some user-defined
+    information on the #{graph} object itself. With no arguments `graph` returns
+    the currently set value. With one argument `graph` replaces the current
+    value on the graph with `value`. The initial value for the graph is
+    `undefined`.
+
+    ```js
+    #{graph}.graph();
+    // => undefined
+    
+    #{graph}.graph("Some graph value");
+    #{graph}.graph();
+    // => "Some graph value" 
+    ```

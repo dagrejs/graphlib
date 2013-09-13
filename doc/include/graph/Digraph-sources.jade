@@ -1,0 +1,13 @@
+h3(id="#{Graph}-sources") #{graph}.sources()
+:markdown
+    Returns the ids of all nodes that are in this #{graph} that are sources. A
+    source in a directed graph is a node that has no in-edges.
+
+    ```js
+    #{graph}.addNode(1);
+    #{graph}.addNode(2);
+    #{graph}.addEdge(null, 1, 2);
+
+    #{graph}.sources();
+    // => [1]
+    ```

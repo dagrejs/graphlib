@@ -1,0 +1,27 @@
+h3(id="#{Graph}-incidentEdges") #{graph}.incidentEdges(u, [v])
+:markdown
+    Returns an arrray of ids for all edges in this #{graph} that are incident
+    on the node `u`. If the node `u` is not in this #{graph} this function
+    raises an `Error`.
+
+    Optionally the id of another node, `v`, may be be specified. This causes
+    the results to be filtered such that only edges between `u` and `v` are
+    included in the returned array. If the node `v` is specified but not a
+    member of this #{graph} this function raises an `Error`.
+
+    ```js
+    #{graph}.addNode(1);
+    #{graph}.addNode(2);
+    #{graph}.addNode(3);
+    #{graph}.addEdge("A", 1, 2);
+    #{graph}.addEdge("B", 2, 3);
+    #{graph}.addEdge("C", 3, 1);
+    #{graph}.addEdge("D", 3, 2);
+
+    #{graph}.incidentEdges(3);
+    // => [ "B", "C", "D" ]
+
+    #{graph}.inEdges(3, 2);
+    // => [ "B", "D" ]
+    ```
+

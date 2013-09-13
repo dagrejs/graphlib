@@ -1,0 +1,16 @@
+h3(id="#{Graph}-nodes") #{graph}.nodes()
+:markdown
+    Returns the ids of all nodes in this #{graph}. Use
+    [`#{graph}.node(u)`](##{Graph}-node) to get the value for a specific node.
+
+    ```js
+    #{graph}.nodes();
+    // => []
+
+    #{graph}.addNode(1);
+    #{graph}.addNode(2);
+
+    #{graph}.nodes()
+    // => [1, 2]
+    ```
+
