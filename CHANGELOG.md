@@ -6,6 +6,9 @@ The release introduces these **backwards incompatible** changes:
 * Removed `equals` from `Graph` and `Digraph`. This was used for test only. Use
   `assert.deepEqual` instead.
 
+This release also introduces compound graphs. See the API docs for `CGraph` and
+`CDigraph` for details.
+
 v0.4.2
 ======
 
