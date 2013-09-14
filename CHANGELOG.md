@@ -1,3 +1,10 @@
+v0.5.2
+======
+
+* Fixed bug where addNode would use `{}` as the default value if a initial
+  value was not assigned.
+* Fixed bug where auto-assiged id was not used correcty in compound graphs.
+
 v0.5.1
 ======
 
