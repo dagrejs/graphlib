@@ -1,3 +1,9 @@
+v0.5.3
+======
+
+* Fixed bug where removing a node would not remove it from its parent's
+  children set.
+
 v0.5.2
 ======
 

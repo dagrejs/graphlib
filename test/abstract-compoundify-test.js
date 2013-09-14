@@ -115,6 +115,12 @@ module.exports = function(name, Constructor, superName, SuperConstructor) {
       assert.throws(function() { g.children("sg1"); });
     });
 
+    it("removes the node from its parent", function() {
+      g.addNode(1);
+      g.delNode(1);
+      assert.lengthOf(g.children(null), 0);
+    });
+
     it("can remove a node created with a automatically assigned id", function() {
       var id = g.addNode();
       g.delNode(id);
