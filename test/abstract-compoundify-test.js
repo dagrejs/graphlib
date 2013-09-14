@@ -114,6 +114,12 @@ module.exports = function(name, Constructor, superName, SuperConstructor) {
       g.delNode("sg1");
       assert.throws(function() { g.children("sg1"); });
     });
+
+    it("can remove a node created with a automatically assigned id", function() {
+      var id = g.addNode();
+      g.delNode(id);
+      assert.lengthOf(g.nodes(), 0);
+    });
   });
 
   describe("from" + superName, function() {
