@@ -16,6 +16,10 @@ exports.alg = {
   topsort: require("./lib/alg/topsort")
 };
 
+exports.converter = {
+  json: require("./lib/converter/json.js")
+};
+
 exports.data = {
   PriorityQueue: require("./lib/data/PriorityQueue"),
   Set: require("./lib/data/Set")

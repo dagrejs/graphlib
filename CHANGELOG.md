@@ -1,3 +1,8 @@
+v0.5.4
+======
+
+* Added a JSON encoder / decoder
+
 v0.5.3
 ======
 
