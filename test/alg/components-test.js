@@ -1,5 +1,6 @@
 var assert = require("../assert"),
     Graph = require("../..").Graph,
+    Digraph = require("../..").Digraph,
     components = require("../..").alg.components;
 
 describe("alg.components", function() {
