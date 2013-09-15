@@ -1,3 +1,9 @@
+v0.5.5
+======
+
+* Rely less on instanceof checks which may fail with different versions of the
+  library loaded.
+
 v0.5.4
 ======
 
