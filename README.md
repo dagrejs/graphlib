@@ -37,7 +37,7 @@ Check out this project and run this command from the root of the project:
 
     $ make
 
-This will generate `graphlib.js` and `graphlib.min.js` in the `dist` directory
+This will generate `graphlib.js` and `graphlib.min.js` in the `out/dist` directory
 of the project.
 
 # Example
