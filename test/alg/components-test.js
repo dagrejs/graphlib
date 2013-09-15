@@ -33,7 +33,13 @@ describe("alg.components", function() {
     assert.deepEqual(components(graph), [["a", "b", "c"]]);
   });
 
-  it("throws an Error if used with a directed graph", function() {
-    assert.throws(function() { components(new Digraph()); });
+  it("works for directed graphs", function() {
+    var graph = new Digraph();
+    graph.addNode("a");
+    graph.addNode("b");
+    graph.addNode("c");
+    graph.addEdge(null, "a", "b");
+    // TODO: this needs to be made order insensitive...
+    assert.deepEqual(components(graph), [["a", "b"], ["c"]]);
   });
 });

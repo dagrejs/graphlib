@@ -1,3 +1,8 @@
+v0.5.6
+======
+
+* `components` now works for directed graphs.
+
 v0.5.5
 ======
 
