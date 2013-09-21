@@ -1,3 +1,8 @@
+v0.5.7
+======
+
+* Fix toString, copy, filterNodes for compound graphs.
+
 v0.5.6
 ======
 

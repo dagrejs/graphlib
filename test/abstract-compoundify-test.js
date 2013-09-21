@@ -1,4 +1,5 @@
-var assert = require("./assert");
+var assert = require("./assert"),
+    filter = require("../").filter;
 
 module.exports = function(name, Constructor, superName, SuperConstructor) {
   var g;
@@ -125,6 +126,26 @@ module.exports = function(name, Constructor, superName, SuperConstructor) {
       var id = g.addNode();
       g.delNode(id);
       assert.lengthOf(g.nodes(), 0);
+    });
+  });
+
+  describe("filterNodes", function() {
+    it("includes subgraphs", function() {
+      g.addNode("sg1");
+      g.addNode(1);
+      g.parent(1, "sg1");
+      var g2 = g.filterNodes(filter.all());
+      assert.equal(g2.parent(1), "sg1");
+    });
+
+    it("handles promotion if a parent subgraph node is not included", function() {
+      g.addNode("sg1");
+      g.addNode("sg2");
+      g.addNode(1);
+      g.parent("sg1", "sg2");
+      g.parent(1, "sg1");
+      var g2 = g.filterNodes(filter.nodesFromList(["sg2", 1]));
+      assert.equal(g2.parent(1), "sg2");
     });
   });
 
