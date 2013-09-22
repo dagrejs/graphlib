@@ -288,6 +288,30 @@ module.exports = function(Graph) {
     });
   });
 
+  describe("copy", function() {
+    it("copies the graph value", function() {
+      g.graph("foo");
+      assert.equal(g.copy().graph(), "foo");
+    });
+
+    it("copies the nodes in the graph", function() {
+      g.addNode(1);
+      g.addNode(2, {foo: "bar"});
+      var copy = g.copy();
+      assert.sameMembers(copy.nodes(), g.nodes());
+      assert.deepEqual(copy.node(2), g.node(2));
+    });
+
+    it("copies the edges in the graph", function() {
+      g.addNode(1);
+      g.addNode(2);
+      g.addEdge("A", 1, 2, {foo: "bar"});
+      var copy = g.copy();
+      assert.sameMembers(copy.edges(), g.edges());
+      assert.deepEqual(copy.edge("A"), g.edge("A"));
+    });
+  });
+
   describe("filterNodes", function() {
     it("creates a graph containing only nodes where the filter is true", function() {
       var g = new Graph();

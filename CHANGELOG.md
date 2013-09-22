@@ -1,3 +1,8 @@
+v0.5.8
+======
+
+* Fixed bug where graph value was not copied correctly with graph.copy().
+
 v0.5.7
 ======
 
