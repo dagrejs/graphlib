@@ -299,3 +299,47 @@ img(src="static/prim-source.png")
     Returns a tree (represented with a [`Graph`](#Graph)) of the following form:
 
 img(src="static/prim-result.png")
+
+h3#alg-preorder alg.preorder(g, root, callback)
+:markdown
+    This function performs a [preorder traversal][] of the graph `g` starting
+    at the node `root`. For each node visited, `u`,  the function `callback(u)`
+    is called. If the graph is a directed graph or if it does not represent a
+    tree structure, the function will throw an error. In the latter case, some
+    nodes may be visited before it is determined that the graph is not a tree.
+
+    [preorder traversal]: https://en.wikipedia.org/wiki/Tree_traversal#Depth-first
+
+img(src="static/preorder-source.png")
+
+:markdown
+    ```js
+    alg.preorder(graph, "A");
+    // => One of:
+    // [ "A", "B", "C", "D", "E" ]
+    // [ "A", "B", "C", "E", "D" ]
+    // [ "A", "C", "D", "E", "B" ]
+    // [ "A", "C", "E", "D", "B" ]
+    ```
+
+h3#alg-postorder alg.postorder(g, root, callback)
+:markdown
+    This function performs a [postorder traversal][] of the graph `g` starting
+    at the node `root`. For each node visited, `u`,  the function `callback(u)`
+    is called. If the graph is a directed graph or if it does not represent a
+    tree structure, the function will throw an error. In the latter case, some
+    nodes may be visited before it is determined that the graph is not a tree.
+
+    [postorder traversal]: https://en.wikipedia.org/wiki/Tree_traversal#Depth-first
+
+img(src="static/preorder-source.png")
+
+:markdown
+    ```js
+    alg.postorder(graph, "A");
+    // => One of:
+    // [ "B", "D", "E", C", "A" ]
+    // [ "B", "E", "D", C", "A" ]
+    // [ "D", "E", "C", B", "A" ]
+    // [ "E", "D", "C", B", "A" ]
+    ```

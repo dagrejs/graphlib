@@ -1,3 +1,8 @@
+v0.5.9
+======
+
+* Added preorder and postorder tree traversal functions.
+
 v0.5.8
 ======
 
