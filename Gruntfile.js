@@ -13,6 +13,34 @@ module.exports = function(grunt) {
         }
       }
     },
+    copy: {
+      dist: {
+        files: [
+          {expand: true, cwd: 'build', src: '<%= moduleJs %>', dest: 'dist/'},
+          {expand: true, cwd: 'build', src: '<%= moduleMinJs %>', dest: 'dist/'},
+          {expand: true, cwd: 'build/doc', src: '**', dest: 'dist/doc/'}
+        ]
+      },
+      doc: {
+        expand: true,
+        cwd: 'doc/static',
+        src: '**',
+        dest: 'build/doc/static'
+      }
+    },
+    jade: {
+      doc: {
+        options: {
+          data: {
+            version: pkg.version
+          },
+          pretty: true
+        },
+        files: {
+          'build/doc/index.html': ['doc/index.jade']
+        }
+      }
+    },
     jshint: {
       options: {
         eqeqeq: true,
@@ -59,9 +87,11 @@ module.exports = function(grunt) {
 
   // Plugins
   grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-mocha-cov');
 
   // Optional configuration
@@ -74,7 +104,9 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', ['_init', 'browserify', 'uglify']);
 
-  grunt.registerTask('dist', ['build', '_dist']);
+  grunt.registerTask('dist', ['build', 'doc', 'copy:dist']);
+
+  grunt.registerTask('doc', ['_init', 'jade:doc', 'copy:doc']);
 
   grunt.registerTask('test', ['_init', 'mochacov:test', 'mochacov:coverage']);
 
@@ -90,12 +122,6 @@ module.exports = function(grunt) {
   grunt.registerTask('_init', function() {
     grunt.file.mkdir('build');
     grunt.file.write('lib/version.js', 'module.exports = \'' + pkg.version + '\';');
-  });
-
-  grunt.registerTask('_dist', function() {
-    grunt.file.mkdir('dist');
-    grunt.file.copy('build/' + grunt.config('moduleJs'), 'dist/' + grunt.config('moduleJs'));
-    grunt.file.copy('build/' + grunt.config('moduleMinJs'), 'dist/' + grunt.config('moduleMinJs'));
   });
 
   grunt.registerTask('_release', function() {

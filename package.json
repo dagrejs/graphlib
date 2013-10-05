@@ -22,6 +22,8 @@
     "chai": "1.7.x",
     "grunt": "~0.4.1",
     "grunt-browserify": "~1.2.8",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-jade": "~0.8.0",
     "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-uglify": "~0.2.4",
     "grunt-contrib-watch": "~0.5.3",
