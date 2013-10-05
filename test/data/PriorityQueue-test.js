@@ -1,5 +1,4 @@
 var assert = require("chai").assert,
-    Digraph = require("../..").Digraph,
     PriorityQueue = require("../..").data.PriorityQueue;
 
 describe("data.PriorityQueue", function() {
@@ -83,7 +82,7 @@ describe("data.PriorityQueue", function() {
     });
 
     it("returns true if the key was added", function() {
-      assert.isTrue(pq.add("a", 1)); 
+      assert.isTrue(pq.add("a", 1));
     });
 
     it("returns false if the key already exists in the queue", function() {

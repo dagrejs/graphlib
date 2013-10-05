@@ -48,7 +48,8 @@ module.exports = function(grunt) {
         quotmark: true,
         unused: true,
         trailing: true,
-        laxbreak: true
+        laxbreak: true,
+        '-W079': true
       },
       src: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js']
     },
