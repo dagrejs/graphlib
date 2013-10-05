@@ -110,6 +110,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test', ['_init', 'mochacov:test', 'mochacov:coverage']);
 
+  grunt.registerTask('bench', ['_init', '_bench']);
+
   grunt.registerTask('release', ['dist', '_release']);
 
   grunt.registerTask('clean', 'Deletes temporary files and dist files', function() {
@@ -122,6 +124,10 @@ module.exports = function(grunt) {
   grunt.registerTask('_init', function() {
     grunt.file.mkdir('build');
     grunt.file.write('lib/version.js', 'module.exports = \'' + pkg.version + '\';');
+  });
+
+  grunt.registerTask('_bench', function() {
+    require('./bench/bench');
   });
 
   grunt.registerTask('_release', function() {

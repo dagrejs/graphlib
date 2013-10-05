@@ -17,6 +17,7 @@
     }
   },
   "devDependencies": {
+    "benchmark": "~1.0.0",
     "blanket": "1.x.x",
     "browserify": "~2.33.1",
     "chai": "1.7.x",

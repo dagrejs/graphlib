@@ -2,7 +2,7 @@ NODE = node
 NPM = npm
 GRUNT = grunt
 
-GRUNT_TARGETS = default release build dist doc test jshint watch clean
+GRUNT_TARGETS = default release build dist doc test jshint bench watch clean
 
 .PHONY: $(GRUNT_TARGETS) fullclean
 
