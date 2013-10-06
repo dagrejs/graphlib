@@ -5,8 +5,6 @@ and directed multi-graphs along with algorithms that can be used with them.
 
 [![Build Status](https://secure.travis-ci.org/cpettitt/graphlib.png)](http://travis-ci.org/cpettitt/graphlib)
 
-[![browser support](https://ci.testling.com/cpettitt/graphlib.png)](https://ci.testling.com/cpettitt/graphlib)
-
 Note that graphlib is current a pre-1.0.0 library. We will do our best to
 maintain backwards compatibility for patch level increases (e.g. 0.0.1 to
 0.0.2) but make no claim to backwards compatibility across minor releases (e.g.
