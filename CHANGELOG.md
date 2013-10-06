@@ -1,3 +1,8 @@
+v0.5.11
+=======
+
+* ~5x speedup for filterNodes.
+
 v0.5.10
 =======
 
