@@ -136,16 +136,36 @@ module.exports = function(name, Constructor, superName, SuperConstructor) {
       g.parent(1, "sg1");
       var g2 = g.filterNodes(filter.all());
       assert.equal(g2.parent(1), "sg1");
+      assert.equal(g2.parent("sg1"), null);
+    });
+
+    it("includes nested subgraphs", function() {
+      g.addNode("sg1");
+      g.addNode("sg2");
+      g.parent("sg2", "sg1");
+      g.addNode(1);
+      g.parent(1, "sg2");
+      g.addNode(2);
+      g.parent(2, "sg2");
+      var g2 = g.filterNodes(filter.all());
+      assert.equal(g2.parent(1), "sg2");
+      assert.equal(g2.parent(2), "sg2");
+      assert.equal(g2.parent("sg2"), "sg1");
+      assert.equal(g2.parent("sg1"), null);
     });
 
     it("handles promotion if a parent subgraph node is not included", function() {
-      g.addNode("sg1");
       g.addNode("sg2");
-      g.addNode(1);
+      g.addNode("sg1");
       g.parent("sg1", "sg2");
+      g.addNode(1);
       g.parent(1, "sg1");
-      var g2 = g.filterNodes(filter.nodesFromList(["sg2", 1]));
+      g.addNode(2);
+      g.parent(2, "sg1");
+      var g2 = g.filterNodes(filter.nodesFromList(["sg2", 1, 2]));
       assert.equal(g2.parent(1), "sg2");
+      assert.equal(g2.parent(2), "sg2");
+      assert.equal(g2.parent("sg2"), null);
     });
   });
 
