@@ -1,3 +1,9 @@
+v0.5.10
+=======
+
+* Doc fixes.
+* Some performance improvement to delNode and filterNodes.
+
 v0.5.9
 ======
 
