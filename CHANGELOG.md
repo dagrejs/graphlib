@@ -1,3 +1,8 @@
+v0.5.12
+=======
+
+* assert.deepEqual(g.copy(), g) now returns true.
+
 v0.5.11
 =======
 
