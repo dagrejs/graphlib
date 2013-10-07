@@ -310,6 +310,16 @@ module.exports = function(Graph) {
       assert.sameMembers(copy.edges(), g.edges());
       assert.deepEqual(copy.edge("A"), g.edge("A"));
     });
+
+    it("deepEquals the original graph", function() {
+      g.addNode(1);
+      g.addNode(2);
+      // The `null` here is important because we want to increment the nextId
+      // counter.
+      g.addEdge(null, 1, 2, {foo: "bar"});
+      var copy = g.copy();
+      assert.deepEqual(copy, g);
+    });
   });
 
   describe("filterNodes", function() {
