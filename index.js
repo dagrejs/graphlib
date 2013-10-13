@@ -24,7 +24,7 @@ exports.converter = {
 
 exports.data = {
   PriorityQueue: require("./lib/data/PriorityQueue"),
-  Set: require("./lib/data/Set")
+  Set: require("cp-set").Set
 };
 
 var filter = require("./lib/filter");
