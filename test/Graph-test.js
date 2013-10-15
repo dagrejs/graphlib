@@ -1,5 +1,5 @@
-var Graph = require("..").Graph;
+var Graph = require('..').Graph;
 
-describe("Graph", function() {
-  require("./abstract-Graph-test")(Graph);
+describe('Graph', function() {
+  require('./abstract-Graph-test')(Graph);
 });

@@ -1,16 +1,16 @@
-var assert = require("chai").assert,
-    Digraph = require("../..").Digraph,
-    Graph = require("../..").Graph,
-    dijkstra = require("../..").alg.dijkstra;
+var assert = require('chai').assert,
+    Digraph = require('../..').Digraph,
+    Graph = require('../..').Graph,
+    dijkstra = require('../..').alg.dijkstra;
 
-describe("alg.dijkstra", function() {
-  it("returns 0 for the node itself", function() {
+describe('alg.dijkstra', function() {
+  it('returns 0 for the node itself', function() {
     var g = new Digraph();
     g.addNode(1);
     assert.deepEqual(dijkstra(g, 1), { 1: { distance: 0 } });
   });
 
-  it("returns Number.POSITIVE_INFINITY for unconnected nodes", function() {
+  it('returns Number.POSITIVE_INFINITY for unconnected nodes', function() {
     var g = new Digraph();
     g.addNode(1);
     g.addNode(2);
@@ -20,7 +20,7 @@ describe("alg.dijkstra", function() {
     });
   });
 
-  it("returns the distance and path from the source node to other nodes", function() {
+  it('returns the distance and path from the source node to other nodes', function() {
     var g = new Digraph();
     g.addNode(1);
     g.addNode(2);
@@ -37,7 +37,7 @@ describe("alg.dijkstra", function() {
     });
   });
 
-  it("works for undirected graphs", function() {
+  it('works for undirected graphs', function() {
     var g = new Graph();
     g.addNode(1);
     g.addNode(2);
@@ -54,7 +54,7 @@ describe("alg.dijkstra", function() {
     });
   });
 
-  it("uses an optionally supplied weight function", function() {
+  it('uses an optionally supplied weight function', function() {
     var g = new Digraph();
     g.addNode(1);
     g.addNode(2);
@@ -75,7 +75,7 @@ describe("alg.dijkstra", function() {
     });
   });
 
-  it("uses an optionally supplied incident function", function() {
+  it('uses an optionally supplied incident function', function() {
     var g = new Digraph();
     g.addNode(1);
     g.addNode(2);
@@ -93,7 +93,7 @@ describe("alg.dijkstra", function() {
     });
   });
 
-  it("throws an Error if it encounters a negative edge weight", function() {
+  it('throws an Error if it encounters a negative edge weight', function() {
     var g = new Digraph();
     g.addNode(1);
     g.addNode(2);

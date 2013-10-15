@@ -1,5 +1,5 @@
-var Digraph = require("..").Digraph;
+var Digraph = require('..').Digraph;
 
-describe("Digraph", function() {
-  require("./abstract-Digraph-test")(Digraph);
+describe('Digraph', function() {
+  require('./abstract-Digraph-test')(Digraph);
 });

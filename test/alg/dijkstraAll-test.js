@@ -1,12 +1,12 @@
-var assert = require("../assert"),
-    Digraph = require("../..").Digraph,
-    dijkstraAll = require("../..").alg.dijkstraAll,
-    allShortestPaths = require("./allShortestPaths-test");
+var assert = require('../assert'),
+    Digraph = require('../..').Digraph,
+    dijkstraAll = require('../..').alg.dijkstraAll,
+    allShortestPaths = require('./allShortestPaths-test');
 
-describe("alg.dijkstraAll", function() {
+describe('alg.dijkstraAll', function() {
   allShortestPaths(dijkstraAll);
 
-  it("throws an Error if it encounters a negative edge weight", function() {
+  it('throws an Error if it encounters a negative edge weight', function() {
     var g = new Digraph();
     g.addNode(1);
     g.addNode(2);

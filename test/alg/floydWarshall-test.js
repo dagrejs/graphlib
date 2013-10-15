@@ -1,12 +1,12 @@
-var assert = require("../assert"),
-    Digraph = require("../..").Digraph,
-    floydWarshall = require("../..").alg.floydWarshall,
-    allShortestPaths = require("./allShortestPaths-test");
+var assert = require('../assert'),
+    Digraph = require('../..').Digraph,
+    floydWarshall = require('../..').alg.floydWarshall,
+    allShortestPaths = require('./allShortestPaths-test');
 
-describe("alg.floydWarshall", function() {
+describe('alg.floydWarshall', function() {
   allShortestPaths(floydWarshall);
 
-  it("handles negative weights", function() {
+  it('handles negative weights', function() {
     var g = new Digraph();
     g.addNode(1);
     g.addNode(2);
@@ -47,7 +47,7 @@ describe("alg.floydWarshall", function() {
     });
   });
 
-  it("does include negative weight self edges", function() {
+  it('does include negative weight self edges', function() {
     var g = new Digraph();
     g.addNode(1);
     g.addEdge(null, 1, 1, -1);

@@ -1,6 +1,6 @@
-var assert = require("../assert"),
-    Graph = require("../..").Graph,
-    prim = require("../..").alg.prim;
+var assert = require('../assert'),
+    Graph = require('../..').Graph,
+    prim = require('../..').alg.prim;
 
 function edgeWeight(g) {
   return function(e) {
@@ -8,8 +8,8 @@ function edgeWeight(g) {
   };
 }
 
-describe("alg.prim", function() {
-  it("returns an empty graph for an empty input", function() {
+describe('alg.prim', function() {
+  it('returns an empty graph for an empty input', function() {
     var source = new Graph();
 
     var g = prim(source, edgeWeight(source));
@@ -17,7 +17,7 @@ describe("alg.prim", function() {
     assert.equal(g.size(), 0);
   });
 
-  it("returns a single node graph for a graph with a single node", function() {
+  it('returns a single node graph for a graph with a single node', function() {
     var source = new Graph();
     source.addNode(1);
 
@@ -26,7 +26,7 @@ describe("alg.prim", function() {
     assert.equal(g.size(), 0);
   });
 
-  it("returns a deterministic result given an optimal solution", function() {
+  it('returns a deterministic result given an optimal solution', function() {
     var source = new Graph();
     source.addNode(1);
     source.addNode(2);
@@ -48,7 +48,7 @@ describe("alg.prim", function() {
     assert.deepEqual(g.neighbors(5).sort(), [4]);
   });
 
-  it("throws an Error for unconnected graphs", function() {
+  it('throws an Error for unconnected graphs', function() {
     var source = new Graph();
     source.addNode(1);
     source.addNode(2);

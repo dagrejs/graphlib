@@ -1,25 +1,25 @@
-var assert = require("chai").assert,
-    Digraph = require("../..").Digraph,
-    Graph = require("../..").Graph;
+var assert = require('chai').assert,
+    Digraph = require('../..').Digraph,
+    Graph = require('../..').Graph;
 
 module.exports = allShortestPaths;
 
 // Mixin for testing shortest path algorithms
 function allShortestPaths(alg) {
-  it("returns 0 for the node itself", function() {
+  it('returns 0 for the node itself', function() {
     var g = new Digraph();
     g.addNode(1);
     assert.deepEqual(alg(g), { 1: { 1: { distance: 0 } }});
   });
 
-  it("does not include positive weight self edges", function() {
+  it('does not include positive weight self edges', function() {
     var g = new Digraph();
     g.addNode(1);
     g.addEdge(null, 1, 1);
     assert.deepEqual(alg(g), { 1: { 1: { distance: 0 } }});
   });
 
-  it("returns Number.POSITIVE_INFINITY for unconnected nodes", function() {
+  it('returns Number.POSITIVE_INFINITY for unconnected nodes', function() {
     var g = new Digraph();
     g.addNode(1);
     g.addNode(2);
@@ -35,7 +35,7 @@ function allShortestPaths(alg) {
     });
   });
 
-  it("returns the distance and path from all nodes to other nodes", function() {
+  it('returns the distance and path from all nodes to other nodes', function() {
     var g = new Digraph();
     g.addNode(1);
     g.addNode(2);
@@ -61,7 +61,7 @@ function allShortestPaths(alg) {
     });
   });
 
-  it("uses an optionally supplied weight function", function() {
+  it('uses an optionally supplied weight function', function() {
     var g = new Digraph();
     g.addNode(1);
     g.addNode(2);
@@ -90,7 +90,7 @@ function allShortestPaths(alg) {
     });
   });
 
-  it("finds the shortest edge with multiple edges", function() {
+  it('finds the shortest edge with multiple edges', function() {
     var g = new Digraph();
     g.addNode(1);
     g.addNode(2);
@@ -112,7 +112,7 @@ function allShortestPaths(alg) {
     });
   });
 
-  it("uses an optionally supplied incident function", function() {
+  it('uses an optionally supplied incident function', function() {
     var g = new Digraph();
     g.addNode(1);
     g.addNode(2);
@@ -139,7 +139,7 @@ function allShortestPaths(alg) {
     });
   });
 
-  it("works with undirected graphs", function() {
+  it('works with undirected graphs', function() {
     var g = new Graph();
     g.addNode(1);
     g.addNode(2);
