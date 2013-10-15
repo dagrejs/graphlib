@@ -186,6 +186,11 @@ module.exports = function(Graph) {
       assert.deepEqual(g.nodes(), [id]);
       assert.lengthOf(g.neighbors(id), 0);
     });
+
+    it('fails if the node is already in the graph', function() {
+      g.addNode('foo');
+      assert.throws(function() { g.addNode('foo'); }, /Graph already has node 'foo'/);
+    });
   });
 
   describe('delNode', function() {
@@ -272,6 +277,13 @@ module.exports = function(Graph) {
       g.addEdge('_2', 1, 2);
 
       assert.equal(g.addEdge(null, 1, 2), '_3');
+    });
+
+    it('fails if the edge is already in the graph', function() {
+      g.addNode(1);
+      g.addNode(2);
+      g.addEdge('foo', 1, 2);
+      assert.throws(function() { g.addEdge('foo', 1, 2); }, /Graph already has edge 'foo'/);
     });
   });
 
