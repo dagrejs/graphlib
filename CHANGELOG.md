@@ -1,3 +1,9 @@
+v0.5.13
+=======
+
+* Graph toString() is not longer included in error messages. In most cases its
+  excessive verbosity made it difficult to debug errors in the Chrome debugger.
+
 v0.5.12
 =======
 
