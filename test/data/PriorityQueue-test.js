@@ -1,5 +1,5 @@
 var assert = require('chai').assert,
-    PriorityQueue = require('../..').data.PriorityQueue;
+    PriorityQueue = require('../../lib/data/PriorityQueue');
 
 describe('data.PriorityQueue', function() {
   var pq;

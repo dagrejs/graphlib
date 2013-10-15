@@ -1,8 +1,11 @@
-v0.5.13
-=======
+v0.6.0
+======
 
 * Graph toString() is not longer included in error messages. In most cases its
   excessive verbosity made it difficult to debug errors in the Chrome debugger.
+* No longer expose data.Set and data.PriorityQueue from graphlib. The former is
+  now available in the `cp-set` npm module. The later can be made available in
+  a similar way if necessary.
 
 v0.5.12
 =======

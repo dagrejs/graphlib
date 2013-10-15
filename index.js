@@ -22,11 +22,6 @@ exports.converter = {
   json: require("./lib/converter/json.js")
 };
 
-exports.data = {
-  PriorityQueue: require("./lib/data/PriorityQueue"),
-  Set: require("cp-set").Set
-};
-
 var filter = require("./lib/filter");
 exports.filter = {
   all: filter.all,
