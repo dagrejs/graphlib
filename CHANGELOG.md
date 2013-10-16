@@ -1,5 +1,13 @@
+v0.7.0
+======
+
+* Remove data.PriorityQueue. Use `cp-data` to get PriorityQueue.
+* Remove usage of `cp-set`. We now use `cp-data` instead.
+
 v0.6.0
 ======
+
+*broken build* - please do not use this release.
 
 * Graph toString() is not longer included in error messages. In most cases its
   excessive verbosity made it difficult to debug errors in the Chrome debugger.
