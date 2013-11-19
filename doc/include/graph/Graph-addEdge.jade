@@ -11,3 +11,5 @@ h3(id="#{Graph}-addEdge") #{graph}.addEdge([e], u, v, [value])
     `Error` if `u` or `v` are not members of this #{graph} or if `e` is already
     a member of this #{graph}.
 
+    After the edge has been added, its value can be read and updated using
+    [#{graph}.edge(e, [value])](##{Graph}-edge).
