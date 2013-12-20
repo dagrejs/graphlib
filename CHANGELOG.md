@@ -1,3 +1,8 @@
+v0.7.1
+======
+
+* Some small perf improvements to the dijkstra algorithms.
+
 v0.7.0
 ======
 

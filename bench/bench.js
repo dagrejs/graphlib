@@ -4,7 +4,8 @@ var Graph = require('..').Graph,
     Digraph = require('..').Digraph,
     CGraph = require('..').CGraph,
     CDigraph = require('..').CDigraph,
-    nodesFromList = require('..').filter.nodesFromList;
+    nodesFromList = require('..').filter.nodesFromList,
+    dijkstraAll = require('..').alg.dijkstraAll;
 
 function runSuite(name, func) {
   var suite = new Benchmark.Suite(name);
@@ -98,6 +99,13 @@ runSuite('addDelEdge', function(suite) {
       g.addEdge('A', 0, 1);
       g.delEdge('A');
     });
+  });
+});
+
+runSuite('Algorithms', function(suite) {
+  var g = buildGraph(Digraph);
+  suite.add('dijkstraAll', function() {
+    dijkstraAll(g);
   });
 });
 

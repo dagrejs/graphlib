@@ -1,13 +1,13 @@
 {
   "name": "graphlib",
-  "version": "0.7.1-pre",
+  "version": "0.7.1",
   "description": "A directed and undirected multi-graph library",
   "main": "index.js",
   "keywords": [
     "graph",
     "algorithms"
   ],
-  "scripts": {
+  "config": {
     "blanket": {
       "pattern": "lib",
       "data-cover-never": [
@@ -17,12 +17,12 @@
     }
   },
   "dependencies": {
-    "cp-data": "1.1.0"
+    "cp-data": "1.1.1"
   },
   "devDependencies": {
     "benchmark": "~1.0.0",
     "blanket": "1.x.x",
-    "browserify": "~2.33.1",
+    "browserify": "~2.35.1",
     "chai": "1.7.x",
     "grunt": "~0.4.1",
     "grunt-browserify": "~1.2.8",
