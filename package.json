@@ -7,32 +7,16 @@
     "graph",
     "algorithms"
   ],
-  "config": {
-    "blanket": {
-      "pattern": "lib",
-      "data-cover-never": [
-        "node_modules",
-        "test"
-      ]
-    }
-  },
   "dependencies": {
     "cp-data": "1.1.2"
   },
   "devDependencies": {
     "benchmark": "~1.0.0",
-    "blanket": "1.1.6",
     "browserify": "~2.35.1",
-    "chai": "1.7.x",
-    "grunt": "~0.4.1",
-    "grunt-browserify": "~1.2.8",
-    "grunt-contrib-copy": "~0.4.1",
-    "grunt-contrib-jade": "~0.8.0",
-    "grunt-contrib-jshint": "~0.6.4",
-    "grunt-contrib-uglify": "~0.2.4",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-mocha-cov": "0.1.1",
+    "chai": "1.8.x",
     "jade": "0.35.x",
+    "jshint": "2.1.x",
+    "istanbul": "~0.1.44",
     "marked": "0.2.x",
     "mocha": "1.12.x",
     "semver": "2.1.x",
