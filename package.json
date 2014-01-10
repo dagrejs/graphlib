@@ -1,6 +1,6 @@
 {
   "name": "graphlib",
-  "version": "0.7.2-pre",
+  "version": "0.7.2",
   "description": "A directed and undirected multi-graph library",
   "main": "index.js",
   "keywords": [
@@ -17,11 +17,11 @@
     }
   },
   "dependencies": {
-    "cp-data": "1.1.1"
+    "cp-data": "1.1.2"
   },
   "devDependencies": {
     "benchmark": "~1.0.0",
-    "blanket": "1.x.x",
+    "blanket": "1.1.6",
     "browserify": "~2.35.1",
     "chai": "1.7.x",
     "grunt": "~0.4.1",
@@ -31,7 +31,7 @@
     "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-uglify": "~0.2.4",
     "grunt-contrib-watch": "~0.5.3",
-    "grunt-mocha-cov": "0.0.7",
+    "grunt-mocha-cov": "0.1.1",
     "jade": "0.35.x",
     "marked": "0.2.x",
     "mocha": "1.12.x",
