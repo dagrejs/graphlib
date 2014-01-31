@@ -8,7 +8,7 @@
     "algorithms"
   ],
   "dependencies": {
-    "cp-data": "1.1.2"
+    "cp-data": "1.1.3"
   },
   "devDependencies": {
     "benchmark": "~1.0.0",
