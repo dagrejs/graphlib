@@ -1,3 +1,8 @@
+v0.7.4
+======
+
+* Do not use object literal with null key - it breaks in IE8.
+
 v0.7.3
 ======
 
