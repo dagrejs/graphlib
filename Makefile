@@ -29,7 +29,7 @@ DOC_STATIC_OUT:=$(addprefix build/, $(DOC_STATIC))
 TEST_COV = build/coverage
 
 # Targets
-.PHONY: = all test lint release clean fullclean
+.PHONY: all test lint release clean fullclean
 
 .DELETE_ON_ERROR:
 
