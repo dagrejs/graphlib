@@ -1,95 +1,69 @@
-# Binaries we use
-NODE = node
-NPM = npm
+MOD = graphlib
 
+NPM = npm
 BROWSERIFY = ./node_modules/browserify/bin/cmd.js
 ISTANBUL = ./node_modules/istanbul/lib/cli.js
 JSHINT = ./node_modules/jshint/bin/jshint
 MOCHA = ./node_modules/mocha/bin/_mocha
 UGLIFY = ./node_modules/uglify-js/bin/uglifyjs
 
-# Options
-MOCHA_OPTS=-R spec
+BUILD_DIR = build
+DIST_DIR = dist
+COVERAGE_DIR = $(BUILD_DIR)/coverage
+DOC_DIR = $(BUILD_DIR)/doc
+DOC_STATIC_DIR = $(DOC_DIR)/static
 
-# Module def
-MODULE = graphlib
-MODULE_JS = $(MODULE).js
-MODULE_MIN_JS = $(MODULE).min.js
-
-# Various files
 SRC_FILES = index.js lib/version.js $(shell find lib -type f -name '*.js')
 TEST_FILES = $(shell find test -type f -name '*.js')
+BUILD_FILES = $(addprefix $(BUILD_DIR)/, $(MOD).js $(MOD).min.js)
 
 DOC_JADE:=$(wildcard doc/*.jade)
-DOC_JADE_OUT:=$(addprefix build/, $(DOC_JADE:.jade=.html))
+DOC_JADE_OUT:=$(addprefix $(BUILD_DIR)/, $(DOC_JADE:.jade=.html))
 
 DOC_STATIC:=$(wildcard doc/static/*)
-DOC_STATIC_OUT:=$(addprefix build/, $(DOC_STATIC))
+DOC_STATIC_OUT:=$(addprefix $(BUILD_DIR)/, $(DOC_STATIC))
 
-TEST_COV = build/coverage
+DIRS =\
+	$(BUILD_DIR) \
+	$(DOC_DIR) \
+	$(DOC_STATIC_DIR)
 
-# Targets
-.PHONY: = all test lint release clean fullclean
-
-.DELETE_ON_ERROR:
+.PHONY: all dist release clean
 
 all: dist
 
 lib/version.js: package.json
-	$(NODE) src/version.js > $@
+	src/version.js > $@
 
-build: build/$(MODULE_JS) build/$(MODULE_MIN_JS)
+$(DIRS):
+	mkdir -p $@
 
-build/$(MODULE_JS): browser.js node_modules $(SRC_FILES)
-	mkdir -p $(@D)
-	$(BROWSERIFY) $(BROWSERIFY_OPTS) $< > $@
+$(BUILD_DIR)/$(MOD).js: browser.js $(SRC_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
+	$(ISTANBUL) cover $(MOCHA) --dir $(COVERAGE_DIR) -- $(TEST_FILES) || $(MOCHA) $(TEST_FILES)
+	$(JSHINT) $(filter-out node_modules, $?)
+	$(BROWSERIFY) $< > $@
 
-build/$(MODULE_MIN_JS): build/$(MODULE_JS)
+$(BUILD_DIR)/$(MOD).min.js: $(BUILD_DIR)/$(MOD).js
 	$(UGLIFY) $(UGLIFY_OPTS) $< > $@
 
+$(DOC_JADE_OUT): $(DOC_JADE) | $(DOC_DIR)
+	src/docgen.js $^ > $@
 
-build/doc: $(DOC_JADE_OUT) $(DOC_STATIC_OUT)
+$(DOC_STATIC_OUT): $(DOC_STATIC) | $(DOC_STATIC_DIR)
+	cp -r $^ $(DOC_STATIC_DIR)
 
-$(DOC_JADE_OUT): $(DOC_JADE)
-	mkdir -p build/doc
-	$(NODE) src/docgen.js $^ > $@
-
-$(DOC_STATIC_OUT): $(DOC_STATIC)
-	mkdir -p build/doc/static
-	cp -r $^ build/doc/static
-
-dist: build/$(MODULE_JS) build/$(MODULE_MIN_JS) build/doc | test
-	rm -rf $@
-	mkdir -p $@
-	cp -r $^ dist
-
-test: $(TEST_COV) lint
-
-$(TEST_COV): $(TEST_FILES) $(SRC_FILES) node_modules
-	rm -rf $@
-	$(MOCHA) $(MOCHA_OPTS) $(TEST_FILES)
-# Instanbul instrumentation appears to mess up stack traces, so we run it after
-# ensuring the tests are passing
-	$(ISTANBUL) cover $(MOCHA) --dir $@ -- $(MOCHA_OPTS) $(TEST_FILES) >/dev/null
-
-lint: build/lint
-
-build/lint: browser.js $(SRC_FILES) $(TEST_FILES)
-	mkdir -p $(@D)
-	$(JSHINT) $?
-	touch $@
-	@echo
+dist: $(BUILD_FILES) $(DOC_JADE_OUT) $(DOC_STATIC_OUT)
+	rm -rf $(DIST_DIR)
+	mkdir -p $(DIST_DIR)
+	cp $(BUILD_FILES) $(DIST_DIR)
+	cp -r $(DOC_DIR) $(DIST_DIR)
 
 release: dist
-	src/release/release.sh $(MODULE) dist
+	src/release/release.sh $(MOD) $(DIST_DIR)
 
 clean:
-	rm -rf build dist
-
-fullclean: clean
-	rm -rf ./node_modules
-	rm -f lib/version.js
+	rm -rf $(BUILD_DIR) $(DIST_DIR)
 
 node_modules: package.json
 	$(NPM) install
-	touch node_modules
+	touch $@
