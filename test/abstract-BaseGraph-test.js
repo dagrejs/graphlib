@@ -189,7 +189,7 @@ module.exports = function(Graph) {
 
     it('fails if the node is already in the graph', function() {
       g.addNode('foo');
-      assert.throws(function() { g.addNode('foo'); }, /Graph already has node 'foo'/);
+      assert.throws(function() { g.addNode('foo'); }, /Graph already has node "foo"/);
     });
   });
 
@@ -283,7 +283,7 @@ module.exports = function(Graph) {
       g.addNode(1);
       g.addNode(2);
       g.addEdge('foo', 1, 2);
-      assert.throws(function() { g.addEdge('foo', 1, 2); }, /Graph already has edge 'foo'/);
+      assert.throws(function() { g.addEdge('foo', 1, 2); }, /Graph already has edge "foo"/);
     });
   });
 
