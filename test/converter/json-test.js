@@ -112,22 +112,22 @@ describe('converter.json', function() {
   describe('encode', function() {
     it('can encode an empty Graph', function() {
       var graph = new Graph();
-      assert.deepEqual(encode(graph), { nodes: [], edges: [], type: 'graph' });
+      assert.deepEqual(encode(graph), {nodes: [], edges: [], type: 'graph'});
     });
 
     it('can encode an empty Digraph', function() {
       var graph = new Digraph();
-      assert.deepEqual(encode(graph), { nodes: [], edges: [], type: 'digraph' });
+      assert.deepEqual(encode(graph), {nodes: [], edges: [], type: 'digraph'});
     });
 
     it('can encode an empty CGraph', function() {
       var graph = new CGraph();
-      assert.deepEqual(encode(graph), { nodes: [], edges: [], type: 'cgraph' });
+      assert.deepEqual(encode(graph), {nodes: [], edges: [], type: 'cgraph'});
     });
 
     it('can encode an empty CDigraph', function() {
       var graph = new CDigraph();
-      assert.deepEqual(encode(graph), { nodes: [], edges: [], type: 'cdigraph' });
+      assert.deepEqual(encode(graph), {nodes: [], edges: [], type: 'cdigraph'});
     });
 
     it('can encode a graph with nodes', function() {
@@ -147,7 +147,8 @@ describe('converter.json', function() {
       graph.addNode(2, {complex: true});
 
       var encoded = encode(graph);
-      assert.deepEqual(encoded.nodes.sort(idCmp), [{id: 1, value: 'test'}, {id: 2, value: {complex: true}}]);
+      assert.deepEqual(encoded.nodes.sort(idCmp),
+                       [{id: 1, value: 'test'}, {id: 2, value: {complex: true}}]);
       assert.deepEqual(encoded.edges, []);
       assert.equal(encoded.type, 'digraph');
     });
@@ -160,9 +161,11 @@ describe('converter.json', function() {
       graph.addEdge('B', 2, 1);
 
       var encoded = encode(graph);
-      assert.deepEqual(encoded.nodes.sort(idCmp), [{id: 1, value: undefined}, {id: 2, value: undefined}]);
-      assert.deepEqual(encoded.edges.sort(idCmp), [{id: 'A', u: 1, v: 2, value: undefined},
-                                                   {id: 'B', u: 2, v: 1, value: undefined}]);
+      assert.deepEqual(encoded.nodes.sort(idCmp),
+                       [{id: 1, value: undefined}, {id: 2, value: undefined}]);
+      assert.deepEqual(encoded.edges.sort(idCmp),
+                       [{id: 'A', u: 1, v: 2, value: undefined},
+                        {id: 'B', u: 2, v: 1, value: undefined}]);
       assert.equal(encoded.type, 'digraph');
 
     });
@@ -191,9 +194,10 @@ describe('converter.json', function() {
       graph.parent(2, 'sg1');
 
       var encoded = encode(graph);
-      assert.deepEqual(encoded.nodes.sort(idCmp), [{id: 1, value: undefined},
-                                                   {id: 2, value: undefined},
-                                                   {id: 'sg1', value: undefined, children: [1, 2]}]);
+      assert.deepEqual(encoded.nodes.sort(idCmp),
+                       [{id: 1, value: undefined},
+                        {id: 2, value: undefined},
+                        {id: 'sg1', value: undefined, children: [1, 2]}]);
       assert.deepEqual(encoded.edges, []);
       assert.equal(encoded.type, 'cdigraph');
     });
@@ -207,9 +211,10 @@ describe('converter.json', function() {
       graph.parent(2, 'sg1');
 
       var encoded = encode(graph);
-      assert.deepEqual(encoded.nodes.sort(idCmp), [{id: 1, value: undefined},
-                                                   {id: 2, value: undefined},
-                                                   {id: 'sg1', value: undefined, children: [1, 2]}]);
+      assert.deepEqual(encoded.nodes.sort(idCmp),
+                       [{id: 1, value: undefined},
+                        {id: 2, value: undefined},
+                        {id: 'sg1', value: undefined, children: [1, 2]}]);
       assert.deepEqual(encoded.edges, []);
       assert.equal(encoded.type, 'cgraph');
     });
@@ -279,7 +284,7 @@ describe('converter.json', function() {
 function idCmp(x, y) {
   x = x.id.toString();
   y = y.id.toString();
-  if (x > y) return 1;
-  if (x < y) return -1;
+  if (x > y) { return 1; }
+  if (x < y) { return -1; }
   return 0;
 }
