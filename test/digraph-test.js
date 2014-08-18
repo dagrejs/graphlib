@@ -170,9 +170,9 @@ describe("Digraph", function() {
 });
 
 function expectEmptyGraph(g) {
-  expect(g.nodes()).to.be.empty;
   expect(g.numNodes()).to.equal(0);
   expect(g.nodeIds()).to.be.empty;
+  expect(g.edges()).to.be.empty;
   expect(g.numEdges()).to.equal(0);
 }
 
@@ -184,6 +184,7 @@ function expectSingleNodeGraph(g, key, label) {
 }
 
 function expectSingleEdgeGraph(g, v, w, label) {
+  expect(g.edges()).to.eql([{ v: v, w: w, label: label }]);
   expect(g.getEdge(v, w)).to.equal(label);
   expect(g.hasEdge(v, w)).to.be.true;
   expect(g.numEdges()).to.equal(1);
