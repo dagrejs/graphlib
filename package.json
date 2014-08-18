@@ -1,31 +1,26 @@
 {
   "name": "graphlib",
-  "version": "0.7.5-pre",
+  "version": "2.0.0-pre",
   "description": "A directed and undirected multi-graph library",
+  "author": "Chris Pettitt <cpettitt@gmail.com>",
   "main": "index.js",
   "keywords": [
     "graph",
     "algorithms"
   ],
-  "dependencies": {
-    "cp-data": "1.1.3"
-  },
   "devDependencies": {
-    "benchmark": "~1.0.0",
-    "browserify": "~2.35.1",
-    "chai": "1.8.x",
-    "istanbul": "~0.1.44",
-    "jade": "0.35.x",
-    "jshint": "2.1.x",
-    "marked": "0.2.x",
-    "mocha": "1.12.x",
-    "semver": "2.1.x",
-    "uglify-js": "1.2.3"
+    "benchmark": "^1.0.0",
+    "browserify": "^5.10.0",
+    "chai": "^1.9.1",
+    "istanbul": "^0.3.0",
+    "jscs": "^1.5.9",
+    "jshint": "^2.5.3",
+    "mocha": "^1.21.4",
+    "uglify-js": "^2.4.15"
   },
-  "author": "Chris Pettitt <chris@samsarin.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/cpettitt/graphlib.git"
   },
-  "license": "MIT"
+  "license": "BSD"
 }
