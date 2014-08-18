@@ -21,6 +21,9 @@ DIRS = $(BUILD_DIR)
 
 all: $(BUILD_FILES)
 
+bench: all
+	src/bench.js
+
 lib/version.js: package.json
 	src/version.js > $@
 
