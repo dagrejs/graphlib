@@ -16,6 +16,7 @@
     "jscs": "^1.5.9",
     "jshint": "^2.5.3",
     "mocha": "^1.21.4",
+    "sprintf": "^0.1.4",
     "uglify-js": "^2.4.15"
   },
   "repository": {
