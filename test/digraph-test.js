@@ -268,6 +268,25 @@ describe("Digraph", function() {
       });
     });
   });
+
+  describe("copy", function() {
+    it("creates a shallow copy of the input graph", function() {
+      g.set("n1", "label");
+      g.setEdge("n2", "n3", "n2n3");
+
+      var copy = g.copy();
+      expect(copy.numNodes()).to.equal(3);
+      expect(copy.get("n1")).to.equal(g.get("n1"));
+      expect(copy.numEdges()).to.equal(1);
+      expect(copy.getEdge("n2", "n3")).to.equal(g.getEdge("n2", "n3"));
+
+      copy.set("n1", "new-label");
+      expect(g.get("n1")).to.equal("label");
+
+      copy.setEdge("n2", "n3", "new-n2n3");
+      expect(g.getEdge("n2", "n3")).to.equal("n2n3");
+    });
+  });
 });
 
 function expectEmptyGraph(g) {

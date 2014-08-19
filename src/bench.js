@@ -95,4 +95,8 @@ NODE_SIZES.forEach(function(size) {
     g.setEdge("from", "to", "label");
     g.deleteEdge("from", "to");
   });
+
+  runBenchmark("copy(" + size + "," + EDGE_DENSITY + ")", function() {
+    g.copy();
+  });
 });
