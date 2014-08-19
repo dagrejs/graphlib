@@ -5,7 +5,7 @@ var Benchmark = require("benchmark"),
 
 var Digraph = require("..").Digraph;
 
-var NODE_SIZES = [10, 100, 1000],
+var NODE_SIZES = [100],
     EDGE_DENSITY = 0.2,
     KEY_SIZE = 10;
 
@@ -68,35 +68,52 @@ NODE_SIZES.forEach(function(size) {
       nodeIds = g.nodeIds(),
       node = nodeIds[Math.floor(Math.random() * nodeIds.length)],
       edges = g.edges(),
-      edge = edges[Math.floor(Math.random() * edges.length)];
+      edge = edges[Math.floor(Math.random() * edges.length)],
+      nameSuffix = "(" + size + "," + EDGE_DENSITY + ")";
 
-  runBenchmark("set(" + size + "," + EDGE_DENSITY + ")", function() {
+  runBenchmark("set" + nameSuffix, function() {
     g.set("key", "label");
   });
 
-  runBenchmark("get(" + size + "," + EDGE_DENSITY + ")", function() {
+  runBenchmark("get" + nameSuffix, function() {
     g.get(node);
   });
 
-  runBenchmark("setDelete(" + size + "," + EDGE_DENSITY + ")", function() {
+  runBenchmark("successors" + nameSuffix, function() {
+    g.successors(node);
+  });
+
+  runBenchmark("predecessors" + nameSuffix, function() {
+    g.predecessors(node);
+  });
+
+  runBenchmark("setDelete" + nameSuffix, function() {
     g.set("key");
     g.delete("key");
   });
 
-  runBenchmark("setEdge(" + size + "," + EDGE_DENSITY + ")", function() {
+  runBenchmark("setEdge" + nameSuffix, function() {
     g.setEdge("from", "to", "label");
   });
 
-  runBenchmark("getEdge(" + size + "," + EDGE_DENSITY + ")", function() {
+  runBenchmark("getEdge" + nameSuffix, function() {
     g.getEdge(edge.v, edge.w);
   });
 
-  runBenchmark("setDeleteEdge(" + size + "," + EDGE_DENSITY + ")", function() {
+  runBenchmark("outEdges" + nameSuffix, function() {
+    g.outEdges(node);
+  });
+
+  runBenchmark("inEdges" + nameSuffix, function() {
+    g.inEdges(node);
+  });
+
+  runBenchmark("setDeleteEdge" + nameSuffix, function() {
     g.setEdge("from", "to", "label");
     g.deleteEdge("from", "to");
   });
 
-  runBenchmark("copy(" + size + "," + EDGE_DENSITY + ")", function() {
+  runBenchmark("copy" + nameSuffix, function() {
     g.copy();
   });
 });
