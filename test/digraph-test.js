@@ -245,12 +245,7 @@ describe("Digraph", function() {
           g.setEdge("n1", "n2", "n1n2");
           g.setEdge("n3", "n2", "n3n2");
           g.setEdge("n3", "n4");
-          var edges = g.inEdges("n2").sort(function(e1, e2) {
-            if (e1.v < e2.v) return -1;
-            if (e1.v > e2.v) return 1;
-            return 0;
-          });
-
+          var edges = sortEdges(g.inEdges("n2"));
           expect(edges).to.eql([{ v: "n1", w: "n2", label: "n1n2" },
                                 { v: "n3", w: "n2", label: "n3n2" }]);
         });
@@ -262,6 +257,28 @@ describe("Digraph", function() {
         it("does not allow changes to the graph through the returned edge object", function() {
           g.setEdge("n1", "n2", "label");
           var edge = g.inEdges("n2")[0];
+          edge.label = "foo";
+          expect(g.getEdge("n1", "n2")).to.equal("label");
+        });
+      });
+
+      describe("outEdges", function() {
+        it("returns the edges that start at the specified node", function() {
+          g.setEdge("n1", "n2", "n1n2");
+          g.setEdge("n1", "n3", "n1n3");
+          g.setEdge("n2", "n3", "n2n3");
+          var edges = sortEdges(g.outEdges("n1"));
+          expect(edges).to.eql([{ v: "n1", w: "n2", label: "n1n2" },
+                                { v: "n1", w: "n3", label: "n1n3" }]);
+        });
+
+        it("returns undefined if the node is not in the graph", function() {
+          expect(g.outEdges("n1")).to.be.undefined;
+        });
+
+        it("does not allow changes to the graph through the returned edge object", function() {
+          g.setEdge("n1", "n2", "label");
+          var edge = g.outEdges("n1")[0];
           edge.label = "foo";
           expect(g.getEdge("n1", "n2")).to.equal("label");
         });
@@ -308,4 +325,12 @@ function expectSingleEdgeGraph(g, v, w, label) {
   expect(g.getEdge(v, w)).to.equal(label);
   expect(g.hasEdge(v, w)).to.be.true;
   expect(g.numEdges()).to.equal(1);
+}
+
+function sortEdges(edges) {
+  return edges.sort(function(e1, e2) {
+    if (e1.v < e2.v) return -1;
+    if (e1.v > e2.v) return 1;
+    return 0;
+  });
 }
