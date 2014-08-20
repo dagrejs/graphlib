@@ -1,6 +1,6 @@
 var expect = require("./chai").expect;
 
-var Digraph = require("../lib/digraph");
+var Digraph = require("..").Digraph;
 
 describe("Digraph", function() {
   var g;
