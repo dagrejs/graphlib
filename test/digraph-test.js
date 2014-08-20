@@ -294,14 +294,20 @@ describe("Digraph", function() {
       var copy = g.copy();
       expect(copy.numNodes()).to.equal(3);
       expect(copy.get("n1")).to.equal(g.get("n1"));
-      expect(copy.numEdges()).to.equal(1);
-      expect(copy.getEdge("n2", "n3")).to.equal(g.getEdge("n2", "n3"));
-
-      copy.set("n1", "new-label");
-      expect(g.get("n1")).to.equal("label");
+      expectSingleEdgeGraph(copy, "n2", "n3", "n2n3");
 
       copy.setEdge("n2", "n3", "new-n2n3");
       expect(g.getEdge("n2", "n3")).to.equal("n2n3");
+    });
+
+    it("copies a single node graph", function() {
+      g.set("n1", "label");
+
+      var copy = g.copy();
+      expectSingleNodeGraph(g, "n1", "label");
+
+      copy.set("n1", "new-label");
+      expect(g.get("n1")).to.equal("label");
     });
   });
 });
@@ -325,6 +331,12 @@ function expectSingleEdgeGraph(g, v, w, label) {
   expect(g.getEdge(v, w)).to.equal(label);
   expect(g.hasEdge(v, w)).to.be.true;
   expect(g.numEdges()).to.equal(1);
+  if (v !== w) {
+    expect(g.sources()).to.include(v);
+    expect(g.sources()).to.not.include(w);
+    expect(g.sinks()).to.include(w);
+    expect(g.sinks()).to.not.include(v);
+  }
 }
 
 function sortEdges(edges) {
