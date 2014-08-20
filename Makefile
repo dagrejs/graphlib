@@ -8,6 +8,8 @@ JSCS = ./node_modules/jscs/bin/jscs
 MOCHA = ./node_modules/mocha/bin/_mocha
 UGLIFY = ./node_modules/uglify-js/bin/uglifyjs
 
+MOCHA_OPTS = -R dot
+
 BUILD_DIR = build
 COVERAGE_DIR = $(BUILD_DIR)/coverage
 
@@ -31,7 +33,7 @@ $(DIRS):
 	mkdir -p $@
 
 $(BUILD_DIR)/$(MOD).js: browser.js $(SRC_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
-	$(ISTANBUL) cover $(MOCHA) --dir $(COVERAGE_DIR) -- $(TEST_FILES) || $(MOCHA) $(TEST_FILES)
+	$(ISTANBUL) cover $(MOCHA) --dir $(COVERAGE_DIR) -- $(MOCHA_OPTS) $(TEST_FILES) || $(MOCHA) $(MOCHA_OPTS) $(TEST_FILES)
 	$(JSHINT) $(filter-out node_modules, $?)
 	$(JSCS) $(filter-out node_modules, $?)
 	$(BROWSERIFY) $< > $@
