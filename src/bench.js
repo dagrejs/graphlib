@@ -71,6 +71,10 @@ NODE_SIZES.forEach(function(size) {
       edge = edges[Math.floor(Math.random() * edges.length)],
       nameSuffix = "(" + size + "," + EDGE_DENSITY + ")";
 
+  runBenchmark("nodeIds" + nameSuffix, function() {
+    g.nodeIds();
+  });
+
   runBenchmark("set" + nameSuffix, function() {
     g.set("key", "label");
   });
@@ -87,9 +91,17 @@ NODE_SIZES.forEach(function(size) {
     g.predecessors(node);
   });
 
+  runBenchmark("neighbors" + nameSuffix, function() {
+    g.neighbors(node);
+  });
+
   runBenchmark("setDelete" + nameSuffix, function() {
     g.set("key");
     g.delete("key");
+  });
+
+  runBenchmark("edges" + nameSuffix, function() {
+    g.edges();
   });
 
   runBenchmark("setEdge" + nameSuffix, function() {
