@@ -65,22 +65,22 @@ runBenchmark("constructor", function () { new Digraph(); });
 
 NODE_SIZES.forEach(function(size) {
   var g = buildGraph(size, EDGE_DENSITY),
-      nodeIds = g.nodeIds(),
+      nodeIds = g.graphNodeIds(),
       node = nodeIds[Math.floor(Math.random() * nodeIds.length)],
-      edges = g.edges(),
+      edges = g.graphEdges(),
       edge = edges[Math.floor(Math.random() * edges.length)],
       nameSuffix = "(" + size + "," + EDGE_DENSITY + ")";
 
-  runBenchmark("nodeIds" + nameSuffix, function() {
-    g.nodeIds();
+  runBenchmark("graphNodeIds" + nameSuffix, function() {
+    g.graphNodeIds();
   });
 
-  runBenchmark("sources" + nameSuffix, function() {
-    g.sources();
+  runBenchmark("graphSources" + nameSuffix, function() {
+    g.graphSources();
   });
 
-  runBenchmark("sinks" + nameSuffix, function() {
-    g.sinks();
+  runBenchmark("graphSinks" + nameSuffix, function() {
+    g.graphSinks();
   });
 
   runBenchmark("set" + nameSuffix, function() {
@@ -108,8 +108,8 @@ NODE_SIZES.forEach(function(size) {
     g.remove("key");
   });
 
-  runBenchmark("edges" + nameSuffix, function() {
-    g.edges();
+  runBenchmark("graphEdges" + nameSuffix, function() {
+    g.graphEdges();
   });
 
   runBenchmark("setEdge" + nameSuffix, function() {
