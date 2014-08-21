@@ -29,5 +29,6 @@
  */
 module.exports = {
   Digraph: require("./lib/digraph"),
+  Graph: require("./lib/graph"),
   version: require("./lib/version")
 };
