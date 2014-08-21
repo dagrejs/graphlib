@@ -119,13 +119,13 @@ describe("nodeBehavior", function() {
 });
 
 function expectEmptyGraph(g) {
-  expect(g.nodeIds()).to.be.empty;
-  expect(g.numNodes()).to.equal(0);
+  expect(g.graphNodeIds()).to.be.empty;
+  expect(g.graphNodeCount()).to.equal(0);
 }
 
 function expectSingleNodeGraph(g, key, label) {
   expect(g.get(key)).to.equal(label);
   expect(g.has(key)).to.be.true;
-  expect(g.nodeIds()).to.include(key);
-  expect(g.numNodes()).to.equal(1);
+  expect(g.graphNodeIds()).to.include(key);
+  expect(g.graphNodeCount()).to.equal(1);
 }
