@@ -1,4 +1,5 @@
-var expect = require("./chai").expect;
+var _ = require("lodash"),
+    expect = require("./chai").expect;
 
 exports.tests = function(GraphConstructor) {
   if (!GraphConstructor) {
@@ -172,6 +173,31 @@ exports.tests = function(GraphConstructor) {
       it("does not allow changes through the returned edge object", function() {
         g.setEdge("n1", "n2", "label");
         var edge = g.outEdges("n1")[0];
+        edge.label = "foo";
+        expect(g.getEdge("n1", "n2")).to.equal("label");
+      });
+    });
+
+    describe("edges", function() {
+      it("returns the edges incident on a node", function() {
+        g.setEdge("n1", "n1", "l1");
+        g.setEdge("n1", "n2", "l2");
+        g.setEdge("n2", "n3", "l3");
+        g.setEdge("n3", "n1", "l4");
+
+        var result = _.sortBy(g.edges("n1"), ["v", "w"]);
+        expect(result).to.eql([{ v: "n1", w: "n1", label: "l1" },
+                               { v: "n1", w: "n2", label: "l2" },
+                               { v: "n3", w: "n1", label: "l4" }]);
+      });
+
+      it("returns undefined if the node is not in the graph", function() {
+        expect(g.edges("node-not-in-graph")).to.be.undefined;
+      });
+
+      it("does not allow changes through the returned edge object", function() {
+        g.setEdge("n1", "n2", "label");
+        var edge = g.edges("n1")[0];
         edge.label = "foo";
         expect(g.getEdge("n1", "n2")).to.equal("label");
       });

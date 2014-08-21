@@ -128,6 +128,10 @@ NODE_SIZES.forEach(function(size) {
     g.inEdges(node);
   });
 
+  runBenchmark("edges" + nameSuffix, function() {
+    g.edges(node);
+  });
+
   runBenchmark("setRemoveEdge" + nameSuffix, function() {
     g.setEdge("from", "to", "label");
     g.removeEdge("from", "to");
