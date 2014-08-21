@@ -1,12 +1,12 @@
 var expect = require("./chai").expect;
 
-var Digraph = require("..").Digraph;
+var Graph = require("..").Graph;
 
-describe("Digraph", function() {
+describe("Graph", function() {
   var g;
 
   beforeEach(function() {
-    g = new Digraph();
+    g = new Graph();
   });
 
   describe("constructor", function() {
@@ -20,15 +20,7 @@ describe("Digraph", function() {
   });
 
   describe("remove", function() {
-    it("removes any in edges", function() {
-      g.setEdge("n1", "n2");
-      g.remove("n2");
-      expect(g.hasEdge("n1", "n2")).to.be.false;
-      expect(g.numEdges()).to.equal(0);
-      expectSingleNodeGraph(g, "n1", undefined);
-    });
-
-    it("removes any out edges", function() {
+    it("removes any incident edges", function() {
       g.setEdge("n1", "n2");
       g.remove("n1");
       expect(g.hasEdge("n1", "n2")).to.be.false;
@@ -43,34 +35,6 @@ describe("Digraph", function() {
     });
   });
 
-  describe("successors", function() {
-    it("returns the successors of a node", function() {
-      g.setEdge("n1", "n1");
-      g.setEdge("n1", "n2");
-      g.setEdge("n2", "n3");
-      g.setEdge("n3", "n1");
-      expect(g.successors("n1").sort()).to.eql(["n1", "n2"]);
-    });
-
-    it("returns undefined if the node is not in the graph", function() {
-      expect(g.successors("n1")).to.be.undefined;
-    });
-  });
-
-  describe("predecessors", function() {
-    it("returns the predecessors of a node", function() {
-      g.setEdge("n1", "n1");
-      g.setEdge("n1", "n2");
-      g.setEdge("n2", "n3");
-      g.setEdge("n3", "n1");
-      expect(g.predecessors("n1").sort()).to.eql(["n1", "n3"]);
-    });
-
-    it("returns undefined if the node is not in the graph", function() {
-      expect(g.predecessors("n1")).to.be.undefined;
-    });
-  });
-
   describe("neighbors", function() {
     it("returns the neighbors of a node", function() {
       g.setEdge("n1", "n1");
@@ -82,70 +46,6 @@ describe("Digraph", function() {
 
     it("returns undefined if the node is not in the graph", function() {
       expect(g.neighbors("n1")).to.be.undefined;
-    });
-  });
-
-  describe("inEdges", function() {
-    it("returns the edges that point at the specified node", function() {
-      g.setEdge("n1", "n2", "n1n2");
-      g.setEdge("n3", "n2", "n3n2");
-      g.setEdge("n3", "n4");
-      var edges = sortEdges(g.inEdges("n2"));
-      expect(edges).to.eql([{ v: "n1", w: "n2", label: "n1n2" },
-                            { v: "n3", w: "n2", label: "n3n2" }]);
-    });
-
-    it("returns undefined if the node is not in the graph", function() {
-      expect(g.inEdges("n1")).to.be.undefined;
-    });
-
-    it("does not allow changes to the graph through the returned edge object", function() {
-      g.setEdge("n1", "n2", "label");
-      var edge = g.inEdges("n2")[0];
-      edge.label = "foo";
-      expect(g.getEdge("n1", "n2")).to.equal("label");
-    });
-  });
-
-  describe("outEdges", function() {
-    it("returns the edges that start at the specified node", function() {
-      g.setEdge("n1", "n2", "n1n2");
-      g.setEdge("n1", "n3", "n1n3");
-      g.setEdge("n2", "n3", "n2n3");
-      var edges = sortEdges(g.outEdges("n1"));
-      expect(edges).to.eql([{ v: "n1", w: "n2", label: "n1n2" },
-                            { v: "n1", w: "n3", label: "n1n3" }]);
-    });
-
-    it("returns undefined if the node is not in the graph", function() {
-      expect(g.outEdges("n1")).to.be.undefined;
-    });
-
-    it("does not allow changes to the graph through the returned edge object", function() {
-      g.setEdge("n1", "n2", "label");
-      var edge = g.outEdges("n1")[0];
-      edge.label = "foo";
-      expect(g.getEdge("n1", "n2")).to.equal("label");
-    });
-  });
-
-  describe("sources", function() {
-    it("returns the nodes in the graph with no in edges", function() {
-      g.setEdge("n1", "n2");
-      g.setEdge("n2", "n3");
-      g.setEdge("n4", "n3");
-      g.set("n5");
-      expect(g.sources().sort()).to.eql(["n1", "n4", "n5"]);
-    });
-  });
-
-  describe("sinks", function() {
-    it("returns the nodes in the graph with no out edges", function() {
-      g.setEdge("n1", "n2");
-      g.setEdge("n3", "n2");
-      g.setEdge("n3", "n4");
-      g.set("n5");
-      expect(g.sinks().sort()).to.eql(["n2", "n4", "n5"]);
     });
   });
 
@@ -260,18 +160,4 @@ function expectSingleEdgeGraph(g, v, w, label) {
   expect(g.getEdge(v, w)).to.equal(label);
   expect(g.hasEdge(v, w)).to.be.true;
   expect(g.numEdges()).to.equal(1);
-  if (v !== w) {
-    expect(g.sources()).to.include(v);
-    expect(g.sources()).to.not.include(w);
-    expect(g.sinks()).to.include(w);
-    expect(g.sinks()).to.not.include(v);
-  }
-}
-
-function sortEdges(edges) {
-  return edges.sort(function(e1, e2) {
-    if (e1.v < e2.v) return -1;
-    if (e1.v > e2.v) return 1;
-    return 0;
-  });
 }
