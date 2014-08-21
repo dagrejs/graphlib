@@ -24,14 +24,14 @@ describe("Graph", function() {
       g.setEdge("n1", "n2");
       g.remove("n1");
       expect(g.hasEdge("n1", "n2")).to.be.false;
-      expect(g.numEdges()).to.equal(0);
+      expect(g.graphEdgeCount()).to.equal(0);
       expectSingleNodeGraph(g, "n2", undefined);
     });
 
     it("decrements edge count once when deleting a self-loop", function() {
       g.setEdge("n1", "n1");
       g.remove("n1");
-      expect(g.numEdges()).to.equal(0);
+      expect(g.graphEdgeCount()).to.equal(0);
     });
   });
 
@@ -106,7 +106,7 @@ describe("Graph", function() {
       g.setEdge("n1", "n2");
       g.removeEdge("n1", "n2");
       expect(g.hasEdge("n1", "n2")).to.be.false;
-      expect(g.numEdges()).to.equal(0);
+      expect(g.graphEdgeCount()).to.equal(0);
     });
 
     it("is chainable", function() {
@@ -121,7 +121,7 @@ describe("Graph", function() {
       g.setEdge("n2", "n3", "n2n3");
 
       var copy = g.copy();
-      expect(copy.numNodes()).to.equal(3);
+      expect(copy.graphNodeCount()).to.equal(3);
       expect(copy.get("n1")).to.equal(g.get("n1"));
       expectSingleEdgeGraph(copy, "n2", "n3", "n2n3");
 
@@ -142,22 +142,22 @@ describe("Graph", function() {
 });
 
 function expectEmptyGraph(g) {
-  expect(g.nodeIds()).to.be.empty;
-  expect(g.numNodes()).to.equal(0);
+  expect(g.graphNodeIds()).to.be.empty;
+  expect(g.graphNodeCount()).to.equal(0);
   expect(g.edges()).to.be.empty;
-  expect(g.numEdges()).to.equal(0);
+  expect(g.graphEdgeCount()).to.equal(0);
 }
 
 function expectSingleNodeGraph(g, key, label) {
-  expect(g.nodeIds()).to.include(key);
+  expect(g.graphNodeIds()).to.include(key);
   expect(g.get(key)).to.equal(label);
   expect(g.has(key)).to.be.true;
-  expect(g.numNodes()).to.equal(1);
+  expect(g.graphNodeCount()).to.equal(1);
 }
 
 function expectSingleEdgeGraph(g, v, w, label) {
   expect(g.edges()).to.eql([{ v: v, w: w, label: label }]);
   expect(g.getEdge(v, w)).to.equal(label);
   expect(g.hasEdge(v, w)).to.be.true;
-  expect(g.numEdges()).to.equal(1);
+  expect(g.graphEdgeCount()).to.equal(1);
 }

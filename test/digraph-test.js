@@ -24,7 +24,7 @@ describe("Digraph", function() {
       g.setEdge("n1", "n2");
       g.remove("n2");
       expect(g.hasEdge("n1", "n2")).to.be.false;
-      expect(g.numEdges()).to.equal(0);
+      expect(g.graphEdgeCount()).to.equal(0);
       expectSingleNodeGraph(g, "n1", undefined);
     });
 
@@ -32,14 +32,14 @@ describe("Digraph", function() {
       g.setEdge("n1", "n2");
       g.remove("n1");
       expect(g.hasEdge("n1", "n2")).to.be.false;
-      expect(g.numEdges()).to.equal(0);
+      expect(g.graphEdgeCount()).to.equal(0);
       expectSingleNodeGraph(g, "n2", undefined);
     });
 
     it("decrements edge count once when deleting a self-loop", function() {
       g.setEdge("n1", "n1");
       g.remove("n1");
-      expect(g.numEdges()).to.equal(0);
+      expect(g.graphEdgeCount()).to.equal(0);
     });
   });
 
@@ -129,23 +129,23 @@ describe("Digraph", function() {
     });
   });
 
-  describe("sources", function() {
+  describe("graphSources", function() {
     it("returns the nodes in the graph with no in edges", function() {
       g.setEdge("n1", "n2");
       g.setEdge("n2", "n3");
       g.setEdge("n4", "n3");
       g.set("n5");
-      expect(g.sources().sort()).to.eql(["n1", "n4", "n5"]);
+      expect(g.graphSources().sort()).to.eql(["n1", "n4", "n5"]);
     });
   });
 
-  describe("sinks", function() {
+  describe("graphSinks", function() {
     it("returns the nodes in the graph with no out edges", function() {
       g.setEdge("n1", "n2");
       g.setEdge("n3", "n2");
       g.setEdge("n3", "n4");
       g.set("n5");
-      expect(g.sinks().sort()).to.eql(["n2", "n4", "n5"]);
+      expect(g.graphSinks().sort()).to.eql(["n2", "n4", "n5"]);
     });
   });
 
@@ -206,7 +206,7 @@ describe("Digraph", function() {
       g.setEdge("n1", "n2");
       g.removeEdge("n1", "n2");
       expect(g.hasEdge("n1", "n2")).to.be.false;
-      expect(g.numEdges()).to.equal(0);
+      expect(g.graphEdgeCount()).to.equal(0);
     });
 
     it("is chainable", function() {
@@ -221,7 +221,7 @@ describe("Digraph", function() {
       g.setEdge("n2", "n3", "n2n3");
 
       var copy = g.copy();
-      expect(copy.numNodes()).to.equal(3);
+      expect(copy.graphNodeCount()).to.equal(3);
       expect(copy.get("n1")).to.equal(g.get("n1"));
       expectSingleEdgeGraph(copy, "n2", "n3", "n2n3");
 
@@ -242,29 +242,29 @@ describe("Digraph", function() {
 });
 
 function expectEmptyGraph(g) {
-  expect(g.nodeIds()).to.be.empty;
-  expect(g.numNodes()).to.equal(0);
-  expect(g.edges()).to.be.empty;
-  expect(g.numEdges()).to.equal(0);
+  expect(g.graphNodeIds()).to.be.empty;
+  expect(g.graphNodeCount()).to.equal(0);
+  expect(g.graphEdges()).to.be.empty;
+  expect(g.graphEdgeCount()).to.equal(0);
 }
 
 function expectSingleNodeGraph(g, key, label) {
-  expect(g.nodeIds()).to.include(key);
+  expect(g.graphNodeIds()).to.include(key);
   expect(g.get(key)).to.equal(label);
   expect(g.has(key)).to.be.true;
-  expect(g.numNodes()).to.equal(1);
+  expect(g.graphNodeCount()).to.equal(1);
 }
 
 function expectSingleEdgeGraph(g, v, w, label) {
-  expect(g.edges()).to.eql([{ v: v, w: w, label: label }]);
+  expect(g.graphEdges()).to.eql([{ v: v, w: w, label: label }]);
   expect(g.getEdge(v, w)).to.equal(label);
   expect(g.hasEdge(v, w)).to.be.true;
-  expect(g.numEdges()).to.equal(1);
+  expect(g.graphEdgeCount()).to.equal(1);
   if (v !== w) {
-    expect(g.sources()).to.include(v);
-    expect(g.sources()).to.not.include(w);
-    expect(g.sinks()).to.include(w);
-    expect(g.sinks()).to.not.include(v);
+    expect(g.graphSources()).to.include(v);
+    expect(g.graphSources()).to.not.include(w);
+    expect(g.graphSinks()).to.include(w);
+    expect(g.graphSinks()).to.not.include(v);
   }
 }
 
