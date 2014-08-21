@@ -8,6 +8,9 @@
     "graph",
     "algorithms"
   ],
+  "dependencies": {
+    "lodash": "^2.4.1"
+  },
   "devDependencies": {
     "benchmark": "^1.0.0",
     "browserify": "^5.10.0",
@@ -23,8 +26,5 @@
     "type": "git",
     "url": "https://github.com/cpettitt/graphlib.git"
   },
-  "license": "BSD",
-  "dependencies": {
-    "lodash": "^2.4.1"
-  }
+  "license": "BSD"
 }
