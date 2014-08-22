@@ -33,7 +33,8 @@ module.exports = {
 
   alg: {
     dijkstra: require("./lib/alg/dijkstra"),
-    dijkstraAll: require("./lib/alg/dijkstra-all")
+    dijkstraAll: require("./lib/alg/dijkstra-all"),
+    topsort: require("./lib/alg/topsort")
   },
 
   util: require("./lib/util"),
