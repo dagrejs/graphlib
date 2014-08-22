@@ -33,20 +33,29 @@ exports.tests = function(GraphConstructor) {
 
     describe("set", function() {
       it("creates the node if it isn't part of the graph", function() {
-        var added;
-        g._onAddNode = function(v) { added = v; };
         g.set("key", "label");
         expectSingleNodeGraph(g, "key", "label");
-        expect(added).to.equal("key");
       });
 
       it("replaces the node's value if it is part of the graph", function() {
-        var added;
         g.set("key", "old");
-        g._onAddNode = function(v) { added = v; };
         g.set("key", "new");
         expectSingleNodeGraph(g, "key", "new");
-        expect(added).to.be.undefined;
+      });
+
+      it("coerces the node's id to a string", function() {
+        g.set(1);
+        expect(g.graphNodeIds()).to.eql(["1"]);
+      });
+
+      it("preserves the label's type", function() {
+        g.set("bool", false);
+        g.set("number", 1234);
+        g.set("object", { foo: "bar" });
+
+        expect(g.get("bool")).to.be.false;
+        expect(g.get("number")).to.equal(1234);
+        expect(g.get("object")).to.eql({ foo: "bar" });
       });
 
       it("defaults the label to undefined", function() {
@@ -222,6 +231,21 @@ exports.tests = function(GraphConstructor) {
         g.setEdge("n1", "n2", "old");
         g.setEdge("n1", "n2", "new");
         expectSingleEdgeGraph(g, "n1", "n2", "new");
+      });
+
+      it("coerces the edge's node ids to strings", function() {
+        g.setEdge(1, 2);
+        expect(g.graphEdges()).to.eql([{ v: "1", w: "2", label: undefined }]);
+      });
+
+      it("preserves the label's type", function() {
+        g.setEdge("a", "bool", false);
+        g.setEdge("a", "number", 1234);
+        g.setEdge("an", "object", { foo: "bar" });
+
+        expect(g.getEdge("a", "bool")).to.be.false;
+        expect(g.getEdge("a", "number")).to.equal(1234);
+        expect(g.getEdge("an", "object")).to.eql({ foo: "bar" });
       });
 
       it("is chainable", function() {
