@@ -4,7 +4,7 @@ var Benchmark = require("benchmark"),
     sprintf = require("sprintf").sprintf;
 
 var Digraph = require("..").Digraph,
-    dijkstraAll = require("..").alg.dijkstraAll;
+    alg = require("..").alg;
 
 var NODE_SIZES = [100],
     EDGE_DENSITY = 0.2,
@@ -138,8 +138,12 @@ NODE_SIZES.forEach(function(size) {
     g.removeEdge("from", "to");
   });
 
+  runBenchmark("components" + nameSuffix, function() {
+    alg.components(g);
+  });
+
   runBenchmark("dijkstraAll" + nameSuffix, function() {
-    dijkstraAll(g);
+    alg.dijkstraAll(g);
   });
 
   runBenchmark("copy" + nameSuffix, function() {
