@@ -32,8 +32,10 @@ module.exports = {
   Graph: require("./lib/graph"),
 
   alg: {
-    dijkstra: require("./lib/alg/dijkstra")
+    dijkstra: require("./lib/alg/dijkstra"),
+    dijkstraAll: require("./lib/alg/dijkstra-all")
   },
 
+  util: require("./lib/util"),
   version: require("./lib/version")
 };

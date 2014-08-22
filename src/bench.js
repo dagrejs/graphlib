@@ -3,7 +3,8 @@
 var Benchmark = require("benchmark"),
     sprintf = require("sprintf").sprintf;
 
-var Digraph = require("..").Digraph;
+var Digraph = require("..").Digraph,
+    dijkstraAll = require("..").alg.dijkstraAll;
 
 var NODE_SIZES = [100],
     EDGE_DENSITY = 0.2,
@@ -135,6 +136,10 @@ NODE_SIZES.forEach(function(size) {
   runBenchmark("setRemoveEdge" + nameSuffix, function() {
     g.setEdge("from", "to", "label");
     g.removeEdge("from", "to");
+  });
+
+  runBenchmark("dijkstraAll" + nameSuffix, function() {
+    dijkstraAll(g);
   });
 
   runBenchmark("copy" + nameSuffix, function() {

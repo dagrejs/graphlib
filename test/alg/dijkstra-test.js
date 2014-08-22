@@ -1,7 +1,8 @@
-var expect = require("chai").expect;
+var expect = require("../chai").expect;
 
 var Digraph = require("../..").Digraph,
     Graph = require("../..").Graph,
+    util = require("../..").util,
     dijkstra = require("../..").alg.dijkstra;
 
 describe("alg.dijkstra", function() {
@@ -54,7 +55,7 @@ describe("alg.dijkstra", function() {
     g.setEdge("b", "d", 3);
     g.setEdge("c", "d", 3);
 
-    expect(dijkstra(g, "a", dijkstra.LABEL_WEIGHT_FUNC)).to.eql({
+    expect(dijkstra(g, "a", util.LABEL_WEIGHT_FUNC)).to.eql({
       a: { distance: 0 },
       b: { distance: 1, predecessor: "a" },
       c: { distance: 2, predecessor: "a" },
@@ -83,6 +84,6 @@ describe("alg.dijkstra", function() {
     g.setEdge("b", "d", 3);
     g.setEdge("c", "d", 3);
 
-    expect(function() { dijkstra(g, "a", dijkstra.LABEL_WEIGHT_FUNC); }).to.throw();
+    expect(function() { dijkstra(g, "a", util.LABEL_WEIGHT_FUNC); }).to.throw();
   });
 });
