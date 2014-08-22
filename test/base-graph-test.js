@@ -45,7 +45,7 @@ exports.tests = function(GraphConstructor) {
 
       it("coerces the node's id to a string", function() {
         g.set(1);
-        expect(g.graphNodeIds()).to.eql(["1"]);
+        expect(g.nodeIds()).to.eql(["1"]);
       });
 
       it("preserves the label's type", function() {
@@ -111,7 +111,7 @@ exports.tests = function(GraphConstructor) {
         g.setEdge("n1", "n2");
         g.remove("n2");
         expect(g.hasEdge("n1", "n2")).to.be.false;
-        expect(g.graphEdgeCount).to.equal(0);
+        expect(g.edgeCount()).to.equal(0);
         expectSingleNodeGraph(g, "n1", undefined);
       });
 
@@ -119,14 +119,14 @@ exports.tests = function(GraphConstructor) {
         g.setEdge("n1", "n2");
         g.remove("n1");
         expect(g.hasEdge("n1", "n2")).to.be.false;
-        expect(g.graphEdgeCount).to.equal(0);
+        expect(g.edgeCount()).to.equal(0);
         expectSingleNodeGraph(g, "n2", undefined);
       });
 
       it("decrements edge count once when deleting a self-loop", function() {
         g.setEdge("n1", "n1");
         g.remove("n1");
-        expect(g.graphEdgeCount).to.equal(0);
+        expect(g.edgeCount()).to.equal(0);
       });
 
       it("is chainable", function() {
@@ -187,26 +187,26 @@ exports.tests = function(GraphConstructor) {
       });
     });
 
-    describe("edges", function() {
+    describe("nodeEdges", function() {
       it("returns the edges incident on a node", function() {
         g.setEdge("n1", "n1", "l1");
         g.setEdge("n1", "n2", "l2");
         g.setEdge("n2", "n3", "l3");
         g.setEdge("n3", "n1", "l4");
 
-        var result = _.sortBy(g.edges("n1"), ["v", "w"]);
+        var result = _.sortBy(g.nodeEdges("n1"), ["v", "w"]);
         expect(result).to.eql([{ v: "n1", w: "n1", label: "l1" },
                                { v: "n1", w: "n2", label: "l2" },
                                { v: "n3", w: "n1", label: "l4" }]);
       });
 
       it("returns undefined if the node is not in the graph", function() {
-        expect(g.edges("node-not-in-graph")).to.be.undefined;
+        expect(g.nodeEdges("node-not-in-graph")).to.be.undefined;
       });
 
       it("does not allow changes through the returned edge object", function() {
         g.setEdge("n1", "n2", "label");
-        var edge = g.edges("n1")[0];
+        var edge = g.nodeEdges("n1")[0];
         edge.label = "foo";
         expect(g.getEdge("n1", "n2")).to.equal("label");
       });
@@ -235,7 +235,7 @@ exports.tests = function(GraphConstructor) {
 
       it("coerces the edge's node ids to strings", function() {
         g.setEdge(1, 2);
-        expect(g.graphEdges()).to.eql([{ v: "1", w: "2" }]);
+        expect(g.edges()).to.eql([{ v: "1", w: "2" }]);
       });
 
       it("preserves the label's type", function() {
@@ -279,23 +279,23 @@ exports.tests = function(GraphConstructor) {
         g.set("n1");
         g.set("n2");
         g.removeEdge("n1", "n2");
-        expect(g.graphEdgeCount).to.equal(0);
-        expect(g.graphNodeCount).to.equal(2);
+        expect(g.edgeCount()).to.equal(0);
+        expect(g.nodeCount()).to.equal(2);
 
         g.removeEdge("n2", "n3");
-        expect(g.graphEdgeCount).to.equal(0);
-        expect(g.graphNodeCount).to.equal(2);
+        expect(g.edgeCount()).to.equal(0);
+        expect(g.nodeCount()).to.equal(2);
 
         g.removeEdge("n3", "n1");
-        expect(g.graphEdgeCount).to.equal(0);
-        expect(g.graphNodeCount).to.equal(2);
+        expect(g.edgeCount()).to.equal(0);
+        expect(g.nodeCount()).to.equal(2);
       });
 
       it("removes the edge if it is in the graph", function() {
         g.setEdge("n1", "n2");
         g.removeEdge("n1", "n2");
         expect(g.hasEdge("n1", "n2")).to.be.false;
-        expect(g.graphEdgeCount).to.equal(0);
+        expect(g.edgeCount()).to.equal(0);
       });
 
       it("doesn't remove other edges incident on the nodes", function() {
@@ -304,7 +304,7 @@ exports.tests = function(GraphConstructor) {
         g.setEdge("n3", "n1");
         g.removeEdge("n1", "n2");
         expect(g.hasEdge("n1", "n2")).to.be.false;
-        expect(g.graphEdgeCount).to.equal(2);
+        expect(g.edgeCount()).to.equal(2);
       });
 
       it("is chainable", function() {
@@ -329,25 +329,25 @@ exports.tests = function(GraphConstructor) {
 };
 
 function expectEmptyGraph(g) {
-  expect(g.graphNodeIds()).to.be.empty;
-  expect(g.graphNodeCount).to.equal(0);
-  expect(g.graphEdges()).to.be.empty;
-  expect(g.graphEdgeCount).to.equal(0);
+  expect(g.nodeIds()).to.be.empty;
+  expect(g.nodeCount()).to.equal(0);
+  expect(g.edges()).to.be.empty;
+  expect(g.edgeCount()).to.equal(0);
 }
 exports.expectEmptyGraph = expectEmptyGraph;
 
 function expectSingleNodeGraph(g, key, label) {
   expect(g.get(key)).to.equal(label);
   expect(g.has(key)).to.be.true;
-  expect(g.graphNodeIds()).to.include(key);
-  expect(g.graphNodeCount).to.equal(1);
+  expect(g.nodeIds()).to.include(key);
+  expect(g.nodeCount()).to.equal(1);
 }
 exports.expectSingleNodeGraph = expectSingleNodeGraph;
 
 function expectSingleEdgeGraph(g, v, w, label) {
-  expect(g.graphEdges().length).to.equal(1);
+  expect(g.edges().length).to.equal(1);
   expect(g.getEdge(v, w)).to.equal(label);
   expect(g.hasEdge(v, w)).to.be.true;
-  expect(g.graphEdgeCount).to.equal(1);
+  expect(g.edgeCount()).to.equal(1);
 }
 exports.expectSingleEdgeGraph = expectSingleEdgeGraph;

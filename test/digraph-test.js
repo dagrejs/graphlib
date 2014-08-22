@@ -13,41 +13,41 @@ describe("Digraph", function() {
   // Inject base graph tests
   baseGraphTest.tests(Digraph);
 
-  describe("graphSources", function() {
+  describe("sources", function() {
     it("returns the nodes in the graph with no in edges", function() {
       g.setEdge("n1", "n2");
       g.setEdge("n2", "n3");
       g.setEdge("n4", "n3");
       g.set("n5");
-      expect(g.graphSources().sort()).to.eql(["n1", "n4", "n5"]);
+      expect(g.sources().sort()).to.eql(["n1", "n4", "n5"]);
     });
 
     it("recognizes a new source when in-edges are removed", function() {
       g.setEdge("n1", "n1");
       g.setEdge("n1", "n2");
-      expect(g.graphSources()).to.be.empty;
+      expect(g.sources()).to.be.empty;
 
       g.removeEdge("n1", "n2");
-      expect(g.graphSources()).to.eql(["n2"]);
+      expect(g.sources()).to.eql(["n2"]);
     });
   });
 
-  describe("graphSinks", function() {
+  describe("sinks", function() {
     it("returns the nodes in the graph with no out edges", function() {
       g.setEdge("n1", "n2");
       g.setEdge("n3", "n2");
       g.setEdge("n3", "n4");
       g.set("n5");
-      expect(g.graphSinks().sort()).to.eql(["n2", "n4", "n5"]);
+      expect(g.sinks().sort()).to.eql(["n2", "n4", "n5"]);
     });
 
     it("recognizes a new sink when out-edges are removed", function() {
       g.setEdge("n2", "n2");
       g.setEdge("n1", "n2");
-      expect(g.graphSinks()).to.be.empty;
+      expect(g.sinks()).to.be.empty;
 
       g.removeEdge("n1", "n2");
-      expect(g.graphSinks()).to.eql(["n1"]);
+      expect(g.sinks()).to.eql(["n1"]);
     });
   });
 
@@ -99,7 +99,7 @@ describe("Digraph", function() {
       g.setEdge("n2", "n3", "n2n3");
 
       var copy = g.copy();
-      expect(copy.graphNodeCount).to.equal(3);
+      expect(copy.nodeCount()).to.equal(3);
       expect(copy.get("n1")).to.equal(g.get("n1"));
       expectSingleEdgeGraph(copy, "n2", "n3", "n2n3");
 
@@ -120,15 +120,15 @@ describe("Digraph", function() {
 });
 
 function expectSingleEdgeGraph(g, v, w, label) {
-  expect(g.graphEdges()).to.eql([{ v: v, w: w, label: label }]);
+  expect(g.edges()).to.eql([{ v: v, w: w, label: label }]);
   expect(g.getEdge(v, w)).to.equal(label);
   expect(g.hasEdge(v, w)).to.be.true;
-  expect(g.graphEdgeCount).to.equal(1);
+  expect(g.edgeCount()).to.equal(1);
   if (v !== w) {
-    expect(g.graphSources()).to.include(v);
-    expect(g.graphSources()).to.not.include(w);
-    expect(g.graphSinks()).to.include(w);
-    expect(g.graphSinks()).to.not.include(v);
+    expect(g.sources()).to.include(v);
+    expect(g.sources()).to.not.include(w);
+    expect(g.sinks()).to.include(w);
+    expect(g.sinks()).to.not.include(v);
   }
 }
 
