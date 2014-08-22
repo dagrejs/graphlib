@@ -235,7 +235,7 @@ exports.tests = function(GraphConstructor) {
 
       it("coerces the edge's node ids to strings", function() {
         g.setEdge(1, 2);
-        expect(g.graphEdges()).to.eql([{ v: "1", w: "2", label: undefined }]);
+        expect(g.graphEdges()).to.eql([{ v: "1", w: "2" }]);
       });
 
       it("preserves the label's type", function() {
