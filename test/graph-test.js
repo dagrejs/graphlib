@@ -12,23 +12,23 @@ describe("Graph", function() {
 
   baseGraphTest.tests(Graph);
 
-  describe("graphSources", function() {
+  describe("sources", function() {
     it("is always empty", function() {
       g.setEdge("n1", "n2");
       g.setEdge("n2", "n3");
       g.setEdge("n4", "n3");
       g.set("n5");
-      expect(g.graphSources()).to.be.empty;
+      expect(g.sources()).to.be.empty;
     });
   });
 
-  describe("graphSinks", function() {
+  describe("sinks", function() {
     it("is always empty", function() {
       g.setEdge("n1", "n2");
       g.setEdge("n3", "n2");
       g.setEdge("n3", "n4");
       g.set("n5");
-      expect(g.graphSinks()).to.be.empty;
+      expect(g.sinks()).to.be.empty;
     });
   });
 
