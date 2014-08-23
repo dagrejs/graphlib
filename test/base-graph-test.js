@@ -36,19 +36,19 @@ exports.tests = function(GraphConstructor) {
       });
     });
 
-    describe("has", function() {
+    describe("hasNode", function() {
       it("returns false if the node is not in the graph", function() {
         expect(g.hasNode("node-not-in-graph")).to.be.false;
       });
     });
 
-    describe("get", function() {
+    describe("getNode", function() {
       it("returns undefined if the node is not in the graph", function() {
         expect(g.getNode("node-not-in-graph")).to.be.undefined;
       });
     });
 
-    describe("set", function() {
+    describe("setNode", function() {
       it("creates the node if it isn't part of the graph", function() {
         g.setNode("key", "label");
         expectSingleNodeGraph(g, "key", "label");
@@ -86,7 +86,7 @@ exports.tests = function(GraphConstructor) {
       });
     });
 
-    describe("update", function() {
+    describe("updateNode", function() {
       var updater = function(prev) { return prev + "-new"; };
 
       it("creates the node if it isn't part of the graph", function() {
@@ -106,7 +106,7 @@ exports.tests = function(GraphConstructor) {
       });
     });
 
-    describe("remove", function() {
+    describe("removeNode", function() {
       it("does nothing if the node is not part of the graph", function() {
         var removed;
         g._onRemoveNode = function(v) { removed = v; };
