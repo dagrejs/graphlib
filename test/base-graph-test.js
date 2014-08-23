@@ -17,6 +17,23 @@ exports.tests = function(GraphConstructor) {
       it("has no nodes", function() {
         expectEmptyGraph(g);
       });
+
+      it("has no label", function() {
+        expect(g.getGraph()).to.be.undefined;
+      });
+    });
+
+    describe("setGraph", function() {
+      it("sets the label for the graph", function() {
+        g.setGraph("foo");
+        expect(g.getGraph()).to.equal("foo");
+      });
+
+      it("clears the label for the graph if no value is given", function() {
+        g.setGraph("foo");
+        g.setGraph();
+        expect(g.getGraph()).to.be.undefined;
+      });
     });
 
     describe("has", function() {
@@ -315,10 +332,12 @@ exports.tests = function(GraphConstructor) {
 
     describe("copy", function() {
       it("creates a shallow copy of the input graph", function() {
+        g.setGraph("foo");
         g.setNode("n1", "label");
 
         var copy = g.copy();
         expect(copy.constructor).to.equal(g.constructor);
+        expect(copy.getGraph()).to.equal(g.getGraph());
         expectSingleNodeGraph(g, "n1", "label");
 
         copy.setNode("n1", "new-label");
