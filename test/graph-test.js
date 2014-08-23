@@ -17,7 +17,7 @@ describe("Graph", function() {
       g.setEdge("n1", "n2");
       g.setEdge("n2", "n3");
       g.setEdge("n4", "n3");
-      g.set("n5");
+      g.setNode("n5");
       expect(g.sources()).to.be.empty;
     });
   });
@@ -27,7 +27,7 @@ describe("Graph", function() {
       g.setEdge("n1", "n2");
       g.setEdge("n3", "n2");
       g.setEdge("n3", "n4");
-      g.set("n5");
+      g.setNode("n5");
       expect(g.sinks()).to.be.empty;
     });
   });
@@ -38,7 +38,7 @@ describe("Graph", function() {
       g.setEdge("n1", "n2");
       g.setEdge("n2", "n3");
       g.setEdge("n3", "n1");
-      g.set("n4");
+      g.setNode("n4");
       expect(g.successors("n1").sort()).to.eql(["n1", "n2", "n3"]);
     });
   });
@@ -49,7 +49,7 @@ describe("Graph", function() {
       g.setEdge("n1", "n2");
       g.setEdge("n2", "n3");
       g.setEdge("n3", "n1");
-      g.set("n4");
+      g.setNode("n4");
       expect(g.predecessors("n1").sort()).to.eql(["n1", "n2", "n3"]);
     });
   });

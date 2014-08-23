@@ -21,50 +21,50 @@ exports.tests = function(GraphConstructor) {
 
     describe("has", function() {
       it("returns false if the node is not in the graph", function() {
-        expect(g.has("node-not-in-graph")).to.be.false;
+        expect(g.hasNode("node-not-in-graph")).to.be.false;
       });
     });
 
     describe("get", function() {
       it("returns undefined if the node is not in the graph", function() {
-        expect(g.get("node-not-in-graph")).to.be.undefined;
+        expect(g.getNode("node-not-in-graph")).to.be.undefined;
       });
     });
 
     describe("set", function() {
       it("creates the node if it isn't part of the graph", function() {
-        g.set("key", "label");
+        g.setNode("key", "label");
         expectSingleNodeGraph(g, "key", "label");
       });
 
       it("replaces the node's value if it is part of the graph", function() {
-        g.set("key", "old");
-        g.set("key", "new");
+        g.setNode("key", "old");
+        g.setNode("key", "new");
         expectSingleNodeGraph(g, "key", "new");
       });
 
       it("coerces the node's id to a string", function() {
-        g.set(1);
+        g.setNode(1);
         expect(g.nodeIds()).to.eql(["1"]);
       });
 
       it("preserves the label's type", function() {
-        g.set("bool", false);
-        g.set("number", 1234);
-        g.set("object", { foo: "bar" });
+        g.setNode("bool", false);
+        g.setNode("number", 1234);
+        g.setNode("object", { foo: "bar" });
 
-        expect(g.get("bool")).to.be.false;
-        expect(g.get("number")).to.equal(1234);
-        expect(g.get("object")).to.eql({ foo: "bar" });
+        expect(g.getNode("bool")).to.be.false;
+        expect(g.getNode("number")).to.equal(1234);
+        expect(g.getNode("object")).to.eql({ foo: "bar" });
       });
 
       it("defaults the label to undefined", function() {
-        g.set("key");
-        expect(g.get("key")).to.be.undefined;
+        g.setNode("key");
+        expect(g.getNode("key")).to.be.undefined;
       });
 
       it("is chainable", function() {
-        var g2 = g.set("key", "label");
+        var g2 = g.setNode("key", "label");
         expect(g).to.equal(g2);
       });
     });
@@ -73,18 +73,18 @@ exports.tests = function(GraphConstructor) {
       var updater = function(prev) { return prev + "-new"; };
 
       it("creates the node if it isn't part of the graph", function() {
-        g.update("key", updater);
+        g.updateNode("key", updater);
         expectSingleNodeGraph(g, "key", undefined + "-new");
       });
 
       it("replaces the node's label if the node is part of the graph", function() {
-        g.set("key", "label");
-        g.update("key", updater);
+        g.setNode("key", "label");
+        g.updateNode("key", updater);
         expectSingleNodeGraph(g, "key", "label-new");
       });
 
       it("is chainable", function() {
-        var g2 = g.update("key", updater);
+        var g2 = g.updateNode("key", updater);
         expect(g).to.equal(g2);
       });
     });
@@ -93,7 +93,7 @@ exports.tests = function(GraphConstructor) {
       it("does nothing if the node is not part of the graph", function() {
         var removed;
         g._onRemoveNode = function(v) { removed = v; };
-        g.remove("key");
+        g.removeNode("key");
         expectEmptyGraph(g);
         expect(removed).to.be.undefined;
       });
@@ -101,15 +101,15 @@ exports.tests = function(GraphConstructor) {
       it("removes the node if it is part of the graph", function() {
         var removed;
         g._onRemoveNode = function(v) { removed = v; };
-        g.set("key", "label");
-        g.remove("key");
+        g.setNode("key", "label");
+        g.removeNode("key");
         expectEmptyGraph(g);
         expect(removed).to.equal("key");
       });
 
       it("removes all incident in-edges", function() {
         g.setEdge("n1", "n2");
-        g.remove("n2");
+        g.removeNode("n2");
         expect(g.hasEdge("n1", "n2")).to.be.false;
         expect(g.edgeCount()).to.equal(0);
         expectSingleNodeGraph(g, "n1", undefined);
@@ -117,7 +117,7 @@ exports.tests = function(GraphConstructor) {
 
       it("removes all incident out-edges", function() {
         g.setEdge("n1", "n2");
-        g.remove("n1");
+        g.removeNode("n1");
         expect(g.hasEdge("n1", "n2")).to.be.false;
         expect(g.edgeCount()).to.equal(0);
         expectSingleNodeGraph(g, "n2", undefined);
@@ -125,12 +125,12 @@ exports.tests = function(GraphConstructor) {
 
       it("decrements edge count once when deleting a self-loop", function() {
         g.setEdge("n1", "n1");
-        g.remove("n1");
+        g.removeNode("n1");
         expect(g.edgeCount()).to.equal(0);
       });
 
       it("is chainable", function() {
-        var g2 = g.remove("key");
+        var g2 = g.removeNode("key");
         expect(g).to.equal(g2);
       });
     });
@@ -214,16 +214,16 @@ exports.tests = function(GraphConstructor) {
 
     describe("setEdge", function() {
       it("creates the edge if it does not exist", function() {
-        g.set("n1");
-        g.set("n2");
+        g.setNode("n1");
+        g.setNode("n2");
         g.setEdge("n1", "n2", "label");
         expectSingleEdgeGraph(g, "n1", "n2", "label");
       });
 
       it("creates the incident nodes if they don't exist", function() {
         g.setEdge("n1", "n2", "label");
-        expect(g.has("n1")).to.be.true;
-        expect(g.has("n2")).to.be.true;
+        expect(g.hasNode("n1")).to.be.true;
+        expect(g.hasNode("n2")).to.be.true;
         expectSingleEdgeGraph(g, "n1", "n2", "label");
       });
 
@@ -276,8 +276,8 @@ exports.tests = function(GraphConstructor) {
 
     describe("removeEdge", function() {
       it("does nothing if the edge is not in the graph", function() {
-        g.set("n1");
-        g.set("n2");
+        g.setNode("n1");
+        g.setNode("n2");
         g.removeEdge("n1", "n2");
         expect(g.edgeCount()).to.equal(0);
         expect(g.nodeCount()).to.equal(2);
@@ -315,14 +315,14 @@ exports.tests = function(GraphConstructor) {
 
     describe("copy", function() {
       it("creates a shallow copy of the input graph", function() {
-        g.set("n1", "label");
+        g.setNode("n1", "label");
 
         var copy = g.copy();
         expect(copy.constructor).to.equal(g.constructor);
         expectSingleNodeGraph(g, "n1", "label");
 
-        copy.set("n1", "new-label");
-        expect(g.get("n1")).to.equal("label");
+        copy.setNode("n1", "new-label");
+        expect(g.getNode("n1")).to.equal("label");
       });
     });
   });
@@ -337,8 +337,8 @@ function expectEmptyGraph(g) {
 exports.expectEmptyGraph = expectEmptyGraph;
 
 function expectSingleNodeGraph(g, key, label) {
-  expect(g.get(key)).to.equal(label);
-  expect(g.has(key)).to.be.true;
+  expect(g.getNode(key)).to.equal(label);
+  expect(g.hasNode(key)).to.be.true;
   expect(g.nodeIds()).to.include(key);
   expect(g.nodeCount()).to.equal(1);
 }

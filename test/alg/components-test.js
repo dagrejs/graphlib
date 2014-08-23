@@ -11,8 +11,8 @@ describe("alg.components", function() {
 
   it("returns singleton lists for unconnected nodes", function() {
     var g = new Graph();
-    g.set("a");
-    g.set("b");
+    g.setNode("a");
+    g.setNode("b");
 
     var result = _.sortBy(components(g), function(arr) { return _.min(arr); });
     expect(result).to.eql([["a"], ["b"]]);

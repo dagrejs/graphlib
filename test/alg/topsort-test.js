@@ -52,7 +52,7 @@ describe("alg.topsort", function() {
     g.setEdge("b", "c");
     g.setEdge("c", "a");
     g.setEdge("a", "b");
-    g.set("d");
+    g.setNode("d");
     expect(function() { topsort(g); }).to.throw(topsort.CycleException);
   });
 });
