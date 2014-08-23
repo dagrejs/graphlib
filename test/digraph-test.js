@@ -18,7 +18,7 @@ describe("Digraph", function() {
       g.setEdge("n1", "n2");
       g.setEdge("n2", "n3");
       g.setEdge("n4", "n3");
-      g.set("n5");
+      g.setNode("n5");
       expect(g.sources().sort()).to.eql(["n1", "n4", "n5"]);
     });
 
@@ -37,7 +37,7 @@ describe("Digraph", function() {
       g.setEdge("n1", "n2");
       g.setEdge("n3", "n2");
       g.setEdge("n3", "n4");
-      g.set("n5");
+      g.setNode("n5");
       expect(g.sinks().sort()).to.eql(["n2", "n4", "n5"]);
     });
 
@@ -95,12 +95,12 @@ describe("Digraph", function() {
 
   describe("copy", function() {
     it("creates a shallow copy of the input graph", function() {
-      g.set("n1", "label");
+      g.setNode("n1", "label");
       g.setEdge("n2", "n3", "n2n3");
 
       var copy = g.copy();
       expect(copy.nodeCount()).to.equal(3);
-      expect(copy.get("n1")).to.equal(g.get("n1"));
+      expect(copy.getNode("n1")).to.equal(g.getNode("n1"));
       expectSingleEdgeGraph(copy, "n2", "n3", "n2n3");
 
       copy.setEdge("n2", "n3", "new-n2n3");
@@ -108,13 +108,13 @@ describe("Digraph", function() {
     });
 
     it("copies a single node graph", function() {
-      g.set("n1", "label");
+      g.setNode("n1", "label");
 
       var copy = g.copy();
       baseGraphTest.expectSingleNodeGraph(g, "n1", "label");
 
-      copy.set("n1", "new-label");
-      expect(g.get("n1")).to.equal("label");
+      copy.setNode("n1", "new-label");
+      expect(g.getNode("n1")).to.equal("label");
     });
   });
 });

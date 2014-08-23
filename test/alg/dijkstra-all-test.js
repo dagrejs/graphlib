@@ -10,7 +10,7 @@ describe("alg.dijkstraAll", function() {
 
   it("returns 0 for the node itself", function() {
     var g = new Digraph();
-    g.set("a");
+    g.setNode("a");
     expect(dijkstraAll(g)).to.eql({ a: { a: { distance: 0 } }});
   });
 

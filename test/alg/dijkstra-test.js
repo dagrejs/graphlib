@@ -8,14 +8,14 @@ var Digraph = require("../..").Digraph,
 describe("alg.dijkstra", function() {
   it("assigns distance 0 for the source node", function() {
     var g = new Digraph();
-    g.set("source");
+    g.setNode("source");
     expect(dijkstra(g, "source")).to.eql({ source: { distance: 0 } });
   });
 
   it("returns Number.POSITIVE_INFINITY for unconnected nodes", function() {
     var g = new Digraph();
-    g.set("a");
-    g.set("b");
+    g.setNode("a");
+    g.setNode("b");
     expect(dijkstra(g, "a")).to.eql({
       a: { distance: 0 },
       b: { distance: Number.POSITIVE_INFINITY }
