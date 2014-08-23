@@ -16,6 +16,7 @@
     "benchmark": "^1.0.0",
     "browserify": "^5.10.0",
     "chai": "^1.9.1",
+    "gaze": "^0.6.4",
     "istanbul": "^0.3.0",
     "jscs": "^1.5.9",
     "jshint": "^2.5.3",

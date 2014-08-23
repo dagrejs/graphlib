@@ -45,7 +45,7 @@ $(BUILD_DIR)/$(MOD).min.js: $(BUILD_DIR)/$(MOD).js
 	@$(UGLIFY) $< --comments '@license' > $@
 
 watch:
-	@fswatch -o $(SRC_FILES) $(TEST_FILES) package.json | xargs -n1 -I{} make
+	@src/watch.js | xargs -I{} make
 
 clean:
 	rm -rf $(BUILD_DIR)
