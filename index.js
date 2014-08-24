@@ -43,6 +43,7 @@ module.exports = {
     isAcyclic: require("./lib/alg/is-acyclic"),
     postorder: require("./lib/alg/postorder"),
     preorder: require("./lib/alg/preorder"),
+    prim: require("./lib/alg/prim"),
     tarjan: require("./lib/alg/tarjan"),
     topsort: require("./lib/alg/topsort")
   },
