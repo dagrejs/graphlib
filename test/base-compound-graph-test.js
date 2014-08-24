@@ -48,6 +48,7 @@ function tests(GraphConstructor) {
         g.setNode("parent");
         g.setParent("n1", "parent");
         expect(g.hasNode("n1")).to.be.true;
+        expect(_.sortBy(g.nodeIds())).to.eql(["n1", "parent"]);
         expect(g.getParent("n1")).to.equal("parent");
       });
 
@@ -55,6 +56,7 @@ function tests(GraphConstructor) {
         g.setNode("n1");
         g.setParent("n1", "parent");
         expect(g.hasNode("parent")).to.be.true;
+        expect(_.sortBy(g.nodeIds())).to.eql(["n1", "parent"]);
         expect(g.getParent("n1")).to.equal("parent");
       });
 
