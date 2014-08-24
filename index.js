@@ -32,6 +32,7 @@ module.exports = {
   CDigraph: require("./lib/compound-digraph"),
 
   Graph: require("./lib/graph"),
+  CGraph: require("./lib/compound-graph"),
 
   alg: {
     components: require("./lib/alg/components"),
