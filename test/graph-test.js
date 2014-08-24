@@ -1,4 +1,5 @@
-var expect = require("./chai").expect,
+var _ = require("lodash"),
+    expect = require("./chai").expect,
     baseGraphTest = require("./base-graph-test");
 
 var Graph = require("..").Graph;
@@ -50,7 +51,7 @@ function tests(GraphConstructor) {
         g.setEdge("n2", "n3");
         g.setEdge("n3", "n1");
         g.setNode("n4");
-        expect(g.successors("n1").sort()).to.eql(["n1", "n2", "n3"]);
+        expect(_.sortBy(g.successors("n1"))).to.eql(["n1", "n2", "n3"]);
       });
     });
 
@@ -61,7 +62,7 @@ function tests(GraphConstructor) {
         g.setEdge("n2", "n3");
         g.setEdge("n3", "n1");
         g.setNode("n4");
-        expect(g.predecessors("n1").sort()).to.eql(["n1", "n2", "n3"]);
+        expect(_.sortBy(g.predecessors("n1"))).to.eql(["n1", "n2", "n3"]);
       });
     });
   });

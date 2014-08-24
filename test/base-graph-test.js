@@ -193,7 +193,7 @@ exports.tests = function(GraphConstructor) {
         g.setEdge("n1", "n2");
         g.setEdge("n2", "n3");
         g.setEdge("n3", "n1");
-        expect(g.neighbors("n1").sort()).to.eql(["n1", "n2", "n3"]);
+        expect(_.sortBy(g.neighbors("n1"))).to.eql(["n1", "n2", "n3"]);
       });
 
       it("returns undefined if the node is not in the graph", function() {

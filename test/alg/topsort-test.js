@@ -57,6 +57,6 @@ describe("alg.topsort", function() {
   it("returns unsorted nodes for an undirected graph with no edges", function() {
     var g = new Graph();
     g.setNodes(["a", "b", "c"]);
-    expect(topsort(g).sort()).to.eql(["a", "b", "c"]);
+    expect(_.sortBy(topsort(g))).to.eql(["a", "b", "c"]);
   });
 });
