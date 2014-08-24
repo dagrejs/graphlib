@@ -86,6 +86,28 @@ exports.tests = function(GraphConstructor) {
       });
     });
 
+    describe("setNodes", function() {
+      it("creates the nodes if they are not part of the graph", function() {
+        g.setNodes(["a", "b", "c"], "label");
+        expect(g.getNode("a")).to.equal("label");
+        expect(g.getNode("b")).to.equal("label");
+        expect(g.getNode("c")).to.equal("label");
+      });
+
+      it("replaces nodes values if the node is in the graph", function() {
+        g.setNode("b", "old-label");
+        g.setNodes(["a", "b", "c"], "new-label");
+        expect(g.getNode("a")).to.equal("new-label");
+        expect(g.getNode("b")).to.equal("new-label");
+        expect(g.getNode("c")).to.equal("new-label");
+      });
+
+      it("is chainable", function() {
+        var g2 = g.setNode("key", "label");
+        expect(g).to.equal(g2);
+      });
+    });
+
     describe("updateNode", function() {
       var updater = function(prev) { return prev + "-new"; };
 
