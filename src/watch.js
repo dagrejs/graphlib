@@ -8,7 +8,7 @@
 var Gaze = require("gaze").Gaze,
     _ = require("lodash");
 
-var globs = ["lib/**", "test/**", "package.json"];
+var globs = ["lib/**", "test/**", "package.json", "index.js", "browser.js"];
 var gaze = new Gaze(globs);
 
 
