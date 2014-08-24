@@ -38,6 +38,8 @@ module.exports = {
     components: require("./lib/alg/components"),
     dijkstra: require("./lib/alg/dijkstra"),
     dijkstraAll: require("./lib/alg/dijkstra-all"),
+    findCycles: require("./lib/alg/find-cycles"),
+    tarjan: require("./lib/alg/tarjan"),
     topsort: require("./lib/alg/topsort")
   },
 
