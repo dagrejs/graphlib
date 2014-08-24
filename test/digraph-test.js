@@ -18,6 +18,12 @@ function tests(GraphConstructor) {
     // Inject base graph tests
     baseGraphTest.tests(GraphConstructor);
 
+    describe("isDirected", function() {
+      it("always returns true", function() {
+        expect(g.isDirected()).to.be.true;
+      });
+    });
+
     describe("sources", function() {
       it("returns the nodes in the graph with no in edges", function() {
         g.setEdge("n1", "n2");

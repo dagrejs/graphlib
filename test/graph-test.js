@@ -17,6 +17,12 @@ function tests(GraphConstructor) {
 
     baseGraphTest.tests(GraphConstructor);
 
+    describe("isDirected", function() {
+      it("always returns false", function() {
+        expect(g.isDirected()).to.be.false;
+      });
+    });
+
     describe("sources", function() {
       it("returns nodes with no edges", function() {
         g.setEdge("n1", "n2");
