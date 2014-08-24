@@ -92,6 +92,7 @@ exports.tests = function(GraphConstructor) {
         expect(g.getNode("a")).to.equal("label");
         expect(g.getNode("b")).to.equal("label");
         expect(g.getNode("c")).to.equal("label");
+        expect(g.nodeCount()).to.equal(3);
       });
 
       it("replaces nodes values if the node is in the graph", function() {
@@ -299,6 +300,7 @@ exports.tests = function(GraphConstructor) {
         expect(g.hasNode("a")).to.be.true;
         expect(g.hasNode("b")).to.be.true;
         expect(g.hasNode("c")).to.be.true;
+        expect(g.nodeCount()).to.equal(3);
       });
 
       it("creates open paths", function() {
