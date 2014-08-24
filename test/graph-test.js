@@ -18,22 +18,22 @@ function tests(GraphConstructor) {
     baseGraphTest.tests(GraphConstructor);
 
     describe("sources", function() {
-      it("is always empty", function() {
+      it("returns nodes with no edges", function() {
         g.setEdge("n1", "n2");
         g.setEdge("n2", "n3");
         g.setEdge("n4", "n3");
         g.setNode("n5");
-        expect(g.sources()).to.be.empty;
+        expect(g.sources()).to.eql(["n5"]);
       });
     });
 
     describe("sinks", function() {
-      it("is always empty", function() {
+      it("returns nodes with no edges", function() {
         g.setEdge("n1", "n2");
         g.setEdge("n3", "n2");
         g.setEdge("n3", "n4");
         g.setNode("n5");
-        expect(g.sinks()).to.be.empty;
+        expect(g.sinks()).to.eql(["n5"]);
       });
     });
 
