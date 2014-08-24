@@ -39,6 +39,7 @@ module.exports = {
     dijkstra: require("./lib/alg/dijkstra"),
     dijkstraAll: require("./lib/alg/dijkstra-all"),
     findCycles: require("./lib/alg/find-cycles"),
+    floydWarshall: require("./lib/alg/floyd-warshall"),
     isAcyclic: require("./lib/alg/is-acyclic"),
     postorder: require("./lib/alg/postorder"),
     preorder: require("./lib/alg/preorder"),
