@@ -60,6 +60,23 @@ function tests(GraphConstructor) {
         expect(g.getParent("n1")).to.equal("parent");
       });
 
+      it("sets the parent to undefined if the parent is undefined", function() {
+        g.setNode("n1");
+        g.setParent("n1", "parent");
+        g.setParent("n1");
+        expect(g.getParent("n1")).to.be.undefined;
+        // We should also not create an "undefined" node
+        expect(_.sortBy(g.nodeIds())).to.eql(["n1", "parent"]);
+      });
+
+      it("removes the previous parent", function() {
+        g.setNode("n1");
+        g.setParent("n1", "parent1");
+        g.setParent("n1", "parent2");
+        expect(g.getParent("n1")).to.equal("parent2");
+        expect(g.getChildren("parent1")).to.be.empty;
+      });
+
       it("does not allow a cycle in the nesting tree", function() {
         g.setParent("b", "a");
         expect(function() { g.setParent("a", "b"); }).to.throw();
@@ -85,6 +102,7 @@ function tests(GraphConstructor) {
         expect(g.hasNode("n4")).to.be.false;
         expect(g.hasNode("root")).to.be.true;
         expect(g.hasNode("other")).to.be.true;
+        expect(g.getNestingTree().hasNode("n1")).to.be.false;
       });
     });
 
