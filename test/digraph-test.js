@@ -1,4 +1,5 @@
-var expect = require("./chai").expect,
+var _ = require("lodash"),
+    expect = require("./chai").expect,
     baseGraphTest = require("./base-graph-test");
 
 var Digraph = require("..").Digraph;
@@ -30,7 +31,7 @@ function tests(GraphConstructor) {
         g.setEdge("n2", "n3");
         g.setEdge("n4", "n3");
         g.setNode("n5");
-        expect(g.sources().sort()).to.eql(["n1", "n4", "n5"]);
+        expect(_.sortBy(g.sources())).to.eql(["n1", "n4", "n5"]);
       });
 
       it("recognizes a new source when in-edges are removed", function() {
@@ -49,7 +50,7 @@ function tests(GraphConstructor) {
         g.setEdge("n3", "n2");
         g.setEdge("n3", "n4");
         g.setNode("n5");
-        expect(g.sinks().sort()).to.eql(["n2", "n4", "n5"]);
+        expect(_.sortBy(g.sinks())).to.eql(["n2", "n4", "n5"]);
       });
 
       it("recognizes a new sink when out-edges are removed", function() {
@@ -68,7 +69,7 @@ function tests(GraphConstructor) {
         g.setEdge("n1", "n2");
         g.setEdge("n2", "n3");
         g.setEdge("n3", "n1");
-        expect(g.successors("n1").sort()).to.eql(["n1", "n2"]);
+        expect(_.sortBy(g.successors("n1"))).to.eql(["n1", "n2"]);
       });
     });
 
@@ -78,7 +79,7 @@ function tests(GraphConstructor) {
         g.setEdge("n1", "n2");
         g.setEdge("n2", "n3");
         g.setEdge("n3", "n1");
-        expect(g.predecessors("n1").sort()).to.eql(["n1", "n3"]);
+        expect(_.sortBy(g.predecessors("n1"))).to.eql(["n1", "n3"]);
       });
     });
 
@@ -145,9 +146,5 @@ function expectSingleEdgeGraph(g, v, w, label) {
 }
 
 function sortEdges(edges) {
-  return edges.sort(function(e1, e2) {
-    if (e1.v < e2.v) return -1;
-    if (e1.v > e2.v) return 1;
-    return 0;
-  });
+  return _.sortBy(edges, function(edge) { return edge.v; });
 }

@@ -1,4 +1,5 @@
-var expect = require("./chai").expect;
+var _ = require("lodash"),
+    expect = require("./chai").expect;
 
 exports.tests = tests;
 
@@ -30,8 +31,8 @@ function tests(GraphConstructor) {
       it("returns all sources for the root (undefined)", function() {
         g.setNode("n1");
         g.setNode("n2");
-        expect(g.getChildren().sort()).to.eql(["n1", "n2"]);
-        expect(g.getChildren(undefined).sort()).to.eql(["n1", "n2"]);
+        expect(_.sortBy(g.getChildren())).to.eql(["n1", "n2"]);
+        expect(_.sortBy(g.getChildren(undefined))).to.eql(["n1", "n2"]);
       });
     });
 
@@ -95,7 +96,7 @@ function tests(GraphConstructor) {
         g.setNode("n2");
 
         var nestingTree = g.getNestingTree();
-        expect(nestingTree.sources().sort()).to.eql(["n1", "n2"]);
+        expect(_.sortBy(nestingTree.sources())).to.eql(["n1", "n2"]);
       });
 
       it("returns the hierarchy for nested graphs", function() {
@@ -105,7 +106,7 @@ function tests(GraphConstructor) {
 
         var nestingTree = g.getNestingTree();
         expect(nestingTree.sources()).to.eql(["root"]);
-        expect(nestingTree.successors("root").sort()).to.eql(["n1-1", "n1-2"]);
+        expect(_.sortBy(nestingTree.successors("root"))).to.eql(["n1-1", "n1-2"]);
         expect(nestingTree.successors("n1-1")).to.eql(["n2"]);
       });
 
