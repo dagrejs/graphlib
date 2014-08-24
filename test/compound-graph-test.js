@@ -1,5 +1,5 @@
 var graphTest = require("./graph-test"),
-    baseCompountGraphTest = require("./base-compound-graph-test");
+    baseCompoundGraphTest = require("./base-compound-graph-test");
 
 var CGraph = require("..").CGraph;
 
@@ -8,5 +8,5 @@ describe("CGraph", function() {
   graphTest.tests(CGraph);
 
   // Inject base compound graph tests
-  baseCompountGraphTest.tests(CGraph);
+  baseCompoundGraphTest.tests(CGraph);
 });
