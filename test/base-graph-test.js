@@ -36,6 +36,20 @@ exports.tests = function(GraphConstructor) {
       });
     });
 
+    describe("updateGraph", function() {
+      it("updates the label for the graph", function() {
+        g.setGraph("foo");
+        g.updateGraph(function(old) { return old + "-bar"; });
+        expect(g.getGraph()).to.equal("foo-bar");
+      });
+
+      it("clears the label for the graph if no value is given", function() {
+        g.setGraph("foo");
+        g.updateGraph(function() {});
+        expect(g.getGraph()).to.be.undefined;
+      });
+    });
+
     describe("hasNode", function() {
       it("returns false if the node is not in the graph", function() {
         expect(g.hasNode("node-not-in-graph")).to.be.false;
