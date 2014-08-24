@@ -271,6 +271,39 @@ exports.tests = function(GraphConstructor) {
       });
     });
 
+    describe("setPath", function() {
+      it("creates nodes as needed", function() {
+        g.setPath(["a", "b", "c"]);
+        expect(g.hasNode("a")).to.be.true;
+        expect(g.hasNode("b")).to.be.true;
+        expect(g.hasNode("c")).to.be.true;
+      });
+
+      it("creates open paths", function() {
+        g.setPath(["a", "b", "c"], "label");
+        expect(g.hasEdge("a", "b")).to.be.true;
+        expect(g.hasEdge("b", "c")).to.be.true;
+        expect(g.hasEdge("c", "a")).to.be.false;
+      });
+
+      it("sets the labels for the edges in the path", function() {
+        g.setPath(["a", "b", "c"], "label");
+        expect(g.getEdge("a", "b")).to.equal("label");
+        expect(g.getEdge("b", "c")).to.equal("label");
+      });
+
+      it("replaces labels for existing edges in the path", function() {
+        g.setEdge("a", "b", "label");
+        g.setPath(["a", "b", "c"], "new-label");
+        expect(g.getEdge("a", "b")).to.equal("new-label");
+      });
+
+      it("is chainable", function() {
+        var g2 = g.setPath(["a", "b", "c"]);
+        expect(g).to.equal(g2);
+      });
+    });
+
     describe("updateEdge", function() {
       var updater = function(label) { return label + "-new"; };
 
