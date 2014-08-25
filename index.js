@@ -48,6 +48,8 @@ module.exports = {
     topsort: require("./lib/alg/topsort")
   },
 
+  dot: require("./lib/dot"),
+
   util: require("./lib/util"),
   version: require("./lib/version")
 };

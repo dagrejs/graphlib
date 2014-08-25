@@ -4,7 +4,6 @@
   "expr": true,
   "freeze": true,
   "immed": true,
-  "indent": 2,
   "newcap": true,
   "noarg": true,
   "quotmark": true,
