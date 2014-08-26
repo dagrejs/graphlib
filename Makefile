@@ -17,11 +17,13 @@ COVERAGE_DIR = $(BUILD_DIR)/cov
 
 SRC_FILES = index.js lib/version.js $(shell find lib -type f -name '*.js')
 TEST_FILES = $(shell find test -type f -name '*.js')
-BUILD_FILES = $(addprefix $(BUILD_DIR)/, $(MOD).js $(MOD).min.js)
+BUILD_FILES = $(addprefix $(BUILD_DIR)/, \
+						$(MOD).js $(MOD).min.js \
+						$(MOD)-full.js $(MOD)-full.min.js)
 
 DIRS = $(BUILD_DIR)
 
-.PHONY: all clean watch
+.PHONY: all clean test watch
 
 all: $(BUILD_FILES)
 
@@ -34,14 +36,21 @@ lib/version.js: package.json
 $(DIRS):
 	@mkdir -p $@
 
-$(BUILD_DIR)/$(MOD).js: browser.js $(SRC_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
-	@echo Building...
+test: $(SRC_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
 	@$(ISTANBUL) cover $(ISTANBUL_OPTS) $(MOCHA) --dir $(COVERAGE_DIR) -- $(MOCHA_OPTS) $(TEST_FILES) || $(MOCHA) $(MOCHA_OPTS) $(TEST_FILES)
 	@$(JSHINT) $(JSHINT_OPTS) $(filter-out node_modules, $?)
 	@$(JSCS) $(filter-out node_modules, $?)
+
+$(BUILD_DIR)/$(MOD).js: browser.js | test
 	@$(BROWSERIFY) -x lodash $< > $@
 
+$(BUILD_DIR)/$(MOD)-full.js: browser.js | test
+	@$(BROWSERIFY) $< > $@
+
 $(BUILD_DIR)/$(MOD).min.js: $(BUILD_DIR)/$(MOD).js
+	@$(UGLIFY) $< --comments '@license' > $@
+
+$(BUILD_DIR)/$(MOD)-full.min.js: $(BUILD_DIR)/$(MOD)-full.js
 	@$(UGLIFY) $< --comments '@license' > $@
 
 watch:
