@@ -22,7 +22,6 @@
     "jshint": "^2.5.3",
     "jshint-stylish": "^0.4.0",
     "mocha": "^1.21.4",
-    "pegjs": "^0.8.0",
     "sprintf": "^0.1.4",
     "uglify-js": "^2.4.15"
   },
