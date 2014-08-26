@@ -1,3 +1,8 @@
+v1.0.0
+======
+
+* Massive rewrite to the API for 1.0. API TBD on the wiki.
+
 v0.7.4
 ======
 
