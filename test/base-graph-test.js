@@ -438,6 +438,7 @@ exports.expectSingleNodeGraph = expectSingleNodeGraph;
 
 function expectSingleEdgeGraph(g, v, w, label) {
   expect(g.edges().length).to.equal(1);
+  expect(g.edges()[0]).to.eql({ v: v, w: w, label: label });
   expect(g.getEdge(v, w)).to.equal(label);
   expect(g.hasEdge(v, w)).to.be.true;
   expect(g.edgeCount()).to.equal(1);
