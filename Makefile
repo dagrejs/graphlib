@@ -20,7 +20,7 @@ SRC_FILES = index.js lib/version.js $(shell find lib -type f -name '*.js')
 TEST_FILES = $(shell find test -type f -name '*.js')
 BUILD_FILES = $(addprefix $(BUILD_DIR)/, \
 						$(MOD).js $(MOD).min.js \
-						$(MOD)-full.js $(MOD)-full.min.js \
+						$(MOD).full.js $(MOD).full.min.js \
 						bower.json)
 
 DIRS = $(BUILD_DIR)
@@ -49,13 +49,13 @@ $(BUILD_DIR)/bower.json: package.json src/release/make-bower.json.js
 $(BUILD_DIR)/$(MOD).js: browser.js | test
 	@$(BROWSERIFY) -x lodash $< > $@
 
-$(BUILD_DIR)/$(MOD)-full.js: browser.js | test
+$(BUILD_DIR)/$(MOD).full.js: browser.js | test
 	@$(BROWSERIFY) $< > $@
 
 $(BUILD_DIR)/$(MOD).min.js: $(BUILD_DIR)/$(MOD).js
 	@$(UGLIFY) $< --comments '@license' > $@
 
-$(BUILD_DIR)/$(MOD)-full.min.js: $(BUILD_DIR)/$(MOD)-full.js
+$(BUILD_DIR)/$(MOD).full.min.js: $(BUILD_DIR)/$(MOD).full.js
 	@$(UGLIFY) $< --comments '@license' > $@
 
 dist: $(BUILD_FILES)
