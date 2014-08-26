@@ -74,7 +74,7 @@ watch:
 	@src/watch.js | xargs -I{} make
 
 clean:
-	rm -rf $(BUILD_DIR)
+	rm -rf $(BUILD_DIR) dist
 
 node_modules: package.json
 	@$(NPM) install
