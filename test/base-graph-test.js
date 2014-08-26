@@ -76,6 +76,7 @@ exports.tests = function(GraphConstructor) {
 
       it("coerces the node's id to a string", function() {
         g.setNode(1);
+        expect(g.nodes()).to.eql([{ v: "1", label: undefined }]);
         expect(g.nodeIds()).to.eql(["1"]);
       });
 
@@ -429,7 +430,8 @@ exports.expectEmptyGraph = expectEmptyGraph;
 function expectSingleNodeGraph(g, key, label) {
   expect(g.getNode(key)).to.equal(label);
   expect(g.hasNode(key)).to.be.true;
-  expect(g.nodeIds()).to.include(key);
+  expect(g.nodes()).to.eql([{ v: key, label: label }]);
+  expect(g.nodeIds()).to.eql([key]);
   expect(g.nodeCount()).to.equal(1);
 }
 exports.expectSingleNodeGraph = expectSingleNodeGraph;

@@ -72,6 +72,10 @@ NODE_SIZES.forEach(function(size) {
       edge = edges[Math.floor(Math.random() * edges.length)],
       nameSuffix = "(" + size + "," + EDGE_DENSITY + ")";
 
+  runBenchmark("nodes" + nameSuffix, function() {
+    g.nodes();
+  });
+
   runBenchmark("nodeIds" + nameSuffix, function() {
     g.nodeIds();
   });
