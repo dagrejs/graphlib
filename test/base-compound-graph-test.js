@@ -141,5 +141,32 @@ function tests(GraphConstructor) {
         expect(g.getChildren("root")).to.eql(["n1"]);
       });
     });
+
+    describe("filterNodes", function() {
+      it("preserves subgraph structure", function() {
+        g.setParent("n1", "root");
+
+        var copy = g.filterNodes(function() { return true; });
+        expect(copy.getParent("n1")).to.equal("root");
+        expect(copy.getParent("root")).to.be.undefined;
+      });
+
+      it("removes nodes in subgraphs that are not preserved", function() {
+        g.setParent("sg1", "root");
+        g.setParent("sg1.1", "sg1");
+        g.setParent("sg2", "root");
+        g.setParent("sg2.1", "sg2");
+        g.setParent("a", "sg1");
+        g.setParent("b", "sg1.1");
+        g.setParent("c", "sg2");
+        g.setParent("d", "sg2.1");
+        g.setParent("e", "root");
+
+        var copy = g.filterNodes(function(v) { return v !== "sg1.1" && v !== "sg2"; });
+        expect(_.sortBy(copy.nodeIds())).to.eql(_.sortBy(["root", "sg1", "a", "e"]));
+        expect(copy.getParent("a")).to.equal("sg1");
+        expect(copy.getParent("e")).to.equal("root");
+      });
+    });
   });
 }

@@ -416,6 +416,65 @@ exports.tests = function(GraphConstructor) {
         expect(g.getNode("n1")).to.equal("label");
       });
     });
+
+    describe("filterNodes", function() {
+      it("copies all nodes if the predicate is always true", function() {
+        g.setGraph("foo");
+        g.setNode("n1", "lab1");
+        g.setNode("n2", "lab2");
+        g.setEdge("n1", "n2", "n1-n2");
+
+        var copy = g.filterNodes(function() { return true; });
+        expect(copy.constructor).to.equal(g.constructor);
+        expect(copy.getGraph()).to.equal(g.getGraph());
+        expect(copy.getNode("n1")).to.equal("lab1");
+        expect(copy.getNode("n2")).to.equal("lab2");
+        expect(copy.getEdge("n1", "n2")).to.equal("n1-n2");
+        expect(copy.nodeCount()).to.equal(2);
+        expect(copy.edgeCount()).to.equal(1);
+      });
+
+      it("removes nodes and incident edges for filtered-out nodes", function() {
+        g.setNode("n1", "lab1");
+        g.setNode("n2", "lab2");
+        g.setEdge("n1", "n2", "n1-n2");
+
+        var copy = g.filterNodes(function(u) { return u !== "n2"; });
+        expectSingleNodeGraph(copy, "n1", "lab1");
+        expect(copy.edgeCount()).to.equal(0);
+      });
+
+      it("allows filtering by label", function() {
+        g.setNode("n1", "lab1");
+        g.setNode("n2", "lab2");
+
+        var copy = g.filterNodes(function(_, label) { return label !== "lab2"; });
+        expectSingleNodeGraph(copy, "n1", "lab1");
+      });
+
+      it("preserves incident edges for preserved nodes", function() {
+        g.setNode("n1", "lab1");
+        g.setNode("n2", "lab2");
+        g.setNode("n3", "lab3");
+        g.setEdge("n1", "n2", "n1-n2");
+        g.setEdge("n2", "n3", "n2-n3");
+
+        var copy = g.filterNodes(function(v) { return v !== "n3"; });
+        expect(copy.edges()).to.have.length(1);
+        expect(copy.edges()[0]).to.eql({ v: "n1", w: "n2", label: "n1-n2" });
+      });
+
+      it("does not allow changes to the original graph", function() {
+        g.setGraph("foo");
+        g.setNode("n1", "lab1");
+
+        var copy = g.filterNodes(function() { return true; });
+        copy.setNode("n1", "new-lab");
+        expect(g.getNode("n1")).to.equal("lab1");
+        copy.setGraph("bar");
+        expect(g.getGraph()).to.equal("foo");
+      });
+    });
   });
 };
 
