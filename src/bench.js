@@ -49,7 +49,7 @@ function buildGraph(numNodes, edgeDensity) {
       numEdges = numNodes * numNodes * edgeDensity,
       ks = keys(numNodes);
 
-  ks.forEach(function(k) { g.set(k); });
+  ks.forEach(function(k) { g.setNode(k); });
 
   for (var i = 0; i < numEdges; ++i) {
     var v, w;
@@ -84,12 +84,12 @@ NODE_SIZES.forEach(function(size) {
     g.sinks();
   });
 
-  runBenchmark("set" + nameSuffix, function() {
-    g.set("key", "label");
+  runBenchmark("setNode" + nameSuffix, function() {
+    g.setNode("key", "label");
   });
 
-  runBenchmark("get" + nameSuffix, function() {
-    g.get(node);
+  runBenchmark("getNode" + nameSuffix, function() {
+    g.getNode(node);
   });
 
   runBenchmark("successors" + nameSuffix, function() {
@@ -105,8 +105,8 @@ NODE_SIZES.forEach(function(size) {
   });
 
   runBenchmark("setRemove" + nameSuffix, function() {
-    g.set("key");
-    g.remove("key");
+    g.setNode("key");
+    g.removeNode("key");
   });
 
   runBenchmark("edges" + nameSuffix, function() {
