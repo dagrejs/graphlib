@@ -14,20 +14,22 @@ MOCHA_OPTS = -R dot
 
 BUILD_DIR = build
 COVERAGE_DIR = $(BUILD_DIR)/cov
+DIST_DIR = dist
 
 SRC_FILES = index.js lib/version.js $(shell find lib -type f -name '*.js')
 TEST_FILES = $(shell find test -type f -name '*.js')
 BUILD_FILES = $(addprefix $(BUILD_DIR)/, \
 						$(MOD).js $(MOD).min.js \
-						$(MOD)-full.js $(MOD)-full.min.js)
+						$(MOD)-full.js $(MOD)-full.min.js \
+						bower.json)
 
 DIRS = $(BUILD_DIR)
 
-.PHONY: all clean test watch
+.PHONY: all clean test dist watch
 
-all: $(BUILD_FILES)
+all: test
 
-bench: all
+bench: test
 	@src/bench.js
 
 lib/version.js: package.json
@@ -41,6 +43,9 @@ test: $(SRC_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
 	@$(JSHINT) $(JSHINT_OPTS) $(filter-out node_modules, $?)
 	@$(JSCS) $(filter-out node_modules, $?)
 
+$(BUILD_DIR)/bower.json: package.json src/release/make-bower.json.js
+	@src/release/make-bower.json.js > $@
+
 $(BUILD_DIR)/$(MOD).js: browser.js | test
 	@$(BROWSERIFY) -x lodash $< > $@
 
@@ -52,6 +57,18 @@ $(BUILD_DIR)/$(MOD).min.js: $(BUILD_DIR)/$(MOD).js
 
 $(BUILD_DIR)/$(MOD)-full.min.js: $(BUILD_DIR)/$(MOD)-full.js
 	@$(UGLIFY) $< --comments '@license' > $@
+
+dist: $(BUILD_FILES)
+	@rm -rf $@
+	@mkdir $@
+	cp -r $^ $@
+	cp LICENSE $@
+
+release: dist
+	@echo
+	@echo Starting release...
+	@echo
+	@src/release/release.sh $(MOD) dist
 
 watch:
 	@src/watch.js | xargs -I{} make
