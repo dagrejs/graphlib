@@ -9,8 +9,7 @@
     "algorithms"
   ],
   "dependencies": {
-    "lodash": "^2.4.1",
-    "cp-data": "^1.1.3"
+    "lodash": "^2.4.1"
   },
   "devDependencies": {
     "benchmark": "^1.0.0",
