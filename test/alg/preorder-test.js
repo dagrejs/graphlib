@@ -64,6 +64,19 @@ describe("alg.preorder", function() {
         nodes.indexOf("d"));
   });
 
+  it("works for an array of roots", function() {
+    var g = new Digraph();
+    g.setEdge("a", "b");
+    g.setEdge("c", "d");
+    g.setNode("e");
+    g.setNode("f");
+
+    var nodes = preorder(g, ["a", "c", "e"]);
+    expect(_.sortBy(nodes)).to.eql(["a", "b", "c", "d", "e"]);
+    expect(nodes.indexOf("b")).to.be.gt(nodes.indexOf("a"));
+    expect(nodes.indexOf("d")).to.be.gt(nodes.indexOf("c"));
+  });
+
   it("finishes early if the callback returns false", function() {
     var g = new Digraph();
     g.setPath(["a", "b", "c", "d"]);
