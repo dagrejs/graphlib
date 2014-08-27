@@ -1,7 +1,7 @@
 var expect = require("../chai").expect,
-    _ = require("lodash");
-
-var Graph = require("../..").Graph,
+    _ = require("lodash"),
+    Graph = require("../..").Graph,
+    Digraph = require("../..").Digraph,
     components = require("../..").alg.components;
 
 describe("alg.components", function() {
@@ -23,7 +23,18 @@ describe("alg.components", function() {
     g.setEdge("a", "b");
     g.setEdge("b", "c");
 
-    var result = _.map(components(g), function(xs) { return xs.sort(); });
+    var result = _.map(components(g), function(xs) { return _.sortBy(xs); });
     expect(result).to.eql([["a", "b", "c"]]);
+  });
+
+  it("returns nodes connected by a neighbor relationship in a digraph", function() {
+    var g = new Digraph();
+    g.setPath(["a", "b", "c", "a"]);
+    g.setEdge("d", "c");
+    g.setEdge("e", "f");
+
+    var result = _.sortBy(_.map(components(g), function(xs) { return _.sortBy(xs); }),
+                          "0");
+    expect(result).to.eql([["a", "b", "c", "d"], ["e", "f"]]);
   });
 });
