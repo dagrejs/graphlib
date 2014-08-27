@@ -29,7 +29,8 @@ describe("PriorityQueue", function() {
       pq.add(false, 3);
       pq.add(undefined, 4);
       pq.add(null, 5);
-      expect(_.sortBy(pq.keys())).to.eql(_.sortBy(["a", 1, false, undefined, null]));
+      expect(_.sortBy(pq.keys())).to.eql(
+                _.sortBy(["a", "1", "false", "undefined", "null"]));
     });
   });
 
