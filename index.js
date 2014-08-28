@@ -27,27 +27,8 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-module.exports = {
-  Digraph: require("./lib/digraph"),
-  CDigraph: require("./lib/compound-digraph"),
 
-  Graph: require("./lib/graph"),
-  CGraph: require("./lib/compound-graph"),
+var _ = require("lodash");
 
-  alg: {
-    components: require("./lib/alg/components"),
-    dijkstra: require("./lib/alg/dijkstra"),
-    dijkstraAll: require("./lib/alg/dijkstra-all"),
-    findCycles: require("./lib/alg/find-cycles"),
-    floydWarshall: require("./lib/alg/floyd-warshall"),
-    isAcyclic: require("./lib/alg/is-acyclic"),
-    postorder: require("./lib/alg/postorder"),
-    preorder: require("./lib/alg/preorder"),
-    prim: require("./lib/alg/prim"),
-    tarjan: require("./lib/alg/tarjan"),
-    topsort: require("./lib/alg/topsort")
-  },
-
-  util: require("./lib/util"),
-  version: require("./lib/version")
-};
+module.exports = _.clone(require("./lib"));
+module.exports.alg = require("./lib/alg");
