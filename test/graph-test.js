@@ -65,5 +65,36 @@ function tests(GraphConstructor) {
         expect(_.sortBy(g.predecessors("n1"))).to.eql(["n1", "n2", "n3"]);
       });
     });
+
+    describe("inDegree", function() {
+      it("is an alias for degree", function() {
+        expect(g.inDegree).to.equal(g.degree);
+      });
+    });
+
+    describe("outDegree", function() {
+      it("is an alias for degree", function() {
+        expect(g.outDegree).to.equal(g.degree);
+      });
+    });
+
+    describe("degree", function() {
+      it("returns the number of edges incident on a node", function() {
+        g.setEdge("a", "c");
+        g.setEdge("b", "c");
+        g.setEdge("c", "d");
+        g.setEdge("c", "e");
+        g.setEdge("c", "f");
+        g.setEdge("g", "g");
+
+        expect(g.degree("a")).to.equal(1);
+        expect(g.degree("b")).to.equal(1);
+        expect(g.degree("c")).to.equal(5);
+        expect(g.degree("d")).to.equal(1);
+        expect(g.degree("e")).to.equal(1);
+        expect(g.degree("f")).to.equal(1);
+        expect(g.degree("g")).to.equal(2);
+      });
+    });
   });
 }

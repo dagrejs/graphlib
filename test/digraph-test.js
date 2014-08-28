@@ -83,6 +83,63 @@ function tests(GraphConstructor) {
       });
     });
 
+    describe("inDegree", function() {
+      it("returns the number of inEdges to a node", function() {
+        g.setEdge("a", "c");
+        g.setEdge("b", "c");
+        g.setEdge("c", "d");
+        g.setEdge("c", "e");
+        g.setEdge("c", "f");
+        g.setEdge("g", "g");
+
+        expect(g.inDegree("a")).to.equal(0);
+        expect(g.inDegree("b")).to.equal(0);
+        expect(g.inDegree("c")).to.equal(2);
+        expect(g.inDegree("d")).to.equal(1);
+        expect(g.inDegree("e")).to.equal(1);
+        expect(g.inDegree("f")).to.equal(1);
+        expect(g.inDegree("g")).to.equal(1);
+      });
+    });
+
+    describe("outDegree", function() {
+      it("returns the number of outEdges to a node", function() {
+        g.setEdge("a", "c");
+        g.setEdge("b", "c");
+        g.setEdge("c", "d");
+        g.setEdge("c", "e");
+        g.setEdge("c", "f");
+        g.setEdge("g", "g");
+
+        expect(g.outDegree("a")).to.equal(1);
+        expect(g.outDegree("b")).to.equal(1);
+        expect(g.outDegree("c")).to.equal(3);
+        expect(g.outDegree("d")).to.equal(0);
+        expect(g.outDegree("e")).to.equal(0);
+        expect(g.outDegree("f")).to.equal(0);
+        expect(g.outDegree("g")).to.equal(1);
+      });
+    });
+
+    describe("degree", function() {
+      it("returns the number of in- and out-Edges for a node", function() {
+        g.setEdge("a", "c");
+        g.setEdge("b", "c");
+        g.setEdge("c", "d");
+        g.setEdge("c", "e");
+        g.setEdge("c", "f");
+        g.setEdge("g", "g");
+
+        expect(g.degree("a")).to.equal(1);
+        expect(g.degree("b")).to.equal(1);
+        expect(g.degree("c")).to.equal(5);
+        expect(g.degree("d")).to.equal(1);
+        expect(g.degree("e")).to.equal(1);
+        expect(g.degree("f")).to.equal(1);
+        expect(g.degree("g")).to.equal(2);
+      });
+    });
+
     describe("inEdges", function() {
       it("returns the edges that point at the specified node", function() {
         g.setEdge("n1", "n2", "n1n2");
