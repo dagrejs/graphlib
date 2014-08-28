@@ -142,6 +142,16 @@ function tests(GraphConstructor) {
       });
     });
 
+    describe("copy", function() {
+      it("preserves subgraph structure", function() {
+        g.setParent("n1", "root");
+
+        var copy = g.copy();
+        expect(copy.getParent("n1")).to.equal("root");
+        expect(copy.getParent("root")).to.be.undefined;
+      });
+    });
+
     describe("filterNodes", function() {
       it("preserves subgraph structure", function() {
         g.setParent("n1", "root");
