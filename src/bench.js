@@ -104,16 +104,16 @@ NODE_SIZES.forEach(function(size) {
     g.getNode(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
+  runBenchmark("neighbors" + nameSuffix, function() {
+    g.neighbors(nodeIds[this.nextInt(nodeIds.length)]);
+  });
+
   runBenchmark("successors" + nameSuffix, function() {
     g.successors(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
   runBenchmark("predecessors" + nameSuffix, function() {
     g.predecessors(nodeIds[this.nextInt(nodeIds.length)]);
-  });
-
-  runBenchmark("neighbors" + nameSuffix, function() {
-    g.neighbors(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
   runBenchmark("setRemove" + nameSuffix, function() {
@@ -134,16 +134,28 @@ NODE_SIZES.forEach(function(size) {
     g.getEdge(edge.v, edge.w);
   });
 
+  runBenchmark("degree" + nameSuffix, function() {
+    g.degree(nodeIds[this.nextInt(nodeIds.length)]);
+  });
+
+  runBenchmark("outDegree" + nameSuffix, function() {
+    g.outDegree(nodeIds[this.nextInt(nodeIds.length)]);
+  });
+
+  runBenchmark("inDegree" + nameSuffix, function() {
+    g.inDegree(nodeIds[this.nextInt(nodeIds.length)]);
+  });
+
+  runBenchmark("nodeEdges" + nameSuffix, function() {
+    g.nodeEdges(nodeIds[this.nextInt(nodeIds.length)]);
+  });
+
   runBenchmark("outEdges" + nameSuffix, function() {
     g.outEdges(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
   runBenchmark("inEdges" + nameSuffix, function() {
     g.inEdges(nodeIds[this.nextInt(nodeIds.length)]);
-  });
-
-  runBenchmark("nodeEdges" + nameSuffix, function() {
-    g.nodeEdges(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
   runBenchmark("setRemoveEdge" + nameSuffix, function() {
