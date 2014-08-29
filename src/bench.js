@@ -28,6 +28,12 @@ function runBenchmark(name, fn) {
   options.onError = function(bench) {
     console.error("    " + bench.target.error);
   };
+  options.setup = function() {
+    this.count = Math.random() * 1000;
+    this.nextInt = function(range) {
+      return Math.floor(this.count++ % range );
+    };
+  };
   new Benchmark(name, fn, options).run();
 }
 
@@ -67,9 +73,7 @@ runBenchmark("constructor", function () { new Digraph(); });
 NODE_SIZES.forEach(function(size) {
   var g = buildGraph(size, EDGE_DENSITY),
       nodeIds = g.nodeIds(),
-      node = nodeIds[Math.floor(Math.random() * nodeIds.length)],
       edges = g.edges(),
-      edge = edges[Math.floor(Math.random() * edges.length)],
       nameSuffix = "(" + size + "," + EDGE_DENSITY + ")";
 
   runBenchmark("nodes" + nameSuffix, function() {
@@ -97,19 +101,19 @@ NODE_SIZES.forEach(function(size) {
   });
 
   runBenchmark("getNode" + nameSuffix, function() {
-    g.getNode(node);
+    g.getNode(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
   runBenchmark("successors" + nameSuffix, function() {
-    g.successors(node);
+    g.successors(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
   runBenchmark("predecessors" + nameSuffix, function() {
-    g.predecessors(node);
+    g.predecessors(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
   runBenchmark("neighbors" + nameSuffix, function() {
-    g.neighbors(node);
+    g.neighbors(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
   runBenchmark("setRemove" + nameSuffix, function() {
@@ -126,19 +130,20 @@ NODE_SIZES.forEach(function(size) {
   });
 
   runBenchmark("getEdge" + nameSuffix, function() {
+    var edge = edges[this.nextInt(edges.length)];
     g.getEdge(edge.v, edge.w);
   });
 
   runBenchmark("outEdges" + nameSuffix, function() {
-    g.outEdges(node);
+    g.outEdges(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
   runBenchmark("inEdges" + nameSuffix, function() {
-    g.inEdges(node);
+    g.inEdges(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
   runBenchmark("nodeEdges" + nameSuffix, function() {
-    g.nodeEdges(node);
+    g.nodeEdges(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
   runBenchmark("setRemoveEdge" + nameSuffix, function() {
