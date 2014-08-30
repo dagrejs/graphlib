@@ -2,7 +2,7 @@ var _ = require("lodash"),
     expect = require("../chai").expect,
     PriorityQueue = require("../../lib/data/priority-queue");
 
-describe("PriorityQueue", function() {
+describe("data.PriorityQueue", function() {
   var pq;
 
   beforeEach(function() {
