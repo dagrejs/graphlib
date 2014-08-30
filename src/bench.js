@@ -171,6 +171,10 @@ NODE_SIZES.forEach(function(size) {
     alg.dijkstraAll(g);
   });
 
+  runBenchmark("greedyFAS" + nameSuffix, function() {
+    alg.greedyFAS(g);
+  });
+
   runBenchmark("copy" + nameSuffix, function() {
     g.copy();
   });
