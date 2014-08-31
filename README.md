@@ -9,7 +9,7 @@ Graphlib is a JavaScript library for creating and modifying directed and
 undirected graphs. In addition to a core graph API, it also comes with
 implementations for many common graph algorithms.
 
-To learn more [see our Wiki](/cpettitt/graphlib/wiki).
+To learn more [see our Wiki](https://github.com/cpettitt/graphlib/wiki).
 
 # License
 
