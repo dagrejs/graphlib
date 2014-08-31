@@ -91,6 +91,7 @@ function tests(GraphConstructor) {
         g.setEdge("c", "e");
         g.setEdge("c", "f");
         g.setEdge("g", "g");
+        g.setNode("h");
 
         expect(g.inDegree("a")).to.equal(0);
         expect(g.inDegree("b")).to.equal(0);
@@ -99,6 +100,8 @@ function tests(GraphConstructor) {
         expect(g.inDegree("e")).to.equal(1);
         expect(g.inDegree("f")).to.equal(1);
         expect(g.inDegree("g")).to.equal(1);
+        expect(g.inDegree("h")).to.equal(0);
+        expect(g.inDegree("not-in-graph")).to.be.undefined;
       });
     });
 
@@ -110,6 +113,7 @@ function tests(GraphConstructor) {
         g.setEdge("c", "e");
         g.setEdge("c", "f");
         g.setEdge("g", "g");
+        g.setNode("h");
 
         expect(g.outDegree("a")).to.equal(1);
         expect(g.outDegree("b")).to.equal(1);
@@ -118,6 +122,8 @@ function tests(GraphConstructor) {
         expect(g.outDegree("e")).to.equal(0);
         expect(g.outDegree("f")).to.equal(0);
         expect(g.outDegree("g")).to.equal(1);
+        expect(g.outDegree("h")).to.equal(0);
+        expect(g.outDegree("not-in-graph")).to.be.undefined;
       });
     });
 
@@ -129,6 +135,7 @@ function tests(GraphConstructor) {
         g.setEdge("c", "e");
         g.setEdge("c", "f");
         g.setEdge("g", "g");
+        g.setNode("h");
 
         expect(g.degree("a")).to.equal(1);
         expect(g.degree("b")).to.equal(1);
@@ -137,6 +144,8 @@ function tests(GraphConstructor) {
         expect(g.degree("e")).to.equal(1);
         expect(g.degree("f")).to.equal(1);
         expect(g.degree("g")).to.equal(2);
+        expect(g.degree("h")).to.equal(0);
+        expect(g.degree("not-in-graph")).to.be.undefined;
       });
     });
 
