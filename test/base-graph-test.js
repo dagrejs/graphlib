@@ -95,6 +95,12 @@ exports.tests = function(GraphConstructor) {
         expect(g.getNode("key")).to.be.undefined;
       });
 
+      it("doesn't change the node's label if the label was not specified", function() {
+        g.setNode("key", "label");
+        g.setNode("key");
+        expect(g.getNode("key")).to.equal("label");
+      });
+
       it("is chainable", function() {
         var g2 = g.setNode("key", "label");
         expect(g).to.equal(g2);
@@ -116,6 +122,14 @@ exports.tests = function(GraphConstructor) {
         expect(g.getNode("a")).to.equal("new-label");
         expect(g.getNode("b")).to.equal("new-label");
         expect(g.getNode("c")).to.equal("new-label");
+      });
+
+      it("does not replace node labels if the label is not specified", function() {
+        g.setNode("b", "label");
+        g.setNodes(["a", "b", "c"]);
+        expect(g.getNode("a")).to.be.undefined;
+        expect(g.getNode("b")).to.equal("label");
+        expect(g.getNode("c")).to.be.undefined;
       });
 
       it("is chainable", function() {
@@ -288,6 +302,19 @@ exports.tests = function(GraphConstructor) {
         expectSingleEdgeGraph(g, "n1", "n2", "new");
       });
 
+      it("does not replace an edge label if the label is not specified", function() {
+        g.setEdge("n1", "n2", "label");
+        g.setEdge("n1", "n2");
+        expectSingleEdgeGraph(g, "n1", "n2", "label");
+      });
+
+      it("can remove a label by explicitly setting it to undefined", function() {
+        g.setEdge("n1", "n2", "label");
+        g.setEdge("n1", "n2", undefined);
+        expect(g.hasEdge("n1", "n2")).to.be.true;
+        expect(g.getEdge("n1", "n2")).to.be.undefined;
+      });
+
       it("coerces the edge's node ids to strings", function() {
         g.setEdge(1, 2);
         expect(g.edges()).to.eql([{ v: "1", w: "2" }]);
@@ -335,6 +362,14 @@ exports.tests = function(GraphConstructor) {
         g.setEdge("a", "b", "label");
         g.setPath(["a", "b", "c"], "new-label");
         expect(g.getEdge("a", "b")).to.equal("new-label");
+        expect(g.getEdge("b", "c")).to.equal("new-label");
+      });
+
+      it("does not set labels if the label is not specified", function() {
+        g.setEdge("a", "b", "label");
+        g.setPath(["a", "b", "c"]);
+        expect(g.getEdge("a", "b")).to.equal("label");
+        expect(g.getEdge("b", "c")).to.be.undefined;
       });
 
       it("is chainable", function() {
