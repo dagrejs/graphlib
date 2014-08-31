@@ -86,6 +86,7 @@ function tests(GraphConstructor) {
         g.setEdge("c", "e");
         g.setEdge("c", "f");
         g.setEdge("g", "g");
+        g.setNode("h");
 
         expect(g.degree("a")).to.equal(1);
         expect(g.degree("b")).to.equal(1);
@@ -94,6 +95,8 @@ function tests(GraphConstructor) {
         expect(g.degree("e")).to.equal(1);
         expect(g.degree("f")).to.equal(1);
         expect(g.degree("g")).to.equal(2);
+        expect(g.degree("h")).to.equal(0);
+        expect(g.degree("not-in-graph")).to.be.undefined;
       });
     });
   });
