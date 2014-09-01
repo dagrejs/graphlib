@@ -194,6 +194,11 @@ exports.tests = function(GraphConstructor) {
         expect(g.getNode("a")).to.equal("a-label");
         expect(g.getNode("b")).to.equal("b-label");
       });
+
+      it("is chainable", function() {
+        var g2 = g.setDefaultNodeLabel(function() {});
+        expect(g).to.equal(g2);
+      });
     });
 
     describe("removeNode", function() {
@@ -466,7 +471,13 @@ exports.tests = function(GraphConstructor) {
         g.setEdge("a", "b");
         expect(g.getEdge("a", "b")).to.equal("a->b");
       });
+
+      it("is chainable", function() {
+        var g2 = g.setDefaultEdgeLabel(function() {});
+        expect(g).to.equal(g2);
+      });
     });
+
     describe("removeEdge", function() {
       it("does nothing if the edge is not in the graph", function() {
         g.setNode("n1");
