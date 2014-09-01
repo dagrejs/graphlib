@@ -132,6 +132,15 @@ exports.tests = function(GraphConstructor) {
         expect(g.getNode("c")).to.be.undefined;
       });
 
+      it("can take a function for the label argument", function() {
+        g.setNodes(["a", "b", "c"], function(v) {
+          return v + "-label";
+        });
+        expect(g.getNode("a")).to.equal("a-label");
+        expect(g.getNode("b")).to.equal("b-label");
+        expect(g.getNode("c")).to.equal("c-label");
+      });
+
       it("is chainable", function() {
         var g2 = g.setNode("key", "label");
         expect(g).to.equal(g2);
