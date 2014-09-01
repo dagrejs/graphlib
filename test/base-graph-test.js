@@ -178,6 +178,24 @@ exports.tests = function(GraphConstructor) {
       });
     });
 
+    describe("setDefaultNodeLabel", function() {
+      it("assigns the default value for created nodes", function() {
+        g.setDefaultNodeLabel(1);
+        g.setNode("a");
+        g.setNode("b");
+        expect(g.getNode("a")).to.equal(1);
+        expect(g.getNode("b")).to.equal(1);
+      });
+
+      it("can use a function to create the default value", function() {
+        g.setDefaultNodeLabel(function(v) { return v + "-label"; });
+        g.setNode("a");
+        g.setNode("b");
+        expect(g.getNode("a")).to.equal("a-label");
+        expect(g.getNode("b")).to.equal("b-label");
+      });
+    });
+
     describe("removeNode", function() {
       it("does nothing if the node is not part of the graph", function() {
         var removed;
@@ -434,6 +452,21 @@ exports.tests = function(GraphConstructor) {
       });
     });
 
+    describe("setDefaultEdgeLabel", function() {
+      it("assigns the default value for created edges", function() {
+        g.setDefaultEdgeLabel(1);
+        g.setEdge("a", "b");
+        expect(g.getEdge("a", "b")).to.equal(1);
+      });
+
+      it("can use a function to create the default value", function() {
+        g.setDefaultEdgeLabel(function(edge) {
+          return edge.v + "->" + edge.w;
+        });
+        g.setEdge("a", "b");
+        expect(g.getEdge("a", "b")).to.equal("a->b");
+      });
+    });
     describe("removeEdge", function() {
       it("does nothing if the edge is not in the graph", function() {
         g.setNode("n1");
