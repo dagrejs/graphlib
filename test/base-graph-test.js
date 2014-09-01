@@ -132,15 +132,6 @@ exports.tests = function(GraphConstructor) {
         expect(g.getNode("c")).to.be.undefined;
       });
 
-      it("can take a function for the label argument", function() {
-        g.setNodes(["a", "b", "c"], function(v) {
-          return v + "-label";
-        });
-        expect(g.getNode("a")).to.equal("a-label");
-        expect(g.getNode("b")).to.equal("b-label");
-        expect(g.getNode("c")).to.equal("c-label");
-      });
-
       it("is chainable", function() {
         var g2 = g.setNode("key", "label");
         expect(g).to.equal(g2);
@@ -161,8 +152,28 @@ exports.tests = function(GraphConstructor) {
         expectSingleNodeGraph(g, "key", "label-new");
       });
 
+      it("passes in the node's id", function() {
+        g.setNode("key", "label");
+        g.updateNode("key", function(prev, v) { return v + "-" + prev; });
+        expectSingleNodeGraph(g, "key", "key-label");
+      });
+
       it("is chainable", function() {
         var g2 = g.updateNode("key", updater);
+        expect(g).to.equal(g2);
+      });
+    });
+
+    describe("updateNodes", function() {
+      it("updates all of the specified nodes", function() {
+        g.setNode("a", "label");
+        g.updateNodes(["a", "b"], function(prev, v) { return v + "-" + prev; });
+        expect(g.getNode("a")).to.equal("a-label");
+        expect(g.getNode("b")).to.equal("b-undefined");
+      });
+
+      it("is chainable", function() {
+        var g2 = g.updateNodes(["key"], function() {});
         expect(g).to.equal(g2);
       });
     });
@@ -381,12 +392,6 @@ exports.tests = function(GraphConstructor) {
         expect(g.getEdge("b", "c")).to.be.undefined;
       });
 
-      it("can take a function as the label argument", function() {
-        g.setPath(["a", "b", "c"], function(edge) { return edge.v + "-" + edge.w; });
-        expect(g.getEdge("a", "b")).to.equal("a-b");
-        expect(g.getEdge("b", "c")).to.equal("b-c");
-      });
-
       it("is chainable", function() {
         var g2 = g.setPath(["a", "b", "c"]);
         expect(g).to.equal(g2);
@@ -409,6 +414,22 @@ exports.tests = function(GraphConstructor) {
 
       it("is chainable", function() {
         var g2 = g.updateEdge("n1", "n2", updater);
+        expect(g).to.equal(g2);
+      });
+    });
+
+    describe("updatePath", function() {
+      it("updates all edges on the path", function() {
+        g.setEdge("a", "b", "label");
+        g.updatePath(["a", "b", "c"], function(prev, edge) {
+          return edge.v + "->" + edge.w + ":" + prev;
+        });
+        expect(g.getEdge("a", "b")).to.equal("a->b:label");
+        expect(g.getEdge("b", "c")).to.equal("b->c:undefined");
+      });
+
+      it("is chainable", function() {
+        var g2 = g.updatePath(["a", "b"], function() {});
         expect(g).to.equal(g2);
       });
     });
