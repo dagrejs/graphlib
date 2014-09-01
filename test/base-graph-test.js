@@ -381,6 +381,12 @@ exports.tests = function(GraphConstructor) {
         expect(g.getEdge("b", "c")).to.be.undefined;
       });
 
+      it("can take a function as the label argument", function() {
+        g.setPath(["a", "b", "c"], function(edge) { return edge.v + "-" + edge.w; });
+        expect(g.getEdge("a", "b")).to.equal("a-b");
+        expect(g.getEdge("b", "c")).to.equal("b-c");
+      });
+
       it("is chainable", function() {
         var g2 = g.setPath(["a", "b", "c"]);
         expect(g).to.equal(g2);
