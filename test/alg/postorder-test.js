@@ -75,6 +75,19 @@ describe("alg.postorder", function() {
     expect(nodes.indexOf("d")).to.be.lt(nodes.indexOf("c"));
   });
 
+  it("works for an array of roots with an undirected graph", function() {
+    var g = new Graph();
+    g.setEdge("a", "b");
+    g.setEdge("c", "d");
+    g.setNode("e");
+    g.setNode("f");
+
+    var nodes = postorder(g, ["a", "b", "c", "e"]);
+    expect(_.sortBy(nodes)).to.eql(["a", "b", "c", "d", "e"]);
+    expect(nodes.indexOf("b")).to.be.lt(nodes.indexOf("a"));
+    expect(nodes.indexOf("d")).to.be.lt(nodes.indexOf("c"));
+  });
+
   it("finishes early if the callback returns false", function() {
     var g = new Digraph();
     g.setPath(["a", "b", "c", "d"]);
