@@ -34,6 +34,11 @@ exports.tests = function(GraphConstructor) {
         g.setGraph();
         expect(g.getGraph()).to.be.undefined;
       });
+
+      it("is chainable", function() {
+        var g2 = g.setGraph("foo");
+        expect(g).to.equal(g2);
+      });
     });
 
     describe("updateGraph", function() {
@@ -47,6 +52,11 @@ exports.tests = function(GraphConstructor) {
         g.setGraph("foo");
         g.updateGraph(function() {});
         expect(g.getGraph()).to.be.undefined;
+      });
+
+      it("is chainable", function() {
+        var g2 = g.updateGraph(function(old) { return old + "-new"; });
+        expect(g).to.equal(g2);
       });
     });
 
