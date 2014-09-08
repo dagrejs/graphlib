@@ -3,7 +3,7 @@
 var Benchmark = require("benchmark"),
     sprintf = require("sprintf").sprintf;
 
-var Digraph = require("..").Digraph,
+var Graph = require("..").Graph,
     alg = require("..").alg;
 
 var NODE_SIZES = [100],
@@ -51,11 +51,11 @@ function keys(count) {
 }
 
 function buildGraph(numNodes, edgeDensity) {
-  var g = new Digraph(),
+  var g = new Graph(),
       numEdges = numNodes * numNodes * edgeDensity,
       ks = keys(numNodes);
 
-  ks.forEach(function(k, i) { g.setNode(k, i); });
+  ks.forEach(function(k) { g.node(k); });
 
   for (var i = 0; i < numEdges; ++i) {
     var v, w;
@@ -63,45 +63,24 @@ function buildGraph(numNodes, edgeDensity) {
       v = ks[Math.floor(Math.random() * ks.length)];
       w = ks[Math.floor(Math.random() * ks.length)];
     } while (g.hasEdge(v, w));
-    g.setEdge(v, w);
+    g.edge(v, w);
   }
   return g;
 }
 
-runBenchmark("constructor", function () { new Digraph(); });
+runBenchmark("constructor", function () { new Graph(); });
 
 NODE_SIZES.forEach(function(size) {
   var g = buildGraph(size, EDGE_DENSITY),
-      nodeIds = g.nodeIds(),
-      edges = g.edges(),
+      nodeIds = g.nodes(),
       nameSuffix = "(" + size + "," + EDGE_DENSITY + ")";
 
   runBenchmark("nodes" + nameSuffix, function() {
     g.nodes();
   });
 
-  runBenchmark("nodeIds" + nameSuffix, function() {
-    g.nodeIds();
-  });
-
-  runBenchmark("filterNodes" + nameSuffix, function() {
-    g.filterNodes(function(_, label) { return label < (size / 2); });
-  });
-
-  runBenchmark("sources" + nameSuffix, function() {
-    g.sources();
-  });
-
-  runBenchmark("sinks" + nameSuffix, function() {
-    g.sinks();
-  });
-
-  runBenchmark("setNode" + nameSuffix, function() {
-    g.setNode("key", "label");
-  });
-
-  runBenchmark("getNode" + nameSuffix, function() {
-    g.getNode(nodeIds[this.nextInt(nodeIds.length)]);
+  runBenchmark("node" + nameSuffix, function() {
+    g.node("key");
   });
 
   runBenchmark("neighbors" + nameSuffix, function() {
@@ -117,7 +96,7 @@ NODE_SIZES.forEach(function(size) {
   });
 
   runBenchmark("setRemove" + nameSuffix, function() {
-    g.setNode("key");
+    g.node("key");
     g.removeNode("key");
   });
 
@@ -125,25 +104,8 @@ NODE_SIZES.forEach(function(size) {
     g.edges();
   });
 
-  runBenchmark("setEdge" + nameSuffix, function() {
-    g.setEdge("from", "to", "label");
-  });
-
-  runBenchmark("getEdge" + nameSuffix, function() {
-    var edge = edges[this.nextInt(edges.length)];
-    g.getEdge(edge.v, edge.w);
-  });
-
-  runBenchmark("degree" + nameSuffix, function() {
-    g.degree(nodeIds[this.nextInt(nodeIds.length)]);
-  });
-
-  runBenchmark("outDegree" + nameSuffix, function() {
-    g.outDegree(nodeIds[this.nextInt(nodeIds.length)]);
-  });
-
-  runBenchmark("inDegree" + nameSuffix, function() {
-    g.inDegree(nodeIds[this.nextInt(nodeIds.length)]);
+  runBenchmark("edge" + nameSuffix, function() {
+    g.edge("from", "to");
   });
 
   runBenchmark("nodeEdges" + nameSuffix, function() {
@@ -159,7 +121,7 @@ NODE_SIZES.forEach(function(size) {
   });
 
   runBenchmark("setRemoveEdge" + nameSuffix, function() {
-    g.setEdge("from", "to", "label");
+    g.edge("from", "to");
     g.removeEdge("from", "to");
   });
 
