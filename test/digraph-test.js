@@ -33,15 +33,6 @@ function tests(GraphConstructor) {
         g.setNode("n5");
         expect(_.sortBy(g.sources())).to.eql(["n1", "n4", "n5"]);
       });
-
-      it("recognizes a new source when in-edges are removed", function() {
-        g.setEdge("n1", "n1");
-        g.setEdge("n1", "n2");
-        expect(g.sources()).to.be.empty;
-
-        g.removeEdge("n1", "n2");
-        expect(g.sources()).to.eql(["n2"]);
-      });
     });
 
     describe("sinks", function() {
@@ -51,15 +42,6 @@ function tests(GraphConstructor) {
         g.setEdge("n3", "n4");
         g.setNode("n5");
         expect(_.sortBy(g.sinks())).to.eql(["n2", "n4", "n5"]);
-      });
-
-      it("recognizes a new sink when out-edges are removed", function() {
-        g.setEdge("n2", "n2");
-        g.setEdge("n1", "n2");
-        expect(g.sinks()).to.be.empty;
-
-        g.removeEdge("n1", "n2");
-        expect(g.sinks()).to.eql(["n1"]);
       });
     });
 
