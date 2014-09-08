@@ -60,6 +60,36 @@ exports.tests = function(GraphConstructor) {
       });
     });
 
+    describe("sources", function() {
+      it("includes a nodes whose only in-edge has been removed", function() {
+        g.setEdge("a", "b");
+        g.removeNode("a");
+        expect(g.sources()).to.include("b");
+      });
+
+      it("does not include a node if only one of its in-edges is removed", function() {
+        g.setEdge("a", "b");
+        g.setEdge("c", "b");
+        g.removeNode("a");
+        expect(g.sources()).to.not.include("b");
+      });
+    });
+
+    describe("sinks", function() {
+      it("includes a nodes whose only out-edge has been removed", function() {
+        g.setEdge("a", "b");
+        g.removeNode("b");
+        expect(g.sinks()).to.include("a");
+      });
+
+      it("does not include a node if only one of its out-edges is removed", function() {
+        g.setEdge("a", "b");
+        g.setEdge("a", "c");
+        g.removeNode("b");
+        expect(g.sinks()).to.not.include("a");
+      });
+    });
+
     describe("hasNode", function() {
       it("returns false if the node is not in the graph", function() {
         expect(g.hasNode("node-not-in-graph")).to.be.false;
