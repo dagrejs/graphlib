@@ -117,6 +117,14 @@ describe("Graph", function() {
       expect(g.edge(abKey)).to.equal(ab);
       expect(g.hasEdge(abKey)).to.be.true;
     });
+
+    it("also generates multi-edge keys", function() {
+      var g = new Graph({ multigraph: true }),
+          ab = g.edge("a", "b", "foo"),
+          abKey = g.edgeKey("a", "b", "foo");
+      expect(g.edge(abKey)).to.equal(ab);
+      expect(g.hasEdge(abKey)).to.be.true;
+    });
   });
 
   describe("edges", function() {
