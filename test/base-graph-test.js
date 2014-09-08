@@ -41,25 +41,6 @@ exports.tests = function(GraphConstructor) {
       });
     });
 
-    describe("updateGraph", function() {
-      it("updates the label for the graph", function() {
-        g.setGraph("foo");
-        g.updateGraph(function(old) { return old + "-bar"; });
-        expect(g.getGraph()).to.equal("foo-bar");
-      });
-
-      it("clears the label for the graph if no value is given", function() {
-        g.setGraph("foo");
-        g.updateGraph(function() {});
-        expect(g.getGraph()).to.be.undefined;
-      });
-
-      it("is chainable", function() {
-        var g2 = g.updateGraph(function(old) { return old + "-new"; });
-        expect(g).to.equal(g2);
-      });
-    });
-
     describe("sources", function() {
       it("includes a nodes whose only in-edge has been removed", function() {
         g.setEdge("a", "b");
@@ -174,46 +155,6 @@ exports.tests = function(GraphConstructor) {
 
       it("is chainable", function() {
         var g2 = g.setNode("key", "label");
-        expect(g).to.equal(g2);
-      });
-    });
-
-    describe("updateNode", function() {
-      var updater = function(prev) { return prev + "-new"; };
-
-      it("creates the node if it isn't part of the graph", function() {
-        g.updateNode("key", updater);
-        expectSingleNodeGraph(g, "key", undefined + "-new");
-      });
-
-      it("replaces the node's label if the node is part of the graph", function() {
-        g.setNode("key", "label");
-        g.updateNode("key", updater);
-        expectSingleNodeGraph(g, "key", "label-new");
-      });
-
-      it("passes in the node's id", function() {
-        g.setNode("key", "label");
-        g.updateNode("key", function(prev, v) { return v + "-" + prev; });
-        expectSingleNodeGraph(g, "key", "key-label");
-      });
-
-      it("is chainable", function() {
-        var g2 = g.updateNode("key", updater);
-        expect(g).to.equal(g2);
-      });
-    });
-
-    describe("updateNodes", function() {
-      it("updates all of the specified nodes", function() {
-        g.setNode("a", "label");
-        g.updateNodes(["a", "b"], function(prev, v) { return v + "-" + prev; });
-        expect(g.getNode("a")).to.equal("a-label");
-        expect(g.getNode("b")).to.equal("b-undefined");
-      });
-
-      it("is chainable", function() {
-        var g2 = g.updateNodes(["key"], function() {});
         expect(g).to.equal(g2);
       });
     });
@@ -457,42 +398,6 @@ exports.tests = function(GraphConstructor) {
 
       it("is chainable", function() {
         var g2 = g.setPath(["a", "b", "c"]);
-        expect(g).to.equal(g2);
-      });
-    });
-
-    describe("updateEdge", function() {
-      var updater = function(label) { return label + "-new"; };
-
-      it("adds and updates the edge if it does not exist", function() {
-        g.updateEdge("n1", "n2", updater);
-        expectSingleEdgeGraph(g, "n1", "n2", undefined + "-new");
-      });
-
-      it("updates the edge's label if it is in the graph", function() {
-        g.setEdge("n1", "n2", "label");
-        g.updateEdge("n1", "n2", updater);
-        expectSingleEdgeGraph(g, "n1", "n2", "label-new");
-      });
-
-      it("is chainable", function() {
-        var g2 = g.updateEdge("n1", "n2", updater);
-        expect(g).to.equal(g2);
-      });
-    });
-
-    describe("updatePath", function() {
-      it("updates all edges on the path", function() {
-        g.setEdge("a", "b", "label");
-        g.updatePath(["a", "b", "c"], function(prev, edge) {
-          return edge.v + "->" + edge.w + ":" + prev;
-        });
-        expect(g.getEdge("a", "b")).to.equal("a->b:label");
-        expect(g.getEdge("b", "c")).to.equal("b->c:undefined");
-      });
-
-      it("is chainable", function() {
-        var g2 = g.updatePath(["a", "b"], function() {});
         expect(g).to.equal(g2);
       });
     });
