@@ -46,15 +46,15 @@ describe("Graph", function() {
     });
   });
 
-  describe("nodes", function() {
+  describe("allNodes", function() {
     it("is empty if there are no nodes in the graph", function() {
-      expect(g.nodes()).to.eql([]);
+      expect(g.allNodes()).to.eql([]);
     });
 
     it("returns the ids of nodes in the graph", function() {
       g.node("a");
       g.node("b");
-      expect(_.sortBy(g.nodes())).to.eql(["a", "b"]);
+      expect(_.sortBy(g.allNodes())).to.eql(["a", "b"]);
     });
   });
 
@@ -240,15 +240,15 @@ describe("Graph", function() {
     });
   });
 
-  describe("edges", function() {
+  describe("allEdges", function() {
     it("is empty if there are no edges in the graph", function() {
-      expect(g.edges()).to.eql([]);
+      expect(g.allEdges()).to.eql([]);
     });
 
     it("returns the keys for edges in the graph", function() {
       g.edge("a", "b");
       g.edge("b", "c");
-      expect(_.sortBy(g.edges()))
+      expect(_.sortBy(g.allEdges()))
         .to.eql(_.sortBy([ g.edgeKey("a", "b"), g.edgeKey("b", "c") ]));
     });
   });
@@ -281,18 +281,18 @@ describe("Graph", function() {
     });
   });
 
-  describe("nodeEdges", function() {
+  describe("edges", function() {
     it("returns undefined for a node that is not in the graph", function() {
-      expect(g.nodeEdges("a")).to.be.undefined;
+      expect(g.edges("a")).to.be.undefined;
     });
 
     it("returns all edges that this node points at", function() {
       g.edge("a", "b");
       g.edge("b", "c");
-      expect(g.nodeEdges("a")).to.eql([ g.edgeKey("a", "b") ]);
-      expect(_.sortBy(g.nodeEdges("b")))
+      expect(g.edges("a")).to.eql([ g.edgeKey("a", "b") ]);
+      expect(_.sortBy(g.edges("b")))
         .to.eql(_.sortBy([ g.edgeKey("a", "b"), g.edgeKey("b", "c") ]));
-      expect(g.nodeEdges("c")).to.eql([ g.edgeKey("b", "c") ]);
+      expect(g.edges("c")).to.eql([ g.edgeKey("b", "c") ]);
     });
   });
 });
