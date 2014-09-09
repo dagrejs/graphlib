@@ -83,21 +83,21 @@ NODE_SIZES.forEach(function(size) {
     g.node("key");
   });
 
-  runBenchmark("neighbors" + nameSuffix, function() {
-    g.neighbors(nodeIds[this.nextInt(nodeIds.length)]);
-  });
-
-  runBenchmark("successors" + nameSuffix, function() {
-    g.successors(nodeIds[this.nextInt(nodeIds.length)]);
+  runBenchmark("node + remove" + nameSuffix, function() {
+    g.node("key");
+    g.removeNode("key");
   });
 
   runBenchmark("predecessors" + nameSuffix, function() {
     g.predecessors(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
-  runBenchmark("node + remove" + nameSuffix, function() {
-    g.node("key");
-    g.removeNode("key");
+  runBenchmark("successors" + nameSuffix, function() {
+    g.successors(nodeIds[this.nextInt(nodeIds.length)]);
+  });
+
+  runBenchmark("neighbors" + nameSuffix, function() {
+    g.neighbors(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
   runBenchmark("edges" + nameSuffix, function() {
@@ -108,21 +108,21 @@ NODE_SIZES.forEach(function(size) {
     g.edge("from", "to");
   });
 
-  runBenchmark("nodeEdges" + nameSuffix, function() {
-    g.nodeEdges(nodeIds[this.nextInt(nodeIds.length)]);
-  });
-
-  runBenchmark("outEdges" + nameSuffix, function() {
-    g.outEdges(nodeIds[this.nextInt(nodeIds.length)]);
+  runBenchmark("edge + remove" + nameSuffix, function() {
+    g.edge("from", "to");
+    g.removeEdge("from", "to");
   });
 
   runBenchmark("inEdges" + nameSuffix, function() {
     g.inEdges(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
-  runBenchmark("edge + remove" + nameSuffix, function() {
-    g.edge("from", "to");
-    g.removeEdge("from", "to");
+  runBenchmark("outEdges" + nameSuffix, function() {
+    g.outEdges(nodeIds[this.nextInt(nodeIds.length)]);
+  });
+
+  runBenchmark("nodeEdges" + nameSuffix, function() {
+    g.nodeEdges(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
   runBenchmark("components" + nameSuffix, function() {
