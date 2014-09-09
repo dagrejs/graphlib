@@ -184,10 +184,19 @@ describe("Graph", function() {
       expect(g.edgeCount()).to.equal(0);
     });
 
-    it("allows multi-edges to be created in a multigraph", function() {
+    it("allows multi-edges to be created in a multigraph #1", function() {
       var g = new Graph({ multigraph: true });
       g.edge("a", "b", "foo");
       g.edge("a", "b", "bar");
+      expect(g.hasEdge("a", "b", "foo")).to.be.true;
+      expect(g.hasEdge("a", "b", "bar")).to.be.true;
+      expect(g.edgeCount()).to.equal(2);
+    });
+
+    it("allows multi-edges to be created in a multigraph #2", function() {
+      var g = new Graph({ multigraph: true });
+      g.edge(g.edgeKey("a", "b", "foo"));
+      g.edge(g.edgeKey("a", "b", "bar"));
       expect(g.hasEdge("a", "b", "foo")).to.be.true;
       expect(g.hasEdge("a", "b", "bar")).to.be.true;
       expect(g.edgeCount()).to.equal(2);
