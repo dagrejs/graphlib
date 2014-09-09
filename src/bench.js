@@ -95,7 +95,7 @@ NODE_SIZES.forEach(function(size) {
     g.predecessors(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
-  runBenchmark("setRemove" + nameSuffix, function() {
+  runBenchmark("node + remove" + nameSuffix, function() {
     g.node("key");
     g.removeNode("key");
   });
@@ -120,7 +120,7 @@ NODE_SIZES.forEach(function(size) {
     g.inEdges(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
-  runBenchmark("setRemoveEdge" + nameSuffix, function() {
+  runBenchmark("edge + remove" + nameSuffix, function() {
     g.edge("from", "to");
     g.removeEdge("from", "to");
   });
