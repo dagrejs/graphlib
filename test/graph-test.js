@@ -89,7 +89,53 @@ describe("Graph", function() {
     });
   });
 
-  describe.only("edge", function() {
+  describe("predecessors", function() {
+    it("returns undefined for a node that is not in the graph", function() {
+      expect(g.predecessors("a")).to.be.undefined;
+    });
+
+    it("returns the predecessors of a node", function() {
+      g.edge("a", "b");
+      g.edge("b", "c");
+      g.edge("a", "a");
+      expect(_.sortBy(g.predecessors("a"))).to.eql(["a"]);
+      expect(_.sortBy(g.predecessors("b"))).to.eql(["a"]);
+      expect(_.sortBy(g.predecessors("c"))).to.eql(["b"]);
+    });
+  });
+
+
+  describe("successors", function() {
+    it("returns undefined for a node that is not in the graph", function() {
+      expect(g.successors("a")).to.be.undefined;
+    });
+
+    it("returns the successors of a node", function() {
+      g.edge("a", "b");
+      g.edge("b", "c");
+      g.edge("a", "a");
+      expect(_.sortBy(g.successors("a"))).to.eql(["a", "b"]);
+      expect(_.sortBy(g.successors("b"))).to.eql(["c"]);
+      expect(_.sortBy(g.successors("c"))).to.eql([]);
+    });
+  });
+
+  describe("neighbors", function() {
+    it("returns undefined for a node that is not in the graph", function() {
+      expect(g.neighbors("a")).to.be.undefined;
+    });
+
+    it("returns the neighbors of a node", function() {
+      g.edge("a", "b");
+      g.edge("b", "c");
+      g.edge("a", "a");
+      expect(_.sortBy(g.neighbors("a"))).to.eql(["a", "b"]);
+      expect(_.sortBy(g.neighbors("b"))).to.eql(["a", "c"]);
+      expect(_.sortBy(g.neighbors("c"))).to.eql(["b"]);
+    });
+  });
+
+  describe("edge", function() {
     it("creates the edge if it isn't part of the graph", function() {
       g.node("a");
       g.node("b");
@@ -208,113 +254,45 @@ describe("Graph", function() {
   });
 
   describe("inEdges", function() {
+    it("returns undefined for a node that is not in the graph", function() {
+      expect(g.inEdges("a")).to.be.undefined;
+    });
+
     it("returns the edges that point at the specified node", function() {
-      g.setEdge("n1", "n2", "n1n2");
-      g.setEdge("n3", "n2", "n3n2");
-      g.setEdge("n3", "n4");
-      var edges = sortEdges(g.inEdges("n2"));
-      expect(edges).to.eql([{ v: "n1", w: "n2", label: "n1n2" },
-                            { v: "n3", w: "n2", label: "n3n2" }]);
+      g.edge("a", "b");
+      g.edge("b", "c");
+      expect(g.inEdges("a")).to.eql([]);
+      expect(g.inEdges("b")).to.eql([ g.edgeKey("a", "b") ]);
+      expect(g.inEdges("c")).to.eql([ g.edgeKey("b", "c") ]);
     });
   });
 
   describe("outEdges", function() {
-    it("returns the edges that start at the specified node", function() {
-      g.setEdge("n1", "n2", "n1n2");
-      g.setEdge("n1", "n3", "n1n3");
-      g.setEdge("n2", "n3", "n2n3");
-      var edges = sortEdges(g.outEdges("n1"));
-      expect(edges).to.eql([{ v: "n1", w: "n2", label: "n1n2" },
-                            { v: "n1", w: "n3", label: "n1n3" }]);
+    it("returns undefined for a node that is not in the graph", function() {
+      expect(g.outEdges("a")).to.be.undefined;
+    });
+
+    it("returns all edges that this node points at", function() {
+      g.edge("a", "b");
+      g.edge("b", "c");
+      expect(g.outEdges("a")).to.eql([ g.edgeKey("a", "b") ]);
+      expect(g.outEdges("b")).to.eql([ g.edgeKey("b", "c") ]);
+      expect(g.outEdges("c")).to.eql([]);
     });
   });
 
   describe("nodeEdges", function() {
-    it("returns the edges incident on a node", function() {
-      g.setEdge("n1", "n1", "l1");
-      g.setEdge("n1", "n2", "l2");
-      g.setEdge("n2", "n3", "l3");
-      g.setEdge("n3", "n1", "l4");
-
-      var result = _.sortBy(g.nodeEdges("n1"), ["v", "w"]);
-      expect(result).to.eql([{ v: "n1", w: "n1", label: "l1" },
-                             { v: "n1", w: "n2", label: "l2" },
-                             { v: "n3", w: "n1", label: "l4" }]);
+    it("returns undefined for a node that is not in the graph", function() {
+      expect(g.nodeEdges("a")).to.be.undefined;
     });
 
-    it("returns undefined if the node is not in the graph", function() {
-      expect(g.nodeEdges("node-not-in-graph")).to.be.undefined;
-    });
-
-    it("does not allow changes through the returned edge object", function() {
-      g.setEdge("n1", "n2", "label");
-      var edge = g.nodeEdges("n1")[0];
-      edge.label = "foo";
-      expect(g.getEdge("n1", "n2")).to.equal("label");
-    });
-  });
-
-  describe("successors", function() {
-    it("returns the successors of a node", function() {
-      g.setEdge("n1", "n1");
-      g.setEdge("n1", "n2");
-      g.setEdge("n2", "n3");
-      g.setEdge("n3", "n1");
-      expect(_.sortBy(g.successors("n1"))).to.eql(["n1", "n2"]);
-    });
-  });
-
-  describe("predecessors", function() {
-    it("returns the predecessors of a node", function() {
-      g.setEdge("n1", "n1");
-      g.setEdge("n1", "n2");
-      g.setEdge("n2", "n3");
-      g.setEdge("n3", "n1");
-      expect(_.sortBy(g.predecessors("n1"))).to.eql(["n1", "n3"]);
-    });
-  });
-
-  describe("neighbors", function() {
-    it("returns the neighbors of a node", function() {
-      g.setEdge("n1", "n1");
-      g.setEdge("n1", "n2");
-      g.setEdge("n2", "n3");
-      g.setEdge("n3", "n1");
-      expect(_.sortBy(g.neighbors("n1"))).to.eql(["n1", "n2", "n3"]);
-    });
-
-    it("returns undefined if the node is not in the graph", function() {
-      expect(g.neighbors("node-not-in-graph")).to.be.undefined;
+    it("returns all edges that this node points at", function() {
+      g.edge("a", "b");
+      g.edge("b", "c");
+      expect(g.nodeEdges("a")).to.eql([ g.edgeKey("a", "b") ]);
+      expect(_.sortBy(g.nodeEdges("b")))
+        .to.eql(_.sortBy([ g.edgeKey("a", "b"), g.edgeKey("b", "c") ]));
+      expect(g.nodeEdges("c")).to.eql([ g.edgeKey("b", "c") ]);
     });
   });
 });
-
-function expectEmptyGraph(g) {
-  expect(g.nodeIds()).to.be.empty;
-  expect(g.nodeCount()).to.equal(0);
-  expect(g.edges()).to.be.empty;
-  expect(g.edgeCount()).to.equal(0);
-}
-exports.expectEmptyGraph = expectEmptyGraph;
-
-function expectSingleNodeGraph(g, key, label) {
-  expect(g.getNode(key)).to.equal(label);
-  expect(g.hasNode(key)).to.be.true;
-  expect(g.nodes()).to.eql([{ v: key, label: label }]);
-  expect(g.nodeIds()).to.eql([key]);
-  expect(g.nodeCount()).to.equal(1);
-}
-exports.expectSingleNodeGraph = expectSingleNodeGraph;
-
-function expectSingleEdgeGraph(g, v, w, label) {
-  expect(g.edges().length).to.equal(1);
-  expect(g.edges()[0]).to.eql({ v: v, w: w, label: label });
-  expect(g.getEdge(v, w)).to.equal(label);
-  expect(g.hasEdge(v, w)).to.be.true;
-  expect(g.edgeCount()).to.equal(1);
-}
-exports.expectSingleEdgeGraph = expectSingleEdgeGraph;
-
-function sortEdges(edges) {
-  return _.sortBy(edges, function(edge) { return edge.v; });
-}
