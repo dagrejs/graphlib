@@ -79,6 +79,10 @@ NODE_SIZES.forEach(function(size) {
     g.allNodes();
   });
 
+  runBenchmark("nodes" + nameSuffix, function() {
+    g.nodes("a", "b", "c", "d", "e");
+  });
+
   runBenchmark("node" + nameSuffix, function() {
     g.node("key");
   });

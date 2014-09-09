@@ -35,6 +35,29 @@ describe("Graph", function() {
     });
   });
 
+  describe("nodes", function() {
+    it("creates the nodes in the list", function() {
+      g.nodes("a", "b", "c");
+      expect(g.hasNode("a"));
+      expect(g.hasNode("b"));
+      expect(g.hasNode("c"));
+    });
+
+    it("returns the list of nodes", function() {
+      var vs = g.nodes("a", "b", "c");
+      expect(vs).to.have.length(3);
+      expect(vs[0]).to.equal(g.node("a"));
+      expect(vs[1]).to.equal(g.node("b"));
+      expect(vs[2]).to.equal(g.node("c"));
+    });
+
+    it("returns the original node attrs if it already existed", function() {
+      var b = g.node("b"),
+          vs = g.nodes("a", "b", "c");
+      expect(vs[1]).to.equal(b);
+    });
+  });
+
   describe("node", function() {
     it("creates the node if it isn't part of the graph", function() {
       g.node("a");
