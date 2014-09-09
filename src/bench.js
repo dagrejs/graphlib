@@ -152,8 +152,4 @@ NODE_SIZES.forEach(function(size) {
   runBenchmark("greedyFAS" + nameSuffix, function() {
     alg.greedyFAS(g);
   });
-
-  runBenchmark("copy" + nameSuffix, function() {
-    g.copy();
-  });
 });
