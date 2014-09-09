@@ -72,11 +72,11 @@ runBenchmark("constructor", function () { new Graph(); });
 
 NODE_SIZES.forEach(function(size) {
   var g = buildGraph(size, EDGE_DENSITY),
-      nodeIds = g.nodes(),
+      nodeIds = g.allNodes(),
       nameSuffix = "(" + size + "," + EDGE_DENSITY + ")";
 
-  runBenchmark("nodes" + nameSuffix, function() {
-    g.nodes();
+  runBenchmark("allNodes" + nameSuffix, function() {
+    g.allNodes();
   });
 
   runBenchmark("node" + nameSuffix, function() {
@@ -100,8 +100,8 @@ NODE_SIZES.forEach(function(size) {
     g.neighbors(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
-  runBenchmark("edges" + nameSuffix, function() {
-    g.edges();
+  runBenchmark("allEdges" + nameSuffix, function() {
+    g.allEdges();
   });
 
   runBenchmark("edge" + nameSuffix, function() {
