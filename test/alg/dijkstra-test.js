@@ -12,7 +12,8 @@ describe("alg.dijkstra", function() {
 
   it("returns Number.POSITIVE_INFINITY for unconnected nodes", function() {
     var g = new Graph();
-    g.nodes("a", "b");
+    g.node("a");
+    g.node("b");
     expect(dijkstra(g, "a")).to.eql({
       a: { distance: 0 },
       b: { distance: Number.POSITIVE_INFINITY }

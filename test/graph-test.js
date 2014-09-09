@@ -23,15 +23,15 @@ describe("Graph", function() {
     });
   });
 
-  describe("allNodes", function() {
+  describe("nodes", function() {
     it("is empty if there are no nodes in the graph", function() {
-      expect(g.allNodes()).to.eql([]);
+      expect(g.nodes()).to.eql([]);
     });
 
     it("returns the ids of nodes in the graph", function() {
       g.node("a");
       g.node("b");
-      expect(_.sortBy(g.allNodes())).to.eql(["a", "b"]);
+      expect(_.sortBy(g.nodes())).to.eql(["a", "b"]);
     });
   });
 
@@ -48,29 +48,6 @@ describe("Graph", function() {
       g.path("a", "b", "c");
       g.node("d");
       expect(_.sortBy(g.sinks())).to.eql(["c", "d"]);
-    });
-  });
-
-  describe("nodes", function() {
-    it("creates the nodes in the list", function() {
-      g.nodes("a", "b", "c");
-      expect(g.hasNode("a"));
-      expect(g.hasNode("b"));
-      expect(g.hasNode("c"));
-    });
-
-    it("returns the list of nodes", function() {
-      var vs = g.nodes("a", "b", "c");
-      expect(vs).to.have.length(3);
-      expect(vs[0]).to.equal(g.node("a"));
-      expect(vs[1]).to.equal(g.node("b"));
-      expect(vs[2]).to.equal(g.node("c"));
-    });
-
-    it("returns the original node attrs if it already existed", function() {
-      var b = g.node("b"),
-          vs = g.nodes("a", "b", "c");
-      expect(vs[1]).to.equal(b);
     });
   });
 
@@ -173,15 +150,15 @@ describe("Graph", function() {
     });
   });
 
-  describe("allEdges", function() {
+  describe("edges", function() {
     it("is empty if there are no edges in the graph", function() {
-      expect(g.allEdges()).to.eql([]);
+      expect(g.edges()).to.eql([]);
     });
 
     it("returns the keys for edges in the graph", function() {
       g.edge("a", "b");
       g.edge("b", "c");
-      expect(_.sortBy(g.allEdges()), ["v", "w"]).to.eql([
+      expect(_.sortBy(g.edges()), ["v", "w"]).to.eql([
         { v: "a", w: "b" },
         { v: "b", w: "c" }
       ]);
@@ -360,18 +337,18 @@ describe("Graph", function() {
     });
   });
 
-  describe("edges", function() {
+  describe("nodeEdges", function() {
     it("returns undefined for a node that is not in the graph", function() {
-      expect(g.edges("a")).to.be.undefined;
+      expect(g.nodeEdges("a")).to.be.undefined;
     });
 
     it("returns all edges that this node points at", function() {
       g.edge("a", "b");
       g.edge("b", "c");
-      expect(g.edges("a")).to.eql([{ v: "a", w: "b" }]);
-      expect(_.sortBy(g.edges("b"), ["v", "w"]))
+      expect(g.nodeEdges("a")).to.eql([{ v: "a", w: "b" }]);
+      expect(_.sortBy(g.nodeEdges("b"), ["v", "w"]))
         .to.eql([{ v: "a", w: "b" }, { v: "b", w: "c" }]);
-      expect(g.edges("c")).to.eql([{ v: "b", w: "c" }]);
+      expect(g.nodeEdges("c")).to.eql([{ v: "b", w: "c" }]);
     });
 
     it("works for multigraphs", function() {
@@ -379,12 +356,12 @@ describe("Graph", function() {
       g.edge("a", "b");
       g.edge("a", "b", "bar");
       g.edge("a", "b", "foo");
-      expect(_.sortBy(g.edges("a"), "name")).to.eql([
+      expect(_.sortBy(g.nodeEdges("a"), "name")).to.eql([
         { v: "a", w: "b", name: "bar" },
         { v: "a", w: "b", name: "foo" },
         { v: "a", w: "b" }
       ]);
-      expect(_.sortBy(g.edges("b"), "name")).to.eql([
+      expect(_.sortBy(g.nodeEdges("b"), "name")).to.eql([
         { v: "a", w: "b", name: "bar" },
         { v: "a", w: "b", name: "foo" },
         { v: "a", w: "b" }

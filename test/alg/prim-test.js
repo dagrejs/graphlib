@@ -17,7 +17,7 @@ describe("alg.prim", function() {
     source.node("a");
 
     var g = prim(source, weightFn(source));
-    expect(g.allNodes()).to.eql(["a"]);
+    expect(g.nodes()).to.eql(["a"]);
     expect(g.edgeCount()).to.equal(0);
   });
 
