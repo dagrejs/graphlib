@@ -72,11 +72,11 @@ runBenchmark("constructor", function () { new Graph(); });
 
 NODE_SIZES.forEach(function(size) {
   var g = buildGraph(size, EDGE_DENSITY),
-      nodeIds = g.allNodes(),
+      nodeIds = g.nodes(),
       nameSuffix = "(" + size + "," + EDGE_DENSITY + ")";
 
-  runBenchmark("allNodes" + nameSuffix, function() {
-    g.allNodes();
+  runBenchmark("nodes" + nameSuffix, function() {
+    g.nodes();
   });
 
   runBenchmark("sources" + nameSuffix, function() {
@@ -85,10 +85,6 @@ NODE_SIZES.forEach(function(size) {
 
   runBenchmark("sinks" + nameSuffix, function() {
     g.sinks();
-  });
-
-  runBenchmark("nodes" + nameSuffix, function() {
-    g.nodes("a", "b", "c", "d", "e");
   });
 
   runBenchmark("node" + nameSuffix, function() {
@@ -112,8 +108,8 @@ NODE_SIZES.forEach(function(size) {
     g.neighbors(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
-  runBenchmark("allEdges" + nameSuffix, function() {
-    g.allEdges();
+  runBenchmark("edges" + nameSuffix, function() {
+    g.edges();
   });
 
   runBenchmark("path" + nameSuffix, function() {
@@ -137,8 +133,8 @@ NODE_SIZES.forEach(function(size) {
     g.outEdges(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
-  runBenchmark("edges" + nameSuffix, function() {
-    g.edges(nodeIds[this.nextInt(nodeIds.length)]);
+  runBenchmark("nodeEdges" + nameSuffix, function() {
+    g.nodeEdges(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
   runBenchmark("components" + nameSuffix, function() {

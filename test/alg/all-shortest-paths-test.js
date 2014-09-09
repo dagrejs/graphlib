@@ -89,7 +89,7 @@ function tests(sp) {
       g.edge("c", "a").weight = 4;
       g.edge("b", "d").weight = 6;
 
-      expect(sp(g, weightFn(g), g.edges.bind(g))).to.eql({
+      expect(sp(g, weightFn(g), g.nodeEdges.bind(g))).to.eql({
         a: {
           a: { distance: 0 },
           b: { distance: 1, predecessor: "a" },
