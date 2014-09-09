@@ -104,7 +104,6 @@ describe("Graph", function() {
     });
   });
 
-
   describe("successors", function() {
     it("returns undefined for a node that is not in the graph", function() {
       expect(g.successors("a")).to.be.undefined;
@@ -145,6 +144,21 @@ describe("Graph", function() {
       g.edge("b", "c");
       expect(_.sortBy(g.allEdges()))
         .to.eql(_.sortBy([ g.edgeKey("a", "b"), g.edgeKey("b", "c") ]));
+    });
+  });
+
+  describe("path", function() {
+    it("creates a path of mutiple edges", function() {
+      g.path("a", "b", "c");
+      expect(g.hasEdge("a", "b")).to.be.true;
+      expect(g.hasEdge("b", "c")).to.be.true;
+    });
+
+    it("returns the segments of the path", function() {
+      var segments = g.path("a", "b", "c");
+      expect(segments).to.have.length(2);
+      expect(segments[0]).to.equal(g.edge("a", "b"));
+      expect(segments[1]).to.equal(g.edge("b", "c"));
     });
   });
 

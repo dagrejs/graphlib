@@ -104,6 +104,10 @@ NODE_SIZES.forEach(function(size) {
     g.allEdges();
   });
 
+  runBenchmark("path" + nameSuffix, function() {
+    g.path("a", "b", "c", "d", "e");
+  });
+
   runBenchmark("edge" + nameSuffix, function() {
     g.edge("from", "to");
   });
