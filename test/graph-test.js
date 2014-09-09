@@ -194,6 +194,7 @@ describe("Graph", function() {
       var ab = g.edge("a", "b");
       expect(ab).to.eql({});
       expect(g.hasEdge("a", "b")).to.be.true;
+      expect(g.hasEdge({ v: "a", w: "b" })).to.be.true;
       expect(g.edge("a", "b")).to.eql(ab);
       expect(g.edgeCount()).to.equal(1);
     });
@@ -291,6 +292,19 @@ describe("Graph", function() {
       expect(g.inEdges("b")).to.eql([{ v: "a", w: "b" }]);
       expect(g.inEdges("c")).to.eql([{ v: "b", w: "c" }]);
     });
+
+    it("works for multigraphs", function() {
+      var g = new Graph({ multigraph: true });
+      g.edge("a", "b");
+      g.edge("a", "b", "bar");
+      g.edge("a", "b", "foo");
+      expect(g.inEdges("a")).to.eql([]);
+      expect(_.sortBy(g.inEdges("b"), "name")).to.eql([
+        { v: "a", w: "b", name: "bar" },
+        { v: "a", w: "b", name: "foo" },
+        { v: "a", w: "b" }
+      ]);
+    });
   });
 
   describe("outEdges", function() {
@@ -304,6 +318,19 @@ describe("Graph", function() {
       expect(g.outEdges("a")).to.eql([{ v: "a", w: "b" }]);
       expect(g.outEdges("b")).to.eql([{ v: "b", w: "c" }]);
       expect(g.outEdges("c")).to.eql([]);
+    });
+
+    it("works for multigraphs", function() {
+      var g = new Graph({ multigraph: true });
+      g.edge("a", "b");
+      g.edge("a", "b", "bar");
+      g.edge("a", "b", "foo");
+      expect(_.sortBy(g.outEdges("a"), "name")).to.eql([
+        { v: "a", w: "b", name: "bar" },
+        { v: "a", w: "b", name: "foo" },
+        { v: "a", w: "b" }
+      ]);
+      expect(g.outEdges("b")).to.eql([]);
     });
   });
 
@@ -319,6 +346,23 @@ describe("Graph", function() {
       expect(_.sortBy(g.edges("b"), ["v", "w"]))
         .to.eql([{ v: "a", w: "b" }, { v: "b", w: "c" }]);
       expect(g.edges("c")).to.eql([{ v: "b", w: "c" }]);
+    });
+
+    it("works for multigraphs", function() {
+      var g = new Graph({ multigraph: true });
+      g.edge("a", "b");
+      g.edge("a", "b", "bar");
+      g.edge("a", "b", "foo");
+      expect(_.sortBy(g.edges("a"), "name")).to.eql([
+        { v: "a", w: "b", name: "bar" },
+        { v: "a", w: "b", name: "foo" },
+        { v: "a", w: "b" }
+      ]);
+      expect(_.sortBy(g.edges("b"), "name")).to.eql([
+        { v: "a", w: "b", name: "bar" },
+        { v: "a", w: "b", name: "foo" },
+        { v: "a", w: "b" }
+      ]);
     });
   });
 });
