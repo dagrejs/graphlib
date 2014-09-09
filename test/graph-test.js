@@ -239,20 +239,30 @@ describe("Graph", function() {
 
     it("allows multi-edges to be created in a multigraph #1", function() {
       var g = new Graph({ multigraph: true });
-      g.edge("a", "b", "foo");
-      g.edge("a", "b", "bar");
+      g.edge("a", "b").value = 0;
+      g.edge("a", "b", "foo").value = 1;
+      g.edge("a", "b", "bar").value = 2;
+      expect(g.edge("a", "b")).to.eql({ value: 0 });
+      expect(g.edge("a", "b", "foo")).to.eql({ value: 1 });
+      expect(g.edge("a", "b", "bar")).to.eql({ value: 2 });
+      expect(g.hasEdge("a", "b")).to.be.true;
       expect(g.hasEdge("a", "b", "foo")).to.be.true;
       expect(g.hasEdge("a", "b", "bar")).to.be.true;
-      expect(g.edgeCount()).to.equal(2);
+      expect(g.edgeCount()).to.equal(3);
     });
 
     it("allows multi-edges to be created in a multigraph #2", function() {
       var g = new Graph({ multigraph: true });
-      g.edge({ v: "a", w: "b", name: "foo" });
-      g.edge({ v: "a", w: "b", name: "bar" });
-      expect(g.hasEdge("a", "b", "foo")).to.be.true;
-      expect(g.hasEdge("a", "b", "bar")).to.be.true;
-      expect(g.edgeCount()).to.equal(2);
+      g.edge({ v: "a", w: "b" }).value = 0;
+      g.edge({ v: "a", w: "b", name: "foo" }).value = 1;
+      g.edge({ v: "a", w: "b", name: "bar" }).value = 2;
+      expect(g.edge({ v: "a", w: "b"})).to.eql({ value: 0 });
+      expect(g.edge({ v: "a", w: "b", name: "foo" })).to.eql({ value: 1 });
+      expect(g.edge({ v: "a", w: "b", name: "bar" })).to.eql({ value: 2 });
+      expect(g.hasEdge({ v: "a", w: "b" })).to.be.true;
+      expect(g.hasEdge({ v: "a", w: "b", name: "foo" })).to.be.true;
+      expect(g.hasEdge({ v: "a", w: "b", name: "bar" })).to.be.true;
+      expect(g.edgeCount()).to.equal(3);
     });
   });
 
