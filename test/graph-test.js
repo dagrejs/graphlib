@@ -35,6 +35,22 @@ describe("Graph", function() {
     });
   });
 
+  describe("sources", function() {
+    it("returns nodes in the graph that have no in-edges", function() {
+      g.path("a", "b", "c");
+      g.node("d");
+      expect(_.sortBy(g.sources())).to.eql(["a", "d"]);
+    });
+  });
+
+  describe("sinks", function() {
+    it("returns nodes in the graph that have no out-edges", function() {
+      g.path("a", "b", "c");
+      g.node("d");
+      expect(_.sortBy(g.sinks())).to.eql(["c", "d"]);
+    });
+  });
+
   describe("nodes", function() {
     it("creates the nodes in the list", function() {
       g.nodes("a", "b", "c");

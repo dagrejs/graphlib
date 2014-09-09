@@ -79,6 +79,14 @@ NODE_SIZES.forEach(function(size) {
     g.allNodes();
   });
 
+  runBenchmark("sources" + nameSuffix, function() {
+    g.sources();
+  });
+
+  runBenchmark("sinks" + nameSuffix, function() {
+    g.sinks();
+  });
+
   runBenchmark("nodes" + nameSuffix, function() {
     g.nodes("a", "b", "c", "d", "e");
   });
