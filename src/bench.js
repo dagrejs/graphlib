@@ -121,8 +121,8 @@ NODE_SIZES.forEach(function(size) {
     g.outEdges(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
-  runBenchmark("nodeEdges" + nameSuffix, function() {
-    g.nodeEdges(nodeIds[this.nextInt(nodeIds.length)]);
+  runBenchmark("edges" + nameSuffix, function() {
+    g.edges(nodeIds[this.nextInt(nodeIds.length)]);
   });
 
   runBenchmark("components" + nameSuffix, function() {
