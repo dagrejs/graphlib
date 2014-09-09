@@ -165,8 +165,10 @@ describe("Graph", function() {
     it("returns the keys for edges in the graph", function() {
       g.edge("a", "b");
       g.edge("b", "c");
-      expect(_.sortBy(g.allEdges()))
-        .to.eql(_.sortBy([ g.edgeKey("a", "b"), g.edgeKey("b", "c") ]));
+      expect(_.sortBy(g.allEdges()), ["v", "w"]).to.eql([
+        { v: "a", w: "b" },
+        { v: "b", w: "c" }
+      ]);
     });
   });
 
@@ -245,8 +247,8 @@ describe("Graph", function() {
 
     it("allows multi-edges to be created in a multigraph #2", function() {
       var g = new Graph({ multigraph: true });
-      g.edge(g.edgeKey("a", "b", "foo"));
-      g.edge(g.edgeKey("a", "b", "bar"));
+      g.edge({ v: "a", w: "b", name: "foo" });
+      g.edge({ v: "a", w: "b", name: "bar" });
       expect(g.hasEdge("a", "b", "foo")).to.be.true;
       expect(g.hasEdge("a", "b", "bar")).to.be.true;
       expect(g.edgeCount()).to.equal(2);
@@ -260,10 +262,10 @@ describe("Graph", function() {
       expect(g.edgeCount()).to.equal(0);
     });
 
-    it("can remove an edge by key", function() {
+    it("can remove an edge by edgeObj", function() {
       var g = new Graph({ multigraph: true });
       g.edge("a", "b", "foo");
-      g.removeEdge(g.edgeKey("a", "b", "foo"));
+      g.removeEdge({ v: "a", w: "b", name: "foo" });
       expect(g.hasEdge("a", "b", "foo")).to.be.false;
       expect(g.edgeCount()).to.equal(0);
     });
@@ -277,28 +279,6 @@ describe("Graph", function() {
     });
   });
 
-  describe("edgeKey", function() {
-    it("returns a key that can be used to uniquely identify an edge", function() {
-      var ab = g.edge("a", "b"),
-          abKey = g.edgeKey("a", "b");
-      expect(g.edge(abKey)).to.equal(ab);
-      expect(g.hasEdge(abKey)).to.be.true;
-    });
-
-    it("also generates multi-edge keys", function() {
-      var g = new Graph({ multigraph: true }),
-          ab = g.edge("a", "b", "foo"),
-          abKey = g.edgeKey("a", "b", "foo");
-      expect(g.edge(abKey)).to.equal(ab);
-      expect(g.hasEdge(abKey)).to.be.true;
-    });
-
-    it("can be reversed", function() {
-      var e = g.edgeKey("a", "b", "foo");
-      expect(g.edgeKeyParts(e)).to.eql({ v: "a", w: "b", name: "foo" });
-    });
-  });
-
   describe("inEdges", function() {
     it("returns undefined for a node that is not in the graph", function() {
       expect(g.inEdges("a")).to.be.undefined;
@@ -308,8 +288,8 @@ describe("Graph", function() {
       g.edge("a", "b");
       g.edge("b", "c");
       expect(g.inEdges("a")).to.eql([]);
-      expect(g.inEdges("b")).to.eql([ g.edgeKey("a", "b") ]);
-      expect(g.inEdges("c")).to.eql([ g.edgeKey("b", "c") ]);
+      expect(g.inEdges("b")).to.eql([{ v: "a", w: "b" }]);
+      expect(g.inEdges("c")).to.eql([{ v: "b", w: "c" }]);
     });
   });
 
@@ -321,8 +301,8 @@ describe("Graph", function() {
     it("returns all edges that this node points at", function() {
       g.edge("a", "b");
       g.edge("b", "c");
-      expect(g.outEdges("a")).to.eql([ g.edgeKey("a", "b") ]);
-      expect(g.outEdges("b")).to.eql([ g.edgeKey("b", "c") ]);
+      expect(g.outEdges("a")).to.eql([{ v: "a", w: "b" }]);
+      expect(g.outEdges("b")).to.eql([{ v: "b", w: "c" }]);
       expect(g.outEdges("c")).to.eql([]);
     });
   });
@@ -335,10 +315,10 @@ describe("Graph", function() {
     it("returns all edges that this node points at", function() {
       g.edge("a", "b");
       g.edge("b", "c");
-      expect(g.edges("a")).to.eql([ g.edgeKey("a", "b") ]);
-      expect(_.sortBy(g.edges("b")))
-        .to.eql(_.sortBy([ g.edgeKey("a", "b"), g.edgeKey("b", "c") ]));
-      expect(g.edges("c")).to.eql([ g.edgeKey("b", "c") ]);
+      expect(g.edges("a")).to.eql([{ v: "a", w: "b" }]);
+      expect(_.sortBy(g.edges("b"), ["v", "w"]))
+        .to.eql([{ v: "a", w: "b" }, { v: "b", w: "c" }]);
+      expect(g.edges("c")).to.eql([{ v: "b", w: "c" }]);
     });
   });
 });
