@@ -23,6 +23,18 @@ describe("Graph", function() {
     });
   });
 
+  describe("allNodes", function() {
+    it("is empty if there are no nodes in the graph", function() {
+      expect(g.allNodes()).to.eql([]);
+    });
+
+    it("returns the ids of nodes in the graph", function() {
+      g.node("a");
+      g.node("b");
+      expect(_.sortBy(g.allNodes())).to.eql(["a", "b"]);
+    });
+  });
+
   describe("node", function() {
     it("creates the node if it isn't part of the graph", function() {
       g.node("a");
@@ -43,18 +55,6 @@ describe("Graph", function() {
 
     it("uses the stringified form of the id", function() {
       expect(g.node("1")).to.equal(g.node(1));
-    });
-  });
-
-  describe("allNodes", function() {
-    it("is empty if there are no nodes in the graph", function() {
-      expect(g.allNodes()).to.eql([]);
-    });
-
-    it("returns the ids of nodes in the graph", function() {
-      g.node("a");
-      g.node("b");
-      expect(_.sortBy(g.allNodes())).to.eql(["a", "b"]);
     });
   });
 
@@ -132,6 +132,19 @@ describe("Graph", function() {
       expect(_.sortBy(g.neighbors("a"))).to.eql(["a", "b"]);
       expect(_.sortBy(g.neighbors("b"))).to.eql(["a", "c"]);
       expect(_.sortBy(g.neighbors("c"))).to.eql(["b"]);
+    });
+  });
+
+  describe("allEdges", function() {
+    it("is empty if there are no edges in the graph", function() {
+      expect(g.allEdges()).to.eql([]);
+    });
+
+    it("returns the keys for edges in the graph", function() {
+      g.edge("a", "b");
+      g.edge("b", "c");
+      expect(_.sortBy(g.allEdges()))
+        .to.eql(_.sortBy([ g.edgeKey("a", "b"), g.edgeKey("b", "c") ]));
     });
   });
 
@@ -246,19 +259,6 @@ describe("Graph", function() {
     it("can be reversed", function() {
       var e = g.edgeKey("a", "b", "foo");
       expect(g.edgeKeyParts(e)).to.eql({ v: "a", w: "b", name: "foo" });
-    });
-  });
-
-  describe("allEdges", function() {
-    it("is empty if there are no edges in the graph", function() {
-      expect(g.allEdges()).to.eql([]);
-    });
-
-    it("returns the keys for edges in the graph", function() {
-      g.edge("a", "b");
-      g.edge("b", "c");
-      expect(_.sortBy(g.allEdges()))
-        .to.eql(_.sortBy([ g.edgeKey("a", "b"), g.edgeKey("b", "c") ]));
     });
   });
 
