@@ -281,6 +281,27 @@ describe("Graph", function() {
       expect(g.hasEdge("a", "b", "foo")).to.be.false;
       expect(g.edgeCount()).to.equal(0);
     });
+
+    it("correctly removes neighbors", function() {
+      g.edge("a", "b");
+      g.removeEdge("a", "b");
+      expect(g.successors("a")).to.eql([]);
+      expect(g.neighbors("a")).to.eql([]);
+      expect(g.predecessors("b")).to.eql([]);
+      expect(g.neighbors("b")).to.eql([]);
+    });
+
+    it("correctly decrements neighbor counts", function() {
+      var g = new Graph({ multigraph: true });
+      g.edge("a", "b");
+      g.edge("a", "b", "foo");
+      g.removeEdge("a", "b");
+      expect(g.hasEdge("a", "b", "foo"));
+      expect(g.successors("a")).to.eql(["b"]);
+      expect(g.neighbors("a")).to.eql(["b"]);
+      expect(g.predecessors("b")).to.eql(["a"]);
+      expect(g.neighbors("b")).to.eql(["a"]);
+    });
   });
 
   describe("inEdges", function() {
