@@ -19,7 +19,7 @@ describe("Graph", function() {
     });
 
     it("has no attributes", function() {
-      expect(g.attrs).to.eql({});
+      expect(g.graph()).to.eql({});
     });
 
     it("defaults to a simple directed graph", function() {
@@ -41,6 +41,13 @@ describe("Graph", function() {
     it("can be set to a mulitgraph", function() {
       var g = new Graph({ multigraph: true });
       expect(g.isMultigraph()).to.be.true;
+    });
+  });
+
+  describe("graph", function() {
+    it("can be used to get and set properties for the graph", function() {
+      g.graph().foo = 1;
+      expect(g.graph().foo).to.equal(1);
     });
   });
 
@@ -86,7 +93,7 @@ describe("Graph", function() {
     });
 
     it("creates the node with default attributes, if set", function() {
-      g.nodeAttrDefs.foo = 1;
+      g.nodeAttrDefs().foo = 1;
       expect(g.node("a").foo).to.equal(1);
     });
 
@@ -355,7 +362,7 @@ describe("Graph", function() {
     });
 
     it("creates the node with default attributes, if set", function() {
-      g.edgeAttrDefs.foo = 1;
+      g.edgeAttrDefs().foo = 1;
       expect(g.edge("a", "b").foo).to.equal(1);
     });
 
