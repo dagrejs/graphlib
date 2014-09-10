@@ -102,6 +102,17 @@ describe("Graph", function() {
     });
   });
 
+  describe("getNode", function() {
+    it("returns undefined if the node isn't part of the graph", function() {
+      expect(g.getNode("a")).to.be.undefined;
+    });
+
+    it("returns the value of the node if it is part of the graph", function() {
+      g.node("a").foo = "bar";
+      expect(g.getNode("a")).to.eql({ foo: "bar" });
+    });
+  });
+
   describe("removeNode", function() {
     it("does nothing if the node is not in the graph", function() {
       expect(g.nodeCount()).to.equal(0);
@@ -413,6 +424,35 @@ describe("Graph", function() {
       expect(g.hasEdge({ v: "a", w: "b", name: "foo" })).to.be.true;
       expect(g.hasEdge({ v: "a", w: "b", name: "bar" })).to.be.true;
       expect(g.edgeCount()).to.equal(3);
+    });
+  });
+
+  describe("getEdge", function() {
+    it("returns undefined if the edge isn't part of the graph", function() {
+      expect(g.getEdge("a", "b")).to.be.undefined;
+      expect(g.getEdge({ v: "a", w: "b" })).to.be.undefined;
+      expect(g.getEdge("a", "b", "foo")).to.be.undefined;
+    });
+
+    it("returns the value of the edge if it is part of the graph", function() {
+      g.edge("a", "b").foo = "bar";
+      expect(g.getEdge("a", "b")).to.eql({ foo: "bar" });
+      expect(g.getEdge({ v: "a", w: "b" })).to.eql({ foo: "bar" });
+      expect(g.getEdge("b", "a")).to.be.undefined;
+    });
+
+    it("returns the value of a multi-edge if it is part of the graph", function() {
+      var g = new Graph({ multigraph: true });
+      g.edge("a", "b", "foo").bar = "baz";
+      expect(g.getEdge("a", "b", "foo")).to.eql({ bar: "baz" });
+      expect(g.getEdge("a", "b")).to.be.undefined;
+    });
+
+    it("returns an edge in either direction in an undirected graph", function() {
+      var g = new Graph({ directed: false });
+      g.edge("a", "b").foo = "bar";
+      expect(g.getEdge("a", "b")).to.eql({ foo: "bar" });
+      expect(g.getEdge("b", "a")).to.eql({ foo: "bar" });
     });
   });
 
