@@ -458,6 +458,21 @@ describe("Graph", function() {
         { v: "a", w: "b" }
       ]);
     });
+
+    it("can return only edges from a specified node", function() {
+      var g = new Graph({ multigraph: true });
+      g.edge("a", "b");
+      g.edge("a", "b", "foo");
+      g.edge("a", "c");
+      g.edge("b", "c");
+      g.edge("z", "a");
+      g.edge("z", "b");
+      expect(g.inEdges("a", "b")).to.eql([]);
+      expect(_.sortBy(g.inEdges("b", "a"), "name")).to.eql([
+        { v: "a", w: "b", name: "foo" },
+        { v: "a", w: "b" }
+      ]);
+    });
   });
 
   describe("outEdges", function() {
@@ -484,6 +499,21 @@ describe("Graph", function() {
         { v: "a", w: "b" }
       ]);
       expect(g.outEdges("b")).to.eql([]);
+    });
+
+    it("can return only edges to a specified node", function() {
+      var g = new Graph({ multigraph: true });
+      g.edge("a", "b");
+      g.edge("a", "b", "foo");
+      g.edge("a", "c");
+      g.edge("b", "c");
+      g.edge("z", "a");
+      g.edge("z", "b");
+      expect(_.sortBy(g.outEdges("a", "b"), "name")).to.eql([
+        { v: "a", w: "b", name: "foo" },
+        { v: "a", w: "b" }
+      ]);
+      expect(g.outEdges("b", "a")).to.eql([]);
     });
   });
 
@@ -513,6 +543,24 @@ describe("Graph", function() {
       ]);
       expect(_.sortBy(g.nodeEdges("b"), "name")).to.eql([
         { v: "a", w: "b", name: "bar" },
+        { v: "a", w: "b", name: "foo" },
+        { v: "a", w: "b" }
+      ]);
+    });
+
+    it("can return only edges between specific nodes", function() {
+      var g = new Graph({ multigraph: true });
+      g.edge("a", "b");
+      g.edge("a", "b", "foo");
+      g.edge("a", "c");
+      g.edge("b", "c");
+      g.edge("z", "a");
+      g.edge("z", "b");
+      expect(_.sortBy(g.nodeEdges("a", "b"), "name")).to.eql([
+        { v: "a", w: "b", name: "foo" },
+        { v: "a", w: "b" }
+      ]);
+      expect(_.sortBy(g.nodeEdges("b", "a"), "name")).to.eql([
         { v: "a", w: "b", name: "foo" },
         { v: "a", w: "b" }
       ]);
