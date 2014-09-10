@@ -21,6 +21,27 @@ describe("Graph", function() {
     it("has no attributes", function() {
       expect(g.attrs).to.eql({});
     });
+
+    it("defaults to a simple directed graph", function() {
+      expect(g.isDirected()).to.be.true;
+      expect(g.isCompound()).to.be.false;
+      expect(g.isMultigraph()).to.be.false;
+    });
+
+    it("can be set to undirected", function() {
+      var g = new Graph({ directed: false });
+      expect(g.isDirected()).to.be.false;
+    });
+
+    it("can be set to a compound graph", function() {
+      var g = new Graph({ compound: true });
+      expect(g.isCompound()).to.be.true;
+    });
+
+    it("can be set to a mulitgraph", function() {
+      var g = new Graph({ multigraph: true });
+      expect(g.isMultigraph()).to.be.true;
+    });
   });
 
   describe("nodes", function() {
