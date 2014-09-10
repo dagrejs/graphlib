@@ -103,6 +103,135 @@ describe("Graph", function() {
       g.removeNode("b");
       expect(g.edgeCount()).to.equal(0);
     });
+
+    it("removes parent / child relationships for the node", function() {
+      var g = new Graph({ compound: true });
+      g.setParent("c", "b");
+      g.setParent("b", "a");
+      g.removeNode("b");
+      expect(g.parent("b")).to.be.undefined;
+      expect(g.children("b")).to.be.undefined;
+      expect(g.children("a")).to.not.include("b");
+      expect(g.parent("c")).to.be.undefined;
+    });
+  });
+
+  describe("setParent", function() {
+    beforeEach(function() {
+      g = new Graph({ compound: true });
+    });
+
+    it("throws if the graph is not compound", function() {
+      expect(function() { new Graph().setParent("a", "parent"); }).to.throw();
+    });
+
+    it("creates the parent if it does not exist", function() {
+      g.node("a");
+      g.setParent("a", "parent");
+      expect(g.hasNode("parent")).to.be.true;
+      expect(g.parent("a")).to.equal("parent");
+    });
+
+    it("creates the child if it does not exist", function() {
+      g.node("parent");
+      g.setParent("a", "parent");
+      expect(g.hasNode("a")).to.be.true;
+      expect(g.parent("a")).to.equal("parent");
+    });
+
+    it("has the parent as undefined if it has never been invoked", function() {
+      g.node("a");
+      expect(g.parent("a")).to.be.undefined;
+    });
+
+    it("moves the node from the previous parent", function() {
+      g.setParent("a", "parent");
+      g.setParent("a", "parent2");
+      expect(g.parent("a")).to.equal("parent2");
+      expect(g.children("parent")).to.eql([]);
+      expect(g.children("parent2")).to.eql(["a"]);
+    });
+
+    it("removes the parent if the parent is undefined", function() {
+      g.setParent("a", "parent");
+      g.setParent("a", undefined);
+      expect(g.parent("a")).to.be.undefined;
+      expect(_.sortBy(g.children())).to.eql(["a", "parent"]);
+    });
+
+    it("removes the parent if no parent was specified", function() {
+      g.setParent("a", "parent");
+      g.setParent("a");
+      expect(g.parent("a")).to.be.undefined;
+      expect(_.sortBy(g.children())).to.eql(["a", "parent"]);
+    });
+
+    it("is idempotent to remove a parent", function() {
+      g.setParent("a", "parent");
+      g.setParent("a");
+      g.setParent("a");
+      expect(g.parent("a")).to.be.undefined;
+      expect(_.sortBy(g.children())).to.eql(["a", "parent"]);
+    });
+
+    it("preserves the tree invariant", function() {
+      g.setParent("c", "b");
+      g.setParent("b", "a");
+      expect(function() { g.setParent("a", "c"); }).to.throw();
+    });
+  });
+
+  describe("parent", function() {
+    beforeEach(function() {
+      g = new Graph({ compound: true });
+    });
+
+    it("returns undefined if the node is not in the graph", function() {
+      expect(g.parent("a")).to.be.undefined;
+    });
+
+    it("defaults to undefined for new nodes", function() {
+      g.node("a");
+      expect(g.parent("a")).to.be.undefined;
+    });
+
+    it("returns the current parent assignment", function() {
+      g.node("a");
+      g.node("parent");
+      g.setParent("a", "parent");
+      expect(g.parent("a")).to.equal("parent");
+    });
+  });
+
+  describe("children", function() {
+    beforeEach(function() {
+      g = new Graph({ compound: true });
+    });
+
+    it("returns undefined if the node is not in the graph", function() {
+      expect(g.children("a")).to.be.undefined;
+    });
+
+    it("defaults to en empty list for new nodes", function() {
+      g.node("a");
+      expect(g.children("a")).to.eql([]);
+    });
+
+    it("returns children for the node", function() {
+      g.setParent("a", "parent");
+      g.setParent("b", "parent");
+      expect(_.sortBy(g.children("parent"))).to.eql(["a", "b"]);
+    });
+
+    it("returns all nodes without a parent when the parent is not set", function() {
+      g.node("a");
+      g.node("b");
+      g.node("c");
+      g.node("parent");
+      g.setParent("a", "parent");
+      expect(_.sortBy(g.children())).to.eql(["b", "c", "parent"]);
+      expect(_.sortBy(g.children(undefined))).to.eql(["b", "c", "parent"]);
+    });
   });
 
   describe("predecessors", function() {
