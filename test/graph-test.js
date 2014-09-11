@@ -19,7 +19,7 @@ describe("Graph", function() {
     });
 
     it("has no attributes", function() {
-      expect(g.getGraph()).to.eql({});
+      expect(g.getGraph()).to.be.undefined;
     });
 
     it("defaults to a simple directed graph", function() {
