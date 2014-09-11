@@ -49,6 +49,10 @@ describe("Graph", function() {
       g.setGraph("foo");
       expect(g.getGraph()).to.equal("foo");
     });
+
+    it("is chainable", function() {
+      expect(g.setGraph("foo")).to.equal(g);
+    });
   });
 
   describe("nodes", function() {
