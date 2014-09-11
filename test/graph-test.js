@@ -19,7 +19,7 @@ describe("Graph", function() {
     });
 
     it("has no attributes", function() {
-      expect(g.graph()).to.eql({});
+      expect(g.getGraph()).to.eql({});
     });
 
     it("defaults to a simple directed graph", function() {
@@ -44,10 +44,10 @@ describe("Graph", function() {
     });
   });
 
-  describe("graph", function() {
+  describe("setGraph", function() {
     it("can be used to get and set properties for the graph", function() {
-      g.graph().foo = 1;
-      expect(g.graph().foo).to.equal(1);
+      g.setGraph("foo");
+      expect(g.getGraph()).to.equal("foo");
     });
   });
 
@@ -204,8 +204,8 @@ describe("Graph", function() {
       g.setParent("b", "a");
       g.removeNode("b");
       expect(g.getParent("b")).to.be.undefined;
-      expect(g.children("b")).to.be.undefined;
-      expect(g.children("a")).to.not.include("b");
+      expect(g.getChildren("b")).to.be.undefined;
+      expect(g.getChildren("a")).to.not.include("b");
       expect(g.getParent("c")).to.be.undefined;
     });
 
@@ -246,22 +246,22 @@ describe("Graph", function() {
       g.setParent("a", "parent");
       g.setParent("a", "parent2");
       expect(g.getParent("a")).to.equal("parent2");
-      expect(g.children("parent")).to.eql([]);
-      expect(g.children("parent2")).to.eql(["a"]);
+      expect(g.getChildren("parent")).to.eql([]);
+      expect(g.getChildren("parent2")).to.eql(["a"]);
     });
 
     it("removes the parent if the parent is undefined", function() {
       g.setParent("a", "parent");
       g.setParent("a", undefined);
       expect(g.getParent("a")).to.be.undefined;
-      expect(_.sortBy(g.children())).to.eql(["a", "parent"]);
+      expect(_.sortBy(g.getChildren())).to.eql(["a", "parent"]);
     });
 
     it("removes the parent if no parent was specified", function() {
       g.setParent("a", "parent");
       g.setParent("a");
       expect(g.getParent("a")).to.be.undefined;
-      expect(_.sortBy(g.children())).to.eql(["a", "parent"]);
+      expect(_.sortBy(g.getChildren())).to.eql(["a", "parent"]);
     });
 
     it("is idempotent to remove a parent", function() {
@@ -269,7 +269,7 @@ describe("Graph", function() {
       g.setParent("a");
       g.setParent("a");
       expect(g.getParent("a")).to.be.undefined;
-      expect(_.sortBy(g.children())).to.eql(["a", "parent"]);
+      expect(_.sortBy(g.getChildren())).to.eql(["a", "parent"]);
     });
 
     it("preserves the tree invariant", function() {
@@ -305,24 +305,24 @@ describe("Graph", function() {
     });
   });
 
-  describe("children", function() {
+  describe("getChildren", function() {
     beforeEach(function() {
       g = new Graph({ compound: true });
     });
 
     it("returns undefined if the node is not in the graph", function() {
-      expect(g.children("a")).to.be.undefined;
+      expect(g.getChildren("a")).to.be.undefined;
     });
 
     it("defaults to en empty list for new nodes", function() {
       g.setNode("a");
-      expect(g.children("a")).to.eql([]);
+      expect(g.getChildren("a")).to.eql([]);
     });
 
     it("returns children for the node", function() {
       g.setParent("a", "parent");
       g.setParent("b", "parent");
-      expect(_.sortBy(g.children("parent"))).to.eql(["a", "b"]);
+      expect(_.sortBy(g.getChildren("parent"))).to.eql(["a", "b"]);
     });
 
     it("returns all nodes without a parent when the parent is not set", function() {
@@ -331,8 +331,8 @@ describe("Graph", function() {
       g.setNode("c");
       g.setNode("parent");
       g.setParent("a", "parent");
-      expect(_.sortBy(g.children())).to.eql(["b", "c", "parent"]);
-      expect(_.sortBy(g.children(undefined))).to.eql(["b", "c", "parent"]);
+      expect(_.sortBy(g.getChildren())).to.eql(["b", "c", "parent"]);
+      expect(_.sortBy(g.getChildren(undefined))).to.eql(["b", "c", "parent"]);
     });
   });
 
