@@ -16,47 +16,47 @@ describe("alg.greedyFAS", function() {
   });
 
   it("returns the empty set for single-node graphs", function() {
-    g.node("a");
+    g.setNode("a");
     expect(greedyFAS(g)).to.eql([]);
   });
 
   it("returns an empty set if the input graph is acyclic", function() {
     var g = new Graph();
-    g.edge("a", "b");
-    g.edge("b", "c");
-    g.edge("b", "d");
-    g.edge("a", "e");
+    g.setEdge("a", "b");
+    g.setEdge("b", "c");
+    g.setEdge("b", "d");
+    g.setEdge("a", "e");
     expect(greedyFAS(g)).to.eql([]);
   });
 
   it("returns a single edge with a simple cycle", function() {
     var g = new Graph();
-    g.edge("a", "b");
-    g.edge("b", "a");
+    g.setEdge("a", "b");
+    g.setEdge("b", "a");
     checkFAS(g, greedyFAS(g));
   });
 
   it("returns a single edge in a 4-node cycle", function() {
     var g = new Graph();
-    g.edge("n1", "n2");
-    g.path("n2", "n3", "n4", "n5", "n2");
-    g.edge("n3", "n5");
-    g.edge("n4", "n2");
-    g.edge("n4", "n6");
+    g.setEdge("n1", "n2");
+    g.setPath(["n2", "n3", "n4", "n5", "n2"]);
+    g.setEdge("n3", "n5");
+    g.setEdge("n4", "n2");
+    g.setEdge("n4", "n6");
     checkFAS(g, greedyFAS(g));
   });
 
   it("returns two edges for two 4-node cycles", function() {
     var g = new Graph();
-    g.edge("n1", "n2");
-    g.path("n2", "n3", "n4", "n5", "n2");
-    g.edge("n3", "n5");
-    g.edge("n4", "n2");
-    g.edge("n4", "n6");
-    g.path("n6", "n7", "n8", "n9", "n6");
-    g.edge("n7", "n9");
-    g.edge("n8", "n6");
-    g.edge("n8", "n10");
+    g.setEdge("n1", "n2");
+    g.setPath(["n2", "n3", "n4", "n5", "n2"]);
+    g.setEdge("n3", "n5");
+    g.setEdge("n4", "n2");
+    g.setEdge("n4", "n6");
+    g.setPath(["n6", "n7", "n8", "n9", "n6"]);
+    g.setEdge("n7", "n9");
+    g.setEdge("n8", "n6");
+    g.setEdge("n8", "n10");
     checkFAS(g, greedyFAS(g));
   });
 
@@ -67,13 +67,13 @@ describe("alg.greedyFAS", function() {
     // our edges representing the number of edges from one node to the other.
 
     var g1 = new Graph();
-    g1.edge("n1", "n2").weight = 2;
-    g1.edge("n2", "n1").weight = 1;
+    g1.setEdge("n1", "n2", 2);
+    g1.setEdge("n2", "n1", 1);
     expect(greedyFAS(g1, weightFn(g1))).to.eql([{v: "n2", w: "n1"}]);
 
     var g2 = new Graph();
-    g2.edge("n1", "n2").weight = 1;
-    g2.edge("n2", "n1").weight = 2;
+    g2.setEdge("n1", "n2", 1);
+    g2.setEdge("n2", "n1", 2);
     expect(greedyFAS(g2, weightFn(g2))).to.eql([{v: "n1", w: "n2"}]);
   });
 });
@@ -93,6 +93,6 @@ function checkFAS(g, fas) {
 
 function weightFn(g) {
   return function(edge) {
-    return g.edge(edge).weight;
+    return g.getEdge(edge);
   };
 }

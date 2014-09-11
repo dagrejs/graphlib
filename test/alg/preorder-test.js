@@ -6,14 +6,14 @@ var _ = require("lodash"),
 describe("alg.preorder", function() {
   it("returns the root for a singleton graph", function() {
     var g = new Graph();
-    g.node("a");
+    g.setNode("a");
     expect(preorder(g, "a")).to.eql(["a"]);
   });
 
   it("visits each node in the graph once", function() {
     var g = new Graph();
-    g.path("a", "b", "d", "e");
-    g.path("a", "c", "d", "e");
+    g.setPath(["a", "b", "d", "e"]);
+    g.setPath(["a", "c", "d", "e"]);
 
     var nodes = preorder(g, "a");
     expect(_.sortBy(nodes)).to.eql(["a", "b", "c", "d", "e"]);
@@ -21,9 +21,9 @@ describe("alg.preorder", function() {
 
   it("works for a tree", function() {
     var g = new Graph();
-    g.edge("a", "b");
-    g.path("a", "c", "d");
-    g.edge("c", "e");
+    g.setEdge("a", "b");
+    g.setPath(["a", "c", "d"]);
+    g.setEdge("c", "e");
 
     var nodes = preorder(g, "a");
     expect(_.sortBy(nodes)).to.eql(["a", "b", "c", "d", "e"]);
@@ -35,10 +35,10 @@ describe("alg.preorder", function() {
 
   it("works for an array of roots", function() {
     var g = new Graph();
-    g.edge("a", "b");
-    g.edge("c", "d");
-    g.node("e");
-    g.node("f");
+    g.setEdge("a", "b");
+    g.setEdge("c", "d");
+    g.setNode("e");
+    g.setNode("f");
 
     var nodes = preorder(g, ["a", "c", "e"]);
     expect(_.sortBy(nodes)).to.eql(["a", "b", "c", "d", "e"]);
@@ -48,7 +48,7 @@ describe("alg.preorder", function() {
 
   it("fails if root is not in the graph", function() {
     var g = new Graph();
-    g.node("a");
+    g.setNode("a");
     expect(function() { preorder(g, "b"); }).to.throw();
   });
 });

@@ -10,28 +10,28 @@ describe("alg.tarjan", function() {
 
   it("returns singletons for nodes not in a strongly connected component", function() {
     var g = new Graph();
-    g.path("a", "b", "c");
-    g.edge("d", "c");
+    g.setPath(["a", "b", "c"]);
+    g.setEdge("d", "c");
     expect(sort(tarjan(g))).to.eql([["a"], ["b"], ["c"], ["d"]]);
   });
 
   it("returns a single component for a cycle of 1 edge", function() {
     var g = new Graph();
-    g.path("a", "b", "a");
+    g.setPath(["a", "b", "a"]);
     expect(sort(tarjan(g))).to.eql([["a", "b"]]);
   });
 
   it("returns a single component for a triangle", function() {
     var g = new Graph();
-    g.path("a", "b", "c", "a");
+    g.setPath(["a", "b", "c", "a"]);
     expect(sort(tarjan(g))).to.eql([["a", "b", "c"]]);
   });
 
   it("can find multiple components", function() {
     var g = new Graph();
-    g.path("a", "b", "a");
-    g.path("c", "d", "e", "c");
-    g.node("f");
+    g.setPath(["a", "b", "a"]);
+    g.setPath(["c", "d", "e", "c"]);
+    g.setNode("f");
     expect(sort(tarjan(g))).to.eql([["a", "b"], ["c", "d", "e"], ["f"]]);
   });
 });
