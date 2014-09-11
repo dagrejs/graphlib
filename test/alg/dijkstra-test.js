@@ -6,14 +6,14 @@ var Graph = require("../..").Graph,
 describe("alg.dijkstra", function() {
   it("assigns distance 0 for the source node", function() {
     var g = new Graph();
-    g.node("source");
+    g.setNode("source");
     expect(dijkstra(g, "source")).to.eql({ source: { distance: 0 } });
   });
 
   it("returns Number.POSITIVE_INFINITY for unconnected nodes", function() {
     var g = new Graph();
-    g.node("a");
-    g.node("b");
+    g.setNode("a");
+    g.setNode("b");
     expect(dijkstra(g, "a")).to.eql({
       a: { distance: 0 },
       b: { distance: Number.POSITIVE_INFINITY }
@@ -22,8 +22,8 @@ describe("alg.dijkstra", function() {
 
   it("returns the distance and path from the source node to other nodes", function() {
     var g = new Graph();
-    g.path("a", "b", "c");
-    g.edge("b", "d");
+    g.setPath(["a", "b", "c"]);
+    g.setEdge("b", "d");
     expect(dijkstra(g, "a")).to.eql({
       a: { distance: 0 },
       b: { distance: 1, predecessor: "a" },
@@ -34,8 +34,8 @@ describe("alg.dijkstra", function() {
 
   it("works for undirected graphs", function() {
     var g = new Graph({ directed: false });
-    g.path("a", "b", "c");
-    g.edge("b", "d");
+    g.setPath(["a", "b", "c"]);
+    g.setEdge("b", "d");
     expect(dijkstra(g, "a")).to.eql({
       a: { distance: 0 },
       b: { distance: 1, predecessor: "a" },
@@ -46,10 +46,10 @@ describe("alg.dijkstra", function() {
 
   it("uses an optionally supplied weight function", function() {
     var g = new Graph();
-    g.edge("a", "b").weight = 1;
-    g.edge("a", "c").weight = 2;
-    g.edge("b", "d").weight = 3;
-    g.edge("c", "d").weight = 3;
+    g.setEdge("a", "b", 1);
+    g.setEdge("a", "c", 2);
+    g.setEdge("b", "d", 3);
+    g.setEdge("c", "d", 3);
 
     expect(dijkstra(g, "a", weightFn(g))).to.eql({
       a: { distance: 0 },
@@ -61,8 +61,8 @@ describe("alg.dijkstra", function() {
 
   it("uses an optionally supplied edge function", function() {
     var g = new Graph();
-    g.path("a", "c", "d");
-    g.edge("b", "c");
+    g.setPath(["a", "c", "d"]);
+    g.setEdge("b", "c");
 
     expect(dijkstra(g, "d", undefined, function(e) { return g.inEdges(e); }), {
       a: { distance: 2, predecessor: "c" },
@@ -74,10 +74,10 @@ describe("alg.dijkstra", function() {
 
   it("throws an Error if it encounters a negative edge weight", function() {
     var g = new Graph();
-    g.edge("a", "b").weight =  1;
-    g.edge("a", "c").weight = -2;
-    g.edge("b", "d").weight =  3;
-    g.edge("c", "d").weight =  3;
+    g.setEdge("a", "b",  1);
+    g.setEdge("a", "c", -2);
+    g.setEdge("b", "d",  3);
+    g.setEdge("c", "d",  3);
 
     expect(function() { dijkstra(g, "a", weightFn(g)); }).to.throw();
   });
@@ -85,6 +85,6 @@ describe("alg.dijkstra", function() {
 
 function weightFn(g) {
   return function(e) {
-    return g.edge(e).weight;
+    return g.getEdge(e);
   };
 }

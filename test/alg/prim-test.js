@@ -14,7 +14,7 @@ describe("alg.prim", function() {
 
   it("returns a single node graph for a graph with a single node", function() {
     var source = new Graph();
-    source.node("a");
+    source.setNode("a");
 
     var g = prim(source, weightFn(source));
     expect(g.nodes()).to.eql(["a"]);
@@ -23,14 +23,14 @@ describe("alg.prim", function() {
 
   it("returns a deterministic result given an optimal solution", function() {
     var source = new Graph();
-    source.edge("a", "b").weight =  1;
-    source.edge("b", "c").weight =  2;
-    source.edge("b", "d").weight =  3;
+    source.setEdge("a", "b",  1);
+    source.setEdge("b", "c",  2);
+    source.setEdge("b", "d",  3);
     // This edge should not be in the min spanning tree
-    source.edge("c", "d").weight = 20;
+    source.setEdge("c", "d", 20);
     // This edge should not be in the min spanning tree
-    source.edge("c", "e").weight = 60;
-    source.edge("d", "e").weight =  1;
+    source.setEdge("c", "e", 60);
+    source.setEdge("d", "e",  1);
 
     var g = prim(source, weightFn(source));
     expect(_.sortBy(g.neighbors("a"))).to.eql(["b"]);
@@ -42,8 +42,8 @@ describe("alg.prim", function() {
 
   it("throws an Error for unconnected graphs", function() {
     var source = new Graph();
-    source.node("a");
-    source.node("b");
+    source.setNode("a");
+    source.setNode("b");
 
     expect(function() { prim(source, weightFn(source)); }).to.throw();
   });
@@ -51,6 +51,6 @@ describe("alg.prim", function() {
 
 function weightFn(g) {
   return function(edge) {
-    return g.edge(edge).weight;
+    return g.getEdge(edge);
   };
 }

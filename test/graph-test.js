@@ -2,7 +2,7 @@ var _ = require("lodash"),
     expect = require("./chai").expect,
     Graph = require("..").Graph;
 
-describe.only("Graph", function() {
+describe("Graph", function() {
   var g;
 
   beforeEach(function() {

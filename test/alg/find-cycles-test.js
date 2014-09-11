@@ -10,27 +10,27 @@ describe("alg.findCycles", function() {
 
   it("returns an empty array if the graph has no cycles", function() {
     var g = new Graph();
-    g.path("a", "b", "c");
+    g.setPath(["a", "b", "c"]);
     expect(findCycles(g)).to.eql([]);
   });
 
   it("returns a single entry for a cycle of 1 edge", function() {
     var g = new Graph();
-    g.path("a", "b", "a");
+    g.setPath(["a", "b", "a"]);
     expect(sort(findCycles(g))).to.eql([["a", "b"]]);
   });
 
   it("returns a single entry for a triangle", function() {
     var g = new Graph();
-    g.path("a", "b", "c", "a");
+    g.setPath(["a", "b", "c", "a"]);
     expect(sort(findCycles(g))).to.eql([["a", "b", "c"]]);
   });
 
   it("returns multiple entries for multiple cycles", function() {
     var g = new Graph();
-    g.path("a", "b", "a");
-    g.path("c", "d", "e", "c");
-    g.node("f");
+    g.setPath(["a", "b", "a"]);
+    g.setPath(["c", "d", "e", "c"]);
+    g.setNode("f");
     expect(sort(findCycles(g))).to.eql([["a", "b"], ["c", "d", "e"]]);
   });
 });

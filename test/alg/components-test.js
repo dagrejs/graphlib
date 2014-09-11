@@ -10,8 +10,8 @@ describe("alg.components", function() {
 
   it("returns singleton lists for unconnected nodes", function() {
     var g = new Graph({ directed: false });
-    g.node("a");
-    g.node("b");
+    g.setNode("a");
+    g.setNode("b");
 
     var result = _.sortBy(components(g), function(arr) { return _.min(arr); });
     expect(result).to.eql([["a"], ["b"]]);
@@ -19,8 +19,8 @@ describe("alg.components", function() {
 
   it("returns a list of nodes in a component", function() {
     var g = new Graph({ directed: false });
-    g.edge("a", "b");
-    g.edge("b", "c");
+    g.setEdge("a", "b");
+    g.setEdge("b", "c");
 
     var result = _.map(components(g), function(xs) { return _.sortBy(xs); });
     expect(result).to.eql([["a", "b", "c"]]);
@@ -28,9 +28,9 @@ describe("alg.components", function() {
 
   it("returns nodes connected by a neighbor relationship in a digraph", function() {
     var g = new Graph();
-    g.path("a", "b", "c", "a");
-    g.edge("d", "c");
-    g.edge("e", "f");
+    g.setPath(["a", "b", "c", "a"]);
+    g.setEdge("d", "c");
+    g.setEdge("e", "f");
 
     var result = _.sortBy(_.map(components(g), function(xs) { return _.sortBy(xs); }),
                           "0");

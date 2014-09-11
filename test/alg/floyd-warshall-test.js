@@ -8,10 +8,10 @@ describe("alg.floydWarshall", function() {
 
   it("handles negative weights", function() {
     var g = new Graph();
-    g.edge("a", "b").weight =  1;
-    g.edge("a", "c").weight = -2;
-    g.edge("b", "d").weight =  3;
-    g.edge("c", "d").weight =  3;
+    g.setEdge("a", "b",  1);
+    g.setEdge("a", "c", -2);
+    g.setEdge("b", "d",  3);
+    g.setEdge("c", "d",  3);
 
     expect(floydWarshall(g, weightFn(g))).to.eql({
       a: {
@@ -43,7 +43,7 @@ describe("alg.floydWarshall", function() {
 
   it("does include negative weight self edges", function() {
     var g = new Graph();
-    g.edge("a", "a").weight = -1;
+    g.setEdge("a", "a", -1);
 
     // In the case of a negative cycle the distance is not well-defined beyond
     // having a negative value along the diagonal.
@@ -57,6 +57,6 @@ describe("alg.floydWarshall", function() {
 
 function weightFn(g) {
   return function(edge) {
-    return g.edge(edge).weight;
+    return g.getEdge(edge);
   };
 }

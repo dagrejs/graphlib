@@ -7,14 +7,14 @@ function tests(sp) {
   describe("allShortestPaths", function() {
     it("returns 0 for the node itself", function() {
       var g = new Graph();
-      g.node("a");
+      g.setNode("a");
       expect(sp(g)).to.eql({ a: { a: { distance: 0 } }});
     });
 
     it("returns the distance and path from all nodes to other nodes", function() {
       var g = new Graph();
-      g.edge("a", "b");
-      g.edge("b", "c");
+      g.setEdge("a", "b");
+      g.setEdge("b", "c");
       expect(sp(g)).to.eql({
         a: {
           a: { distance: 0 },
@@ -36,8 +36,8 @@ function tests(sp) {
 
     it("uses an optionally supplied weight function", function() {
       var g = new Graph();
-      g.edge("a", "b").weight = 2;
-      g.edge("b", "c").weight = 3;
+      g.setEdge("a", "b", 2);
+      g.setEdge("b", "c", 3);
 
       expect(sp(g, weightFn(g))).to.eql({
         a: {
@@ -60,8 +60,8 @@ function tests(sp) {
 
     it("uses an optionally supplied incident function", function() {
       var g = new Graph();
-      g.edge("a", "b");
-      g.edge("b", "c");
+      g.setEdge("a", "b");
+      g.setEdge("b", "c");
 
       expect(sp(g, undefined, function(v) { return g.inEdges(v); })).to.eql({
         a: {
@@ -84,10 +84,10 @@ function tests(sp) {
 
     it("works with undirected graphs", function() {
       var g = new Graph({ directed: false });
-      g.edge("a", "b").weight = 1;
-      g.edge("b", "c").weight = 2;
-      g.edge("c", "a").weight = 4;
-      g.edge("b", "d").weight = 6;
+      g.setEdge("a", "b", 1);
+      g.setEdge("b", "c", 2);
+      g.setEdge("c", "a", 4);
+      g.setEdge("b", "d", 6);
 
       expect(sp(g, weightFn(g), g.nodeEdges.bind(g))).to.eql({
         a: {
@@ -121,6 +121,6 @@ function tests(sp) {
 
 function weightFn(g) {
   return function(e) {
-    return g.edge(e).weight;
+    return g.getEdge(e);
   };
 }
