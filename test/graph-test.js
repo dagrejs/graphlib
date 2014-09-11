@@ -83,6 +83,26 @@ describe("Graph", function() {
     });
   });
 
+  describe("setNodes", function() {
+    it("creates multiple nodes", function() {
+      g.setNodes(["a", "b", "c"]);
+      expect(g.hasNode("a")).to.be.true;
+      expect(g.hasNode("b")).to.be.true;
+      expect(g.hasNode("c")).to.be.true;
+    });
+
+    it("can set a value for all of the nodes", function() {
+      g.setNodes(["a", "b", "c"], "foo");
+      expect(g.getNode("a")).to.equal("foo");
+      expect(g.getNode("b")).to.equal("foo");
+      expect(g.getNode("c")).to.equal("foo");
+    });
+
+    it("is chainable", function() {
+      expect(g.setNodes(["a", "b", "c"])).to.equal(g);
+    });
+  });
+
   describe("setNode", function() {
     it("creates the node if it isn't part of the graph", function() {
       g.setNode("a");
