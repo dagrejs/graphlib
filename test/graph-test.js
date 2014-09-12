@@ -312,6 +312,10 @@ describe("Graph", function() {
       g = new Graph({ compound: true });
     });
 
+    it("returns undefined if the graph is not compound", function() {
+      expect(new Graph({ compound: false }).getParent("a")).to.be.undefined;
+    });
+
     it("returns undefined if the node is not in the graph", function() {
       expect(g.getParent("a")).to.be.undefined;
     });
