@@ -642,6 +642,11 @@ describe("Graph", function() {
       expect(g.predecessors("b")).to.eql(["a"]);
       expect(g.neighbors("b")).to.eql(["a"]);
     });
+
+    it("is chainable", function() {
+      g.setEdge("a", "b");
+      expect(g.removeEdge("a", "b")).to.equal(g);
+    });
   });
 
   describe("inEdges", function() {
