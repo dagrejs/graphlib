@@ -643,6 +643,14 @@ describe("Graph", function() {
       expect(g.neighbors("b")).to.eql(["a"]);
     });
 
+    it("works with undirected graphs", function() {
+      var g = new Graph({ directed: false });
+      g.setEdge("h", "g");
+      g.removeEdge("g", "h");
+      expect(g.neighbors("g")).to.eql([]);
+      expect(g.neighbors("h")).to.eql([]);
+    });
+
     it("is chainable", function() {
       g.setEdge("a", "b");
       expect(g.removeEdge("a", "b")).to.equal(g);
