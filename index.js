@@ -31,4 +31,5 @@
 var _ = require("lodash");
 
 module.exports = _.clone(require("./lib"));
+module.exports.json = require("./lib/json");
 module.exports.alg = require("./lib/alg");
