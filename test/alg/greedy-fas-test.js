@@ -76,6 +76,17 @@ describe("alg.greedyFAS", function() {
     g2.setEdge("n2", "n1", 2);
     expect(greedyFAS(g2, weightFn(g2))).to.eql([{v: "n1", w: "n2"}]);
   });
+
+  it("works for multigraphs", function() {
+    var g = new Graph({ multigraph: true });
+    g.setEdge("a", "b", 5, "foo");
+    g.setEdge("b", "a", 2, "bar");
+    g.setEdge("b", "a", 2, "baz");
+    expect(_.sortBy(greedyFAS(g, weightFn(g)), "name")).to.eql([
+      { v: "b", w: "a", name: "bar" },
+      { v: "b", w: "a", name: "baz" }
+    ]);
+  });
 });
 
 function checkFAS(g, fas) {
@@ -92,7 +103,7 @@ function checkFAS(g, fas) {
 }
 
 function weightFn(g) {
-  return function(edge) {
-    return g.getEdge(edge);
+  return function(e) {
+    return g.getEdge(e);
   };
 }
