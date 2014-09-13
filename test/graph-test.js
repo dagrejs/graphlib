@@ -31,15 +31,21 @@ describe("Graph", function() {
     it("can be set to undirected", function() {
       var g = new Graph({ directed: false });
       expect(g.isDirected()).to.be.false;
+      expect(g.isCompound()).to.be.false;
+      expect(g.isMultigraph()).to.be.false;
     });
 
     it("can be set to a compound graph", function() {
       var g = new Graph({ compound: true });
+      expect(g.isDirected()).to.be.true;
       expect(g.isCompound()).to.be.true;
+      expect(g.isMultigraph()).to.be.false;
     });
 
     it("can be set to a mulitgraph", function() {
       var g = new Graph({ multigraph: true });
+      expect(g.isDirected()).to.be.true;
+      expect(g.isCompound()).to.be.false;
       expect(g.isMultigraph()).to.be.true;
     });
   });
