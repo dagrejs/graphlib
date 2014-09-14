@@ -364,6 +364,13 @@ describe("Graph", function() {
       expect(g.getChildren("a")).eqls([]);
     });
 
+    it ("returns all nodes for the root of a non-compound graph", function() {
+      var g = new Graph();
+      g.setNode("a");
+      g.setNode("b");
+      expect(_.sortBy(g.getChildren())).eqls(["a", "b"]);
+    });
+
     it("returns children for the node", function() {
       g.setParent("a", "parent");
       g.setParent("b", "parent");
