@@ -353,6 +353,17 @@ describe("Graph", function() {
       expect(g.getChildren("a")).to.eql([]);
     });
 
+    it("returns undefined for a non-compound graph without the node", function() {
+      var g = new Graph();
+      expect(g.getChildren("a")).to.be.undefined;
+    });
+
+    it("returns an empty list for a non-compound graph with the node", function() {
+      var g = new Graph();
+      g.setNode("a");
+      expect(g.getChildren("a")).eqls([]);
+    });
+
     it("returns children for the node", function() {
       g.setParent("a", "parent");
       g.setParent("b", "parent");
