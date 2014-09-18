@@ -154,8 +154,4 @@ NODE_SIZES.forEach(function(size) {
   runBenchmark("dijkstraAll" + nameSuffix, function() {
     alg.dijkstraAll(g);
   });
-
-  runBenchmark("greedyFAS" + nameSuffix, function() {
-    alg.greedyFAS(g);
-  });
 });
