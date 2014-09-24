@@ -85,6 +85,6 @@ describe("alg.dijkstra", function() {
 
 function weightFn(g) {
   return function(e) {
-    return g.getEdge(e);
+    return g.edge(e);
   };
 }

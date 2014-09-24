@@ -14,24 +14,24 @@ describe("json", function() {
   });
 
   it("preserves the graph value, if any", function() {
-    expect(rw(new Graph().setGraph(1)).getGraph()).equals(1);
-    expect(rw(new Graph().setGraph({ foo: "bar" })).getGraph()).eqls({ foo: "bar" });
-    expect(rw(new Graph()).getGraph()).to.be.undefined;
+    expect(rw(new Graph().setGraph(1)).graph()).equals(1);
+    expect(rw(new Graph().setGraph({ foo: "bar" })).graph()).eqls({ foo: "bar" });
+    expect(rw(new Graph()).graph()).to.be.undefined;
   });
 
   it("preserves nodes", function() {
     expect(rw(new Graph().setNode("a")).hasNode("a")).to.be.true;
-    expect(rw(new Graph().setNode("a")).getNode("a")).to.be.undefined;
-    expect(rw(new Graph().setNode("a", 1)).getNode("a")).equals(1);
-    expect(rw(new Graph().setNode("a", { foo: "bar" })).getNode("a"))
+    expect(rw(new Graph().setNode("a")).node("a")).to.be.undefined;
+    expect(rw(new Graph().setNode("a", 1)).node("a")).equals(1);
+    expect(rw(new Graph().setNode("a", { foo: "bar" })).node("a"))
       .eqls({ foo: "bar" });
   });
 
   it("preserves simple edges", function() {
     expect(rw(new Graph().setEdge("a", "b")).hasEdge("a", "b")).to.be.true;
-    expect(rw(new Graph().setEdge("a", "b")).getEdge("a", "b")).to.be.undefined;
-    expect(rw(new Graph().setEdge("a", "b", 1)).getEdge("a", "b")).equals(1);
-    expect(rw(new Graph().setEdge("a", "b", { foo: "bar" })).getEdge("a", "b"))
+    expect(rw(new Graph().setEdge("a", "b")).edge("a", "b")).to.be.undefined;
+    expect(rw(new Graph().setEdge("a", "b", 1)).edge("a", "b")).equals(1);
+    expect(rw(new Graph().setEdge("a", "b", { foo: "bar" })).edge("a", "b"))
       .eqls({ foo: "bar" });
   });
 
@@ -42,19 +42,19 @@ describe("json", function() {
     expect(rw(g).hasEdge("a", "b", "foo")).to.be.true;
 
     g.setEdge({ v: "a", w: "b", name: "foo" });
-    expect(rw(g).getEdge("a", "b", "foo")).to.be.undefined;
+    expect(rw(g).edge("a", "b", "foo")).to.be.undefined;
 
     g.setEdge({ v: "a", w: "b", name: "foo" }, 1);
-    expect(rw(g).getEdge("a", "b", "foo")).equals(1);
+    expect(rw(g).edge("a", "b", "foo")).equals(1);
 
     g.setEdge({ v: "a", w: "b", name: "foo" }, { foo: "bar" });
-    expect(rw(g).getEdge("a", "b", "foo")).eqls({ foo: "bar" });
+    expect(rw(g).edge("a", "b", "foo")).eqls({ foo: "bar" });
   });
 
   it("preserves parent / child relationships", function() {
-    expect(rw(new Graph({ compound: true }).setNode("a")).getParent("a"))
+    expect(rw(new Graph({ compound: true }).setNode("a")).parent("a"))
       .to.be.undefined;
-    expect(rw(new Graph({ compound: true }).setParent("a", "parent")).getParent("a"))
+    expect(rw(new Graph({ compound: true }).setParent("a", "parent")).parent("a"))
       .to.equal("parent");
   });
 });
