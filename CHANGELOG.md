@@ -1,7 +1,11 @@
-v1.0.0
+v0.8.0
 ======
 
-* Massive rewrite to the API for 1.0. API TBD on the wiki.
+* Massive rewrite to the graph API for a simpler implementation and API, and
+  better performance. This rewrite is to prepare for a v1.0.0 release where
+  subsequent minor releases will be backwards compatible. Please see the wiki
+  for the API reference and file issues for any suggests before we move this
+  to v1.0.0.
 
 v0.7.4
 ======
