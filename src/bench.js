@@ -92,8 +92,8 @@ NODE_SIZES.forEach(function(size) {
     g.setNode("key", "label");
   });
 
-  runBenchmark("getNode" + nameSuffix, function() {
-    g.getNode(nodes[this.nextInt(nodes.length)]);
+  runBenchmark("node" + nameSuffix, function() {
+    g.node(nodes[this.nextInt(nodes.length)]);
   });
 
   runBenchmark("set + removeNode" + nameSuffix, function() {
@@ -125,9 +125,9 @@ NODE_SIZES.forEach(function(size) {
     g.setEdge("from", "to", "label");
   });
 
-  runBenchmark("getEdge" + nameSuffix, function() {
+  runBenchmark("edge" + nameSuffix, function() {
     var edge = edges[this.nextInt(edges.length)];
-    g.getEdge(edge);
+    g.edge(edge);
   });
 
   runBenchmark("set + removeEdge" + nameSuffix, function() {

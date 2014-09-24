@@ -57,6 +57,6 @@ describe("alg.floydWarshall", function() {
 
 function weightFn(g) {
   return function(edge) {
-    return g.getEdge(edge);
+    return g.edge(edge);
   };
 }

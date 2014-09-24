@@ -19,7 +19,7 @@ describe("Graph", function() {
     });
 
     it("has no attributes", function() {
-      expect(g.getGraph()).to.be.undefined;
+      expect(g.graph()).to.be.undefined;
     });
 
     it("defaults to a simple directed graph", function() {
@@ -53,7 +53,7 @@ describe("Graph", function() {
   describe("setGraph", function() {
     it("can be used to get and set properties for the graph", function() {
       g.setGraph("foo");
-      expect(g.getGraph()).to.equal("foo");
+      expect(g.graph()).to.equal("foo");
     });
 
     it("is chainable", function() {
@@ -99,9 +99,9 @@ describe("Graph", function() {
 
     it("can set a value for all of the nodes", function() {
       g.setNodes(["a", "b", "c"], "foo");
-      expect(g.getNode("a")).to.equal("foo");
-      expect(g.getNode("b")).to.equal("foo");
-      expect(g.getNode("c")).to.equal("foo");
+      expect(g.node("a")).to.equal("foo");
+      expect(g.node("b")).to.equal("foo");
+      expect(g.node("c")).to.equal("foo");
     });
 
     it("is chainable", function() {
@@ -113,30 +113,30 @@ describe("Graph", function() {
     it("creates the node if it isn't part of the graph", function() {
       g.setNode("a");
       expect(g.hasNode("a")).to.be.true;
-      expect(g.getNode("a")).to.be.undefined;
+      expect(g.node("a")).to.be.undefined;
       expect(g.nodeCount()).to.equal(1);
     });
 
     it("can set a value for the node", function() {
       g.setNode("a", "foo");
-      expect(g.getNode("a")).to.equal("foo");
+      expect(g.node("a")).to.equal("foo");
     });
 
     it("does not change the node's value with a 1-arg invocation", function() {
       g.setNode("a", "foo");
       g.setNode("a");
-      expect(g.getNode("a")).to.equal("foo");
+      expect(g.node("a")).to.equal("foo");
     });
 
     it("can remove the node's value by passing undefined", function() {
       g.setNode("a", undefined);
-      expect(g.getNode("a")).to.be.undefined;
+      expect(g.node("a")).to.be.undefined;
     });
 
     it("is idempotent", function() {
       g.setNode("a", "foo");
       g.setNode("a", "foo");
-      expect(g.getNode("a")).to.equal("foo");
+      expect(g.node("a")).to.equal("foo");
       expect(g.nodeCount()).to.equal(1);
     });
 
@@ -155,31 +155,31 @@ describe("Graph", function() {
     it("sets a default label for new nodes", function() {
       g.setDefaultNodeLabel("foo");
       g.setNode("a");
-      expect(g.getNode("a")).to.equal("foo");
+      expect(g.node("a")).to.equal("foo");
     });
 
     it("does not change existing nodes", function() {
       g.setNode("a");
       g.setDefaultNodeLabel("foo");
-      expect(g.getNode("a")).to.be.undefined;
+      expect(g.node("a")).to.be.undefined;
     });
 
     it("is not used if an explicit value is set", function() {
       g.setDefaultNodeLabel("foo");
       g.setNode("a", "bar");
-      expect(g.getNode("a")).to.equal("bar");
+      expect(g.node("a")).to.equal("bar");
     });
 
     it("can take a function", function() {
       g.setDefaultNodeLabel(function() { return "foo"; });
       g.setNode("a");
-      expect(g.getNode("a")).to.equal("foo");
+      expect(g.node("a")).to.equal("foo");
     });
 
     it("can take a function that takes the node's name", function() {
       g.setDefaultNodeLabel(function(v) { return v + "-foo"; });
       g.setNode("a");
-      expect(g.getNode("a")).to.equal("a-foo");
+      expect(g.node("a")).to.equal("a-foo");
     });
 
     it("is chainable", function() {
@@ -187,14 +187,14 @@ describe("Graph", function() {
     });
   });
 
-  describe("getNode", function() {
+  describe("node", function() {
     it("returns undefined if the node isn't part of the graph", function() {
-      expect(g.getNode("a")).to.be.undefined;
+      expect(g.node("a")).to.be.undefined;
     });
 
     it("returns the value of the node if it is part of the graph", function() {
       g.setNode("a", "foo");
-      expect(g.getNode("a")).to.equal("foo");
+      expect(g.node("a")).to.equal("foo");
     });
   });
 
@@ -233,10 +233,10 @@ describe("Graph", function() {
       g.setParent("c", "b");
       g.setParent("b", "a");
       g.removeNode("b");
-      expect(g.getParent("b")).to.be.undefined;
-      expect(g.getChildren("b")).to.be.undefined;
-      expect(g.getChildren("a")).to.not.include("b");
-      expect(g.getParent("c")).to.be.undefined;
+      expect(g.parent("b")).to.be.undefined;
+      expect(g.children("b")).to.be.undefined;
+      expect(g.children("a")).to.not.include("b");
+      expect(g.parent("c")).to.be.undefined;
     });
 
     it("is chainable", function() {
@@ -257,49 +257,49 @@ describe("Graph", function() {
       g.setNode("a");
       g.setParent("a", "parent");
       expect(g.hasNode("parent")).to.be.true;
-      expect(g.getParent("a")).to.equal("parent");
+      expect(g.parent("a")).to.equal("parent");
     });
 
     it("creates the child if it does not exist", function() {
       g.setNode("parent");
       g.setParent("a", "parent");
       expect(g.hasNode("a")).to.be.true;
-      expect(g.getParent("a")).to.equal("parent");
+      expect(g.parent("a")).to.equal("parent");
     });
 
     it("has the parent as undefined if it has never been invoked", function() {
       g.setNode("a");
-      expect(g.getParent("a")).to.be.undefined;
+      expect(g.parent("a")).to.be.undefined;
     });
 
     it("moves the node from the previous parent", function() {
       g.setParent("a", "parent");
       g.setParent("a", "parent2");
-      expect(g.getParent("a")).to.equal("parent2");
-      expect(g.getChildren("parent")).to.eql([]);
-      expect(g.getChildren("parent2")).to.eql(["a"]);
+      expect(g.parent("a")).to.equal("parent2");
+      expect(g.children("parent")).to.eql([]);
+      expect(g.children("parent2")).to.eql(["a"]);
     });
 
     it("removes the parent if the parent is undefined", function() {
       g.setParent("a", "parent");
       g.setParent("a", undefined);
-      expect(g.getParent("a")).to.be.undefined;
-      expect(_.sortBy(g.getChildren())).to.eql(["a", "parent"]);
+      expect(g.parent("a")).to.be.undefined;
+      expect(_.sortBy(g.children())).to.eql(["a", "parent"]);
     });
 
     it("removes the parent if no parent was specified", function() {
       g.setParent("a", "parent");
       g.setParent("a");
-      expect(g.getParent("a")).to.be.undefined;
-      expect(_.sortBy(g.getChildren())).to.eql(["a", "parent"]);
+      expect(g.parent("a")).to.be.undefined;
+      expect(_.sortBy(g.children())).to.eql(["a", "parent"]);
     });
 
     it("is idempotent to remove a parent", function() {
       g.setParent("a", "parent");
       g.setParent("a");
       g.setParent("a");
-      expect(g.getParent("a")).to.be.undefined;
-      expect(_.sortBy(g.getChildren())).to.eql(["a", "parent"]);
+      expect(g.parent("a")).to.be.undefined;
+      expect(_.sortBy(g.children())).to.eql(["a", "parent"]);
     });
 
     it("preserves the tree invariant", function() {
@@ -313,68 +313,68 @@ describe("Graph", function() {
     });
   });
 
-  describe("getParent", function() {
+  describe("parent", function() {
     beforeEach(function() {
       g = new Graph({ compound: true });
     });
 
     it("returns undefined if the graph is not compound", function() {
-      expect(new Graph({ compound: false }).getParent("a")).to.be.undefined;
+      expect(new Graph({ compound: false }).parent("a")).to.be.undefined;
     });
 
     it("returns undefined if the node is not in the graph", function() {
-      expect(g.getParent("a")).to.be.undefined;
+      expect(g.parent("a")).to.be.undefined;
     });
 
     it("defaults to undefined for new nodes", function() {
       g.setNode("a");
-      expect(g.getParent("a")).to.be.undefined;
+      expect(g.parent("a")).to.be.undefined;
     });
 
     it("returns the current parent assignment", function() {
       g.setNode("a");
       g.setNode("parent");
       g.setParent("a", "parent");
-      expect(g.getParent("a")).to.equal("parent");
+      expect(g.parent("a")).to.equal("parent");
     });
   });
 
-  describe("getChildren", function() {
+  describe("children", function() {
     beforeEach(function() {
       g = new Graph({ compound: true });
     });
 
     it("returns undefined if the node is not in the graph", function() {
-      expect(g.getChildren("a")).to.be.undefined;
+      expect(g.children("a")).to.be.undefined;
     });
 
     it("defaults to en empty list for new nodes", function() {
       g.setNode("a");
-      expect(g.getChildren("a")).to.eql([]);
+      expect(g.children("a")).to.eql([]);
     });
 
     it("returns undefined for a non-compound graph without the node", function() {
       var g = new Graph();
-      expect(g.getChildren("a")).to.be.undefined;
+      expect(g.children("a")).to.be.undefined;
     });
 
     it("returns an empty list for a non-compound graph with the node", function() {
       var g = new Graph();
       g.setNode("a");
-      expect(g.getChildren("a")).eqls([]);
+      expect(g.children("a")).eqls([]);
     });
 
     it ("returns all nodes for the root of a non-compound graph", function() {
       var g = new Graph();
       g.setNode("a");
       g.setNode("b");
-      expect(_.sortBy(g.getChildren())).eqls(["a", "b"]);
+      expect(_.sortBy(g.children())).eqls(["a", "b"]);
     });
 
     it("returns children for the node", function() {
       g.setParent("a", "parent");
       g.setParent("b", "parent");
-      expect(_.sortBy(g.getChildren("parent"))).to.eql(["a", "b"]);
+      expect(_.sortBy(g.children("parent"))).to.eql(["a", "b"]);
     });
 
     it("returns all nodes without a parent when the parent is not set", function() {
@@ -383,8 +383,8 @@ describe("Graph", function() {
       g.setNode("c");
       g.setNode("parent");
       g.setParent("a", "parent");
-      expect(_.sortBy(g.getChildren())).to.eql(["b", "c", "parent"]);
-      expect(_.sortBy(g.getChildren(undefined))).to.eql(["b", "c", "parent"]);
+      expect(_.sortBy(g.children())).to.eql(["b", "c", "parent"]);
+      expect(_.sortBy(g.children(undefined))).to.eql(["b", "c", "parent"]);
     });
   });
 
@@ -457,8 +457,8 @@ describe("Graph", function() {
 
     it("can set a value for all of the edges", function() {
       g.setPath(["a", "b", "c"], "foo");
-      expect(g.getEdge("a", "b")).to.equal("foo");
-      expect(g.getEdge("b", "c")).to.equal("foo");
+      expect(g.edge("a", "b")).to.equal("foo");
+      expect(g.edge("b", "c")).to.equal("foo");
     });
 
     it("is chainable", function() {
@@ -471,7 +471,7 @@ describe("Graph", function() {
       g.setNode("a");
       g.setNode("b");
       g.setEdge("a", "b");
-      expect(g.getEdge("a", "b")).to.be.undefined;
+      expect(g.edge("a", "b")).to.be.undefined;
       expect(g.hasEdge("a", "b")).to.be.true;
       expect(g.hasEdge({ v: "a", w: "b" })).to.be.true;
       expect(g.edgeCount()).to.equal(1);
@@ -498,13 +498,13 @@ describe("Graph", function() {
     it("changes the value for an edge if it is already in the graph", function() {
       g.setEdge("a", "b", "foo");
       g.setEdge("a", "b", "bar");
-      expect(g.getEdge("a", "b")).to.equal("bar");
+      expect(g.edge("a", "b")).to.equal("bar");
     });
 
     it ("deletes the value for the edge if the value arg is undefined", function() {
       g.setEdge("a", "b", "foo");
       g.setEdge("a", "b", undefined);
-      expect(g.getEdge("a", "b")).to.be.undefined;
+      expect(g.edge("a", "b")).to.be.undefined;
       expect(g.hasEdge("a", "b")).to.be.true;
     });
 
@@ -512,25 +512,25 @@ describe("Graph", function() {
       var g = new Graph({ multigraph: true });
       g.setEdge("a", "b", "value", "name");
       g.setEdge("a", "b", undefined, "name");
-      expect(g.getEdge("a", "b", "name")).to.be.undefined;
+      expect(g.edge("a", "b", "name")).to.be.undefined;
       expect(g.hasEdge("a", "b", "name")).to.be.true;
     });
 
     it("can take an edge object as the first parameter", function() {
       g.setEdge({ v: "a", w: "b" }, "value");
-      expect(g.getEdge("a", "b")).to.equal("value");
+      expect(g.edge("a", "b")).to.equal("value");
     });
 
     it("can take an multi-edge object as the first parameter", function() {
       var g = new Graph({ multigraph: true });
       g.setEdge({ v: "a", w: "b", name: "name" }, "value");
-      expect(g.getEdge("a", "b", "name")).to.equal("value");
+      expect(g.edge("a", "b", "name")).to.equal("value");
     });
 
     it("uses the stringified form of the id", function() {
       g.setEdge(1, 2, "foo");
-      expect(g.getEdge("1", "2")).to.equal("foo");
-      expect(g.getEdge(1, 2)).to.equal("foo");
+      expect(g.edge("1", "2")).to.equal("foo");
+      expect(g.edge(1, 2)).to.equal("foo");
     });
 
     it("treats edges in opposite directions as distinct in a digraph", function() {
@@ -542,8 +542,8 @@ describe("Graph", function() {
     it("handles undirected graph edges", function() {
       var g = new Graph({ directed: false });
       g.setEdge("a", "b", "foo");
-      expect(g.getEdge("a", "b")).to.equal("foo");
-      expect(g.getEdge("b", "a")).to.equal("foo");
+      expect(g.edge("a", "b")).to.equal("foo");
+      expect(g.edge("b", "a")).to.equal("foo");
     });
 
     it("is chainable", function() {
@@ -555,25 +555,25 @@ describe("Graph", function() {
     it("sets a default label for new edges", function() {
       g.setDefaultEdgeLabel("foo");
       g.setEdge("a", "b");
-      expect(g.getEdge("a", "b")).to.equal("foo");
+      expect(g.edge("a", "b")).to.equal("foo");
     });
 
     it("does not change existing edges", function() {
       g.setEdge("a", "b");
       g.setDefaultEdgeLabel("foo");
-      expect(g.getEdge("a", "b")).to.be.undefined;
+      expect(g.edge("a", "b")).to.be.undefined;
     });
 
     it("is not used if an explicit value is set", function() {
       g.setDefaultEdgeLabel("foo");
       g.setEdge("a", "b", "bar");
-      expect(g.getEdge("a", "b")).to.equal("bar");
+      expect(g.edge("a", "b")).to.equal("bar");
     });
 
     it("can take a function", function() {
       g.setDefaultEdgeLabel(function() { return "foo"; });
       g.setEdge("a", "b");
-      expect(g.getEdge("a", "b")).to.equal("foo");
+      expect(g.edge("a", "b")).to.equal("foo");
     });
 
     it("can take a function that takes the edge's endpoints and name", function() {
@@ -582,7 +582,7 @@ describe("Graph", function() {
         return v + "-" + w + "-" + name + "-foo";
       });
       g.setEdge({ v: "a", w: "b", name: "name"});
-      expect(g.getEdge("a", "b", "name")).to.equal("a-b-name-foo");
+      expect(g.edge("a", "b", "name")).to.equal("a-b-name-foo");
     });
 
     it("does not set a default value for a multi-edge that already exists", function() {
@@ -590,7 +590,7 @@ describe("Graph", function() {
       g.setEdge("a", "b", "old", "name");
       g.setDefaultEdgeLabel(function() { return "should not set this"; });
       g.setEdge({ v: "a", w: "b", name: "name"});
-      expect(g.getEdge("a", "b", "name")).to.equal("old");
+      expect(g.edge("a", "b", "name")).to.equal("old");
     });
 
     it("is chainable", function() {
@@ -598,32 +598,32 @@ describe("Graph", function() {
     });
   });
 
-  describe("getEdge", function() {
+  describe("edge", function() {
     it("returns undefined if the edge isn't part of the graph", function() {
-      expect(g.getEdge("a", "b")).to.be.undefined;
-      expect(g.getEdge({ v: "a", w: "b" })).to.be.undefined;
-      expect(g.getEdge("a", "b", "foo")).to.be.undefined;
+      expect(g.edge("a", "b")).to.be.undefined;
+      expect(g.edge({ v: "a", w: "b" })).to.be.undefined;
+      expect(g.edge("a", "b", "foo")).to.be.undefined;
     });
 
     it("returns the value of the edge if it is part of the graph", function() {
       g.setEdge("a", "b", { foo: "bar" });
-      expect(g.getEdge("a", "b")).to.eql({ foo: "bar" });
-      expect(g.getEdge({ v: "a", w: "b" })).to.eql({ foo: "bar" });
-      expect(g.getEdge("b", "a")).to.be.undefined;
+      expect(g.edge("a", "b")).to.eql({ foo: "bar" });
+      expect(g.edge({ v: "a", w: "b" })).to.eql({ foo: "bar" });
+      expect(g.edge("b", "a")).to.be.undefined;
     });
 
     it("returns the value of a multi-edge if it is part of the graph", function() {
       var g = new Graph({ multigraph: true });
       g.setEdge("a", "b", { bar: "baz" }, "foo");
-      expect(g.getEdge("a", "b", "foo")).to.eql({ bar: "baz" });
-      expect(g.getEdge("a", "b")).to.be.undefined;
+      expect(g.edge("a", "b", "foo")).to.eql({ bar: "baz" });
+      expect(g.edge("a", "b")).to.be.undefined;
     });
 
     it("returns an edge in either direction in an undirected graph", function() {
       var g = new Graph({ directed: false });
       g.setEdge("a", "b", { foo: "bar" });
-      expect(g.getEdge("a", "b")).to.eql({ foo: "bar" });
-      expect(g.getEdge("b", "a")).to.eql({ foo: "bar" });
+      expect(g.edge("a", "b")).to.eql({ foo: "bar" });
+      expect(g.edge("b", "a")).to.eql({ foo: "bar" });
     });
   });
 
