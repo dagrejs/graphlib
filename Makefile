@@ -32,7 +32,7 @@ bench: test
 	@src/bench.js
 
 lib/version.js: package.json
-	@src/version.js > $@
+	@src/release/make-version.js > $@
 
 $(DIRS):
 	@mkdir -p $@
