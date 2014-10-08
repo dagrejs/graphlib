@@ -1,3 +1,8 @@
+v0.8.1
+======
+
+* Release process changes only
+
 v0.8.0
 ======
 
