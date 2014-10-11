@@ -144,6 +144,7 @@ describe("Graph", function() {
       g.setNode(1);
       expect(g.hasNode(1)).to.be.true;
       expect(g.hasNode("1")).to.be.true;
+      expect(g.nodes()).eqls(["1"]);
     });
 
     it("is chainable", function() {
@@ -531,6 +532,15 @@ describe("Graph", function() {
       g.setEdge(1, 2, "foo");
       expect(g.edge("1", "2")).to.equal("foo");
       expect(g.edge(1, 2)).to.equal("foo");
+      expect(g.edges()).eqls([{ v: "1", w: "2" }]);
+    });
+
+    it("uses the stringified form of the id with a name", function() {
+      g = new Graph({ multigraph: true });
+      g.setEdge(1, 2, "foo", 3);
+      expect(g.edge("1", "2", "3")).to.equal("foo");
+      expect(g.edge(1, 2, 3)).to.equal("foo");
+      expect(g.edges()).eqls([{ v: "1", w: "2", name: "3" }]);
     });
 
     it("treats edges in opposite directions as distinct in a digraph", function() {
