@@ -1,3 +1,8 @@
+v0.8.2
+======
+
+* Bug fix: node ids / name in edge are now stringified
+
 v0.8.1
 ======
 
