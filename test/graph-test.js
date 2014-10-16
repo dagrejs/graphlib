@@ -528,11 +528,19 @@ describe("Graph", function() {
       expect(g.edge("a", "b", "name")).to.equal("value");
     });
 
-    it("uses the stringified form of the id", function() {
+    it("uses the stringified form of the id #1", function() {
       g.setEdge(1, 2, "foo");
+      expect(g.edges()).eqls([{ v: "1", w: "2" }]);
       expect(g.edge("1", "2")).to.equal("foo");
       expect(g.edge(1, 2)).to.equal("foo");
+    });
+
+    it("uses the stringified form of the id #2", function() {
+      g = new Graph({ multigraph: true });
+      g.setEdge(1, 2, "foo", undefined);
       expect(g.edges()).eqls([{ v: "1", w: "2" }]);
+      expect(g.edge("1", "2")).to.equal("foo");
+      expect(g.edge(1, 2)).to.equal("foo");
     });
 
     it("uses the stringified form of the id with a name", function() {
