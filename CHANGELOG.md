@@ -1,3 +1,8 @@
+v0.8.3
+======
+
+* Fix bug where undefined name was stringified
+
 v0.8.2
 ======
 
