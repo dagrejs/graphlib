@@ -1,6 +1,6 @@
 {
   "name": "graphlib",
-  "version": "0.8.4-pre",
+  "version": "0.9.0",
   "main": [
     "dist/graphlib.core.js",
     "dist/graphlib.core.min.js"

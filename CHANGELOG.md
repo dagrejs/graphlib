@@ -1,3 +1,10 @@
+v0.9.0
+======
+
+* dist scripts now included in the repo
+* repo now supports direct bower install
+* This is effectively 1.0 RC1
+
 v0.8.3
 ======
 

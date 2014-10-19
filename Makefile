@@ -52,7 +52,7 @@ browser-test: $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
 bower.json: package.json src/release/make-bower.json.js
 	@src/release/make-bower.json.js > $@
 
-$(BUILD_DIR)/$(MOD).js: browser.js | unit-test
+$(BUILD_DIR)/$(MOD).js: browser.js $(SRC_FILES) | unit-test
 	@$(BROWSERIFY) $< > $@
 
 $(BUILD_DIR)/$(MOD).min.js: $(BUILD_DIR)/$(MOD).js

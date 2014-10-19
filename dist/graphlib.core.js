@@ -1170,6 +1170,6 @@ if (!lodash) {
 module.exports = lodash;
 
 },{"lodash":undefined}],21:[function(require,module,exports){
-module.exports = '0.8.4-pre';
+module.exports = '0.9.0';
 
 },{}]},{},[1]);
