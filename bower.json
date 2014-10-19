@@ -1,0 +1,14 @@
+{
+  "name": "graphlib",
+  "version": "0.8.4-pre",
+  "main": [
+    "dist/graphlib.core.js",
+    "dist/graphlib.core.min.js"
+  ],
+  "ignore": [
+    "README.md"
+  ],
+  "dependencies": {
+    "lodash": "2.4.1"
+  }
+}

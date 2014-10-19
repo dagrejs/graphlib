@@ -28,8 +28,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-var _ = require("lodash");
+var lib = require("./lib");
 
-module.exports = _.clone(require("./lib"));
-module.exports.json = require("./lib/json");
-module.exports.alg = require("./lib/alg");
+module.exports = {
+  Graph: lib.Graph,
+  json: require("./lib/json"),
+  alg: require("./lib/alg"),
+  version: lib.version
+};

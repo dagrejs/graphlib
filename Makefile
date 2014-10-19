@@ -5,6 +5,7 @@ BROWSERIFY = ./node_modules/browserify/bin/cmd.js
 ISTANBUL = ./node_modules/istanbul/lib/cli.js
 JSHINT = ./node_modules/jshint/bin/jshint
 JSCS = ./node_modules/jscs/bin/jscs
+KARMA = ./node_modules/karma/bin/karma
 MOCHA = ./node_modules/mocha/bin/_mocha
 UGLIFY = ./node_modules/uglify-js/bin/uglifyjs
 
@@ -17,16 +18,16 @@ COVERAGE_DIR = $(BUILD_DIR)/cov
 DIST_DIR = dist
 
 SRC_FILES = index.js lib/version.js $(shell find lib -type f -name '*.js')
-TEST_FILES = $(shell find test -type f -name '*.js')
+TEST_FILES = $(shell find test -type f -name '*.js' | grep -v 'bundle-test.js')
 BUILD_FILES = $(addprefix $(BUILD_DIR)/, \
 						$(MOD).js $(MOD).min.js \
-						bower.json)
+						$(MOD).core.js $(MOD).core.min.js)
 
 DIRS = $(BUILD_DIR)
 
-.PHONY: all clean test dist watch
+.PHONY: all clean browser-test unit-test test dist
 
-all: test
+all: unit-test
 
 bench: test
 	@src/bench.js
@@ -37,34 +38,42 @@ lib/version.js: package.json
 $(DIRS):
 	@mkdir -p $@
 
-test: $(SRC_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
+test: unit-test browser-test
+
+unit-test: $(SRC_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
 	@$(ISTANBUL) cover $(ISTANBUL_OPTS) $(MOCHA) --dir $(COVERAGE_DIR) -- $(MOCHA_OPTS) $(TEST_FILES) || $(MOCHA) $(MOCHA_OPTS) $(TEST_FILES)
 	@$(JSHINT) $(JSHINT_OPTS) $(filter-out node_modules, $?)
 	@$(JSCS) $(filter-out node_modules, $?)
 
-$(BUILD_DIR)/bower.json: package.json src/release/make-bower.json.js
+browser-test: $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
+	$(KARMA) start --single-run $(KARMA_OPTS)
+	$(KARMA) start karma.core.conf.js --single-run $(KARMA_OPTS)
+
+bower.json: package.json src/release/make-bower.json.js
 	@src/release/make-bower.json.js > $@
 
-$(BUILD_DIR)/$(MOD).js: browser.js | test
+$(BUILD_DIR)/$(MOD).js: browser.js | unit-test
 	@$(BROWSERIFY) $< > $@
 
 $(BUILD_DIR)/$(MOD).min.js: $(BUILD_DIR)/$(MOD).js
 	@$(UGLIFY) $< --comments '@license' > $@
 
-dist: $(BUILD_FILES)
+$(BUILD_DIR)/$(MOD).core.js: browser.js | unit-test
+	@$(BROWSERIFY) $< > $@ -x node_modules/lodash/dist/lodash.js
+
+$(BUILD_DIR)/$(MOD).core.min.js: $(BUILD_DIR)/$(MOD).core.js
+	@$(UGLIFY) $< --comments '@license' > $@
+
+dist: $(BUILD_FILES) | bower.json test
 	@rm -rf $@
-	@mkdir $@
-	cp -r $^ $@
-	cp LICENSE $@
+	@mkdir -p dist
+	@cp $^ dist
 
 release: dist
 	@echo
 	@echo Starting release...
 	@echo
 	@src/release/release.sh $(MOD) dist
-
-watch:
-	@src/watch.js | xargs -I{} make
 
 clean:
 	rm -rf $(BUILD_DIR) dist

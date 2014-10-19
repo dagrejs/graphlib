@@ -5,11 +5,12 @@
 var template = {
   name: 'graphlib',
   version: require('../../package.json').version,
-  main: ['js/graphlib.js', 'js/graphlib.min.js'],
+  main: [ 'dist/graphlib.core.js', 'dist/graphlib.core.min.js' ],
   ignore: [
     'README.md'
   ],
   dependencies: {
+    'lodash': '2.4.1'
   }
 };
 
