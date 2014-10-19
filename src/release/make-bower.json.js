@@ -7,7 +7,16 @@ var template = {
   version: require('../../package.json').version,
   main: [ 'dist/graphlib.core.js', 'dist/graphlib.core.min.js' ],
   ignore: [
-    'README.md'
+    '.*',
+    'README.md',
+    'CHANGELOG.md',
+    'Makefile',
+    'browser.js',
+    'index.js',
+    'karma*',
+    'lib/**',
+    'src/**',
+    'test/**'
   ],
   dependencies: {
     'lodash': '2.4.1'

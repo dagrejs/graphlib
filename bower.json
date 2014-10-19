@@ -1,12 +1,21 @@
 {
   "name": "graphlib",
-  "version": "0.9.0",
+  "version": "0.9.1-pre",
   "main": [
     "dist/graphlib.core.js",
     "dist/graphlib.core.min.js"
   ],
   "ignore": [
-    "README.md"
+    ".*",
+    "README.md",
+    "CHANGELOG.md",
+    "Makefile",
+    "browser.js",
+    "index.js",
+    "karma*",
+    "lib/**",
+    "src/**",
+    "test/**"
   ],
   "dependencies": {
     "lodash": "2.4.1"
