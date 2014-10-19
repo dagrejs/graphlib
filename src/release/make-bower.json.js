@@ -12,6 +12,8 @@ var template = {
     "CHANGELOG.md",
     "Makefile",
     "browser.js",
+    "dist/graphlib.js",
+    "dist/graphlib.min.js",
     "index.js",
     "karma*",
     "lib/**",
