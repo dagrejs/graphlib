@@ -25,7 +25,7 @@ BUILD_FILES = $(addprefix $(BUILD_DIR)/, \
 
 DIRS = $(BUILD_DIR)
 
-.PHONY: all clean browser-test unit-test test dist
+.PHONY: all bench clean browser-test unit-test test dist
 
 all: unit-test
 
@@ -58,7 +58,7 @@ $(BUILD_DIR)/$(MOD).js: browser.js $(SRC_FILES) | unit-test
 $(BUILD_DIR)/$(MOD).min.js: $(BUILD_DIR)/$(MOD).js
 	@$(UGLIFY) $< --comments '@license' > $@
 
-$(BUILD_DIR)/$(MOD).core.js: browser.js | unit-test
+$(BUILD_DIR)/$(MOD).core.js: browser.js $(SRC_FILES) | unit-test
 	@$(BROWSERIFY) $< > $@ --no-bundle-external
 
 $(BUILD_DIR)/$(MOD).core.min.js: $(BUILD_DIR)/$(MOD).core.js
@@ -66,7 +66,7 @@ $(BUILD_DIR)/$(MOD).core.min.js: $(BUILD_DIR)/$(MOD).core.js
 
 dist: $(BUILD_FILES) | bower.json test
 	@rm -rf $@
-	@mkdir -p dist
+	@mkdir -p $@
 	@cp $^ dist
 
 release: dist
