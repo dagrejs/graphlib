@@ -1,3 +1,8 @@
+v0.9.1
+======
+
+* bower packaging changes - eliminatea lot of unnecessary files.
+
 v0.9.0
 ======
 

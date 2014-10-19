@@ -1170,7 +1170,7 @@ if (!lodash) {
 module.exports = lodash;
 
 },{"lodash":22}],21:[function(require,module,exports){
-module.exports = '0.9.0';
+module.exports = '0.9.1';
 
 },{}],22:[function(require,module,exports){
 (function (global){
