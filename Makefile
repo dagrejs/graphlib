@@ -59,7 +59,7 @@ $(BUILD_DIR)/$(MOD).min.js: $(BUILD_DIR)/$(MOD).js
 	@$(UGLIFY) $< --comments '@license' > $@
 
 $(BUILD_DIR)/$(MOD).core.js: browser.js | unit-test
-	@$(BROWSERIFY) $< > $@ -x node_modules/lodash/dist/lodash.js
+	@$(BROWSERIFY) $< > $@ --no-bundle-external
 
 $(BUILD_DIR)/$(MOD).core.min.js: $(BUILD_DIR)/$(MOD).core.js
 	@$(UGLIFY) $< --comments '@license' > $@
@@ -76,7 +76,7 @@ release: dist
 	@src/release/release.sh $(MOD) dist
 
 clean:
-	rm -rf $(BUILD_DIR) dist
+	rm -rf $(BUILD_DIR)
 
 node_modules: package.json
 	@$(NPM) install
