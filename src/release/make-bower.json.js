@@ -2,18 +2,20 @@
 
 // Renders the bower.json template and prints it to stdout
 
+var packageJson = require("../../package.json");
+
 var template = {
-  name: "graphlib",
-  version: require("../../package.json").version,
-  main: [ "dist/graphlib.core.js", "dist/graphlib.core.min.js" ],
+  name: packageJson.name,
+  version: packageJson.version,
+  main: ["dist/" + packageJson.name + ".core.js", "dist/" + packageJson.name + ".core.min.js"],
   ignore: [
     ".*",
     "README.md",
     "CHANGELOG.md",
     "Makefile",
     "browser.js",
-    "dist/graphlib.js",
-    "dist/graphlib.min.js",
+    "dist/" + packageJson.name + ".js",
+    "dist/" + packageJson.name + ".min.js",
     "index.js",
     "karma*",
     "lib/**",
@@ -21,9 +23,7 @@ var template = {
     "src/**",
     "test/**"
   ],
-  dependencies: {
-    "lodash": "^2.4.1"
-  }
+  dependencies: packageJson.dependencies
 };
 
 console.log(JSON.stringify(template, null, 2));
