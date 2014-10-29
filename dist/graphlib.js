@@ -923,14 +923,9 @@ Graph.prototype.setPath = function(vs, value) {
  * setEdge(v, w, [value, [name]])
  * setEdge({ v, w, [name] }, [value])
  */
-Graph.prototype.setEdge = function(v, w, value, name) {
-  var valueSpecified = arguments.length > 2;
-
-  v = String(v);
-  w = String(w);
-  if (!_.isUndefined(name)) {
-    name = String(name);
-  }
+Graph.prototype.setEdge = function() {
+  var v, w, name, value,
+      valueSpecified = false;
 
   if (_.isPlainObject(arguments[0])) {
     v = arguments[0].v;
@@ -940,6 +935,20 @@ Graph.prototype.setEdge = function(v, w, value, name) {
       value = arguments[1];
       valueSpecified = true;
     }
+  } else {
+    v = arguments[0];
+    w = arguments[1];
+    name = arguments[3];
+    if (arguments.length > 2) {
+      value = arguments[2];
+      valueSpecified = true;
+    }
+  }
+
+  v = "" + v;
+  w = "" + w;
+  if (!_.isUndefined(name)) {
+    name = "" + name;
   }
 
   var e = edgeArgsToId(this._isDirected, v, w, name);
@@ -1170,7 +1179,7 @@ if (!lodash) {
 module.exports = lodash;
 
 },{"lodash":22}],21:[function(require,module,exports){
-module.exports = '1.0.0';
+module.exports = '1.0.1';
 
 },{}],22:[function(require,module,exports){
 (function (global){
