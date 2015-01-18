@@ -2,7 +2,7 @@ var expect = require("../chai").expect,
     Graph = require("../..").Graph,
     isAcyclic = require("../..").alg.isAcyclic;
 
-describe("alg.isAcylic", function() {
+describe("alg.isAcyclic", function() {
   it("returns true if the graph has no cycles", function() {
     var g = new Graph();
     g.setPath(["a", "b", "c"]);
