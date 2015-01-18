@@ -15,6 +15,12 @@ describe("alg.isAcylic", function() {
     expect(isAcyclic(g)).to.be.false;
   });
 
+  it("returns false if the graph has a cycle of 1 node", function() {
+    var g = new Graph();
+    g.setPath(["a", "a"]);
+    expect(isAcyclic(g)).to.be.false;
+  });
+
   it("rethrows non-CycleException errors", function() {
     expect(function() { isAcyclic(undefined); }).to.throw();
   });

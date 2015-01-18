@@ -14,7 +14,13 @@ describe("alg.findCycles", function() {
     expect(findCycles(g)).to.eql([]);
   });
 
-  it("returns a single entry for a cycle of 1 edge", function() {
+  it("returns a single entry for a cycle of 1 node", function() {
+    var g = new Graph();
+    g.setPath(["a", "a"]);
+    expect(sort(findCycles(g))).to.eql([["a"]]);
+  });
+
+  it("returns a single entry for a cycle of 2 nodes", function() {
     var g = new Graph();
     g.setPath(["a", "b", "a"]);
     expect(sort(findCycles(g))).to.eql([["a", "b"]]);
@@ -30,8 +36,9 @@ describe("alg.findCycles", function() {
     var g = new Graph();
     g.setPath(["a", "b", "a"]);
     g.setPath(["c", "d", "e", "c"]);
-    g.setNode("f");
-    expect(sort(findCycles(g))).to.eql([["a", "b"], ["c", "d", "e"]]);
+    g.setPath(["f", "g", "g"]);
+    g.setNode("h");
+    expect(sort(findCycles(g))).to.eql([["a", "b"], ["c", "d", "e"], ["g"]]);
   });
 });
 
