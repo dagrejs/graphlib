@@ -303,6 +303,14 @@ describe("Graph", function() {
       expect(_.sortBy(g.children())).to.eql(["a", "parent"]);
     });
 
+    it("uses the stringified form of the id", function() {
+      g.setParent(2, 1);
+      g.setParent(3, 2);
+      expect(g.parent(2)).equals("1");
+      expect(g.parent("2")).equals("1");
+      expect(g.parent(3)).equals("2");
+    });
+
     it("preserves the tree invariant", function() {
       g.setParent("c", "b");
       g.setParent("b", "a");
