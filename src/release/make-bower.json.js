@@ -7,7 +7,7 @@ var packageJson = require("../../package.json");
 var template = {
   name: packageJson.name,
   version: packageJson.version,
-  main: ["dist/" + packageJson.name + ".core.js", "dist/" + packageJson.name + ".core.min.js"],
+  main: ["dist/" + packageJson.name + ".core.js"],
   ignore: [
     ".*",
     "README.md",
