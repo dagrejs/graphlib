@@ -817,6 +817,8 @@ Graph.prototype.setParent = function(v, parent) {
   if (_.isUndefined(parent)) {
     parent = GRAPH_NODE;
   } else {
+    // Coerce parent to string
+    parent += "";
     for (var ancestor = parent;
          !_.isUndefined(ancestor);
          ancestor = this.parent(ancestor)) {
@@ -1166,7 +1168,7 @@ function read(json) {
 
 var lodash;
 
-if (require) {
+if (typeof require === "function") {
   try {
     lodash = require("lodash");
   } catch (e) {}
@@ -1179,7 +1181,7 @@ if (!lodash) {
 module.exports = lodash;
 
 },{"lodash":22}],21:[function(require,module,exports){
-module.exports = '1.0.1';
+module.exports = '1.0.2';
 
 },{}],22:[function(require,module,exports){
 (function (global){
