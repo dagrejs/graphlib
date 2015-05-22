@@ -218,7 +218,9 @@ var _ = require("../lodash"),
 module.exports = findCycles;
 
 function findCycles(g) {
-  return _.filter(tarjan(g), function(cmpt) { return cmpt.length > 1; });
+  return _.filter(tarjan(g), function(cmpt) {
+    return cmpt.length > 1 || (cmpt.length === 1 && g.hasEdge(cmpt[0], cmpt[0]));
+  });
 }
 
 },{"../lodash":20,"./tarjan":14}],8:[function(require,module,exports){
@@ -1181,18 +1183,18 @@ if (!lodash) {
 module.exports = lodash;
 
 },{"lodash":22}],21:[function(require,module,exports){
-module.exports = '1.0.3';
+module.exports = '1.0.4';
 
 },{}],22:[function(require,module,exports){
 (function (global){
 /**
  * @license
- * Lo-Dash 2.4.1 (Custom Build) <http://lodash.com/>
+ * Lo-Dash 2.4.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern -o ./dist/lodash.js`
  * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.5.2 <http://underscorejs.org/LICENSE>
  * Copyright 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <http://lodash.com/license>
+ * Available under MIT license <https://lodash.com/license>
  */
 ;(function() {
 
@@ -2681,6 +2683,7 @@ module.exports = '1.0.3';
     var setBindData = !defineProperty ? noop : function(func, value) {
       descriptor.value = value;
       defineProperty(func, '__bindData__', descriptor);
+      descriptor.value = null;
     };
 
     /**
@@ -7326,7 +7329,7 @@ module.exports = '1.0.3';
      * debugging. See http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/#toc-sourceurl
      *
      * For more information on precompiling templates see:
-     * http://lodash.com/custom-builds
+     * https://lodash.com/custom-builds
      *
      * For more information on Chrome extension sandboxes see:
      * http://developer.chrome.com/stable/extensions/sandboxingEval.html
@@ -7895,7 +7898,7 @@ module.exports = '1.0.3';
      * @memberOf _
      * @type string
      */
-    lodash.VERSION = '2.4.1';
+    lodash.VERSION = '2.4.2';
 
     // add "Chaining" functions to the wrapper
     lodash.prototype.chain = wrapperChain;
