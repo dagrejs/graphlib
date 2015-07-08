@@ -1,6 +1,6 @@
 {
   "name": "graphlib",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": [
     "dist/graphlib.core.js"
   ],
@@ -20,6 +20,6 @@
     "test/**"
   ],
   "dependencies": {
-    "lodash": "^2.4.1"
+    "lodash": "^3.10.0"
   }
 }
