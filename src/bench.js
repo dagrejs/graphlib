@@ -88,6 +88,14 @@ NODE_SIZES.forEach(function(size) {
     g.sinks();
   });
 
+  runBenchmark("filterNodes all" + nameSuffix, function() {
+    g.filterNodes(function() { return true; });
+  });
+
+  runBenchmark("filterNodes none" + nameSuffix, function() {
+    g.filterNodes(function() { return false; });
+  });
+
   runBenchmark("setNode" + nameSuffix, function() {
     g.setNode("key", "label");
   });

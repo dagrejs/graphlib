@@ -89,6 +89,93 @@ describe("Graph", function() {
     });
   });
 
+  describe("filterNodes", function() {
+    it("returns an identical graph when the filter selects everything", function() {
+      g.setGraph("graph label");
+      g.setNode("a", 123);
+      g.setPath(["a", "b", "c"]);
+      g.setEdge("a", "c", 456);
+      var g2 = g.filterNodes(function() { return true; });
+      expect(_.sortBy(g2.nodes())).eqls(["a", "b", "c"]);
+      expect(_.sortBy(g2.successors("a"))).eqls(["b", "c"]);
+      expect(_.sortBy(g2.successors("b"))).eqls(["c"]);
+      expect(g2.node("a")).eqls(123);
+      expect(g2.edge("a", "c")).eqls(456);
+      expect(g2.graph()).eqls("graph label");
+    });
+
+    it("returns an empty graph when the filter selects nothing", function() {
+      g.setPath(["a", "b", "c"]);
+      var g2 = g.filterNodes(function() { return false; });
+      expect(g2.nodes()).eqls([]);
+      expect(g2.edges()).eqls([]);
+    });
+
+    it("only includes nodes for which the filter returns true", function() {
+      g.setNodes(["a", "b"]);
+      var g2 = g.filterNodes(function(v) { return v === "a"; });
+      expect(g2.nodes()).eqls(["a"]);
+    });
+
+    it("removes edges that are connected to removed nodes", function() {
+      g.setEdge("a", "b");
+      var g2 = g.filterNodes(function(v) { return v === "a"; });
+      expect(_.sortBy(g2.nodes())).eqls(["a"]);
+      expect(g2.edges()).eqls([]);
+    });
+
+    it("preserves the directed option", function() {
+      g = new Graph({ directed: true });
+      expect(g.filterNodes(function() { return true; }).isDirected()).to.be.true;
+
+      g = new Graph({ directed: false });
+      expect(g.filterNodes(function() { return true; }).isDirected()).to.be.false;
+    });
+
+    it("preserves the multigraph option", function() {
+      g = new Graph({ multigraph: true });
+      expect(g.filterNodes(function() { return true; }).isMultigraph()).to.be.true;
+
+      g = new Graph({ multigraph: false });
+      expect(g.filterNodes(function() { return true; }).isMultigraph()).to.be.false;
+    });
+
+    it("preserves the compound option", function() {
+      g = new Graph({ compound: true });
+      expect(g.filterNodes(function() { return true; }).isCompound()).to.be.true;
+
+      g = new Graph({ compound: false });
+      expect(g.filterNodes(function() { return true; }).isCompound()).to.be.false;
+    });
+
+    it("includes subgraphs", function() {
+      g = new Graph({ compound: true });
+      g.setParent("a", "parent");
+
+      var g2 = g.filterNodes(function() { return true; });
+      expect(g2.parent("a")).eqls("parent");
+    });
+
+    it("includes multi-level subgraphs", function() {
+      g = new Graph({ compound: true });
+      g.setParent("a", "parent");
+      g.setParent("parent", "root");
+
+      var g2 = g.filterNodes(function() { return true; });
+      expect(g2.parent("a")).eqls("parent");
+      expect(g2.parent("parent")).eqls("root");
+    });
+
+    it("promotes a node to a higher subgraph if its parent is not included", function() {
+      g = new Graph({ compound: true });
+      g.setParent("a", "parent");
+      g.setParent("parent", "root");
+
+      var g2 = g.filterNodes(function(v) { return v !== "parent"; });
+      expect(g2.parent("a")).eqls("root");
+    });
+  });
+
   describe("setNodes", function() {
     it("creates multiple nodes", function() {
       g.setNodes(["a", "b", "c"]);
