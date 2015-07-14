@@ -1,7 +1,14 @@
 #!/usr/bin/env node
 
 var Benchmark = require("benchmark"),
+    seedrandom = require("seedrandom"),
     sprintf = require("sprintf").sprintf;
+
+var seed = process.env.SEED;
+seedrandom(seed, { global: true });
+if (seed) {
+  console.log("SEED: %s (%d)", seed, Math.random());
+}
 
 var Graph = require("..").Graph,
     alg = require("..").alg;
@@ -67,8 +74,6 @@ function buildGraph(numNodes, edgeDensity) {
   }
   return g;
 }
-
-runBenchmark("constructor", function () { new Graph(); });
 
 NODE_SIZES.forEach(function(size) {
   var g = buildGraph(size, EDGE_DENSITY),
