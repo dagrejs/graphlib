@@ -973,18 +973,19 @@ Graph.prototype.setPath = function(vs, value) {
  */
 Graph.prototype.setEdge = function() {
   var v, w, name, value,
-      valueSpecified = false;
+      valueSpecified = false,
+      arg0 = arguments[0];
 
-  if (_.isPlainObject(arguments[0])) {
-    v = arguments[0].v;
-    w = arguments[0].w;
-    name = arguments[0].name;
+  if (typeof arg0 === "object" && arg0 !== null && "v" in arg0) {
+    v = arg0.v;
+    w = arg0.w;
+    name = arg0.name;
     if (arguments.length === 2) {
       value = arguments[1];
       valueSpecified = true;
     }
   } else {
-    v = arguments[0];
+    v = arg0;
     w = arguments[1];
     name = arguments[3];
     if (arguments.length > 2) {
@@ -1096,7 +1097,7 @@ Graph.prototype.nodeEdges = function(v, w) {
 };
 
 function incrementOrInitEntry(map, k) {
-  if (_.has(map, k)) {
+  if (map[k]) {
     map[k]++;
   } else {
     map[k] = 1;
@@ -1107,7 +1108,9 @@ function decrementOrRemoveEntry(map, k) {
   if (!--map[k]) { delete map[k]; }
 }
 
-function edgeArgsToId(isDirected, v, w, name) {
+function edgeArgsToId(isDirected, v_, w_, name) {
+  var v = "" + v_;
+  var w = "" + w_;
   if (!isDirected && v > w) {
     var tmp = v;
     v = w;
@@ -1117,7 +1120,9 @@ function edgeArgsToId(isDirected, v, w, name) {
              (_.isUndefined(name) ? DEFAULT_EDGE_NAME : name);
 }
 
-function edgeArgsToObj(isDirected, v, w, name) {
+function edgeArgsToObj(isDirected, v_, w_, name) {
+  var v = "" + v_;
+  var w = "" + w_;
   if (!isDirected && v > w) {
     var tmp = v;
     v = w;
@@ -1227,7 +1232,7 @@ if (!lodash) {
 module.exports = lodash;
 
 },{"lodash":22}],21:[function(require,module,exports){
-module.exports = '1.0.6';
+module.exports = '1.0.7';
 
 },{}],22:[function(require,module,exports){
 (function (global){
