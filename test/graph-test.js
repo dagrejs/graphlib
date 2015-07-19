@@ -659,6 +659,17 @@ describe("Graph", function() {
       expect(g.edge("b", "a")).to.equal("foo");
     });
 
+    it("handles undirected edges where id has different order than Stringified id", function() {
+      var g = new Graph({ directed: false });
+      g.setEdge(9, 10, "foo");
+      expect(g.hasEdge("9", "10")).to.be.true;
+      expect(g.hasEdge(9, 10)).to.be.true;
+      expect(g.hasEdge("10", "9")).to.be.true;
+      expect(g.hasEdge(10, 9)).to.be.true;
+      expect(g.edge("9", "10")).eqls("foo");
+      expect(g.edge(9, 10)).eqls("foo");
+    });
+
     it("is chainable", function() {
       expect(g.setEdge("a", "b")).to.equal(g);
     });
