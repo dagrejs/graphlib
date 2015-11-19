@@ -46,6 +46,19 @@ describe("alg.postorder", function() {
     expect(nodes.indexOf("d")).to.be.lt(nodes.indexOf("c"));
   });
 
+  it("works for multiple connected roots", function() {
+    var g = new Graph();
+    g.setEdge("a", "b");
+    g.setEdge("a", "c");
+    g.setEdge("d", "c");
+
+    var nodes = postorder(g, ["a", "d"]);
+    expect(_.sortBy(nodes)).to.eql(["a", "b", "c", "d"]);
+    expect(nodes.indexOf("b")).to.be.lt(nodes.indexOf("a"));
+    expect(nodes.indexOf("c")).to.be.lt(nodes.indexOf("a"));
+    expect(nodes.indexOf("c")).to.be.lt(nodes.indexOf("d"));
+  });
+
   it("fails if root is not in the graph", function() {
     var g = new Graph();
     g.setNode("a");
