@@ -18,7 +18,7 @@ COVERAGE_DIR = $(BUILD_DIR)/cov
 DIST_DIR = dist
 
 SRC_FILES = index.js lib/version.js $(shell find lib -type f -name '*.js')
-TEST_FILES = $(shell find test -type f -name '*.js' | grep -v 'bundle-test.js')
+TEST_FILES = $(shell find test -type f -name '*.js' | grep -v 'bundle-test.js' | grep -v 'bundle.amd-test.js' | grep -v 'test-main.js')
 BUILD_FILES = $(addprefix $(BUILD_DIR)/, \
 						$(MOD).js $(MOD).min.js \
 						$(MOD).core.js $(MOD).core.min.js)
@@ -38,7 +38,7 @@ lib/version.js: package.json
 $(DIRS):
 	@mkdir -p $@
 
-test: unit-test browser-test
+test: unit-test browser-test browser-test-amd
 
 unit-test: $(SRC_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
 	@$(ISTANBUL) cover $(ISTANBUL_OPTS) $(MOCHA) --dir $(COVERAGE_DIR) -- $(MOCHA_OPTS) $(TEST_FILES) || $(MOCHA) $(MOCHA_OPTS) $(TEST_FILES)
@@ -48,6 +48,9 @@ unit-test: $(SRC_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
 browser-test: $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
 	$(KARMA) start --single-run $(KARMA_OPTS)
 	$(KARMA) start karma.core.conf.js --single-run $(KARMA_OPTS)
+
+browser-test-amd: $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
+	$(KARMA) start karma.amd.conf.js --single-run $(KARMA_OPTS)
 
 bower.json: package.json src/release/make-bower.json.js
 	@src/release/make-bower.json.js > $@
