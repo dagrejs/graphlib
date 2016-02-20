@@ -20,7 +20,16 @@ require.config({
 
   paths:{
     chai: 'node_modules/chai/chai',
-    graphlib: 'build/graphlib'
+    lodash: 'node_modules/lodash/index',
+    graphlib: 'build/graphlib',
+    'graphlib.core': 'build/graphlib.core'
+  },
+
+  shim: {
+    'graphlib.core': {
+      deps: ["lodash"],
+      exports: "graphlib.core" //any even not existing var could be defined here.
+    }
   },
 
   // dynamically load all test files
