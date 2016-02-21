@@ -1,39 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-(function (global){
-/**
- * @license
- * Copyright (c) 2014, Chris Pettitt
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- * list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- * this list of conditions and the following disclaimer in the documentation
- * and/or other materials provided with the distribution.
- *
- * 3. Neither the name of the copyright holder nor the names of its contributors
- * may be used to endorse or promote products derived from this software without
- * specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-global.graphlib = require('./index');
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./index":2}],2:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.graphlib = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Chris Pettitt
  * All rights reserved.
@@ -73,7 +38,7 @@ module.exports = {
   version: lib.version
 };
 
-},{"./lib":18,"./lib/alg":9,"./lib/json":19}],3:[function(require,module,exports){
+},{"./lib":17,"./lib/alg":8,"./lib/json":18}],2:[function(require,module,exports){
 var _ = require("../lodash");
 
 module.exports = components;
@@ -102,7 +67,7 @@ function components(g) {
   return cmpts;
 }
 
-},{"../lodash":20}],4:[function(require,module,exports){
+},{"../lodash":19}],3:[function(require,module,exports){
 var _ = require("../lodash");
 
 module.exports = dfs;
@@ -146,7 +111,7 @@ function doDfs(g, v, postorder, visited, navigation, acc) {
   }
 }
 
-},{"../lodash":20}],5:[function(require,module,exports){
+},{"../lodash":19}],4:[function(require,module,exports){
 var dijkstra = require("./dijkstra"),
     _ = require("../lodash");
 
@@ -158,7 +123,7 @@ function dijkstraAll(g, weightFunc, edgeFunc) {
   }, {});
 }
 
-},{"../lodash":20,"./dijkstra":6}],6:[function(require,module,exports){
+},{"../lodash":19,"./dijkstra":5}],5:[function(require,module,exports){
 var _ = require("../lodash"),
     PriorityQueue = require("../data/priority-queue");
 
@@ -214,7 +179,7 @@ function runDijkstra(g, source, weightFn, edgeFn) {
   return results;
 }
 
-},{"../data/priority-queue":16,"../lodash":20}],7:[function(require,module,exports){
+},{"../data/priority-queue":15,"../lodash":19}],6:[function(require,module,exports){
 var _ = require("../lodash"),
     tarjan = require("./tarjan");
 
@@ -226,7 +191,7 @@ function findCycles(g) {
   });
 }
 
-},{"../lodash":20,"./tarjan":14}],8:[function(require,module,exports){
+},{"../lodash":19,"./tarjan":13}],7:[function(require,module,exports){
 var _ = require("../lodash");
 
 module.exports = floydWarshall;
@@ -278,7 +243,7 @@ function runFloydWarshall(g, weightFn, edgeFn) {
   return results;
 }
 
-},{"../lodash":20}],9:[function(require,module,exports){
+},{"../lodash":19}],8:[function(require,module,exports){
 module.exports = {
   components: require("./components"),
   dijkstra: require("./dijkstra"),
@@ -293,7 +258,7 @@ module.exports = {
   topsort: require("./topsort")
 };
 
-},{"./components":3,"./dijkstra":6,"./dijkstra-all":5,"./find-cycles":7,"./floyd-warshall":8,"./is-acyclic":10,"./postorder":11,"./preorder":12,"./prim":13,"./tarjan":14,"./topsort":15}],10:[function(require,module,exports){
+},{"./components":2,"./dijkstra":5,"./dijkstra-all":4,"./find-cycles":6,"./floyd-warshall":7,"./is-acyclic":9,"./postorder":10,"./preorder":11,"./prim":12,"./tarjan":13,"./topsort":14}],9:[function(require,module,exports){
 var topsort = require("./topsort");
 
 module.exports = isAcyclic;
@@ -310,7 +275,7 @@ function isAcyclic(g) {
   return true;
 }
 
-},{"./topsort":15}],11:[function(require,module,exports){
+},{"./topsort":14}],10:[function(require,module,exports){
 var dfs = require("./dfs");
 
 module.exports = postorder;
@@ -319,7 +284,7 @@ function postorder(g, vs) {
   return dfs(g, vs, "post");
 }
 
-},{"./dfs":4}],12:[function(require,module,exports){
+},{"./dfs":3}],11:[function(require,module,exports){
 var dfs = require("./dfs");
 
 module.exports = preorder;
@@ -328,7 +293,7 @@ function preorder(g, vs) {
   return dfs(g, vs, "pre");
 }
 
-},{"./dfs":4}],13:[function(require,module,exports){
+},{"./dfs":3}],12:[function(require,module,exports){
 var _ = require("../lodash"),
     Graph = require("../graph"),
     PriorityQueue = require("../data/priority-queue");
@@ -382,7 +347,7 @@ function prim(g, weightFunc) {
   return result;
 }
 
-},{"../data/priority-queue":16,"../graph":17,"../lodash":20}],14:[function(require,module,exports){
+},{"../data/priority-queue":15,"../graph":16,"../lodash":19}],13:[function(require,module,exports){
 var _ = require("../lodash");
 
 module.exports = tarjan;
@@ -431,7 +396,7 @@ function tarjan(g) {
   return results;
 }
 
-},{"../lodash":20}],15:[function(require,module,exports){
+},{"../lodash":19}],14:[function(require,module,exports){
 var _ = require("../lodash");
 
 module.exports = topsort;
@@ -467,7 +432,7 @@ function topsort(g) {
 
 function CycleException() {}
 
-},{"../lodash":20}],16:[function(require,module,exports){
+},{"../lodash":19}],15:[function(require,module,exports){
 var _ = require("../lodash");
 
 module.exports = PriorityQueue;
@@ -621,7 +586,7 @@ PriorityQueue.prototype._swap = function(i, j) {
   keyIndices[origArrI.key] = j;
 };
 
-},{"../lodash":20}],17:[function(require,module,exports){
+},{"../lodash":19}],16:[function(require,module,exports){
 "use strict";
 
 var _ = require("./lodash");
@@ -1142,14 +1107,14 @@ function edgeObjToId(isDirected, edgeObj) {
   return edgeArgsToId(isDirected, edgeObj.v, edgeObj.w, edgeObj.name);
 }
 
-},{"./lodash":20}],18:[function(require,module,exports){
+},{"./lodash":19}],17:[function(require,module,exports){
 // Includes only the "core" of graphlib
 module.exports = {
   Graph: require("./graph"),
   version: require("./version")
 };
 
-},{"./graph":17,"./version":21}],19:[function(require,module,exports){
+},{"./graph":16,"./version":20}],18:[function(require,module,exports){
 var _ = require("./lodash"),
     Graph = require("./graph");
 
@@ -1217,7 +1182,7 @@ function read(json) {
   return g;
 }
 
-},{"./graph":17,"./lodash":20}],20:[function(require,module,exports){
+},{"./graph":16,"./lodash":19}],19:[function(require,module,exports){
 /* global window */
 
 var lodash;
@@ -1234,14 +1199,14 @@ if (!lodash) {
 
 module.exports = lodash;
 
-},{"lodash":22}],21:[function(require,module,exports){
-module.exports = '2.0.0';
+},{"lodash":21}],20:[function(require,module,exports){
+module.exports = '2.1.0';
 
-},{}],22:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 (function (global){
 /**
  * @license
- * lodash 3.10.0 (Custom Build) <https://lodash.com/>
+ * lodash 3.10.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern -d -o ./index.js`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
@@ -1254,7 +1219,7 @@ module.exports = '2.0.0';
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '3.10.0';
+  var VERSION = '3.10.1';
 
   /** Used to compose bitmasks for wrapper metadata. */
   var BIND_FLAG = 1,
@@ -13592,4 +13557,5 @@ module.exports = '2.0.0';
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}]},{},[1]);
+},{}]},{},[1])(1)
+});
