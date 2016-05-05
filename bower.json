@@ -20,6 +20,6 @@
     "test/**"
   ],
   "dependencies": {
-    "lodash": "^3.10.0"
+    "lodash": "^4.11.1"
   }
 }
