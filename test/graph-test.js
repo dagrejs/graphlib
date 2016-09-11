@@ -514,6 +514,21 @@ describe("Graph", function() {
     });
   });
 
+  describe("neighbors", function() {
+    it("returns undefined for a node that is not in the graph", function() {
+      expect(g.neighbors("a")).to.be.undefined;
+    });
+
+    it("returns the neighbors of a node", function() {
+      g.setEdge("a", "b");
+      g.setEdge("b", "c");
+      g.setEdge("a", "a");
+      expect(_.sortBy(g.neighbors("a"))).to.eql(["a", "b"]);
+      expect(_.sortBy(g.neighbors("b"))).to.eql(["a", "c"]);
+      expect(_.sortBy(g.neighbors("c"))).to.eql(["b"]);
+    });
+  });
+
   describe("isLeaf", function() {
     it("returns false for connected node in undirected graph", function() {
       g = new Graph({directed: false});
@@ -542,21 +557,6 @@ describe("Graph", function() {
       g.setNode("b");
       g.setEdge("a", "b");
       expect(g.isLeaf("b")).to.be.true;
-    });
-  });
-
-  describe("neighbors", function() {
-    it("returns undefined for a node that is not in the graph", function() {
-      expect(g.neighbors("a")).to.be.undefined;
-    });
-
-    it("returns the neighbors of a node", function() {
-      g.setEdge("a", "b");
-      g.setEdge("b", "c");
-      g.setEdge("a", "a");
-      expect(_.sortBy(g.neighbors("a"))).to.eql(["a", "b"]);
-      expect(_.sortBy(g.neighbors("b"))).to.eql(["a", "c"]);
-      expect(_.sortBy(g.neighbors("c"))).to.eql(["b"]);
     });
   });
 
