@@ -529,6 +529,37 @@ describe("Graph", function() {
     });
   });
 
+  describe("isLeaf", function() {
+    it("returns false for connected node in undirected graph", function() {
+      g = new Graph({directed: false});
+      g.setNode("a");
+      g.setNode("b");
+      g.setEdge("a", "b");
+      expect(g.isLeaf("b")).to.be.false;
+    });
+    it("returns true for an unconnected node in undirected graph", function() {
+      g = new Graph({directed: false});
+      g.setNode("a");
+      expect(g.isLeaf("a")).to.be.true;
+    });
+    it("returns true for unconnected node in directed graph", function() {
+      g.setNode("a");
+      expect(g.isLeaf("a")).to.be.true;
+    });
+    it("returns false for predecessor node in directed graph", function() {
+      g.setNode("a");
+      g.setNode("b");
+      g.setEdge("a", "b");
+      expect(g.isLeaf("a")).to.be.false;
+    });
+    it("returns true for successor node in directed graph", function() {
+      g.setNode("a");
+      g.setNode("b");
+      g.setEdge("a", "b");
+      expect(g.isLeaf("b")).to.be.true;
+    });
+  });
+
   describe("edges", function() {
     it("is empty if there are no edges in the graph", function() {
       expect(g.edges()).to.eql([]);
