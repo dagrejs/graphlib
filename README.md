@@ -11,6 +11,6 @@ To learn more [see our Wiki](https://github.com/cpettitt/graphlib/wiki).
 
 Graphlib is licensed under the terms of the MIT License. See the
 [LICENSE](LICENSE) file
-aor details.
+for details.
 
 [npm package manager]: http://npmjs.org/
