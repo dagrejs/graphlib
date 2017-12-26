@@ -1210,7 +1210,7 @@ if (!lodash) {
 module.exports = lodash;
 
 },{"lodash":undefined}],20:[function(require,module,exports){
-module.exports = '2.1.3';
+module.exports = '2.1.4';
 
 },{}]},{},[1])(1)
 });
