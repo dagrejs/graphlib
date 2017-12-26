@@ -859,6 +859,16 @@ Graph.prototype.neighbors = function(v) {
   }
 };
 
+Graph.prototype.isLeaf = function (v) {
+  var neighbors;
+  if (this.isDirected()) {
+    neighbors = this.successors(v);
+  } else {
+    neighbors = this.neighbors(v);
+  }
+  return neighbors.length === 0;
+};
+
 Graph.prototype.filterNodes = function(filter) {
   var copy = new this.constructor({
     directed: this._isDirected,
@@ -1200,7 +1210,7 @@ if (!lodash) {
 module.exports = lodash;
 
 },{"lodash":undefined}],20:[function(require,module,exports){
-module.exports = '2.1.1';
+module.exports = '2.1.2';
 
 },{}]},{},[1])(1)
 });
