@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "0.10"
+  - "lts/*"
 script: KARMA_OPTS="--browsers Firefox,PhantomJS" make -e test
 before_script:
   - export DISPLAY=:99.0        
