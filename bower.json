@@ -1,8 +1,8 @@
 {
-  "name": "@dagrejs/graphlib",
+  "name": "graphlib",
   "version": "2.1.3",
   "main": [
-    "dist/@dagrejs/graphlib.core.js"
+    "dist/graphlib.core.js"
   ],
   "ignore": [
     ".*",
@@ -10,8 +10,8 @@
     "CHANGELOG.md",
     "Makefile",
     "browser.js",
-    "dist/@dagrejs/graphlib.js",
-    "dist/@dagrejs/graphlib.min.js",
+    "dist/graphlib.js",
+    "dist/graphlib.min.js",
     "index.js",
     "karma*",
     "lib/**",
