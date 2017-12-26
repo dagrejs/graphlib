@@ -1210,7 +1210,7 @@ if (!lodash) {
 module.exports = lodash;
 
 },{"lodash":21}],20:[function(require,module,exports){
-module.exports = '2.1.2';
+module.exports = '2.1.3';
 
 },{}],21:[function(require,module,exports){
 (function (global){
