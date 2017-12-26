@@ -54,7 +54,7 @@ git push origin v$VERSION
 echo Published $PROJECT v$VERSION
 
 # Publish to npm
-npm publish
+npm publish --access=public
 echo Published to npm
 
 # Update patch level version + commit
