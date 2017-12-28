@@ -2,7 +2,10 @@
   "name": "graphlib",
   "version": "2.1.4",
   "main": [
-    "dist/graphlib.core.js"
+    "dist/graphlib.core.js",
+    "dist/graphlib.core.min.js",
+    "dist/graphlib.js",
+    "dist/graphlib.min.js"
   ],
   "ignore": [
     ".*",
@@ -10,8 +13,6 @@
     "CHANGELOG.md",
     "Makefile",
     "browser.js",
-    "dist/graphlib.js",
-    "dist/graphlib.min.js",
     "index.js",
     "karma*",
     "lib/**",
