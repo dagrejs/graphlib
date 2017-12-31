@@ -1,5 +1,5 @@
 {
-  "name": "@dagrejs/graphlib",
+  "name": "graphlib",
   "version": "2.1.5-pre",
   "description": "A directed and undirected multi-graph library",
   "author": "Chris Pettitt <cpettitt@gmail.com>",
