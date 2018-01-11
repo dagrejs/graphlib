@@ -734,26 +734,26 @@ Graph.prototype.nodes = function() {
 };
 
 Graph.prototype.sources = function() {
-  return _.filter(this.nodes(), function(v) {
+  return _.filter(this.nodes(), _.bind(function(v) {
     return _.isEmpty(this._in[v]);
-  }, this);
+  }, this));
 };
 
 Graph.prototype.sinks = function() {
-  return _.filter(this.nodes(), function(v) {
+  return _.filter(this.nodes(), _.bind(function(v) {
     return _.isEmpty(this._out[v]);
-  }, this);
+  }, this));
 };
 
 Graph.prototype.setNodes = function(vs, value) {
   var args = arguments;
-  _.each(vs, function(v) {
+  _.each(vs, _.bind(function(v) {
     if (args.length > 1) {
       this.setNode(v, value);
     } else {
       this.setNode(v);
     }
-  }, this);
+  }, this));
   return this;
 };
 
@@ -795,9 +795,9 @@ Graph.prototype.removeNode =  function(v) {
     if (this._isCompound) {
       this._removeFromParentsChildList(v);
       delete this._parent[v];
-      _.each(this.children(v), function(child) {
+      _.each(this.children(v), _.bind(function(child) {
         this.setParent(child);
-      }, this);
+      }, this));
       delete this._children[v];
     }
     _.each(_.keys(this._in[v]), removeEdge);
@@ -900,17 +900,17 @@ Graph.prototype.filterNodes = function(filter) {
 
   copy.setGraph(this.graph());
 
-  _.each(this._nodes, function(value, v) {
+  _.each(this._nodes, _.bind(function(value, v) {
     if (filter(v)) {
       copy.setNode(v, value);
     }
-  }, this);
+  }, this));
 
-  _.each(this._edgeObjs, function(e) {
+  _.each(this._edgeObjs, _.bind(function(e) {
     if (copy.hasNode(e.v) && copy.hasNode(e.w)) {
       copy.setEdge(e, this.edge(e));
     }
-  }, this);
+  }, this));
 
   var self = this;
   var parents = {};
@@ -1232,6 +1232,6 @@ if (!lodash) {
 module.exports = lodash;
 
 },{"lodash":undefined}],21:[function(require,module,exports){
-module.exports = '1.0.7';
+module.exports = '1.1.0';
 
 },{}]},{},[1]);
