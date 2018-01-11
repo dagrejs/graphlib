@@ -9,7 +9,7 @@
     "algorithms"
   ],
   "dependencies": {
-    "lodash": "^3.10.0"
+    "lodash": "^4.2.0"
   },
   "devDependencies": {
     "benchmark": "^1.0.0",
