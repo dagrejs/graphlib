@@ -568,7 +568,7 @@ describe("Graph", function() {
     it("returns the keys for edges in the graph", function() {
       g.setEdge("a", "b");
       g.setEdge("b", "c");
-      expect(_.sortBy(g.edges()), ["v", "w"]).to.eql([
+      expect(_.sortBy(g.edges(), ["v", "w"])).to.eql([
         { v: "a", w: "b" },
         { v: "b", w: "c" }
       ]);
