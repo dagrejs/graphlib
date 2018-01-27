@@ -19,6 +19,6 @@ describe("alg.dijkstraAll", function() {
 
 function weight(g) {
   return function(e) {
-    return g.getEdge(e);
+    return g.edge(e);
   };
 }
