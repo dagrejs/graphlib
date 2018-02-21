@@ -751,6 +751,12 @@ describe("Graph", function() {
     it("is chainable", function() {
       expect(g.setDefaultEdgeLabel("foo")).to.equal(g);
     });
+
+    it("can set an object as name for an edge", function() {
+        var g = new Graph({ multigraph: true });
+        g.setEdge("a", "b", "value", { a: 1, b: 2 });
+        expect(g.edge("a", "b", { a: 1, b: 2 })).to.equal("value");
+    });
   });
 
   describe("edge", function() {
