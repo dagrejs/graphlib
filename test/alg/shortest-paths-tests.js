@@ -1,5 +1,6 @@
 var expect = require("../chai").expect,
-    Graph = require("../..").Graph;
+  Graph = require("../..").Graph,
+  alg = require("../..").alg;
 
 module.exports = tests;
 
@@ -74,6 +75,29 @@ function tests(algorithm) {
     });
   });
 }
+
+// Test shortestPaths() function
+describe("alg.shortestPaths", function() {
+  tests(alg.shortestPaths);
+
+  it("uses dijkstra if no weightFn is provided", function() {
+    var g = new Graph();
+    g.setPath(["a", "b", "c"]);
+    g.setEdge("b", "d", -10);
+
+    expect(alg.shortestPaths(g, "a")).to.eql(alg.dijkstra(g, "a"));
+  });
+
+  it("uses bellman-ford if the graph contains a negative edge", function() {
+    var g = new Graph();
+    g.setEdge("a", "b", 10);
+    g.setEdge("b", "c", 8);
+    g.setEdge("a", "d", -3);
+    g.setEdge("d", "c", 2);
+
+    expect(alg.shortestPaths(g, "a", weightFn(g))).to.eql(alg.bellmanFord(g, "a", weightFn(g)));
+  });
+});
 
 function weightFn(g) {
   return function(e) {

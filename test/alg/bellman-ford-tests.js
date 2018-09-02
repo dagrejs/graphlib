@@ -1,7 +1,7 @@
 var expect = require("../chai").expect,
-    Graph = require("../..").Graph,
-    bellmanFord = require("../..").alg.bellmanFord,
-    shortestPathsTests = require("./shortest-paths-tests.js");
+  Graph = require("../..").Graph,
+  bellmanFord = require("../..").alg.bellmanFord,
+  shortestPathsTests = require("./shortest-paths-tests.js");
 
 describe("alg.bellmanFord", function(){
   shortestPathsTests(bellmanFord);
