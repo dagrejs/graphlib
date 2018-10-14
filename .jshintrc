@@ -1,4 +1,5 @@
 {
+  "esversion": 6,
   "camelcase": true,
   "eqeqeq": true,
   "expr": true,
