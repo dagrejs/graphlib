@@ -9,9 +9,15 @@
     "algorithms"
   ],
   "dependencies": {
-    "lodash": "^4.17.5"
+    "lodash-es": "^4.17.11"
   },
   "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/register": "^7.0.0",
+    "babel-jest": "^23.6.0",
+    "babel-plugin-annotate-pure-calls": "^0.4.0",
+    "babel-plugin-lodash": "^3.3.4",
     "benchmark": "^2.1.4",
     "browserify": "^16.0.0",
     "chai": "^4.1.2",
