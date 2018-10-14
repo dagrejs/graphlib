@@ -1,5 +1,5 @@
 var expect = require("../chai").expect,
-    _ = require("lodash"),
+    _ = require("lodash-es"),
     Graph = require("../..").Graph,
     components = require("../..").alg.components;
 

@@ -21,6 +21,7 @@
     "benchmark": "^2.1.4",
     "browserify": "^16.0.0",
     "chai": "^4.1.2",
+    "cross-env": "^5.2.0",
     "istanbul": "^0.4.5",
     "jscs": "^3.0.7",
     "jshint": "^2.9.6",
@@ -48,6 +49,11 @@
     "type": "git",
     "url": "https://github.com/dagrejs/graphlib.git"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
     "build": "rollup -c",
+    "test": "npm run test:unit && npm run test:bundle",
+    "test:unit": "cross-env TEST=test mocha --opts test/mocha.opts $(find test -type f -name '*.js' | grep -v 'bundle-test.js' | grep -v 'bundle.amd-test.js' | grep -v 'test-main.js')",
+    "test:bundle": "cross-env TEST=test mocha --opts test/mocha.opts test/bundle-test.js"
+  }
 }

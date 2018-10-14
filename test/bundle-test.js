@@ -2,8 +2,8 @@
 
 // These are smoke tests to make sure the bundles look like they are working
 // correctly.
-
-var expect = chai.expect;
+var expect = require("./chai").expect;
+var graphlib = require('../build/graphlib');
 
 describe("bundle", function() {
   it("exports graphlib", function() {

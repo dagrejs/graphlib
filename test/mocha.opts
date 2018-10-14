@@ -1,0 +1,4 @@
+--require test/helpers/babel
+--reporter dot
+--check-leaks
+--recursive

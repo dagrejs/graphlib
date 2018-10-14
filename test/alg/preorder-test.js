@@ -1,4 +1,4 @@
-var _ = require("lodash"),
+var _ = require("lodash-es"),
     expect = require("../chai").expect,
     Graph = require("../..").Graph,
     preorder = require("../..").alg.preorder;

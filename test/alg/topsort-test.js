@@ -1,5 +1,5 @@
 var expect = require("../chai").expect,
-    _ = require("lodash");
+    _ = require("lodash-es");
 
 var Graph = require("../..").Graph,
     topsort = require("../..").alg.topsort;
