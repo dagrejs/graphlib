@@ -1202,7 +1202,24 @@ var lodash;
 
 if (typeof require === "function") {
   try {
-    lodash = require("lodash");
+    lodash = {
+      clone: require("lodash/clone"),
+      constant: require("lodash/constant"),
+      each: require("lodash/each"),
+      filter: require("lodash/filter"),
+      has:  require("lodash/has"),
+      isArray: require("lodash/isArray"),
+      isEmpty: require("lodash/isEmpty"),
+      isFunction: require("lodash/isFunction"),
+      isUndefined: require("lodash/isUndefined"),
+      keys: require("lodash/keys"),
+      map: require("lodash/map"),
+      reduce: require("lodash/reduce"),
+      size: require("lodash/size"),
+      transform: require("lodash/transform"),
+      union: require("lodash/union"),
+      values: require("lodash/values")
+    };
   } catch (e) {}
 }
 
@@ -1212,8 +1229,8 @@ if (!lodash) {
 
 module.exports = lodash;
 
-},{"lodash":undefined}],20:[function(require,module,exports){
-module.exports = '2.1.6';
+},{"lodash/clone":undefined,"lodash/constant":undefined,"lodash/each":undefined,"lodash/filter":undefined,"lodash/has":undefined,"lodash/isArray":undefined,"lodash/isEmpty":undefined,"lodash/isFunction":undefined,"lodash/isUndefined":undefined,"lodash/keys":undefined,"lodash/map":undefined,"lodash/reduce":undefined,"lodash/size":undefined,"lodash/transform":undefined,"lodash/union":undefined,"lodash/values":undefined}],20:[function(require,module,exports){
+module.exports = '2.1.7';
 
 },{}]},{},[1])(1)
 });
