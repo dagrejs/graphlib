@@ -4,6 +4,11 @@
   "description": "A directed and undirected multi-graph library",
   "author": "Chris Pettitt <cpettitt@gmail.com>",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "dist/",
+    "lib/"
+  ],
   "keywords": [
     "graph",
     "algorithms"
