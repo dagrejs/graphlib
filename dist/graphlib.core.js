@@ -1,4 +1,4 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.graphlib = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.graphlib = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Chris Pettitt
  * All rights reserved.
@@ -431,7 +431,7 @@ function topsort(g) {
 }
 
 function CycleException() {}
-
+CycleException.prototype = new Error(); // must be an instance of Error to pass testing
 },{"../lodash":19}],15:[function(require,module,exports){
 var _ = require("../lodash");
 
@@ -1202,7 +1202,24 @@ var lodash;
 
 if (typeof require === "function") {
   try {
-    lodash = require("lodash");
+    lodash = {
+      clone: require("lodash/clone"),
+      constant: require("lodash/constant"),
+      each: require("lodash/each"),
+      filter: require("lodash/filter"),
+      has:  require("lodash/has"),
+      isArray: require("lodash/isArray"),
+      isEmpty: require("lodash/isEmpty"),
+      isFunction: require("lodash/isFunction"),
+      isUndefined: require("lodash/isUndefined"),
+      keys: require("lodash/keys"),
+      map: require("lodash/map"),
+      reduce: require("lodash/reduce"),
+      size: require("lodash/size"),
+      transform: require("lodash/transform"),
+      union: require("lodash/union"),
+      values: require("lodash/values")
+    };
   } catch (e) {}
 }
 
@@ -1212,8 +1229,8 @@ if (!lodash) {
 
 module.exports = lodash;
 
-},{"lodash":undefined}],20:[function(require,module,exports){
-module.exports = '2.1.5';
+},{"lodash/clone":undefined,"lodash/constant":undefined,"lodash/each":undefined,"lodash/filter":undefined,"lodash/has":undefined,"lodash/isArray":undefined,"lodash/isEmpty":undefined,"lodash/isFunction":undefined,"lodash/isUndefined":undefined,"lodash/keys":undefined,"lodash/map":undefined,"lodash/reduce":undefined,"lodash/size":undefined,"lodash/transform":undefined,"lodash/union":undefined,"lodash/values":undefined}],20:[function(require,module,exports){
+module.exports = '2.1.7';
 
 },{}]},{},[1])(1)
 });

@@ -1,10 +1,15 @@
 {
   "name": "graphlib",
-  "version": "2.1.6-pre",
+  "version": "2.1.8-pre",
   "description": "A directed and undirected multi-graph library",
   "author": "Chris Pettitt <cpettitt@gmail.com>",
   "main": "index.js",
   "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "dist/",
+    "lib/"
+  ],
   "keywords": [
     "graph",
     "algorithms"
