@@ -17,7 +17,7 @@ declare module '@dagrejs/graphlib' {
     name?: string;
   }
 
-  export class Graph<NodeLabel =  any, EdgeLabel = any> {
+  export class Graph<NodeLabel = any, EdgeLabel = any> {
     constructor(options?: GraphOptions);
 
     /**
