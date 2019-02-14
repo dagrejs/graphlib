@@ -1,7 +1,7 @@
-var _ = require("lodash"),
-    expect = require("../chai").expect,
-    Graph = require("../..").Graph,
-    prim = require("../..").alg.prim;
+var _ = require("lodash");
+var expect = require("../chai").expect;
+var Graph = require("../..").Graph;
+var prim = require("../..").alg.prim;
 
 describe("alg.prim", function() {
   it("returns an empty graph for an empty input", function() {

@@ -1,7 +1,7 @@
-var expect = require("../chai").expect,
-    _ = require("lodash"),
-    Graph = require("../..").Graph,
-    components = require("../..").alg.components;
+var expect = require("../chai").expect;
+var _ = require("lodash");
+var Graph = require("../..").Graph;
+var components = require("../..").alg.components;
 
 describe("alg.components", function() {
   it("returns an empty list for an empty graph", function() {
@@ -32,8 +32,8 @@ describe("alg.components", function() {
     g.setEdge("d", "c");
     g.setEdge("e", "f");
 
-    var result = _.sortBy(_.map(components(g), function(xs) { return _.sortBy(xs); }),
-                          "0");
+    var result = _.sortBy(_.map(components(g),
+      function(xs) { return _.sortBy(xs); }), "0");
     expect(result).to.eql([["a", "b", "c", "d"], ["e", "f"]]);
   });
 });

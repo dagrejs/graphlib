@@ -1,6 +1,6 @@
-var _ = require("lodash"),
-    expect = require("./chai").expect,
-    Graph = require("..").Graph;
+var _ = require("lodash");
+var expect = require("./chai").expect;
+var Graph = require("..").Graph;
 
 describe("Graph", function() {
   var g;

@@ -1,7 +1,7 @@
-var expect = require("../chai").expect,
-    Graph = require("../..").Graph,
-    floydWarshall = require("../..").alg.floydWarshall,
-    allShortestPathsTest = require("./all-shortest-paths-test");
+var expect = require("../chai").expect;
+var Graph = require("../..").Graph;
+var floydWarshall = require("../..").alg.floydWarshall;
+var allShortestPathsTest = require("./all-shortest-paths-test");
 
 describe("alg.floydWarshall", function() {
   allShortestPathsTest.tests(floydWarshall);

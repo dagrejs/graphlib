@@ -1,7 +1,7 @@
-var expect = require("./chai").expect,
-    Graph = require("..").Graph,
-    read = require("..").json.read,
-    write = require("..").json.write;
+var expect = require("./chai").expect;
+var Graph = require("..").Graph;
+var read = require("..").json.read;
+var write = require("..").json.write;
 
 describe("json", function() {
   it("preserves the graph options", function() {

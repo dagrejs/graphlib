@@ -1,7 +1,7 @@
-var _ = require("lodash"),
-    expect = require("../chai").expect,
-    Graph = require("../..").Graph,
-    findCycles = require("../..").alg.findCycles;
+var _ = require("lodash");
+var expect = require("../chai").expect;
+var Graph = require("../..").Graph;
+var findCycles = require("../..").alg.findCycles;
 
 describe("alg.findCycles", function() {
   it("returns an empty array for an empty graph", function() {

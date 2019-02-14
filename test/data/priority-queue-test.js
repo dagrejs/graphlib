@@ -1,6 +1,6 @@
-var _ = require("lodash"),
-    expect = require("../chai").expect,
-    PriorityQueue = require("../../lib/data/priority-queue");
+var _ = require("lodash");
+var expect = require("../chai").expect;
+var PriorityQueue = require("../../lib/data/priority-queue");
 
 describe("data.PriorityQueue", function() {
   var pq;
@@ -30,7 +30,7 @@ describe("data.PriorityQueue", function() {
       pq.add(undefined, 4);
       pq.add(null, 5);
       expect(_.sortBy(pq.keys())).to.eql(
-                _.sortBy(["a", "1", "false", "undefined", "null"]));
+        _.sortBy(["a", "1", "false", "undefined", "null"]));
     });
   });
 

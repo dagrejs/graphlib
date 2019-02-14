@@ -3,6 +3,7 @@
   "version": "2.1.8-pre",
   "description": "A directed and undirected multi-graph library",
   "author": "Chris Pettitt <cpettitt@gmail.com>",
+  "license": "MIT",
   "main": "index.js",
   "files": [
     "index.js",
@@ -14,14 +15,14 @@
     "algorithms"
   ],
   "dependencies": {
-    "lodash": "^4.17.5"
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
     "benchmark": "^2.1.4",
     "browserify": "^16.2.3",
     "chai": "^4.1.2",
     "istanbul": "^0.4.5",
-    "jscs": "^3.0.7",
+    "eslint": "^5.13.0",
     "jshint": "^2.9.6",
     "jshint-stylish": "^2.2.1",
     "karma": "^3.0.0",
@@ -42,6 +43,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/dagrejs/graphlib.git"
-  },
-  "license": "MIT"
+  }
 }

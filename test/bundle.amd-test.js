@@ -4,10 +4,10 @@ define(function(require) {
   // These are smoke tests to make sure the bundles look like they are working
   // correctly.
 
-  var chai = require("chai"),
-      graphlib = require("graphlib"),
-      graphlibCore = require("graphlib.core"),
-      expect = chai.expect;
+  var chai = require("chai");
+  var graphlib = require("graphlib");
+  var graphlibCore = require("graphlib.core");
+  var expect = chai.expect;
 
   describe("core bundle", function() {
     it("exports graphlib", function() {

@@ -27,8 +27,8 @@ require.config({
 
   shim: {
     'graphlib.core': {
-      deps: ["lodash"],
-      exports: "graphlib.core" //any even not existing var could be defined here.
+      deps: ['lodash'],
+      exports: 'graphlib.core' //any even not existing var could be defined here.
     }
   },
 
