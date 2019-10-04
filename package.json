@@ -1,7 +1,7 @@
 {
   "name": "graphlib",
-  "version": "1.0.1",
-  "description": "A directed and undirected multi-graph library",
+  "version": "1.0.8",
+  "description": "A directed and undirected multi-graph library, specific to ENCODE",
   "author": "Chris Pettitt <cpettitt@gmail.com>",
   "main": "index.js",
   "keywords": [
