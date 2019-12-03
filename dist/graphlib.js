@@ -44,9 +44,9 @@ var _ = require("../lodash");
 module.exports = components;
 
 function components(g) {
-  var visited = {},
-      cmpts = [],
-      cmpt;
+  var visited = {};
+  var cmpts = [];
+  var cmpt;
 
   function dfs(v) {
     if (_.has(visited, v)) return;
@@ -87,8 +87,8 @@ function dfs(g, vs, order) {
 
   var navigation = (g.isDirected() ? g.successors : g.neighbors).bind(g);
 
-  var acc = [],
-      visited = {};
+  var acc = [];
+  var visited = {};
   _.each(vs, function(v) {
     if (!g.hasNode(v)) {
       throw new Error("Graph does not have node: " + v);
@@ -112,8 +112,8 @@ function doDfs(g, v, postorder, visited, navigation, acc) {
 }
 
 },{"../lodash":19}],4:[function(require,module,exports){
-var dijkstra = require("./dijkstra"),
-    _ = require("../lodash");
+var dijkstra = require("./dijkstra");
+var _ = require("../lodash");
 
 module.exports = dijkstraAll;
 
@@ -124,8 +124,8 @@ function dijkstraAll(g, weightFunc, edgeFunc) {
 }
 
 },{"../lodash":19,"./dijkstra":5}],5:[function(require,module,exports){
-var _ = require("../lodash"),
-    PriorityQueue = require("../data/priority-queue");
+var _ = require("../lodash");
+var PriorityQueue = require("../data/priority-queue");
 
 module.exports = dijkstra;
 
@@ -133,20 +133,20 @@ var DEFAULT_WEIGHT_FUNC = _.constant(1);
 
 function dijkstra(g, source, weightFn, edgeFn) {
   return runDijkstra(g, String(source),
-                     weightFn || DEFAULT_WEIGHT_FUNC,
-                     edgeFn || function(v) { return g.outEdges(v); });
+    weightFn || DEFAULT_WEIGHT_FUNC,
+    edgeFn || function(v) { return g.outEdges(v); });
 }
 
 function runDijkstra(g, source, weightFn, edgeFn) {
-  var results = {},
-      pq = new PriorityQueue(),
-      v, vEntry;
+  var results = {};
+  var pq = new PriorityQueue();
+  var v, vEntry;
 
   var updateNeighbors = function(edge) {
-    var w = edge.v !== v ? edge.v : edge.w,
-        wEntry = results[w],
-        weight = weightFn(edge),
-        distance = vEntry.distance + weight;
+    var w = edge.v !== v ? edge.v : edge.w;
+    var wEntry = results[w];
+    var weight = weightFn(edge);
+    var distance = vEntry.distance + weight;
 
     if (weight < 0) {
       throw new Error("dijkstra does not allow negative edge weights. " +
@@ -180,8 +180,8 @@ function runDijkstra(g, source, weightFn, edgeFn) {
 }
 
 },{"../data/priority-queue":15,"../lodash":19}],6:[function(require,module,exports){
-var _ = require("../lodash"),
-    tarjan = require("./tarjan");
+var _ = require("../lodash");
+var tarjan = require("./tarjan");
 
 module.exports = findCycles;
 
@@ -200,13 +200,13 @@ var DEFAULT_WEIGHT_FUNC = _.constant(1);
 
 function floydWarshall(g, weightFn, edgeFn) {
   return runFloydWarshall(g,
-                          weightFn || DEFAULT_WEIGHT_FUNC,
-                          edgeFn || function(v) { return g.outEdges(v); });
+    weightFn || DEFAULT_WEIGHT_FUNC,
+    edgeFn || function(v) { return g.outEdges(v); });
 }
 
 function runFloydWarshall(g, weightFn, edgeFn) {
-  var results = {},
-      nodes = g.nodes();
+  var results = {};
+  var nodes = g.nodes();
 
   nodes.forEach(function(v) {
     results[v] = {};
@@ -217,8 +217,8 @@ function runFloydWarshall(g, weightFn, edgeFn) {
       }
     });
     edgeFn(v).forEach(function(edge) {
-      var w = edge.v === v ? edge.w : edge.v,
-          d = weightFn(edge);
+      var w = edge.v === v ? edge.w : edge.v;
+      var d = weightFn(edge);
       results[v][w] = { distance: d, predecessor: v };
     });
   });
@@ -294,21 +294,21 @@ function preorder(g, vs) {
 }
 
 },{"./dfs":3}],12:[function(require,module,exports){
-var _ = require("../lodash"),
-    Graph = require("../graph"),
-    PriorityQueue = require("../data/priority-queue");
+var _ = require("../lodash");
+var Graph = require("../graph");
+var PriorityQueue = require("../data/priority-queue");
 
 module.exports = prim;
 
 function prim(g, weightFunc) {
-  var result = new Graph(),
-      parents = {},
-      pq = new PriorityQueue(),
-      v;
+  var result = new Graph();
+  var parents = {};
+  var pq = new PriorityQueue();
+  var v;
 
   function updateNeighbors(edge) {
-    var w = edge.v === v ? edge.w : edge.v,
-        pri = pq.priority(w);
+    var w = edge.v === v ? edge.w : edge.v;
+    var pri = pq.priority(w);
     if (pri !== undefined) {
       var edgeWeight = weightFunc(edge);
       if (edgeWeight < pri) {
@@ -353,10 +353,10 @@ var _ = require("../lodash");
 module.exports = tarjan;
 
 function tarjan(g) {
-  var index = 0,
-      stack = [],
-      visited = {}, // node id -> { onStack, lowlink, index }
-      results = [];
+  var index = 0;
+  var stack = [];
+  var visited = {}; // node id -> { onStack, lowlink, index }
+  var results = [];
 
   function dfs(v) {
     var entry = visited[v] = {
@@ -376,8 +376,8 @@ function tarjan(g) {
     });
 
     if (entry.lowlink === entry.index) {
-      var cmpt = [],
-          w;
+      var cmpt = [];
+      var w;
       do {
         w = stack.pop();
         visited[w].onStack = false;
@@ -403,9 +403,9 @@ module.exports = topsort;
 topsort.CycleException = CycleException;
 
 function topsort(g) {
-  var visited = {},
-      stack = {},
-      results = [];
+  var visited = {};
+  var stack = {};
+  var results = [];
 
   function visit(node) {
     if (_.has(stack, node)) {
@@ -546,9 +546,9 @@ PriorityQueue.prototype.decrease = function(key, priority) {
 
 PriorityQueue.prototype._heapify = function(i) {
   var arr = this._arr;
-  var l = 2 * i,
-      r = l + 1,
-      largest = i;
+  var l = 2 * i;
+  var r = l + 1;
+  var largest = i;
   if (l < arr.length) {
     largest = arr[l].priority < arr[largest].priority ? l : largest;
     if (r < arr.length) {
@@ -593,9 +593,9 @@ var _ = require("./lodash");
 
 module.exports = Graph;
 
-var DEFAULT_EDGE_NAME = "\x00",
-    GRAPH_NODE = "\x00",
-    EDGE_KEY_DELIM = "\x01";
+var DEFAULT_EDGE_NAME = "\x00";
+var GRAPH_NODE = "\x00";
+var EDGE_KEY_DELIM = "\x01";
 
 // Implementation notes:
 //
@@ -793,8 +793,8 @@ Graph.prototype.setParent = function(v, parent) {
     // Coerce parent to string
     parent += "";
     for (var ancestor = parent;
-         !_.isUndefined(ancestor);
-         ancestor = this.parent(ancestor)) {
+      !_.isUndefined(ancestor);
+      ancestor = this.parent(ancestor)) {
       if (ancestor === v) {
         throw new Error("Setting " + parent+ " as parent of " + v +
                         " would create a cycle");
@@ -935,8 +935,8 @@ Graph.prototype.edges = function() {
 };
 
 Graph.prototype.setPath = function(vs, value) {
-  var self = this,
-      args = arguments;
+  var self = this;
+  var args = arguments;
   _.reduce(vs, function(v, w) {
     if (args.length > 1) {
       self.setEdge(v, w, value);
@@ -953,9 +953,9 @@ Graph.prototype.setPath = function(vs, value) {
  * setEdge({ v, w, [name] }, [value])
  */
 Graph.prototype.setEdge = function() {
-  var v, w, name, value,
-      valueSpecified = false,
-      arg0 = arguments[0];
+  var v, w, name, value;
+  var valueSpecified = false;
+  var arg0 = arguments[0];
 
   if (typeof arg0 === "object" && arg0 !== null && "v" in arg0) {
     v = arg0.v;
@@ -1017,23 +1017,23 @@ Graph.prototype.setEdge = function() {
 
 Graph.prototype.edge = function(v, w, name) {
   var e = (arguments.length === 1
-            ? edgeObjToId(this._isDirected, arguments[0])
-            : edgeArgsToId(this._isDirected, v, w, name));
+    ? edgeObjToId(this._isDirected, arguments[0])
+    : edgeArgsToId(this._isDirected, v, w, name));
   return this._edgeLabels[e];
 };
 
 Graph.prototype.hasEdge = function(v, w, name) {
   var e = (arguments.length === 1
-            ? edgeObjToId(this._isDirected, arguments[0])
-            : edgeArgsToId(this._isDirected, v, w, name));
+    ? edgeObjToId(this._isDirected, arguments[0])
+    : edgeArgsToId(this._isDirected, v, w, name));
   return _.has(this._edgeLabels, e);
 };
 
 Graph.prototype.removeEdge = function(v, w, name) {
   var e = (arguments.length === 1
-            ? edgeObjToId(this._isDirected, arguments[0])
-            : edgeArgsToId(this._isDirected, v, w, name)),
-      edge = this._edgeObjs[e];
+    ? edgeObjToId(this._isDirected, arguments[0])
+    : edgeArgsToId(this._isDirected, v, w, name));
+  var edge = this._edgeObjs[e];
   if (edge) {
     v = edge.v;
     w = edge.w;
@@ -1128,8 +1128,8 @@ module.exports = {
 };
 
 },{"./graph":16,"./version":20}],18:[function(require,module,exports){
-var _ = require("./lodash"),
-    Graph = require("./graph");
+var _ = require("./lodash");
+var Graph = require("./graph");
 
 module.exports = {
   write: write,
@@ -1154,9 +1154,9 @@ function write(g) {
 
 function writeNodes(g) {
   return _.map(g.nodes(), function(v) {
-    var nodeValue = g.node(v),
-        parent = g.parent(v),
-        node = { v: v };
+    var nodeValue = g.node(v);
+    var parent = g.parent(v);
+    var node = { v: v };
     if (!_.isUndefined(nodeValue)) {
       node.value = nodeValue;
     }
@@ -1169,8 +1169,8 @@ function writeNodes(g) {
 
 function writeEdges(g) {
   return _.map(g.edges(), function(e) {
-    var edgeValue = g.edge(e),
-        edge = { v: e.v, w: e.w };
+    var edgeValue = g.edge(e);
+    var edge = { v: e.v, w: e.w };
     if (!_.isUndefined(e.name)) {
       edge.name = e.name;
     }
@@ -1220,7 +1220,9 @@ if (typeof require === "function") {
       union: require("lodash/union"),
       values: require("lodash/values")
     };
-  } catch (e) {}
+  } catch (e) {
+    // continue regardless of error
+  }
 }
 
 if (!lodash) {
@@ -1230,7 +1232,7 @@ if (!lodash) {
 module.exports = lodash;
 
 },{"lodash/clone":175,"lodash/constant":176,"lodash/each":177,"lodash/filter":179,"lodash/has":182,"lodash/isArray":186,"lodash/isEmpty":190,"lodash/isFunction":191,"lodash/isUndefined":200,"lodash/keys":201,"lodash/map":203,"lodash/reduce":207,"lodash/size":208,"lodash/transform":212,"lodash/union":213,"lodash/values":214}],20:[function(require,module,exports){
-module.exports = '2.1.7';
+module.exports = '2.1.8';
 
 },{}],21:[function(require,module,exports){
 var getNative = require('./_getNative'),
@@ -1994,16 +1996,10 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
     value.forEach(function(subValue) {
       result.add(baseClone(subValue, bitmask, customizer, subValue, value, stack));
     });
-
-    return result;
-  }
-
-  if (isMap(value)) {
+  } else if (isMap(value)) {
     value.forEach(function(subValue, key) {
       result.set(key, baseClone(subValue, bitmask, customizer, key, value, stack));
     });
-
-    return result;
   }
 
   var keysFunc = isFull
