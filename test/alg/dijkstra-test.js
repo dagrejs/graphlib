@@ -44,6 +44,20 @@ describe("alg.dijkstra", function() {
     });
   });
 
+  it("works for undirected graphs when edges have a different natural order",
+    function() {
+      var g = new Graph({ directed: false });
+      g.setPath(["a", "b", "c"]);
+      g.setEdge("b", "d");
+      expect(dijkstra(g, "d")).to.eql({
+        a: { distance: 2, predecessor: "b" },
+        b: { distance: 1, predecessor: "d" },
+        c: { distance: 2, predecessor: "b" },
+        d: { distance: 0 }
+      });
+    }
+  );
+
   it("uses an optionally supplied weight function", function() {
     var g = new Graph();
     g.setEdge("a", "b", 1);
