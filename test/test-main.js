@@ -20,7 +20,7 @@ require.config({
 
   paths:{
     chai: 'node_modules/chai/chai',
-    lodash: 'node_modules/@snyk/lodash/lodash',
+    '@snyk/lodash': 'node_modules/@snyk/lodash/lodash',
     graphlib: 'build/graphlib',
     'graphlib.core': 'build/graphlib.core'
   },
