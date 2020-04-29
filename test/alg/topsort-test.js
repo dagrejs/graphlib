@@ -1,5 +1,5 @@
 var expect = require("../chai").expect;
-var _ = require("lodash");
+var _ = require("@snyk/lodash");
 var Graph = require("../..").Graph;
 var topsort = require("../..").alg.topsort;
 

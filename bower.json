@@ -20,6 +20,6 @@
     "test/**"
   ],
   "dependencies": {
-    "lodash": "^4.17.15"
+    "@snyk/lodash": "4.17.15-patch"
   }
 }
