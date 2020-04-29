@@ -15,7 +15,7 @@
     "algorithms"
   ],
   "dependencies": {
-    "lodash": "^4.17.15"
+    "@snyk/lodash": "4.17.15-patch"
   },
   "devDependencies": {
     "benchmark": "^2.1.4",

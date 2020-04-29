@@ -1,7 +1,10 @@
+dist: xenial
 language: node_js
 node_js:
-  - "lts/*"
-script: KARMA_OPTS="--browsers Firefox,PhantomJS" make -e test
-before_script:
-  - export DISPLAY=:99.0        
-  - sh -e /etc/init.d/xvfb start
+  - 'lts/*'
+script: KARMA_OPTS="--browsers Chrome,Firefox" make -e test
+services:
+  - xvfb
+addons:
+  firefox: 'latest'
+  chrome: 'stable'
