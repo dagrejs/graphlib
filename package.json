@@ -1,6 +1,6 @@
 {
-  "name": "graphlib",
-  "version": "2.1.9-pre",
+  "name": "@snyk/graphlib",
+  "version": "2.1.9-patch",
   "description": "A directed and undirected multi-graph library",
   "author": "Chris Pettitt <cpettitt@gmail.com>",
   "license": "MIT",

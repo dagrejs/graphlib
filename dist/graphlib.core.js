@@ -1196,29 +1196,31 @@ function read(json) {
 }
 
 },{"./graph":16,"./lodash":19}],19:[function(require,module,exports){
+// eslint-disable-next-line no-redeclare
 /* global window */
 
 var lodash;
 
 if (typeof require === "function") {
   try {
+    var _ = require("@snyk/lodash");
     lodash = {
-      clone: require("lodash/clone"),
-      constant: require("lodash/constant"),
-      each: require("lodash/each"),
-      filter: require("lodash/filter"),
-      has:  require("lodash/has"),
-      isArray: require("lodash/isArray"),
-      isEmpty: require("lodash/isEmpty"),
-      isFunction: require("lodash/isFunction"),
-      isUndefined: require("lodash/isUndefined"),
-      keys: require("lodash/keys"),
-      map: require("lodash/map"),
-      reduce: require("lodash/reduce"),
-      size: require("lodash/size"),
-      transform: require("lodash/transform"),
-      union: require("lodash/union"),
-      values: require("lodash/values")
+      clone: _.clone,
+      constant: _.constant,
+      each: _.each,
+      filter: _.filter,
+      has:  _.has,
+      isArray: _.isArray,
+      isEmpty: _.isEmpty,
+      isFunction: _.isFunction,
+      isUndefined: _.isUndefined,
+      keys: _.keys,
+      map: _.map,
+      reduce: _.reduce,
+      size: _.size,
+      transform: _.transform,
+      union: _.union,
+      values: _.values
     };
   } catch (e) {
     // continue regardless of error
@@ -1231,8 +1233,8 @@ if (!lodash) {
 
 module.exports = lodash;
 
-},{"lodash/clone":undefined,"lodash/constant":undefined,"lodash/each":undefined,"lodash/filter":undefined,"lodash/has":undefined,"lodash/isArray":undefined,"lodash/isEmpty":undefined,"lodash/isFunction":undefined,"lodash/isUndefined":undefined,"lodash/keys":undefined,"lodash/map":undefined,"lodash/reduce":undefined,"lodash/size":undefined,"lodash/transform":undefined,"lodash/union":undefined,"lodash/values":undefined}],20:[function(require,module,exports){
-module.exports = '2.1.8';
+},{"@snyk/lodash":undefined}],20:[function(require,module,exports){
+module.exports = '2.1.9-patch';
 
 },{}]},{},[1])(1)
 });
