@@ -5,7 +5,8 @@
   },
   "env": {
     "node": true,
-    "es6": true
+    "es6": true,
+    "jest": true
   },
   "plugins": [
     "prettier"
@@ -15,6 +16,5 @@
     "prettier"
   ],
   "rules": {
-    "no-undef": "off"
   }
 }
