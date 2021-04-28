@@ -1,8 +1,5 @@
-/browser.js
 /bench
 /build
-/doc
-/Makefile
 /node_modules
-/src
+/scripts
 /test
