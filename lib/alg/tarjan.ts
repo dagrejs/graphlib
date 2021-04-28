@@ -1,5 +1,5 @@
+import _has from 'lodash.has';
 import type { Graph } from '..';
-import * as _ from '../lodash';
 
 /**
  * This function is an implementation of Tarjan's algorithm which finds all strongly connected
@@ -28,8 +28,8 @@ export function tarjan(g: Graph): string[][] {
     });
     stack.push(v);
 
-    g.successors(v).forEach(function (w) {
-      if (!_.has(visited, w)) {
+    g.successors(v)!.forEach(function (w) {
+      if (!_has(visited, w)) {
         dfs(w);
         entry.lowlink = Math.min(entry.lowlink, visited[w].lowlink);
       } else if (visited[w].onStack) {
@@ -50,7 +50,7 @@ export function tarjan(g: Graph): string[][] {
   }
 
   g.nodes().forEach(function (v) {
-    if (!_.has(visited, v)) {
+    if (!_has(visited, v)) {
       dfs(v);
     }
   });

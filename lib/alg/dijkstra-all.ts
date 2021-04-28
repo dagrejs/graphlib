@@ -1,5 +1,5 @@
+import _transform from 'lodash.transform';
 import { Edge, Graph } from '..';
-import * as _ from '../lodash';
 import { dijkstra } from './dijkstra';
 
 /**
@@ -21,7 +21,7 @@ export function dijkstraAll(
   weightFunc?: (e: Edge) => number,
   edgeFunc?: (v: string) => Edge[],
 ) {
-  return _.transform(
+  return _transform(
     g.nodes(),
     function (acc, v) {
       acc[v] = dijkstra(g, v, weightFunc, edgeFunc);

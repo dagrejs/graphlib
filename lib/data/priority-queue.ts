@@ -1,4 +1,4 @@
-import * as _ from '../lodash';
+import _has from 'lodash.has';
 
 /**
  * A min-priority queue data structure. This algorithm is derived from Cormen,
@@ -31,7 +31,7 @@ export default class PriorityQueue {
    * Returns `true` if **key** is in the queue and `false` if not.
    */
   has(key) {
-    return _.has(this._keyIndices, key);
+    return _has(this._keyIndices, key);
   }
 
   /**
@@ -69,7 +69,7 @@ export default class PriorityQueue {
   add(key, priority) {
     const keyIndices = this._keyIndices;
     key = String(key);
-    if (!_.has(keyIndices, key)) {
+    if (!_has(keyIndices, key)) {
       const arr = this._arr;
       const index = arr.length;
       keyIndices[key] = index;

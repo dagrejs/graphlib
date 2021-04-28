@@ -1,14 +1,10 @@
 /* eslint-disable prefer-rest-params */
 import constant from 'lodash.constant';
-import each from 'lodash.foreach';
 import _filter from 'lodash.filter';
 import isEmpty from 'lodash.isempty';
 import isFunction from 'lodash.isfunction';
-import isUndefined from 'lodash.isundefined';
-import keys from 'lodash.keys';
 import reduce from 'lodash.reduce';
 import union from 'lodash.union';
-import values from 'lodash.values';
 
 const DEFAULT_EDGE_NAME = '\x00';
 const GRAPH_NODE = '\x00';
@@ -55,7 +51,7 @@ export class Graph {
   _preds;
   _out;
   _sucs;
-  _edgeObjs;
+  _edgeObjs: { [unknown: string]: Edge };
   _edgeLabels: { [key: string]: unknown };
 
   constructor(opts?: GraphOptions) {
@@ -195,7 +191,7 @@ export class Graph {
    * @returns list of graph nodes.
    */
   nodes(): string[] {
-    return keys(this._nodes);
+    return Object.keys(this._nodes);
   }
 
   /**
@@ -235,13 +231,13 @@ export class Graph {
   setNodes(vs: string[], value): this {
     const args = arguments;
     const self = this;
-    each(vs, function (v) {
+    for (const v of vs) {
       if (args.length > 1) {
         self.setNode(v, value);
       } else {
         self.setNode(v);
       }
-    });
+    }
     return this;
   }
 
@@ -295,15 +291,15 @@ export class Graph {
       if (this._isCompound) {
         this._removeFromParentsChildList(v);
         delete this._parent[v];
-        each(this.children(v), function (child) {
+        for (const child of this.children(v) ?? []) {
           self.setParent(child);
-        });
+        }
         delete this._children[v];
       }
-      each(keys(this._in[v]), removeEdge);
+      Object.keys(this._in[v]).forEach(removeEdge);
       delete this._in[v];
       delete this._preds[v];
-      each(keys(this._out[v]), removeEdge);
+      Object.keys(this._out[v]).forEach(removeEdge);
       delete this._out[v];
       delete this._sucs[v];
       --this._nodeCount;
@@ -326,15 +322,15 @@ export class Graph {
       throw new Error('Cannot set parent in a non-compound graph');
     }
 
-    if (isUndefined(parent)) {
+    if (undefined === parent) {
       parent = GRAPH_NODE;
     } else {
       // Coerce parent to string
       parent += '';
       for (
-        let ancestor = parent;
-        !isUndefined(ancestor);
-        ancestor = this.parent(ancestor!)
+        let ancestor: string | undefined = parent;
+        undefined !== ancestor;
+        ancestor = this.parent(ancestor)
       ) {
         if (ancestor === v) {
           throw new Error(
@@ -386,14 +382,14 @@ export class Graph {
    * @returns children nodes names list.
    */
   children(v?: string): string[] | undefined {
-    if (isUndefined(v)) {
+    if (undefined === v) {
       v = GRAPH_NODE;
     }
 
     if (this._isCompound) {
       const children = this._children[v!];
       if (children) {
-        return keys(children);
+        return Object.keys(children);
       }
     } else if (v === GRAPH_NODE) {
       return this.nodes();
@@ -406,15 +402,17 @@ export class Graph {
   predecessors(v) {
     const predsV = this._preds[v];
     if (predsV) {
-      return keys(predsV);
+      return Object.keys(predsV);
     }
+    return undefined;
   }
 
   successors(v) {
     const sucsV = this._sucs[v];
     if (sucsV) {
-      return keys(sucsV);
+      return Object.keys(sucsV);
     }
+    return undefined;
   }
 
   neighbors(v) {
@@ -453,17 +451,17 @@ export class Graph {
     copy.setGraph(this.graph());
 
     const self = this;
-    each(this._nodes, function (value, v) {
+    for (const [v, value] of Object.entries(this._nodes)) {
       if (filter(v)) {
         copy.setNode(v, value);
       }
-    });
+    }
 
-    each(this._edgeObjs, function (e) {
+    for (const e of Object.values(this._edgeObjs)) {
       if (copy.hasNode(e.v) && copy.hasNode(e.w)) {
         copy.setEdge(e, self.edge(e));
       }
-    });
+    }
 
     const parents = {};
 
@@ -480,9 +478,9 @@ export class Graph {
     }
 
     if (this._isCompound) {
-      each(copy.nodes(), function (v) {
+      for (const v of copy.nodes()) {
         copy.setParent(v, findParent(v));
-      });
+      }
     }
 
     return copy;
@@ -523,7 +521,7 @@ export class Graph {
    * @return graph edges list.
    */
   edges(): Edge[] {
-    return values(this._edgeObjs);
+    return Object.values(this._edgeObjs);
   }
 
   /**
@@ -604,7 +602,7 @@ export class Graph {
 
     v = '' + v;
     w = '' + w;
-    if (!isUndefined(name)) {
+    if (undefined !== name) {
       name = '' + name;
     }
 
@@ -616,7 +614,7 @@ export class Graph {
       return this;
     }
 
-    if (!isUndefined(name) && !this._isMultigraph) {
+    if (undefined !== name && !this._isMultigraph) {
       throw new Error('Cannot set a named edge when isMultigraph = false');
     }
 
@@ -750,7 +748,7 @@ export class Graph {
   inEdges(v: string, u?: string): Edge[] | undefined {
     const inV = this._in[v];
     if (inV) {
-      const edges = values(inV);
+      const edges: Edge[] = Object.values(inV);
       if (!u) {
         return edges;
       }
@@ -771,9 +769,9 @@ export class Graph {
    * @returns edges descriptors list if v is in the graph, or undefined otherwise.
    */
   outEdges(v: string, w?: string): undefined | Edge[] {
-    const outV = this._out[v];
+    const outV: Edge[] = this._out[v];
     if (outV) {
-      const edges = values(outV);
+      const edges = Object.values(outV);
       if (!w) {
         return edges;
       }
@@ -829,7 +827,7 @@ function edgeArgsToId(isDirected, v_, w_, name) {
     EDGE_KEY_DELIM +
     w +
     EDGE_KEY_DELIM +
-    (isUndefined(name) ? DEFAULT_EDGE_NAME : name)
+    (undefined === name ? DEFAULT_EDGE_NAME : name)
   );
 }
 
