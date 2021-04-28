@@ -1,6 +1,6 @@
 import type { Graph } from '..';
 import * as _ from '../lodash';
-const PriorityQueue = require('../data/priority-queue');
+import PriorityQueue from '../data/priority-queue';
 
 const DEFAULT_WEIGHT_FUNC = _.constant(1);
 
