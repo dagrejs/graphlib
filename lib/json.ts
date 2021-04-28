@@ -1,5 +1,5 @@
 import * as _ from './lodash';
-import Graph from './graph';
+import { Graph } from './graph';
 
 export type Json = Record<string, any>;
 

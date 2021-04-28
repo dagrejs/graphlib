@@ -751,7 +751,7 @@ describe('Graph', function () {
 
     it('handles undirected edges where id has different order than Stringified id', function () {
       const g = new Graph({ directed: false });
-      g.setEdge(9, 10, 'foo');
+      g.setEdge('9', '10', 'foo');
       expect(g.hasEdge('9', '10')).toBe(true);
       expect(g.hasEdge(9, 10)).toBe(true);
       expect(g.hasEdge('10', '9')).toBe(true);
