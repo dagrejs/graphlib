@@ -1,6 +1,5 @@
 {
   "name": "@snyk/graphlib",
-  "version": "2.1.9-patch.3",
   "description": "A directed and undirected multi-graph library",
   "author": "Chris Pettitt <cpettitt@gmail.com>",
   "license": "MIT",
@@ -16,6 +15,7 @@
     "algorithms"
   ],
   "scripts": {
+    "prepare": "tsc",
     "test": "mocha -R dot 'test/**/*test.js'",
     "lint": "eslint '*.js' 'lib/**/*.js' 'test/**/*test.js'",
     "format": "prettier --write 'lib/**/*.js' 'test/**/*.js'"

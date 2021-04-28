@@ -28,11 +28,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-var lib = require("./lib");
+var lib = require("./dist");
 
 module.exports = {
   Graph: lib.Graph,
-  json: require("./lib/json"),
-  alg: require("./lib/alg"),
-  version: lib.version
+  json: require("./dist/json"),
+  alg: require("./dist/alg"),
 };
