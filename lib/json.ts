@@ -1,6 +1,5 @@
 import _clone from 'lodash.clone';
 import _map from 'lodash.map';
-import _each from 'lodash.foreach';
 
 import { Graph } from './graph';
 
@@ -53,14 +52,14 @@ function writeEdges(g: Graph): Json {
 
 export function read(json: Record<string, any>): Graph {
   const g = new Graph(json.options).setGraph(json.value);
-  _each(json.nodes, function (entry) {
+  for (const entry of json.nodes ?? []) {
     g.setNode(entry.v, entry.value);
     if (entry.parent) {
       g.setParent(entry.v, entry.parent);
     }
-  });
-  _each(json.edges, function (entry) {
+  }
+  for (const entry of json.edges ?? []) {
     g.setEdge({ v: entry.v, w: entry.w, name: entry.name }, entry.value);
-  });
+  }
   return g;
 }

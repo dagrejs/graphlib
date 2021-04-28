@@ -1,4 +1,3 @@
-import _each from 'lodash.foreach';
 import _has from 'lodash.has';
 import type { Graph } from '..';
 
@@ -15,13 +14,13 @@ export function dfs(g: Graph, vs: string[], order: 'pre' | 'post'): string[] {
 
   const acc = [];
   const visited = {};
-  _each(vs, function (v) {
+  for (const v of vs) {
     if (!g.hasNode(v)) {
       throw new Error('Graph does not have node: ' + v);
     }
 
     doDfs(g, v, order === 'post', visited, navigation, acc);
-  });
+  }
   return acc;
 }
 
@@ -32,9 +31,9 @@ function doDfs(g, v, postorder, visited, navigation, acc) {
     if (!postorder) {
       acc.push(v);
     }
-    _each(navigation(v), function (w) {
+    for (const w of navigation(v)) {
       doDfs(g, w, postorder, visited, navigation, acc);
-    });
+    }
     if (postorder) {
       acc.push(v);
     }

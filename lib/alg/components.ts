@@ -1,4 +1,3 @@
-import _each from 'lodash.foreach';
 import _has from 'lodash.has';
 import type { Graph } from '..';
 
@@ -19,17 +18,17 @@ export function components(g: Graph): string[][] {
     if (_has(visited, v)) return;
     visited[v] = true;
     cmpt.push(v);
-    _each(g.successors(v), dfs);
-    _each(g.predecessors(v), dfs);
+    (g.successors(v) ?? []).forEach(dfs);
+    (g.predecessors(v) ?? []).forEach(dfs);
   }
 
-  _each(g.nodes(), function (v) {
+  for (const v of g.nodes()) {
     cmpt = [];
     dfs(v);
     if (cmpt.length) {
       cmpts.push(cmpt);
     }
-  });
+  }
 
   return cmpts;
 }

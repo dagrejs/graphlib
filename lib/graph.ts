@@ -1,6 +1,5 @@
 /* eslint-disable prefer-rest-params */
 import constant from 'lodash.constant';
-import each from 'lodash.foreach';
 import _filter from 'lodash.filter';
 import isEmpty from 'lodash.isempty';
 import isFunction from 'lodash.isfunction';
@@ -52,7 +51,7 @@ export class Graph {
   _preds;
   _out;
   _sucs;
-  _edgeObjs;
+  _edgeObjs: { [unknown: string]: Edge };
   _edgeLabels: { [key: string]: unknown };
 
   constructor(opts?: GraphOptions) {
@@ -232,13 +231,13 @@ export class Graph {
   setNodes(vs: string[], value): this {
     const args = arguments;
     const self = this;
-    each(vs, function (v) {
+    for (const v of vs) {
       if (args.length > 1) {
         self.setNode(v, value);
       } else {
         self.setNode(v);
       }
-    });
+    }
     return this;
   }
 
@@ -292,15 +291,15 @@ export class Graph {
       if (this._isCompound) {
         this._removeFromParentsChildList(v);
         delete this._parent[v];
-        each(this.children(v), function (child) {
+        for (const child of this.children(v) ?? []) {
           self.setParent(child);
-        });
+        }
         delete this._children[v];
       }
-      each(Object.keys(this._in[v]), removeEdge);
+      Object.keys(this._in[v]).forEach(removeEdge);
       delete this._in[v];
       delete this._preds[v];
-      each(Object.keys(this._out[v]), removeEdge);
+      Object.keys(this._out[v]).forEach(removeEdge);
       delete this._out[v];
       delete this._sucs[v];
       --this._nodeCount;
@@ -452,17 +451,17 @@ export class Graph {
     copy.setGraph(this.graph());
 
     const self = this;
-    each(this._nodes, function (value, v) {
+    for (const [v, value] of Object.entries(this._nodes)) {
       if (filter(v)) {
         copy.setNode(v, value);
       }
-    });
+    }
 
-    each(this._edgeObjs, function (e) {
+    for (const e of Object.values(this._edgeObjs)) {
       if (copy.hasNode(e.v) && copy.hasNode(e.w)) {
         copy.setEdge(e, self.edge(e));
       }
-    });
+    }
 
     const parents = {};
 
@@ -479,9 +478,9 @@ export class Graph {
     }
 
     if (this._isCompound) {
-      each(copy.nodes(), function (v) {
+      for (const v of copy.nodes()) {
         copy.setParent(v, findParent(v));
-      });
+      }
     }
 
     return copy;

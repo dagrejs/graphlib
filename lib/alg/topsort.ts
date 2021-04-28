@@ -1,4 +1,3 @@
-import _each from 'lodash.foreach';
 import _has from 'lodash.has';
 import _size from 'lodash.size';
 
@@ -25,13 +24,13 @@ export function topsort(g: Graph): string[] {
     if (!_has(visited, node)) {
       stack[node] = true;
       visited[node] = true;
-      _each(g.predecessors(node), visit);
+      g.predecessors(node)?.forEach(visit);
       delete stack[node];
       results.push(node);
     }
   }
 
-  _each(g.sinks(), visit);
+  g.sinks()?.forEach(visit);
 
   if (_size(visited) !== g.nodeCount()) {
     throw new CycleException();

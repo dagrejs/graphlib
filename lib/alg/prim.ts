@@ -1,4 +1,3 @@
-import _each from 'lodash.foreach';
 import _has from 'lodash.has';
 
 import type { Edge } from '../graph';
@@ -38,10 +37,10 @@ export function prim(g: Graph, weightFunc: (e: Edge) => number): Graph {
     return result;
   }
 
-  _each(g.nodes(), function (v) {
+  for (const v of g.nodes()) {
     pq.add(v, Number.POSITIVE_INFINITY);
     result.setNode(v);
-  });
+  }
 
   // Start from an arbitrary node
   pq.decrease(g.nodes()[0], 0);
