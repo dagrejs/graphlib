@@ -3,9 +3,8 @@
   "description": "A directed and undirected multi-graph library",
   "author": "Chris Pettitt <cpettitt@gmail.com>",
   "license": "MIT",
-  "main": "index.js",
+  "main": "dist/index.js",
   "files": [
-    "index.js",
     "index.d.ts",
     "dist/",
     "lib/"
