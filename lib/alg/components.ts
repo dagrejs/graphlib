@@ -1,10 +1,9 @@
-const _ = require('../lodash');
+import type { Graph } from '..';
+import * as _ from '../lodash';
 
-module.exports = components;
-
-function components(g) {
+export function components(g: Graph) {
   const visited = {};
-  const cmpts = [];
+  const cmpts: any[][] = [];
   let cmpt;
 
   function dfs(v) {

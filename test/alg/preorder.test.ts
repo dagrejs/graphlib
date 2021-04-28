@@ -7,7 +7,7 @@ describe('alg.preorder', function () {
   it('returns the root for a singleton graph', function () {
     const g = new Graph();
     g.setNode('a');
-    expect(preorder(g, 'a')).toEqual(['a']);
+    expect(preorder(g, ['a'])).toEqual(['a']);
   });
 
   it('visits each node in the graph once', function () {
@@ -15,7 +15,7 @@ describe('alg.preorder', function () {
     g.setPath(['a', 'b', 'd', 'e']);
     g.setPath(['a', 'c', 'd', 'e']);
 
-    const nodes = preorder(g, 'a');
+    const nodes = preorder(g, ['a']);
     expect(_.sortBy(nodes)).toEqual(['a', 'b', 'c', 'd', 'e']);
   });
 
@@ -25,7 +25,7 @@ describe('alg.preorder', function () {
     g.setPath(['a', 'c', 'd']);
     g.setEdge('c', 'e');
 
-    const nodes = preorder(g, 'a');
+    const nodes = preorder(g, ['a']);
     expect(_.sortBy(nodes)).toEqual(['a', 'b', 'c', 'd', 'e']);
     expect(nodes.indexOf('b')).toBeGreaterThan(nodes.indexOf('a'));
     expect(nodes.indexOf('c')).toBeGreaterThan(nodes.indexOf('a'));
@@ -50,7 +50,7 @@ describe('alg.preorder', function () {
     const g = new Graph();
     g.setNode('a');
     expect(function () {
-      preorder(g, 'b');
+      preorder(g, ['b']);
     }).toThrow();
   });
 });

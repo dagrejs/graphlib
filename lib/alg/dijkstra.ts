@@ -1,11 +1,10 @@
-const _ = require('../lodash');
+import type { Graph } from '..';
+import * as _ from '../lodash';
 const PriorityQueue = require('../data/priority-queue');
-
-module.exports = dijkstra;
 
 const DEFAULT_WEIGHT_FUNC = _.constant(1);
 
-function dijkstra(g, source, weightFn, edgeFn) {
+export function dijkstra(g: Graph, source, weightFn?, edgeFn?) {
   return runDijkstra(
     g,
     String(source),

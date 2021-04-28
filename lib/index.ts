@@ -1,5 +1,5 @@
 export * as json from './json';
-import alg from './alg';
+export * as alg from './alg';
 import Graph from './graph';
 
-export { Graph, alg };
+export { Graph };

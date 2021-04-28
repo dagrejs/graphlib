@@ -1,6 +1,5 @@
-const _ = require('../lodash');
-
-module.exports = dfs;
+import type { Graph } from '..';
+import * as _ from '../lodash';
 
 /*
  * A helper that preforms a pre- or post-order traversal on the input graph
@@ -10,11 +9,7 @@ module.exports = dfs;
  *
  * Order must be one of "pre" or "post".
  */
-function dfs(g, vs, order) {
-  if (!_.isArray(vs)) {
-    vs = [vs];
-  }
-
+export function dfs(g: Graph, vs: string[], order: 'pre' | 'post'): string[] {
   const navigation = (g.isDirected() ? g.successors : g.neighbors).bind(g);
 
   const acc = [];

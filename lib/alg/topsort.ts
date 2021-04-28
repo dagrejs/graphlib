@@ -1,12 +1,10 @@
-const _ = require('../lodash');
+import * as _ from '../lodash';
+import type { Graph } from '..';
 
-module.exports = topsort;
-topsort.CycleException = CycleException;
-
-function topsort(g) {
+export function topsort(g: Graph): string[] {
   const visited = {};
   const stack = {};
-  const results = [];
+  const results: any[] = [];
 
   function visit(node) {
     if (_.has(stack, node)) {
@@ -31,5 +29,4 @@ function topsort(g) {
   return results;
 }
 
-function CycleException() {}
-CycleException.prototype = new Error(); // must be an instance of Error to pass testing
+export class CycleException extends Error {}

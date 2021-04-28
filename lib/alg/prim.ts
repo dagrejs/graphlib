@@ -1,10 +1,8 @@
-const _ = require('../lodash');
-const Graph = require('../graph');
-const PriorityQueue = require('../data/priority-queue');
+import * as _ from '../lodash';
+import Graph from '../graph';
+import PriorityQueue from '../data/priority-queue';
 
-module.exports = prim;
-
-function prim(g, weightFunc) {
+export function prim(g: Graph, weightFunc) {
   const result = new Graph();
   const parents = {};
   const pq = new PriorityQueue();

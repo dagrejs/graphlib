@@ -31,7 +31,7 @@ describe('alg.topsort', function () {
     g.setPath(['b', 'c', 'a', 'b']);
     expect(function () {
       topsort(g);
-    }).toThrow(topsort.CycleException);
+    }).toThrow(alg.CycleException);
   });
 
   it('throws CycleException if there is a cycle #2', function () {
@@ -40,7 +40,7 @@ describe('alg.topsort', function () {
     g.setEdge('b', 'd');
     expect(function () {
       topsort(g);
-    }).toThrow(topsort.CycleException);
+    }).toThrow(alg.CycleException);
   });
 
   it('throws CycleException if there is a cycle #3', function () {
@@ -49,6 +49,6 @@ describe('alg.topsort', function () {
     g.setNode('d');
     expect(function () {
       topsort(g);
-    }).toThrow(topsort.CycleException);
+    }).toThrow(alg.CycleException);
   });
 });

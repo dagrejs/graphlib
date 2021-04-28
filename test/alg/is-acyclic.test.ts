@@ -23,7 +23,7 @@ describe('alg.isAcyclic', function () {
 
   it('rethrows non-CycleException errors', function () {
     expect(function () {
-      isAcyclic(undefined);
+      isAcyclic(undefined as any);
     }).toThrow();
   });
 });
