@@ -1,7 +1,15 @@
 import type { Graph } from '..';
 import * as _ from '../lodash';
 
-export function components(g: Graph) {
+/**
+ * Finds all connected components in a graph and returns an array of these components.
+ * Each component is itself an array that contains the ids of nodes in the component.
+ * Complexity: O(|V|).
+ *
+ * @argument graph - graph to find components in.
+ * @returns array of nodes list representing components
+ */
+export function components(g: Graph): string[][] {
   const visited = {};
   const cmpts: any[][] = [];
   let cmpt;

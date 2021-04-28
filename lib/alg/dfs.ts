@@ -1,7 +1,7 @@
 import type { Graph } from '..';
 import * as _ from '../lodash';
 
-/*
+/**
  * A helper that preforms a pre- or post-order traversal on the input graph
  * and returns the nodes in the order they were visited. If the graph is
  * undirected then this algorithm will navigate using neighbors. If the graph

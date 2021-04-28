@@ -64,8 +64,8 @@ describe('alg.dijkstra', function () {
     g.setEdge('b', 'c');
 
     expect(
-      dijkstra(g, 'd', undefined, function (e) {
-        return g.inEdges(e);
+      dijkstra(g, 'd', undefined, (e) => {
+        return g.inEdges(e)!;
       }),
     ).toEqual({
       a: { distance: 2, predecessor: 'c' },

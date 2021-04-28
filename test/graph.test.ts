@@ -753,11 +753,8 @@ describe('Graph', function () {
       const g = new Graph({ directed: false });
       g.setEdge('9', '10', 'foo');
       expect(g.hasEdge('9', '10')).toBe(true);
-      expect(g.hasEdge(9, 10)).toBe(true);
       expect(g.hasEdge('10', '9')).toBe(true);
-      expect(g.hasEdge(10, 9)).toBe(true);
       expect(g.edge('9', '10')).toEqual('foo');
-      expect(g.edge(9, 10)).toEqual('foo');
     });
 
     it('is chainable', function () {

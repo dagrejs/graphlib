@@ -1,8 +1,20 @@
 import * as _ from '../lodash';
+import type { Edge } from '../graph';
 import { Graph } from '../graph';
 import PriorityQueue from '../data/priority-queue';
 
-export function prim(g: Graph, weightFunc) {
+/**
+ * Prim's algorithm takes a connected undirected graph and generates a minimum spanning tree. This
+ * function returns the minimum spanning tree as an undirected graph. This algorithm is derived
+ * from the description in "Introduction to Algorithms", Third Edition, Cormen, et al., Pg 634.
+ * Complexity: O(|E| * log |V|);
+ *
+ * @argument graph - graph to generate a minimum spanning tree of.
+ * @argument weightFn - function which takes edge e and returns the weight of it. It throws an Error if
+ *           the graph is not connected.
+ * @returns minimum spanning tree of graph.
+ */
+export function prim(g: Graph, weightFunc: (e: Edge) => number): Graph {
   const result = new Graph();
   const parents = {};
   const pq = new PriorityQueue();
@@ -43,7 +55,7 @@ export function prim(g: Graph, weightFunc) {
       init = true;
     }
 
-    g.nodeEdges(v).forEach(updateNeighbors);
+    g.nodeEdges(v)!.forEach(updateNeighbors);
   }
 
   return result;
