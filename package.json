@@ -17,7 +17,8 @@
   ],
   "scripts": {
     "test": "mocha -R dot 'test/**/*test.js'",
-    "lint": "eslint '*.js' 'lib/**/*.js' 'test/**/*test.js'"
+    "lint": "eslint '*.js' 'lib/**/*.js' 'test/**/*test.js'",
+    "format": "prettier --write 'lib/**/*.js' 'test/**/*.js'"
   },
   "dependencies": {
     "lodash.clone": "^4.5.0",
@@ -37,15 +38,21 @@
     "lodash.values": "^4.3.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.13.15",
+    "@babel/preset-typescript": "^7.13.0",
     "@snyk/lodash": "^4.17.15-patch",
     "benchmark": "^2.1.4",
     "chai": "^4.1.2",
     "eslint": "^6.8.0",
+    "jest": "^27.0.0-next.8",
     "mocha": "^6.1.4",
+    "prettier": "^2.2.1",
     "requirejs": "^2.3.5",
     "seedrandom": "^2.4.3",
     "semver": "^5.5.0",
     "sprintf": "^0.1.5",
+    "ts-node": "^9.1.1",
+    "typescript": "~4.2.4",
     "uglify-js": "^3.3.10"
   },
   "repository": {

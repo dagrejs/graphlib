@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "target": "es2017",
+    "lib": ["es2017"],
+    "module": "commonjs",
+    "allowSyntheticDefaultImports": true,
+    "allowJs": false,
+    "esModuleInterop": true,
+    "declaration": true,
+    "sourceMap": true,
+    "pretty": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noImplicitReturns": true
+  },
+  "include": ["./lib/**/*"]
+}
