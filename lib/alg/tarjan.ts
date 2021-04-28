@@ -28,7 +28,7 @@ export function tarjan(g: Graph): string[][] {
     });
     stack.push(v);
 
-    g.successors(v).forEach(function (w) {
+    g.successors(v)!.forEach(function (w) {
       if (!_.has(visited, w)) {
         dfs(w);
         entry.lowlink = Math.min(entry.lowlink, visited[w].lowlink);
