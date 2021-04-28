@@ -15,6 +15,10 @@
     "graph",
     "algorithms"
   ],
+  "scripts": {
+    "test": "mocha -R dot 'test/**/*test.js'",
+    "lint": "eslint '*.js' 'lib/**/*.js' 'test/**/*test.js'"
+  },
   "dependencies": {
     "lodash.clone": "^4.5.0",
     "lodash.constant": "^3.0.0",
