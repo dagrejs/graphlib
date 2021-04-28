@@ -1,5 +1,5 @@
-import json = require('./json');
-import alg = require('./alg');
-import Graph = require('./graph');
+import json from './json';
+import alg from './alg';
+import Graph from './graph';
 
 export { Graph, json, alg };
