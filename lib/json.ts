@@ -1,13 +1,10 @@
-const _ = require('./lodash');
-const Graph = require('./graph');
+import * as _ from './lodash';
+import Graph from './graph';
 
-module.exports = {
-  write: write,
-  read: read,
-};
+export type Json = Record<string, any>;
 
-function write(g) {
-  const json = {
+export function write(g: Graph): Json {
+  const json: Json = {
     options: {
       directed: g.isDirected(),
       multigraph: g.isMultigraph(),
@@ -22,11 +19,11 @@ function write(g) {
   return json;
 }
 
-function writeNodes(g) {
+function writeNodes(g: Graph) {
   return _.map(g.nodes(), function (v) {
     const nodeValue = g.node(v);
     const parent = g.parent(v);
-    const node = { v: v };
+    const node: Json = { v: v };
     if (!_.isUndefined(nodeValue)) {
       node.value = nodeValue;
     }
@@ -37,10 +34,10 @@ function writeNodes(g) {
   });
 }
 
-function writeEdges(g) {
+function writeEdges(g: Graph): Json {
   return _.map(g.edges(), function (e) {
     const edgeValue = g.edge(e);
-    const edge = { v: e.v, w: e.w };
+    const edge: Json = { v: e.v, w: e.w };
     if (!_.isUndefined(e.name)) {
       edge.name = e.name;
     }
@@ -51,7 +48,7 @@ function writeEdges(g) {
   });
 }
 
-function read(json) {
+export function read(json: Record<string, any>): Graph {
   const g = new Graph(json.options).setGraph(json.value);
   _.each(json.nodes, function (entry) {
     g.setNode(entry.v, entry.value);
