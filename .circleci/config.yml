@@ -1,0 +1,68 @@
+version: 2.1
+
+defaults: &defaults
+  docker:
+    - image: node:10
+  working_directory: ~/graphlib
+
+commands:
+  checkout_and_merge:
+    steps:
+      - checkout
+      - run:
+          name: Checkout master
+          command: git checkout origin/master
+      - run:
+          name: Merge test branch
+          command: |
+            git config user.name "CircleCI"
+            git config user.email "noop"
+            git merge --no-edit "$CIRCLE_BRANCH"
+      - attach_workspace:
+          at: ~/graphlib
+
+jobs:
+  build:
+    <<: *defaults
+    environment:
+      NODE_ENV: develop # Required because base image sets it to 'production'
+    steps:
+      - checkout_and_merge
+      - run:
+          name: Install Node dependencies
+          command: npm install
+      - run:
+          name: Run linting tasks
+          command: npm run lint
+      - run:
+          name: Run tests
+          command: npm t
+
+  release:
+    <<: *defaults
+    docker:
+      - image: node:10
+    steps:
+      - checkout_and_merge
+      - run:
+          name: Install deps
+          command: npm install
+      - run:
+          name: Release
+          command: npx semantic-release
+
+workflows:
+  version: 2
+  test_and_release:
+    jobs:
+      - build:
+          name: Build
+      - release:
+          name: Release
+          context: nodejs-lib-release
+          requires:
+            - Build
+          filters:
+            branches:
+              only:
+                - master
