@@ -1,18 +1,18 @@
-var expect = require('../chai').expect;
-var Graph = require('../..').Graph;
+const expect = require('../chai').expect;
+const Graph = require('../..').Graph;
 
 exports.tests = tests;
 
 function tests(sp) {
   describe('allShortestPaths', function () {
     it('returns 0 for the node itself', function () {
-      var g = new Graph();
+      const g = new Graph();
       g.setNode('a');
       expect(sp(g)).to.eql({ a: { a: { distance: 0 } } });
     });
 
     it('returns the distance and path from all nodes to other nodes', function () {
-      var g = new Graph();
+      const g = new Graph();
       g.setEdge('a', 'b');
       g.setEdge('b', 'c');
       expect(sp(g)).to.eql({
@@ -35,7 +35,7 @@ function tests(sp) {
     });
 
     it('uses an optionally supplied weight function', function () {
-      var g = new Graph();
+      const g = new Graph();
       g.setEdge('a', 'b', 2);
       g.setEdge('b', 'c', 3);
 
@@ -59,7 +59,7 @@ function tests(sp) {
     });
 
     it('uses an optionally supplied incident function', function () {
-      var g = new Graph();
+      const g = new Graph();
       g.setEdge('a', 'b');
       g.setEdge('b', 'c');
 
@@ -87,7 +87,7 @@ function tests(sp) {
     });
 
     it('works with undirected graphs', function () {
-      var g = new Graph({ directed: false });
+      const g = new Graph({ directed: false });
       g.setEdge('a', 'b', 1);
       g.setEdge('b', 'c', 2);
       g.setEdge('c', 'a', 4);

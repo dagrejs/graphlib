@@ -1,13 +1,13 @@
-var expect = require('../chai').expect;
-var Graph = require('../..').Graph;
-var floydWarshall = require('../..').alg.floydWarshall;
-var allShortestPathsTest = require('./all-shortest-paths-test');
+const expect = require('../chai').expect;
+const Graph = require('../..').Graph;
+const floydWarshall = require('../..').alg.floydWarshall;
+const allShortestPathsTest = require('./all-shortest-paths-test');
 
 describe('alg.floydWarshall', function () {
   allShortestPathsTest.tests(floydWarshall);
 
   it('handles negative weights', function () {
-    var g = new Graph();
+    const g = new Graph();
     g.setEdge('a', 'b', 1);
     g.setEdge('a', 'c', -2);
     g.setEdge('b', 'd', 3);
@@ -42,7 +42,7 @@ describe('alg.floydWarshall', function () {
   });
 
   it('does include negative weight self edges', function () {
-    var g = new Graph();
+    const g = new Graph();
     g.setEdge('a', 'a', -1);
 
     // In the case of a negative cycle the distance is not well-defined beyond

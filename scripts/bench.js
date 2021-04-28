@@ -1,35 +1,35 @@
 #!/usr/bin/env node
 
-var Benchmark = require("benchmark"),
-    seedrandom = require("seedrandom"),
-    sprintf = require("sprintf").sprintf;
+const Benchmark = require("benchmark"),
+  seedrandom = require("seedrandom"),
+  sprintf = require("sprintf").sprintf;
 
-var seed = process.env.SEED;
+const seed = process.env.SEED;
 seedrandom(seed, { global: true });
 if (seed) {
   console.log("SEED: %s (%d)", seed, Math.random());
 }
 
-var Graph = require("..").Graph,
-    alg = require("..").alg;
+const Graph = require("..").Graph,
+  alg = require("..").alg;
 
-var NODE_SIZES = [100],
-    EDGE_DENSITY = 0.2,
-    KEY_SIZE = 10;
+const NODE_SIZES = [100],
+  EDGE_DENSITY = 0.2,
+  KEY_SIZE = 10;
 
 function runBenchmark(name, fn) {
-  var options = {};
+  const options = {};
   options.onComplete = function(bench) {
-    var target = bench.target,
-        hz = target.hz,
-        stats = target.stats,
-        rme = stats.rme,
-        samples = stats.sample.length,
-        msg = sprintf("    %25s: %13s ops/sec \xb1 %s%% (%3d run(s) sampled)",
-                      target.name,
-                      Benchmark.formatNumber(hz.toFixed(2)),
-                      rme.toFixed(2),
-                      samples);
+    const target = bench.target,
+      hz = target.hz,
+      stats = target.stats,
+      rme = stats.rme,
+      samples = stats.sample.length,
+      msg = sprintf("    %25s: %13s ops/sec \xb1 %s%% (%3d run(s) sampled)",
+        target.name,
+        Benchmark.formatNumber(hz.toFixed(2)),
+        rme.toFixed(2),
+        samples);
     console.log(msg);
   };
   options.onError = function(bench) {
@@ -45,11 +45,11 @@ function runBenchmark(name, fn) {
 }
 
 function keys(count) {
-  var ks = [],
-      k;
-  for (var i = 0; i < count; ++i) {
+  const ks = [];
+  let k;
+  for (let i = 0; i < count; ++i) {
     k = "";
-    for (var j = 0; j < KEY_SIZE; ++j) {
+    for (let j = 0; j < KEY_SIZE; ++j) {
       k += String.fromCharCode(97 + Math.floor(Math.random() * 26));
     }
     ks.push(k);
@@ -58,14 +58,14 @@ function keys(count) {
 }
 
 function buildGraph(numNodes, edgeDensity) {
-  var g = new Graph(),
-      numEdges = numNodes * numNodes * edgeDensity,
-      ks = keys(numNodes);
+  const g = new Graph(),
+    numEdges = numNodes * numNodes * edgeDensity,
+    ks = keys(numNodes);
 
   ks.forEach(function(k) { g.setNode(k); });
 
-  for (var i = 0; i < numEdges; ++i) {
-    var v, w;
+  for (let i = 0; i < numEdges; ++i) {
+    let v, w;
     do {
       v = ks[Math.floor(Math.random() * ks.length)];
       w = ks[Math.floor(Math.random() * ks.length)];
@@ -76,10 +76,10 @@ function buildGraph(numNodes, edgeDensity) {
 }
 
 NODE_SIZES.forEach(function(size) {
-  var g = buildGraph(size, EDGE_DENSITY),
-      nodes = g.nodes(),
-      edges = g.edges(),
-      nameSuffix = "(" + size + "," + EDGE_DENSITY + ")";
+  const g = buildGraph(size, EDGE_DENSITY),
+    nodes = g.nodes(),
+    edges = g.edges(),
+    nameSuffix = "(" + size + "," + EDGE_DENSITY + ")";
 
   runBenchmark("nodes" + nameSuffix, function() {
     g.nodes();
@@ -139,7 +139,7 @@ NODE_SIZES.forEach(function(size) {
   });
 
   runBenchmark("edge" + nameSuffix, function() {
-    var edge = edges[this.nextInt(edges.length)];
+    const edge = edges[this.nextInt(edges.length)];
     g.edge(edge);
   });
 

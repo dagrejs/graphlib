@@ -1,7 +1,7 @@
-var expect = require('./chai').expect;
-var Graph = require('..').Graph;
-var read = require('..').json.read;
-var write = require('..').json.write;
+const expect = require('./chai').expect;
+const Graph = require('..').Graph;
+const read = require('..').json.read;
+const write = require('..').json.write;
 
 describe('json', function () {
   it('preserves the graph options', function () {
@@ -40,7 +40,7 @@ describe('json', function () {
   });
 
   it('preserves multi-edges', function () {
-    var g = new Graph({ multigraph: true });
+    const g = new Graph({ multigraph: true });
 
     g.setEdge({ v: 'a', w: 'b', name: 'foo' });
     expect(rw(g).hasEdge('a', 'b', 'foo')).to.be.true;

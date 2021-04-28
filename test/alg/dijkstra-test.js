@@ -1,17 +1,17 @@
-var expect = require('../chai').expect;
+const expect = require('../chai').expect;
 
-var Graph = require('../..').Graph;
-var dijkstra = require('../..').alg.dijkstra;
+const Graph = require('../..').Graph;
+const dijkstra = require('../..').alg.dijkstra;
 
 describe('alg.dijkstra', function () {
   it('assigns distance 0 for the source node', function () {
-    var g = new Graph();
+    const g = new Graph();
     g.setNode('source');
     expect(dijkstra(g, 'source')).to.eql({ source: { distance: 0 } });
   });
 
   it('returns Number.POSITIVE_INFINITY for unconnected nodes', function () {
-    var g = new Graph();
+    const g = new Graph();
     g.setNode('a');
     g.setNode('b');
     expect(dijkstra(g, 'a')).to.eql({
@@ -21,7 +21,7 @@ describe('alg.dijkstra', function () {
   });
 
   it('returns the distance and path from the source node to other nodes', function () {
-    var g = new Graph();
+    const g = new Graph();
     g.setPath(['a', 'b', 'c']);
     g.setEdge('b', 'd');
     expect(dijkstra(g, 'a')).to.eql({
@@ -33,7 +33,7 @@ describe('alg.dijkstra', function () {
   });
 
   it('works for undirected graphs', function () {
-    var g = new Graph({ directed: false });
+    const g = new Graph({ directed: false });
     g.setPath(['a', 'b', 'c']);
     g.setEdge('b', 'd');
     expect(dijkstra(g, 'a')).to.eql({
@@ -45,7 +45,7 @@ describe('alg.dijkstra', function () {
   });
 
   it('uses an optionally supplied weight function', function () {
-    var g = new Graph();
+    const g = new Graph();
     g.setEdge('a', 'b', 1);
     g.setEdge('a', 'c', 2);
     g.setEdge('b', 'd', 3);
@@ -60,7 +60,7 @@ describe('alg.dijkstra', function () {
   });
 
   it('uses an optionally supplied edge function', function () {
-    var g = new Graph();
+    const g = new Graph();
     g.setPath(['a', 'c', 'd']);
     g.setEdge('b', 'c');
 
@@ -77,7 +77,7 @@ describe('alg.dijkstra', function () {
   });
 
   it('throws an Error if it encounters a negative edge weight', function () {
-    var g = new Graph();
+    const g = new Graph();
     g.setEdge('a', 'b', 1);
     g.setEdge('a', 'c', -2);
     g.setEdge('b', 'd', 3);

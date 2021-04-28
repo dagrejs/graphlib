@@ -1,9 +1,9 @@
-var _ = require('@snyk/lodash');
-var expect = require('../chai').expect;
-var PriorityQueue = require('../../lib/data/priority-queue');
+const _ = require('@snyk/lodash');
+const expect = require('../chai').expect;
+const PriorityQueue = require('../../lib/data/priority-queue');
 
 describe('data.PriorityQueue', function () {
-  var pq;
+  let pq;
 
   beforeEach(function () {
     pq = new PriorityQueue();

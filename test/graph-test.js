@@ -1,9 +1,9 @@
-var _ = require('@snyk/lodash');
-var expect = require('./chai').expect;
-var Graph = require('..').Graph;
+const _ = require('@snyk/lodash');
+const expect = require('./chai').expect;
+const Graph = require('..').Graph;
 
 describe('Graph', function () {
-  var g;
+  let g;
 
   beforeEach(function () {
     g = new Graph();
@@ -29,21 +29,21 @@ describe('Graph', function () {
     });
 
     it('can be set to undirected', function () {
-      var g = new Graph({ directed: false });
+      const g = new Graph({ directed: false });
       expect(g.isDirected()).to.be.false;
       expect(g.isCompound()).to.be.false;
       expect(g.isMultigraph()).to.be.false;
     });
 
     it('can be set to a compound graph', function () {
-      var g = new Graph({ compound: true });
+      const g = new Graph({ compound: true });
       expect(g.isDirected()).to.be.true;
       expect(g.isCompound()).to.be.true;
       expect(g.isMultigraph()).to.be.false;
     });
 
     it('can be set to a mulitgraph', function () {
-      var g = new Graph({ multigraph: true });
+      const g = new Graph({ multigraph: true });
       expect(g.isDirected()).to.be.true;
       expect(g.isCompound()).to.be.false;
       expect(g.isMultigraph()).to.be.true;
@@ -95,7 +95,7 @@ describe('Graph', function () {
       g.setNode('a', 123);
       g.setPath(['a', 'b', 'c']);
       g.setEdge('a', 'c', 456);
-      var g2 = g.filterNodes(function () {
+      const g2 = g.filterNodes(function () {
         return true;
       });
       expect(_.sortBy(g2.nodes())).eqls(['a', 'b', 'c']);
@@ -108,7 +108,7 @@ describe('Graph', function () {
 
     it('returns an empty graph when the filter selects nothing', function () {
       g.setPath(['a', 'b', 'c']);
-      var g2 = g.filterNodes(function () {
+      const g2 = g.filterNodes(function () {
         return false;
       });
       expect(g2.nodes()).eqls([]);
@@ -117,7 +117,7 @@ describe('Graph', function () {
 
     it('only includes nodes for which the filter returns true', function () {
       g.setNodes(['a', 'b']);
-      var g2 = g.filterNodes(function (v) {
+      const g2 = g.filterNodes(function (v) {
         return v === 'a';
       });
       expect(g2.nodes()).eqls(['a']);
@@ -125,7 +125,7 @@ describe('Graph', function () {
 
     it('removes edges that are connected to removed nodes', function () {
       g.setEdge('a', 'b');
-      var g2 = g.filterNodes(function (v) {
+      const g2 = g.filterNodes(function (v) {
         return v === 'a';
       });
       expect(_.sortBy(g2.nodes())).eqls(['a']);
@@ -196,7 +196,7 @@ describe('Graph', function () {
       g = new Graph({ compound: true });
       g.setParent('a', 'parent');
 
-      var g2 = g.filterNodes(function () {
+      const g2 = g.filterNodes(function () {
         return true;
       });
       expect(g2.parent('a')).eqls('parent');
@@ -207,7 +207,7 @@ describe('Graph', function () {
       g.setParent('a', 'parent');
       g.setParent('parent', 'root');
 
-      var g2 = g.filterNodes(function () {
+      const g2 = g.filterNodes(function () {
         return true;
       });
       expect(g2.parent('a')).eqls('parent');
@@ -219,7 +219,7 @@ describe('Graph', function () {
       g.setParent('a', 'parent');
       g.setParent('parent', 'root');
 
-      var g2 = g.filterNodes(function (v) {
+      const g2 = g.filterNodes(function (v) {
         return v !== 'parent';
       });
       expect(g2.parent('a')).eqls('root');
@@ -371,7 +371,7 @@ describe('Graph', function () {
     });
 
     it('removes parent / child relationships for the node', function () {
-      var g = new Graph({ compound: true });
+      const g = new Graph({ compound: true });
       g.setParent('c', 'b');
       g.setParent('b', 'a');
       g.removeNode('b');
@@ -508,18 +508,18 @@ describe('Graph', function () {
     });
 
     it('returns undefined for a non-compound graph without the node', function () {
-      var g = new Graph();
+      const g = new Graph();
       expect(g.children('a')).to.be.undefined;
     });
 
     it('returns an empty list for a non-compound graph with the node', function () {
-      var g = new Graph();
+      const g = new Graph();
       g.setNode('a');
       expect(g.children('a')).eqls([]);
     });
 
     it('returns all nodes for the root of a non-compound graph', function () {
-      var g = new Graph();
+      const g = new Graph();
       g.setNode('a');
       g.setNode('b');
       expect(_.sortBy(g.children())).eqls(['a', 'b']);
@@ -670,7 +670,7 @@ describe('Graph', function () {
     });
 
     it("creates a multi-edge if if it isn't part of the graph", function () {
-      var g = new Graph({ multigraph: true });
+      const g = new Graph({ multigraph: true });
       g.setEdge('a', 'b', undefined, 'name');
       expect(g.hasEdge('a', 'b')).to.be.false;
       expect(g.hasEdge('a', 'b', 'name')).to.be.true;
@@ -696,7 +696,7 @@ describe('Graph', function () {
     });
 
     it('changes the value for a multi-edge if it is already in the graph', function () {
-      var g = new Graph({ multigraph: true });
+      const g = new Graph({ multigraph: true });
       g.setEdge('a', 'b', 'value', 'name');
       g.setEdge('a', 'b', undefined, 'name');
       expect(g.edge('a', 'b', 'name')).to.be.undefined;
@@ -709,7 +709,7 @@ describe('Graph', function () {
     });
 
     it('can take an multi-edge object as the first parameter', function () {
-      var g = new Graph({ multigraph: true });
+      const g = new Graph({ multigraph: true });
       g.setEdge({ v: 'a', w: 'b', name: 'name' }, 'value');
       expect(g.edge('a', 'b', 'name')).to.equal('value');
     });
@@ -744,14 +744,14 @@ describe('Graph', function () {
     });
 
     it('handles undirected graph edges', function () {
-      var g = new Graph({ directed: false });
+      const g = new Graph({ directed: false });
       g.setEdge('a', 'b', 'foo');
       expect(g.edge('a', 'b')).to.equal('foo');
       expect(g.edge('b', 'a')).to.equal('foo');
     });
 
     it('handles undirected edges where id has different order than Stringified id', function () {
-      var g = new Graph({ directed: false });
+      const g = new Graph({ directed: false });
       g.setEdge(9, 10, 'foo');
       expect(g.hasEdge('9', '10')).to.be.true;
       expect(g.hasEdge(9, 10)).to.be.true;
@@ -794,7 +794,7 @@ describe('Graph', function () {
     });
 
     it("can take a function that takes the edge's endpoints and name", function () {
-      var g = new Graph({ multigraph: true });
+      const g = new Graph({ multigraph: true });
       g.setDefaultEdgeLabel(function (v, w, name) {
         return v + '-' + w + '-' + name + '-foo';
       });
@@ -803,7 +803,7 @@ describe('Graph', function () {
     });
 
     it('does not set a default value for a multi-edge that already exists', function () {
-      var g = new Graph({ multigraph: true });
+      const g = new Graph({ multigraph: true });
       g.setEdge('a', 'b', 'old', 'name');
       g.setDefaultEdgeLabel(function () {
         return 'should not set this';
@@ -832,14 +832,14 @@ describe('Graph', function () {
     });
 
     it('returns the value of a multi-edge if it is part of the graph', function () {
-      var g = new Graph({ multigraph: true });
+      const g = new Graph({ multigraph: true });
       g.setEdge('a', 'b', { bar: 'baz' }, 'foo');
       expect(g.edge('a', 'b', 'foo')).to.eql({ bar: 'baz' });
       expect(g.edge('a', 'b')).to.be.undefined;
     });
 
     it('returns an edge in either direction in an undirected graph', function () {
-      var g = new Graph({ directed: false });
+      const g = new Graph({ directed: false });
       g.setEdge('a', 'b', { foo: 'bar' });
       expect(g.edge('a', 'b')).to.eql({ foo: 'bar' });
       expect(g.edge('b', 'a')).to.eql({ foo: 'bar' });
@@ -854,7 +854,7 @@ describe('Graph', function () {
     });
 
     it('can remove an edge by edgeObj', function () {
-      var g = new Graph({ multigraph: true });
+      const g = new Graph({ multigraph: true });
       g.setEdge({ v: 'a', w: 'b', name: 'foo' });
       g.removeEdge({ v: 'a', w: 'b', name: 'foo' });
       expect(g.hasEdge('a', 'b', 'foo')).to.be.false;
@@ -862,7 +862,7 @@ describe('Graph', function () {
     });
 
     it('can remove an edge by separate ids', function () {
-      var g = new Graph({ multigraph: true });
+      const g = new Graph({ multigraph: true });
       g.setEdge({ v: 'a', w: 'b', name: 'foo' });
       g.removeEdge('a', 'b', 'foo');
       expect(g.hasEdge('a', 'b', 'foo')).to.be.false;
@@ -879,7 +879,7 @@ describe('Graph', function () {
     });
 
     it('correctly decrements neighbor counts', function () {
-      var g = new Graph({ multigraph: true });
+      const g = new Graph({ multigraph: true });
       g.setEdge('a', 'b');
       g.setEdge({ v: 'a', w: 'b', name: 'foo' });
       g.removeEdge('a', 'b');
@@ -891,7 +891,7 @@ describe('Graph', function () {
     });
 
     it('works with undirected graphs', function () {
-      var g = new Graph({ directed: false });
+      const g = new Graph({ directed: false });
       g.setEdge('h', 'g');
       g.removeEdge('g', 'h');
       expect(g.neighbors('g')).to.eql([]);
@@ -918,7 +918,7 @@ describe('Graph', function () {
     });
 
     it('works for multigraphs', function () {
-      var g = new Graph({ multigraph: true });
+      const g = new Graph({ multigraph: true });
       g.setEdge('a', 'b');
       g.setEdge('a', 'b', undefined, 'bar');
       g.setEdge('a', 'b', undefined, 'foo');
@@ -931,7 +931,7 @@ describe('Graph', function () {
     });
 
     it('can return only edges from a specified node', function () {
-      var g = new Graph({ multigraph: true });
+      const g = new Graph({ multigraph: true });
       g.setEdge('a', 'b');
       g.setEdge('a', 'b', undefined, 'foo');
       g.setEdge('a', 'c');
@@ -960,7 +960,7 @@ describe('Graph', function () {
     });
 
     it('works for multigraphs', function () {
-      var g = new Graph({ multigraph: true });
+      const g = new Graph({ multigraph: true });
       g.setEdge('a', 'b');
       g.setEdge('a', 'b', undefined, 'bar');
       g.setEdge('a', 'b', undefined, 'foo');
@@ -973,7 +973,7 @@ describe('Graph', function () {
     });
 
     it('can return only edges to a specified node', function () {
-      var g = new Graph({ multigraph: true });
+      const g = new Graph({ multigraph: true });
       g.setEdge('a', 'b');
       g.setEdge('a', 'b', undefined, 'foo');
       g.setEdge('a', 'c');
@@ -1005,7 +1005,7 @@ describe('Graph', function () {
     });
 
     it('works for multigraphs', function () {
-      var g = new Graph({ multigraph: true });
+      const g = new Graph({ multigraph: true });
       g.setEdge('a', 'b');
       g.setEdge({ v: 'a', w: 'b', name: 'bar' });
       g.setEdge({ v: 'a', w: 'b', name: 'foo' });
@@ -1022,7 +1022,7 @@ describe('Graph', function () {
     });
 
     it('can return only edges between specific nodes', function () {
-      var g = new Graph({ multigraph: true });
+      const g = new Graph({ multigraph: true });
       g.setEdge('a', 'b');
       g.setEdge({ v: 'a', w: 'b', name: 'foo' });
       g.setEdge('a', 'c');
