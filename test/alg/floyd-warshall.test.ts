@@ -1,10 +1,10 @@
-const expect = require('../chai').expect;
-const Graph = require('../..').Graph;
-const floydWarshall = require('../..').alg.floydWarshall;
-const allShortestPathsTest = require('./all-shortest-paths-test');
+import { Graph, alg } from '../../lib';
+import { tests } from './all-shortest-paths.helper';
+
+const floydWarshall = alg.floydWarshall;
 
 describe('alg.floydWarshall', function () {
-  allShortestPathsTest.tests(floydWarshall);
+  tests(floydWarshall);
 
   it('handles negative weights', function () {
     const g = new Graph();
@@ -13,7 +13,7 @@ describe('alg.floydWarshall', function () {
     g.setEdge('b', 'd', 3);
     g.setEdge('c', 'd', 3);
 
-    expect(floydWarshall(g, weightFn(g))).to.eql({
+    expect(floydWarshall(g, weightFn(g))).toEqual({
       a: {
         a: { distance: 0 },
         b: { distance: 1, predecessor: 'a' },
@@ -47,7 +47,7 @@ describe('alg.floydWarshall', function () {
 
     // In the case of a negative cycle the distance is not well-defined beyond
     // having a negative value along the diagonal.
-    expect(floydWarshall(g, weightFn(g))).to.eql({
+    expect(floydWarshall(g, weightFn(g))).toEqual({
       a: {
         a: { distance: -2, predecessor: 'a' },
       },

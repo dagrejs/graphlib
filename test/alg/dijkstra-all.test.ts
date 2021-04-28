@@ -1,10 +1,10 @@
-const expect = require('../chai').expect;
-const Graph = require('../..').Graph;
-const dijkstraAll = require('../..').alg.dijkstraAll;
-const allShortestPathsTest = require('./all-shortest-paths-test');
+import { Graph, alg } from '../../lib';
+import { tests } from './all-shortest-paths.helper';
+
+const dijkstraAll = alg.dijkstraAll;
 
 describe('alg.dijkstraAll', function () {
-  allShortestPathsTest.tests(dijkstraAll);
+  tests(dijkstraAll);
 
   it('throws an Error if it encounters a negative edge weight', function () {
     const g = new Graph();
@@ -15,7 +15,7 @@ describe('alg.dijkstraAll', function () {
 
     expect(function () {
       dijkstraAll(g, weight(g));
-    }).to.throw();
+    }).toThrow();
   });
 });
 

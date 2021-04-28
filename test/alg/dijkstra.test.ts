@@ -1,20 +1,19 @@
-const expect = require('../chai').expect;
+import { Graph, alg } from '../../lib';
 
-const Graph = require('../..').Graph;
-const dijkstra = require('../..').alg.dijkstra;
+const dijkstra = alg.dijkstra;
 
 describe('alg.dijkstra', function () {
   it('assigns distance 0 for the source node', function () {
     const g = new Graph();
     g.setNode('source');
-    expect(dijkstra(g, 'source')).to.eql({ source: { distance: 0 } });
+    expect(dijkstra(g, 'source')).toEqual({ source: { distance: 0 } });
   });
 
   it('returns Number.POSITIVE_INFINITY for unconnected nodes', function () {
     const g = new Graph();
     g.setNode('a');
     g.setNode('b');
-    expect(dijkstra(g, 'a')).to.eql({
+    expect(dijkstra(g, 'a')).toEqual({
       a: { distance: 0 },
       b: { distance: Number.POSITIVE_INFINITY },
     });
@@ -24,7 +23,7 @@ describe('alg.dijkstra', function () {
     const g = new Graph();
     g.setPath(['a', 'b', 'c']);
     g.setEdge('b', 'd');
-    expect(dijkstra(g, 'a')).to.eql({
+    expect(dijkstra(g, 'a')).toEqual({
       a: { distance: 0 },
       b: { distance: 1, predecessor: 'a' },
       c: { distance: 2, predecessor: 'b' },
@@ -36,7 +35,7 @@ describe('alg.dijkstra', function () {
     const g = new Graph({ directed: false });
     g.setPath(['a', 'b', 'c']);
     g.setEdge('b', 'd');
-    expect(dijkstra(g, 'a')).to.eql({
+    expect(dijkstra(g, 'a')).toEqual({
       a: { distance: 0 },
       b: { distance: 1, predecessor: 'a' },
       c: { distance: 2, predecessor: 'b' },
@@ -51,7 +50,7 @@ describe('alg.dijkstra', function () {
     g.setEdge('b', 'd', 3);
     g.setEdge('c', 'd', 3);
 
-    expect(dijkstra(g, 'a', weightFn(g))).to.eql({
+    expect(dijkstra(g, 'a', weightFn(g))).toEqual({
       a: { distance: 0 },
       b: { distance: 1, predecessor: 'a' },
       c: { distance: 2, predecessor: 'a' },
@@ -68,7 +67,7 @@ describe('alg.dijkstra', function () {
       dijkstra(g, 'd', undefined, function (e) {
         return g.inEdges(e);
       }),
-    ).to.eql({
+    ).toEqual({
       a: { distance: 2, predecessor: 'c' },
       b: { distance: 2, predecessor: 'c' },
       c: { distance: 1, predecessor: 'd' },
@@ -85,7 +84,7 @@ describe('alg.dijkstra', function () {
 
     expect(function () {
       dijkstra(g, 'a', weightFn(g));
-    }).to.throw();
+    }).toThrow();
   });
 });
 

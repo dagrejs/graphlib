@@ -1,35 +1,35 @@
-const _ = require('@snyk/lodash');
-const expect = require('../chai').expect;
-const Graph = require('../..').Graph;
-const findCycles = require('../..').alg.findCycles;
+import _ from 'lodash';
+import { Graph, alg } from '../../lib';
+
+const findCycles = alg.findCycles;
 
 describe('alg.findCycles', function () {
   it('returns an empty array for an empty graph', function () {
-    expect(findCycles(new Graph())).to.eql([]);
+    expect(findCycles(new Graph())).toEqual([]);
   });
 
   it('returns an empty array if the graph has no cycles', function () {
     const g = new Graph();
     g.setPath(['a', 'b', 'c']);
-    expect(findCycles(g)).to.eql([]);
+    expect(findCycles(g)).toEqual([]);
   });
 
   it('returns a single entry for a cycle of 1 node', function () {
     const g = new Graph();
     g.setPath(['a', 'a']);
-    expect(sort(findCycles(g))).to.eql([['a']]);
+    expect(sort(findCycles(g))).toEqual([['a']]);
   });
 
   it('returns a single entry for a cycle of 2 nodes', function () {
     const g = new Graph();
     g.setPath(['a', 'b', 'a']);
-    expect(sort(findCycles(g))).to.eql([['a', 'b']]);
+    expect(sort(findCycles(g))).toEqual([['a', 'b']]);
   });
 
   it('returns a single entry for a triangle', function () {
     const g = new Graph();
     g.setPath(['a', 'b', 'c', 'a']);
-    expect(sort(findCycles(g))).to.eql([['a', 'b', 'c']]);
+    expect(sort(findCycles(g))).toEqual([['a', 'b', 'c']]);
   });
 
   it('returns multiple entries for multiple cycles', function () {
@@ -38,7 +38,7 @@ describe('alg.findCycles', function () {
     g.setPath(['c', 'd', 'e', 'c']);
     g.setPath(['f', 'g', 'g']);
     g.setNode('h');
-    expect(sort(findCycles(g))).to.eql([['a', 'b'], ['c', 'd', 'e'], ['g']]);
+    expect(sort(findCycles(g))).toEqual([['a', 'b'], ['c', 'd', 'e'], ['g']]);
   });
 });
 

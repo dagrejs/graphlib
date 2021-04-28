@@ -1,13 +1,13 @@
-const _ = require('@snyk/lodash');
-const expect = require('../chai').expect;
-const Graph = require('../..').Graph;
-const postorder = require('../..').alg.postorder;
+import _ from 'lodash';
+import { Graph, alg } from '../../lib';
+
+const postorder = alg.postorder;
 
 describe('alg.postorder', function () {
   it('returns the root for a singleton graph', function () {
     const g = new Graph();
     g.setNode('a');
-    expect(postorder(g, 'a')).to.eql(['a']);
+    expect(postorder(g, 'a')).toEqual(['a']);
   });
 
   it('visits each node in the graph once', function () {
@@ -16,7 +16,7 @@ describe('alg.postorder', function () {
     g.setPath(['a', 'c', 'd', 'e']);
 
     const nodes = postorder(g, 'a');
-    expect(_.sortBy(nodes)).to.eql(['a', 'b', 'c', 'd', 'e']);
+    expect(_.sortBy(nodes)).toEqual(['a', 'b', 'c', 'd', 'e']);
   });
 
   it('works for a tree', function () {
@@ -26,11 +26,11 @@ describe('alg.postorder', function () {
     g.setEdge('c', 'e');
 
     const nodes = postorder(g, 'a');
-    expect(_.sortBy(nodes)).to.eql(['a', 'b', 'c', 'd', 'e']);
-    expect(nodes.indexOf('b')).to.be.lt(nodes.indexOf('a'));
-    expect(nodes.indexOf('c')).to.be.lt(nodes.indexOf('a'));
-    expect(nodes.indexOf('d')).to.be.lt(nodes.indexOf('c'));
-    expect(nodes.indexOf('e')).to.be.lt(nodes.indexOf('c'));
+    expect(_.sortBy(nodes)).toEqual(['a', 'b', 'c', 'd', 'e']);
+    expect(nodes.indexOf('b')).toBeLessThan(nodes.indexOf('a'));
+    expect(nodes.indexOf('c')).toBeLessThan(nodes.indexOf('a'));
+    expect(nodes.indexOf('d')).toBeLessThan(nodes.indexOf('c'));
+    expect(nodes.indexOf('e')).toBeLessThan(nodes.indexOf('c'));
   });
 
   it('works for an array of roots', function () {
@@ -41,9 +41,9 @@ describe('alg.postorder', function () {
     g.setNode('f');
 
     const nodes = postorder(g, ['a', 'b', 'c', 'e']);
-    expect(_.sortBy(nodes)).to.eql(['a', 'b', 'c', 'd', 'e']);
-    expect(nodes.indexOf('b')).to.be.lt(nodes.indexOf('a'));
-    expect(nodes.indexOf('d')).to.be.lt(nodes.indexOf('c'));
+    expect(_.sortBy(nodes)).toEqual(['a', 'b', 'c', 'd', 'e']);
+    expect(nodes.indexOf('b')).toBeLessThan(nodes.indexOf('a'));
+    expect(nodes.indexOf('d')).toBeLessThan(nodes.indexOf('c'));
   });
 
   it('works for multiple connected roots', function () {
@@ -53,10 +53,10 @@ describe('alg.postorder', function () {
     g.setEdge('d', 'c');
 
     const nodes = postorder(g, ['a', 'd']);
-    expect(_.sortBy(nodes)).to.eql(['a', 'b', 'c', 'd']);
-    expect(nodes.indexOf('b')).to.be.lt(nodes.indexOf('a'));
-    expect(nodes.indexOf('c')).to.be.lt(nodes.indexOf('a'));
-    expect(nodes.indexOf('c')).to.be.lt(nodes.indexOf('d'));
+    expect(_.sortBy(nodes)).toEqual(['a', 'b', 'c', 'd']);
+    expect(nodes.indexOf('b')).toBeLessThan(nodes.indexOf('a'));
+    expect(nodes.indexOf('c')).toBeLessThan(nodes.indexOf('a'));
+    expect(nodes.indexOf('c')).toBeLessThan(nodes.indexOf('d'));
   });
 
   it('fails if root is not in the graph', function () {
@@ -64,6 +64,6 @@ describe('alg.postorder', function () {
     g.setNode('a');
     expect(function () {
       postorder(g, 'b');
-    }).to.throw();
+    }).toThrow();
   });
 });
