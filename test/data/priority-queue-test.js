@@ -1,6 +1,6 @@
-const _ = require('@snyk/lodash');
+const _ = require('lodash');
 const expect = require('../chai').expect;
-const PriorityQueue = require('../../lib/data/priority-queue');
+const PriorityQueue = require('../../dist/data/priority-queue');
 
 describe('data.PriorityQueue', function () {
   let pq;
