@@ -1,3 +1,10 @@
+
+# Important!
+
+**This project does not have a maintainer or active project members. There won’t be any support or attention to pull requests. Please do not contact previous maintainers unless you are qualified and have the resources to make a serious commitment to fully take over ownership of the project.**
+
+
+
 # Graphlib
 
 Graphlib is a JavaScript library that provides data structures for undirected
