@@ -1,5 +1,4 @@
 import _has from 'lodash.has';
-import _size from 'lodash.size';
 
 import type { Graph } from '..';
 
@@ -32,7 +31,7 @@ export function topsort(g: Graph): string[] {
 
   g.sinks()?.forEach(visit);
 
-  if (_size(visited) !== g.nodeCount()) {
+  if (Object.keys(visited).length !== g.nodeCount()) {
     throw new CycleException();
   }
 

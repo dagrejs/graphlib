@@ -1,8 +1,7 @@
-import _constant from 'lodash.constant';
 import type { Edge, Graph } from '..';
 import PriorityQueue from '../data/priority-queue';
 
-const DEFAULT_WEIGHT_FUNC = _constant(1);
+const DEFAULT_WEIGHT_FUNC = () => 1;
 
 export interface Path {
   distance: number;
