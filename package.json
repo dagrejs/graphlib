@@ -17,7 +17,7 @@
     "prepare": "tsc",
     "test": "jest",
     "lint": "eslint 'lib/**/*.?s' 'test/**/*test.?s'",
-    "format": "prettier --write 'lib/**/*.?s' 'test/**/*.?s' '*.json' 'test/*.json'"
+    "format": "prettier --write 'lib/**/*.?s' 'test/**/*.?s' '*.json' 'test/*.json' 'scripts/**/*.?s'"
   },
   "dependencies": {
     "lodash.clone": "^4.5.0",
