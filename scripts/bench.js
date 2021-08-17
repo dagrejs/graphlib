@@ -2,7 +2,7 @@
 
 const Benchmark = require("benchmark"),
   seedrandom = require("seedrandom"),
-  sprintf = require("sprintf").sprintf;
+  sprintf = require("sprintf-js").sprintf;
 
 const seed = process.env.SEED;
 seedrandom(seed, { global: true });
