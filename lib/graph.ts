@@ -1,10 +1,10 @@
 /* eslint-disable prefer-rest-params */
-import constant from 'lodash.constant';
 import _filter from 'lodash.filter';
 import isEmpty from 'lodash.isempty';
-import isFunction from 'lodash.isfunction';
 import reduce from 'lodash.reduce';
 import union from 'lodash.union';
+
+import { constant, isFunction } from './dash';
 
 const DEFAULT_EDGE_NAME = '\x00';
 const GRAPH_NODE = '\x00';
@@ -63,10 +63,10 @@ export class Graph {
     this._label = undefined;
 
     // Defaults to be set when creating a new node
-    this._defaultNodeLabelFn = constant(undefined);
+    this._defaultNodeLabelFn = () => undefined;
 
     // Defaults to be set when creating a new edge
-    this._defaultEdgeLabelFn = constant(undefined);
+    this._defaultEdgeLabelFn = () => undefined;
 
     // v -> label
     this._nodes = {};

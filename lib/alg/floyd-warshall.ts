@@ -1,8 +1,7 @@
-import _constant from 'lodash.constant';
 import { Edge, Graph } from '..';
 import { Path } from './dijkstra';
 
-const DEFAULT_WEIGHT_FUNC = _constant(1);
+const DEFAULT_WEIGHT_FUNC = () => 1;
 
 /**
  * This function is an implementation of the Floyd-Warshall algorithm, which finds the
