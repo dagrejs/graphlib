@@ -97,3 +97,220 @@ g.edge({ v: "a", w: "b" })
 ```
 
 # 复合图
+复合图就是一个节点可以是其他节点的父节点。子节点组成一个"子图"。 以下例子为构建一个复合图并与之交互:
+```js
+var g = new Graph({ compound: true });
+
+g.setParent("a", "parent");
+g.setParent("b", "parent");
+
+g.parent("a"); // returns "parent"
+g.parent("b"); // returns "parent"
+
+g.parent("parent"); // returns undefined
+```
+
+# 默认标签
+当一个节点或边没有创建标签时，会被默认分配一个标签。详情请看这两个API:
+- [setDefaultNodeLabel](https://github.com/dagrejs/graphlib/wiki/API-Reference#setDefaultNodeLabel)
+- [setDefaultEdgeLabel](https://github.com/dagrejs/graphlib/wiki/API-Reference#setDefaultEdgeLabel)
+
+# Graph API
+
+## graph.isDirected()
+如果图是有向图的话，会返回`true`。
+有向图会将在线段里的节点顺序是做有意义的，而无向图则会忽视。以下例子证明了不同:
+```js
+var directed = new Graph({ directed: true });
+
+directed.setEdge("a", "b", "my-label");
+directed.edge("a", "b"); // returns my-label
+directed.edge("b", "a"); // returns undefined
+
+var undirected = new Graph({ directed: false });
+undirected.setEdge("a", "b", "my-label");
+undirected.edge("a", "b"); // returns my-label
+undirected.edge("b", "a"); // returns my-label
+```
+
+## graph.isMultigraph()
+如果图是多重图，返回`true`。[Multigraph](https://github.com/dagrejs/graphlib/wiki/API-Reference#multigraphs)
+
+## graph.isCompound()
+如果是复合图，返回`true`。[compound](https://github.com/dagrejs/graphlib/wiki/API-Reference#compound-graphs)
+
+## graph.graph()
+返回为图形分配的标签。 如果没有指定标签，则返回`undefined`。
+```js
+var g = new Graph();
+
+g.graph(); // return undefined
+g.setGraph("graph-label");
+g.graph(); // return "graph-label"
+```
+
+## graph.setGraph(label)
+为图像设置标签。
+
+## graph.nodeCount()
+返回图像中节点的数量。
+
+## graph.edgeCount()
+返回节点中边线的数量。
+
+## graph.setDefaultNodeLabel(val)
+设置一个新的默认值，以便于在没有指定标签创建节点时，分配过去。
+如果`val`不是一个函数，将会作为标签分配。
+如果是一个函数, 正被创建的节点的id将会调用此函数。
+
+## graph.setDefaultEdgeLabel(val)
+为没有分配标签的线段指定一个新的默认标签。
+如果`val`不是函数，则作为标签。
+如果是函数，则会随着参数`(v, w, name)`而被调用。
+
+## graph.nodes()
+返回图像里的所有节点id。
+使用[node(v)](https://github.com/dagrejs/graphlib/wiki/API-Reference#node)获取每个节点的标签，花费`O(|v|)`的时间。
+
+## graph.edges()
+返回图中的每个边线的[edgeObj](https://github.com/dagrejs/graphlib/wiki/API-Reference#node-and-edge-representation)。
+使用[edge(edgeObj)](https://github.com/dagrejs/graphlib/wiki/API-Reference#edge)获取每个边线的标签。花费`O(|v|)`的时间。
+
+## graph.sources()
+返回图中没有入边的节点。
+
+## graph.sinks()
+返回途中没有出边的节点。
+
+## graph.hasNode(v)
+如果图里存在节点的id为`v`，则返回`true`。
+
+## graph.node(v)
+如果图中存在id为`v`的节点，则返回指定的标签，否则返回`undefined`。
+
+## graph.setNode(v, [label])
+在图中创建或更新节点v的值。 如果提供了label，则更新掉。如果没有提供，在创建过程中会分配一个默认的标签。[default node label](https://github.com/dagrejs/graphlib/wiki/API-Reference#default-labels)。
+
+返回图，允许图和其他的函数连接起来。
+
+## graph.removeNode(v)
+移除图中id为`v`的节点，如果不存在则不处理。如果节点被移除，也会移除所有边。
+返回图，允许图和其他的函数连接起来。
+
+## graph.predecessors(v)
+返回指定节点的所有前导节点，如果图中不存在此节点，则返回`undefined`. 如果是无向图，则会返回`undefined`，应该使用[neighbors](https://github.com/dagrejs/graphlib/wiki/API-Reference#neighbors)。
+
+## graph.successors(v)
+返回指定节点的所有后续节点。如果图中没有此节点，则返回`undefined`. 如果是无向图，则会返回`undefined`，应该使用[neighbors](https://github.com/dagrejs/graphlib/wiki/API-Reference#neighbors)。
+
+## graph.neighbors(v)
+返回指定节点的前导节点或者后续节点。如果图中没有此节点，则返回`undefined`。
+
+## graph.inEdges(v, [u])
+返回所有指向节点(v)的边。 可以过滤出只来自于节点u的边。 
+对无向图来说都是`undefined`，请使用[nodeEdges](https://github.com/dagrejs/graphlib/wiki/API-Reference#nodeEdges)。
+如果图中没有节点`v`，则返回`undefined`。
+
+
+## graph.outEdges(v, [w])
+返回所有指向节点的边。可以过滤出只指向节点w的边。
+对无向图来说都是`undefined`，请使用[nodeEdges](https://github.com/dagrejs/graphlib/wiki/API-Reference#nodeEdges)。
+如果图中没有节点`v`，则返回`undefined`。
+
+## graph.nodeEdges(v, [w])
+返回所有与节点v有关的边，而不管方向。
+可以过滤出节点v和w之间的所有线段，无论方向。
+如果图中没有节点`v`，则返回`undefined`。
+
+## graph.parent(v)
+返回节点v的父节点。
+如果节点没有父节点或不在图中，则返回`undefined`。
+如果不是复合图的话，始终返回`undefined`。
+
+## graph.children(v)
+返回节点v的所有孩子节点。
+如果不在图中则返回`undefined`。
+如果不是复合图，始终返回`[]`。
+
+## graph.setParent(v, parent)
+如果`parent`有值，则设置为节点v的父节点; 如果没有值，则移除节点v的父节点。
+如果图不是复合图，则抛出异常。
+返回值为图本身，允许被连接到其他的函数内。
+
+## graph.hasEdge(v, w, [name]) / graph.hasEdge(edgeObj)
+如果图中的节点v和节点w之间存在一条边，名字为`name`,则返回`true`。
+[name]参数只适用于多重图。
+对于无向图来说,v和w可以互换位置。
+
+## graph.edge(v, w, [name]) / graph.edge(edgeObj)
+如果图中节点v和w之间存在线段，并带有可选名称，则返回线段(v,w)的标签。
+如果图中没有这条线，则返回`undefined`。
+参数[name]只适用于多重图。
+无向图中,v,w可以互换。
+
+## graph.setEdge(v, w, [label], [name]) / graph.setEdge(edgeObj, [label])
+使用参数[name]去创建或更新(v,w)的边。
+如果提供了[label]，则将其设置为边的值。而如果没有被提供，则将分配给默认的标签。
+参数[name]只适用于多重图。
+返回值为图本身，允许被连接到其他的函数内。
+
+## graph.removeEdge(v, w, [name])
+如果图中的节点v,w之间有一条可选名[name]的边，则移除它。否则将无效。
+参数[name]只适用于多重图。
+无向图中,v,w可以互换。
+
+
+# 序列化
+## json.write(g)
+创建可以用JSON序列化为字符串的图形的JSONrepresentation。稍后可以使用[json-read](https://github.com/dagrejs/graphlib/wiki/API-Reference#json-read)恢复图形。
+
+```js
+var g = new graphlib.Graph();
+g.setNode("a", { label: "node a" });
+g.setNode("b", { label: "node b" });
+g.setEdge("a", "b", { label: "edge a->b" });
+graphlib.json.write(g);
+// Returns the object:
+//
+// {
+//   "options": {
+//     "directed": true,
+//     "multigraph": false,
+//     "compound": false
+//   },
+//   "nodes": [
+//     { "v": "a", "value": { "label": "node a" } },
+//     { "v": "b", "value": { "label": "node b" } }
+//   ],
+//   "edges": [
+//     { "v": "a", "w": "b", "value": { "label": "edge a->b" } }
+//   ]
+// }
+```
+
+## json.read(json)
+将输入的json转换为图像的展示类型。比如，我们使用`json-write`将图像序列化为`str`的字符串，我们可以使用以下的办法去恢复:
+```js
+var g2 = graphlib.json.read(JSON.parse(str));
+// or, in order to copy the graph
+var g3 = graphlib.json.read(graphlib.json.write(g))
+
+g2.nodes();
+// ['a', 'b']
+g2.edges()
+// [ { v: 'a', w: 'b' } ]
+```
+
+# 算法
+## alg.components(graph)
+找到图中所有的连接部分，并且将这些部分作为数组返回。
+每个组件本身就是一个数组，包含组件中节点id。
+<img src="./static/alg.components.jpg" width="200" />
+```js
+graphlib.alg.components(g);
+// => [ [ 'A', 'B', 'C', 'D' ],
+//      [ 'E', 'F', 'G' ],
+//      [ 'H', 'I' ] ]
+```
+
+## alg.dijkstra(graph, source, weightFn, edgeFn)
