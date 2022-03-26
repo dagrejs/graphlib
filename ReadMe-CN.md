@@ -314,3 +314,32 @@ graphlib.alg.components(g);
 ```
 
 ## alg.dijkstra(graph, source, weightFn, edgeFn)
+此算法是[Dijkstra]算法的js版本. 旨在从g的源节点到其他任意节点的最短路径。
+
+这个函数将会返回一个map结构:
+`v -> { distance, predecessor }`
+
+distance属性会保存从source到v的最短路径权重之和。
+如果从source过来没有路径，则结果为正无穷大。
+
+predecessor属性可以按照相反顺序遍历source到v的每个元素。
+
+根据`weightFn(e)`来返回边e的权重。如果没有赋值，默认的每条边的权重是1.
+如果任何遍历的边具有负边权重，则此函数将抛出错误。
+
+edgeFn（v）会返回与节点v相关的所有边的ID，以便进行最短路径遍历。默认使用`g.outEdges`。
+
+例子：
+<img src="./static/dijkstra-source.png" />
+
+```js
+function weight(e) { return g.edge(e); }
+
+graphlib.alg.dijkstra(g, "A", weight);
+// => { A: { distance: 0 },
+//      B: { distance: 6, predecessor: 'C' },
+//      C: { distance: 4, predecessor: 'A' },
+//      D: { distance: 2, predecessor: 'A' },
+//      E: { distance: 8, predecessor: 'F' },
+//      F: { distance: 4, predecessor: 'D' } }
+```
