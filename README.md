@@ -13,8 +13,8 @@ There are 2 versions on NPM, but only [the one in the DagreJs org](https://www.n
 
 # License
 
-Graphlib is licensed under the terms of the MIT License. See the
-[LICENSE](LICENSE) file
-for details.
+```js
+graphlib.alg.topsort(g)
+// [ '1', '2', '3', '4' ] or [ '1', '3', '2', '4' ]
+```
 
-[npm package manager]: http://npmjs.org/
