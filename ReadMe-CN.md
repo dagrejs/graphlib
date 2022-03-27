@@ -5,6 +5,12 @@
 
 [TOC]
 
+# 安装
+## npm Install
+```shell
+$ npm install @dagrejs/graphlib
+```
+
 # 介绍
 `Graphlib`是一个JavaScript Lib库，为无向和有向多变图提供数据结构，以及可以一起使用的算法。
 
@@ -343,3 +349,167 @@ graphlib.alg.dijkstra(g, "A", weight);
 //      E: { distance: 8, predecessor: 'F' },
 //      F: { distance: 4, predecessor: 'D' } }
 ```
+
+## alg.dijkstraAll(graph, weightFn, edgeFn)
+此函数用于查找从每个节点到其他每个可到达节点到最短距离。
+与`alg.dijkstra`类似，但返回的不是单个数组，而是返回一个map映射: `source -> alg.dijkstra(g, source, weightFn, edgeFn)`
+
+函数的`weightFn`返回边`e`的权重。如果没有指定，则默认为1。如果可遍历的边有负数，则会立即抛出错误。
+
+函数的`edgeFn(u)`返回所有与节点`u`有关的边的id，以便于进行最短路径的遍历。默认使用`g.outEdges`。
+
+例子:
+<img src="./static/dijkstraAll.png" />
+
+```js
+function weight(e) { return g.edge(e); }
+
+graphlib.alg.dijkstraAll(g, function(e) { return g.edge(e); });
+
+// => { A:
+//       { A: { distance: 0 },
+//         B: { distance: 6, predecessor: 'C' },
+//         C: { distance: 4, predecessor: 'A' },
+//         D: { distance: 2, predecessor: 'A' },
+//         E: { distance: 8, predecessor: 'F' },
+//         F: { distance: 4, predecessor: 'D' } },
+//      B:
+//       { A: { distance: Infinity },
+//         B: { distance: 0 },
+//         C: { distance: Infinity },
+//         D: { distance: Infinity },
+//         E: { distance: 6, predecessor: 'B' },
+//         F: { distance: Infinity } },
+//      C: { ... },
+//      D: { ... },
+//      E: { ... },
+//      F: { ... } }
+```
+
+## alg.findCycles(graph)
+假定存在一个图`g`，此函数将会返回图中循环的部分。
+
+由于图中不止有1个循环，所以该函数返回有循环体所构成的数组，而每个循环体由涉及的节点id构成。
+
+如果要判断图是否有循环部分，请使用`g.isAcyclic`则更为高效。
+
+```js
+var g = new graphlib.Graph();
+g.setNode(1);
+g.setNode(2);
+g.setNode(3);
+g.setEdge(1, 2);
+g.setEdge(2, 3);
+ 
+graphlib.alg.findCycles(g);
+// => []
+
+g.setEdge(3, 1);
+graphlib.alg.findCycles(g);
+// => [ [ '3', '2', '1' ] ]
+
+g.setNode(4);
+g.setNode(5);
+g.setEdge(4, 5);
+g.setEdge(5, 4);
+graphlib.alg.findCycles(g);
+// => [ [ '3', '2', '1' ], [ '5', '4' ] ]
+```
+
+## alg.isAcyclic(graph)
+给定一个图`g`，如果该图有循环的部分，则返回`true`。否则，返回`false`。
+
+该函数会返回检测到的第一个循环体。如果要获取全部内容，请使用`alg.findCycles`。
+
+```js
+var g = new graphlib.Graph();
+g.setNode(1);
+g.setNode(2);
+g.setNode(3);
+g.setEdge(1, 2);
+g.setEdge(2, 3);
+
+graphlib.alg.isAcyclic(g);
+// => true
+
+g.setEdge(3, 1);
+graphlib.alg.isAcyclic(g);
+// => false
+```
+
+## alg.postorder(graph, vs)
+该函数将会从图像g的节点vs开始，进行后序遍历。
+
+对于访问的每个节点，假定节点名为`v`，将会调用`callback(v)`。
+<img src="./static/postorder.png" />
+```js
+graphlib.alg.postorder(g, "A");
+// => One of:
+// [ "B", "D", "E", C", "A" ]
+// [ "B", "E", "D", C", "A" ]
+// [ "D", "E", "C", B", "A" ]
+// [ "E", "D", "C", B", "A" ]
+```
+
+## alg.preorder(graph, vs)
+该函数将会从图像g的节点vs开始，进行前序遍历。
+对于访问的每个节点，假定节点名为`v`，将会调用`callback(v)`。
+<img src="./static/preorder.png" />
+```js
+graphlib.alg.preorder(g, "A");
+// => One of:
+// [ "A", "B", "C", "D", "E" ]
+// [ "A", "B", "C", "E", "D" ]
+// [ "A", "C", "D", "E", "B" ]
+// [ "A", "C", "E", "D", "B" ]
+```
+
+## alg.prim(graph, weightFn)
+Prim算法采用连通无向图，并生成最小生成树。
+[Prim's algorithm](https://en.wikipedia.org/wiki/Prim's_algorithm).
+
+该函数将会以无向图的形式返回最小生成树。这个算法取自《算法导论》。
+
+weightFn(e)将会返回边的权重e，如果图没有被联通，则会抛出异常。
+
+<img src="./static/prim-input.png" />
+```js
+function weight(e) { return g(e); }
+graphlib.alg.prim(g, weight);
+```
+
+返回的树，以图的形式展现:
+<img src="./static/minimum_spanning_tree.png" />
+
+## alg.tarjan(graph)
+[Tarjan's algorithm](http://en.wikipedia.org/wiki/Tarjan's_strongly_connected_components_algorithm)
+
+该函数是Tarjan算法的一个实现，该算法在有向图g中找到所有[强连通分量](http://en.wikipedia.org/wiki/Strongly_connected_component)
+
+每个强连通分量由节点组成，这些节点可以通过定向边到达分量中的所有其他节点。
+
+如果一个强连接的组件既不能到达图中的任何其他特定节点，也不能被该节点访问，则该组件可以由单个节点组成。多个节点的组件要保证至少有一个循环。
+
+此函数将会返回一个组件数组。每个组件本身也是一个数组，并且包含了组件内所有节点的id。
+<img src="./static/tarjan.png" />
+```js
+graphlib.alg.tarjan(g);
+// => [ [ 'F', 'G' ],
+//      [ 'H', 'D', 'C' ],
+//      [ 'E', 'B', 'A' ] ]
+```
+
+## alg.topsort(graph)
+[topological sorting](https://en.wikipedia.org/wiki/Topological_sorting)
+
+topological 排序算法的实现。
+
+给定一个图`g`，该函数返回一个节点数组，使得每个边`u -> v`， u出现在v之前。
+如果图有循环，则不可能生成列表，并抛出异常。
+<img src="./static/topsort.png" />
+
+```js
+graphlib.alg.topsort(g)
+// [ '1', '2', '3', '4' ] or [ '1', '3', '2', '4' ]
+```
+
