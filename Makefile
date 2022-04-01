@@ -7,6 +7,7 @@ ESLINT = ./node_modules/eslint/bin/eslint.js
 KARMA = ./node_modules/karma/bin/karma
 MOCHA = ./node_modules/mocha/bin/_mocha
 UGLIFY = ./node_modules/uglify-js/bin/uglifyjs
+TSC = ./node_modules/typescript/bin/tsc
 
 JSHINT_OPTS = --reporter node_modules/jshint-stylish/index.js
 MOCHA_OPTS = -R dot
@@ -25,10 +26,13 @@ DIRS = $(BUILD_DIR)
 
 .PHONY: all bench clean browser-test unit-test test dist
 
-all: unit-test lint
+all: compile unit-test lint
 
 bench: unit-test lint
 	@src/bench.js
+
+compile:
+	@$(TSC)
 
 lib/version.js: package.json
 	@src/release/make-version.js > $@
@@ -54,6 +58,7 @@ bower.json: package.json src/release/make-bower.json.js
 lint:
 	@$(JSHINT) $(JSHINT_OPTS) $(filter-out node_modules, $?)
 	@$(ESLINT) $(SRC_FILES) $(TEST_FILES)
+	@$(TSC) --noEmit
 
 $(BUILD_DIR)/$(MOD).js: index.js $(SRC_FILES) | unit-test
 	@$(BROWSERIFY) $< > $@ -s graphlib

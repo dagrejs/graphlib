@@ -1,6 +1,7 @@
-var _ = require("../lodash");
+import * as _  from "lodash";
+import { Graph } from "../graph";
 
-module.exports = dfs;
+type Order = "pre"|"post";
 
 /*
  * A helper that preforms a pre- or post-order traversal on the input graph
@@ -10,7 +11,7 @@ module.exports = dfs;
  *
  * Order must be one of "pre" or "post".
  */
-function dfs(g, vs, order) {
+export function dfs(g: Graph, vs, order: Order) {
   if (!_.isArray(vs)) {
     vs = [vs];
   }
