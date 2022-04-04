@@ -1,13 +1,32 @@
-var _ = require("./lodash");
-var Graph = require("../compiled/lib/graph.js").Graph;
+import * as _  from "lodash";
+import { Graph, GraphOptions } from "./graph";
 
-module.exports = {
-  write: write,
-  read: read
-};
+interface JsonGraph {
+  options: GraphOptions;
+  nodes: JsonNode[];
+  edges: JsonEdge[];
+  value: string;
+}
 
-function write(g) {
-  var json = {
+interface JsonNode {
+  v: string;
+  value: string;
+  parent: string|void;
+}
+
+interface JsonEdge {
+  v: string;
+  w: string;
+  name: string;
+  value: string;
+}
+
+/**
+ * Creates a JSON representation of the graph that can be serialized to a string with
+ * JSON.stringify. The graph can later be restored using json.read.
+ */
+export function write(g: Graph): Object {
+  var json: Partial<JsonGraph> = {
     options: {
       directed: g.isDirected(),
       multigraph: g.isMultigraph(),
@@ -22,11 +41,11 @@ function write(g) {
   return json;
 }
 
-function writeNodes(g) {
+function writeNodes(g: Graph): JsonNode[] {
   return _.map(g.nodes(), function(v) {
     var nodeValue = g.node(v);
     var parent = g.parent(v);
-    var node = { v: v };
+    var node: Partial<JsonNode> = { v: v };
     if (!_.isUndefined(nodeValue)) {
       node.value = nodeValue;
     }
@@ -37,10 +56,10 @@ function writeNodes(g) {
   });
 }
 
-function writeEdges(g) {
+function writeEdges(g: Graph): JsonEdge[] {
   return _.map(g.edges(), function(e) {
     var edgeValue = g.edge(e);
-    var edge = { v: e.v, w: e.w };
+    var edge: Partial<JsonEdge> = { v: e.v, w: e.w };
     if (!_.isUndefined(e.name)) {
       edge.name = e.name;
     }
@@ -51,7 +70,17 @@ function writeEdges(g) {
   });
 }
 
-function read(json) {
+/**
+ * Takes JSON as input and returns the graph representation.
+ *
+ * @example
+ * var g2 = graphlib.json.read(JSON.parse(str));
+ * g2.nodes();
+ * // ['a', 'b']
+ * g2.edges()
+ * // [ { v: 'a', w: 'b' } ]
+ */
+export function read(json: JsonGraph): Graph {
   var g = new Graph(json.options).setGraph(json.value);
   _.each(json.nodes, function(entry) {
     g.setNode(entry.v, entry.value);

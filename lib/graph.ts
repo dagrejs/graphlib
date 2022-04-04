@@ -4,7 +4,7 @@ var DEFAULT_EDGE_NAME = "\x00";
 var GRAPH_NODE = "\x00";
 var EDGE_KEY_DELIM = "\x01";
 
-interface GraphOptions {
+export interface GraphOptions {
   directed?: boolean;
   multigraph?: boolean;
   compound?: boolean;

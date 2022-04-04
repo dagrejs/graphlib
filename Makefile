@@ -15,6 +15,7 @@ MOCHA_OPTS = -R dot
 BUILD_DIR = build
 COVERAGE_DIR = $(BUILD_DIR)/cov
 DIST_DIR = dist
+COMPILE_DIR = compiled
 
 SRC_FILES = index.js lib/version.js $(shell find lib -type f -name '*.js')
 TEST_FILES = $(shell find test -type f -name '*.js' | grep -v 'bundle-test.js' | grep -v 'bundle.amd-test.js' | grep -v 'test-main.js')
@@ -28,7 +29,7 @@ DIRS = $(BUILD_DIR)
 
 all: compile unit-test lint
 
-bench: unit-test lint
+bench: compile unit-test lint
 	@src/bench.js
 
 compile:
@@ -85,6 +86,7 @@ release: dist
 
 clean:
 	rm -rf $(BUILD_DIR)
+	rm -rf $(COMPILE_DIR)
 
 node_modules: package.json
 	@$(NPM) install

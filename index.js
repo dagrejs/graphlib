@@ -32,7 +32,10 @@ var lib = require("./lib");
 
 module.exports = {
   Graph: lib.Graph,
-  json: require("./lib/json"),
+  json: {
+    read: require("./compiled/lib/json.js").read,
+    write: require("./compiled/lib/json.js").write,
+  },
   alg: require("./lib/alg"),
   version: lib.version
 };
