@@ -1,3 +1,4 @@
 /build
+/compiled
 /node_modules
 /.vscode

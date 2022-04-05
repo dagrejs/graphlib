@@ -7,6 +7,7 @@ ESLINT = ./node_modules/eslint/bin/eslint.js
 KARMA = ./node_modules/karma/bin/karma
 MOCHA = ./node_modules/mocha/bin/_mocha
 UGLIFY = ./node_modules/uglify-js/bin/uglifyjs
+TSC = ./node_modules/typescript/bin/tsc
 
 JSHINT_OPTS = --reporter node_modules/jshint-stylish/index.js
 MOCHA_OPTS = -R dot
@@ -14,6 +15,7 @@ MOCHA_OPTS = -R dot
 BUILD_DIR = build
 COVERAGE_DIR = $(BUILD_DIR)/cov
 DIST_DIR = dist
+COMPILE_DIR = compiled
 
 SRC_FILES = index.js lib/version.js $(shell find lib -type f -name '*.js')
 TEST_FILES = $(shell find test -type f -name '*.js' | grep -v 'bundle-test.js' | grep -v 'bundle.amd-test.js' | grep -v 'test-main.js')
@@ -25,10 +27,13 @@ DIRS = $(BUILD_DIR)
 
 .PHONY: all bench clean browser-test unit-test test dist
 
-all: unit-test lint
+all: compile unit-test lint
 
-bench: unit-test lint
+bench: compile unit-test lint
 	@src/bench.js
+
+compile:
+	@$(TSC)
 
 lib/version.js: package.json
 	@src/release/make-version.js > $@
@@ -54,6 +59,7 @@ bower.json: package.json src/release/make-bower.json.js
 lint:
 	@$(JSHINT) $(JSHINT_OPTS) $(filter-out node_modules, $?)
 	@$(ESLINT) $(SRC_FILES) $(TEST_FILES)
+	@$(TSC) --noEmit
 
 $(BUILD_DIR)/$(MOD).js: index.js $(SRC_FILES) | unit-test
 	@$(BROWSERIFY) $< > $@ -s graphlib
@@ -80,6 +86,7 @@ release: dist
 
 clean:
 	rm -rf $(BUILD_DIR)
+	rm -rf $(COMPILE_DIR)
 
 node_modules: package.json
 	@$(NPM) install
