@@ -1,10 +1,9 @@
-var _ = require("../lodash");
+import * as _  from "lodash";
+import { Graph } from "../graph";
 
-module.exports = components;
-
-function components(g) {
+export function components(g: Graph) {
   var visited = {};
-  var cmpts = [];
+  var cmpts: string[] = [];
   var cmpt;
 
   function dfs(v) {

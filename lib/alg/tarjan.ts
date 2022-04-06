@@ -1,12 +1,11 @@
-var _ = require("../lodash");
+import * as _  from "lodash";
+import { Graph } from "../graph";
 
-module.exports = tarjan;
-
-function tarjan(g) {
+export function tarjan(g: Graph) {
   var index = 0;
-  var stack = [];
+  var stack: string[] = [];
   var visited = {}; // node id -> { onStack, lowlink, index }
-  var results = [];
+  var results: string[][] = [];
 
   function dfs(v) {
     var entry = visited[v] = {
@@ -16,7 +15,7 @@ function tarjan(g) {
     };
     stack.push(v);
 
-    g.successors(v).forEach(function(w) {
+    g.successors(v)!.forEach(function(w) {
       if (!_.has(visited, w)) {
         dfs(w);
         entry.lowlink = Math.min(entry.lowlink, visited[w].lowlink);
@@ -26,7 +25,7 @@ function tarjan(g) {
     });
 
     if (entry.lowlink === entry.index) {
-      var cmpt = [];
+      var cmpt: string[] = [];
       var w;
       do {
         w = stack.pop();
