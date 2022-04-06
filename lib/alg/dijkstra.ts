@@ -1,17 +1,16 @@
-var _ = require("../lodash");
-var PriorityQueue = require("../data/priority-queue");
-
-module.exports = dijkstra;
+import * as _  from "lodash";
+import { PriorityQueue } from "../data/priority-queue";
+import { Graph } from "../graph";
 
 var DEFAULT_WEIGHT_FUNC = _.constant(1);
 
-function dijkstra(g, source, weightFn, edgeFn) {
+export function dijkstra(g: Graph, source, weightFn, edgeFn) {
   return runDijkstra(g, String(source),
     weightFn || DEFAULT_WEIGHT_FUNC,
     edgeFn || function(v) { return g.outEdges(v); });
 }
 
-function runDijkstra(g, source, weightFn, edgeFn) {
+function runDijkstra(g: Graph, source, weightFn, edgeFn) {
   var results = {};
   var pq = new PriorityQueue();
   var v, vEntry;
