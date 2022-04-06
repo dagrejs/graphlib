@@ -73,7 +73,7 @@ export class Graph {
   /* Number of edges in the graph. Should only be changed by the implementation. */
   private _edgeCount = 0;
 
-  constructor(opts: GraphOptions) {
+  constructor(opts: GraphOptions = {}) {
     this._isDirected = _.has(opts, "directed") ? opts.directed! : true;
     this._isMultigraph = _.has(opts, "multigraph") ? opts.multigraph! : false;
     this._isCompound = _.has(opts, "compound") ? opts.compound! : false;

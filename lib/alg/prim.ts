@@ -1,10 +1,9 @@
-var _ = require("../lodash");
-var Graph = require("../../compiled/lib/graph.js").Graph;
-var PriorityQueue = require("../../compiled/lib/data/priority-queue").PriorityQueue;
+import * as _  from "lodash";
+import { Graph} from "../graph";
 
-module.exports = prim;
+import { PriorityQueue } from "../data/priority-queue";
 
-function prim(g, weightFunc) {
+export function prim(g: Graph, weightFunc) {
   var result = new Graph();
   var parents = {};
   var pq = new PriorityQueue();
@@ -45,7 +44,7 @@ function prim(g, weightFunc) {
       init = true;
     }
 
-    g.nodeEdges(v).forEach(updateNeighbors);
+    g.nodeEdges(v)!.forEach(updateNeighbors);
   }
 
   return result;
