@@ -1,6 +1,6 @@
 import * as _  from "lodash";
-import { PriorityQueue } from "../data/priority-queue";
 import { Graph } from "../graph";
+import { PriorityQueue } from "../data/priority-queue";
 
 var DEFAULT_WEIGHT_FUNC = _.constant(1);
 

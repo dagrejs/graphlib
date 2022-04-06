@@ -1,6 +1,5 @@
 import * as _  from "lodash";
 import { Graph } from "../graph";
-
 import { PriorityQueue } from "../data/priority-queue";
 
 export function prim(g: Graph, weightFunc) {
