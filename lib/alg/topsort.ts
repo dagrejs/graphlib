@@ -1,12 +1,12 @@
-var _ = require("../lodash");
+import * as _  from "lodash";
+import { Graph } from "../graph";
 
-module.exports = topsort;
 topsort.CycleException = CycleException;
 
-function topsort(g) {
+export function topsort(g: Graph) {
   var visited = {};
   var stack = {};
-  var results = [];
+  var results: string[] = [];
 
   function visit(node) {
     if (_.has(stack, node)) {
