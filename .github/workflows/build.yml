@@ -1,0 +1,21 @@
+name: build
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    env:
+      KARMA_OPTS: --browsers Firefox
+      DISPLAY: :99.0
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: lts/*
+      - uses: browser-actions/setup-firefox@latest
+      - uses: GabrielBB/xvfb-action@v1
+        with:
+          run: make -e test

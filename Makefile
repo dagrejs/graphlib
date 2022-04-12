@@ -32,7 +32,7 @@ all: compile unit-test lint
 bench: compile unit-test lint
 	@src/bench.js
 
-compile:
+compile: node_modules
 	@$(TSC)
 
 lib/version.js: package.json
@@ -41,14 +41,14 @@ lib/version.js: package.json
 $(DIRS):
 	@mkdir -p $@
 
-test: unit-test browser-test browser-test-amd
+test: compile unit-test browser-test browser-test-amd
 
 unit-test: $(SRC_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
 	@$(MOCHA) --dir $(COVERAGE_DIR) -- $(MOCHA_OPTS) $(TEST_FILES) || $(MOCHA) $(MOCHA_OPTS) $(TEST_FILES)
 
 browser-test: $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
 	$(KARMA) start --single-run $(KARMA_OPTS)
-	$(KARMA) start karma.core.conf.js --single-run $(KARMA_OPTS)
+	$(KARMA) start karma.conf.js --single-run $(KARMA_OPTS)
 
 browser-test-amd: $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
 	$(KARMA) start karma.amd.conf.js --single-run $(KARMA_OPTS)
