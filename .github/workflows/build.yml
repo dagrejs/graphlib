@@ -28,6 +28,10 @@ jobs:
         npm install
         sudo apt-get install graphviz xvfb
 
+    - name: Build
+      run: |
+        make compile
+
     - name: Lint
       run: |
         make lint
