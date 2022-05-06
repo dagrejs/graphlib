@@ -32,7 +32,7 @@ all: compile unit-test lint
 bench: compile unit-test lint
 	@src/bench.js
 
-compile: node_modules
+compile:
 	@$(TSC)
 
 lib/version.js: package.json
@@ -41,7 +41,7 @@ lib/version.js: package.json
 $(DIRS):
 	@mkdir -p $@
 
-test: compile unit-test browser-test browser-test-amd
+test: unit-test browser-test browser-test-amd
 
 unit-test: $(SRC_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
 	@$(MOCHA) --dir $(COVERAGE_DIR) -- $(MOCHA_OPTS) $(TEST_FILES) || $(MOCHA) $(MOCHA_OPTS) $(TEST_FILES)
