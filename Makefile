@@ -48,7 +48,7 @@ unit-test: $(SRC_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
 
 browser-test: $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
 	$(KARMA) start --single-run $(KARMA_OPTS)
-	$(KARMA) start karma.core.conf.js --single-run $(KARMA_OPTS)
+	$(KARMA) start karma.conf.js --single-run $(KARMA_OPTS)
 
 browser-test-amd: $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
 	$(KARMA) start karma.amd.conf.js --single-run $(KARMA_OPTS)
