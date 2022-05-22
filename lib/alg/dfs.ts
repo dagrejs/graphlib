@@ -1,4 +1,4 @@
-import * as _  from "lodash";
+import * as _ from "lodash";
 import { Graph } from "../graph";
 
 type Order = "pre"|"post";
@@ -31,13 +31,33 @@ export function dfs(g: Graph, vs, order: Order) {
 }
 
 function doDfs(g, v, postorder, visited, navigation, acc) {
-  if (!_.has(visited, v)) {
-    visited[v] = true;
-
-    if (!postorder) { acc.push(v); }
-    _.each(navigation(v), function(w) {
-      doDfs(g, w, postorder, visited, navigation, acc);
-    });
-    if (postorder) { acc.push(v); }
+  if (postorder) {
+    var stack = [[v, false]];
+    while (stack.length > 0) {
+      var curr = stack.pop();
+      if (curr[1]) {
+        acc.push(curr[0]);
+      } else {
+        if (!_.has(visited, curr[0])) {
+          visited[curr[0]] = true;
+          stack.push([curr[0], true]);
+          _.forEachRight(navigation(curr[0]), function(w) {
+            stack.push([w, false]);
+          });
+        }
+      }
+    }
+  } else {
+    var stack = [v];
+    while (stack.length > 0) {
+      var curr = stack.pop();
+      if (!_.has(visited, curr)) {
+        visited[curr];
+        acc.push(curr);
+        _.forEachRight(navigation(curr), function(w) {
+          stack.push(w);
+        });
+      }
+    }
   }
 }
