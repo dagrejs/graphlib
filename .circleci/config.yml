@@ -41,7 +41,7 @@ jobs:
   release:
     <<: *defaults
     docker:
-      - image: cimg/node:12.22
+      - image: cimg/node:14.19
     steps:
       - checkout_and_merge
       - run:
@@ -49,7 +49,7 @@ jobs:
           command: npm install
       - run:
           name: Release
-          command: npx semantic-release
+          command: npx semantic-release@17
 
 workflows:
   version: 2
