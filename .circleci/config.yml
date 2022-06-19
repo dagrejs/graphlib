@@ -2,7 +2,7 @@ version: 2.1
 
 defaults: &defaults
   docker:
-    - image: node:10
+    - image: cimg/node:12.22
   working_directory: ~/graphlib
 
 commands:
@@ -41,7 +41,7 @@ jobs:
   release:
     <<: *defaults
     docker:
-      - image: node:10
+      - image: cimg/node:12.22
     steps:
       - checkout_and_merge
       - run:
