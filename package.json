@@ -5,6 +5,9 @@
   "author": "Chris Pettitt <cpettitt@gmail.com>",
   "license": "MIT",
   "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
   "files": [
     "index.js",
     "dist/",
