@@ -1,7 +1,7 @@
-var _ = require("lodash");
-var expect = require("../chai").expect;
-var Graph = require("../..").Graph;
-var tarjan = require("../..").alg.tarjan;
+import * as _  from "lodash";
+import { Graph } from "../../lib/graph";
+import { expect } from "../chai";
+import { tarjan } from "../../lib/alg/tarjan";
 
 describe("alg.tarjan", function() {
   it("returns an empty array for an empty graph", function() {

@@ -1,7 +1,7 @@
-var expect = require("../chai").expect;
-var _ = require("lodash");
-var Graph = require("../..").Graph;
-var components = require("../..").alg.components;
+import * as _  from "lodash";
+import { Graph } from "../../lib/graph";
+import { expect } from "../chai";
+import { components } from "../../lib/alg/components";
 
 describe("alg.components", function() {
   it("returns an empty list for an empty graph", function() {

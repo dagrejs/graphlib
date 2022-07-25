@@ -1,7 +1,7 @@
-var _ = require("lodash");
-var expect = require("../chai").expect;
-var Graph = require("../..").Graph;
-var postorder = require("../..").alg.postorder;
+import * as _  from "lodash";
+import { Graph } from "../../lib/graph";
+import { expect } from "../chai";
+import { postorder } from "../../lib/alg/postorder";
 
 describe("alg.postorder", function() {
   it("returns the root for a singleton graph", function() {

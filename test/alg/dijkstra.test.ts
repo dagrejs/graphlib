@@ -1,7 +1,6 @@
-var expect = require("../chai").expect;
-
-var Graph = require("../..").Graph;
-var dijkstra = require("../..").alg.dijkstra;
+import { Graph } from "../../lib/graph";
+import { expect } from "../chai";
+import { dijkstra } from "../../lib/alg/dijkstra";
 
 describe("alg.dijkstra", function() {
   it("assigns distance 0 for the source node", function() {

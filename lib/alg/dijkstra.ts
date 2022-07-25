@@ -4,10 +4,8 @@ import { PriorityQueue } from "../data/priority-queue";
 
 var DEFAULT_WEIGHT_FUNC = _.constant(1);
 
-export function dijkstra(g: Graph, source, weightFn, edgeFn) {
-  return runDijkstra(g, String(source),
-    weightFn || DEFAULT_WEIGHT_FUNC,
-    edgeFn || function(v) { return g.outEdges(v); });
+export function dijkstra(g: Graph, source, weightFn = DEFAULT_WEIGHT_FUNC, edgeFn = function(v) { return g.outEdges(v); }) {
+  return runDijkstra(g, String(source), weightFn, edgeFn);
 }
 
 function runDijkstra(g: Graph, source, weightFn, edgeFn) {

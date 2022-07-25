@@ -11,9 +11,9 @@ type Order = "pre"|"post";
  *
  * Order must be one of "pre" or "post".
  */
-export function dfs(g: Graph, vs, order: Order) {
+export function dfs(g: Graph, vs: string|string[], order: Order): string[] {
   if (!_.isArray(vs)) {
-    vs = [vs];
+    vs = [vs as string];
   }
 
   var navigation = (g.isDirected() ? g.successors : g.neighbors).bind(g);
