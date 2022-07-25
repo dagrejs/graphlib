@@ -454,7 +454,7 @@ export class Graph {
    * with no label specified and returned value * will be used as a label for edge.
    * Complexity: O(1).
    */
-  setDefaultEdgeLabel(newDefault: (v: string) => any | any): Graph {
+  setDefaultEdgeLabel(newDefault: (v: string, w?: string, name?: string) => any | any): Graph {
     if (!_.isFunction(newDefault)) {
       newDefault = _.constant(newDefault);
     }
@@ -504,7 +504,7 @@ export class Graph {
    * supplied and the edge was created by this call then the default edge label will
    * be assigned. The name parameter is only useful with multigraphs.
    */
-  setEdge(vOrEdge: string|Edge, wOrValue: string|any, _label?: any, _name?: string): Graph {
+  setEdge(vOrEdge: string|number|Edge, wOrValue?: string|any, _label?: any, _name?: string): Graph {
     var v, w, name, value;
     var valueSpecified = false;
     var arg0 = arguments[0];
@@ -571,7 +571,7 @@ export class Graph {
    * Gets the label for the specified edge.
    * Complexity: O(1).
    */
-  edge(vOrEdge: string|Edge, w?: string, name?: string): any {
+  edge(vOrEdge: string|number|Edge, w?: string|number, name?: string): any {
     var e = (arguments.length === 1
       ? edgeObjToId(this._isDirected, arguments[0])
       : edgeArgsToId(this._isDirected, vOrEdge, w, name));
@@ -582,7 +582,7 @@ export class Graph {
    * Detects whether the graph contains specified edge or not. No subgraphs are considered.
    * Complexity: O(1).
    */
-  hasEdge(vOrEdge: string|Edge, w: string, name?: string): boolean {
+  hasEdge(vOrEdge: string|number|Edge, w: string|number, name?: string): boolean {
     var e = (arguments.length === 1
       ? edgeObjToId(this._isDirected, arguments[0])
       : edgeArgsToId(this._isDirected, vOrEdge, w, name));

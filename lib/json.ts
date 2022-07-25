@@ -25,7 +25,7 @@ interface JsonEdge {
  * Creates a JSON representation of the graph that can be serialized to a string with
  * JSON.stringify. The graph can later be restored using json.read.
  */
-export function write(g: Graph): Object {
+export function write(g: Graph): JsonGraph {
   var json: Partial<JsonGraph> = {
     options: {
       directed: g.isDirected(),
@@ -38,7 +38,7 @@ export function write(g: Graph): Object {
   if (!_.isUndefined(g.graph())) {
     json.value = _.clone(g.graph());
   }
-  return json;
+  return json as JsonGraph;
 }
 
 function writeNodes(g: Graph): JsonNode[] {
