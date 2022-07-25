@@ -1,9 +1,7 @@
-var expect = require("../chai").expect;
-var Graph = require("../..").Graph;
+import { Graph } from "../../lib/graph";
+import { expect } from "../chai";
 
-exports.tests = tests;
-
-function tests(sp) {
+export function tests(sp) {
   describe("allShortestPaths", function() {
     it("returns 0 for the node itself", function() {
       var g = new Graph();
