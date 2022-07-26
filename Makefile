@@ -35,7 +35,7 @@ lib/version.js: package.json
 $(DIRS):
 	@mkdir -p $@
 
-test: unit-test browser-test browser-test-amd
+test: unit-test browser-test
 
 unit-test: $(BUILD_DIR)
 	@$(NPM) test
@@ -43,9 +43,6 @@ unit-test: $(BUILD_DIR)
 browser-test: $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
 	$(KARMA) start --single-run $(KARMA_OPTS)
 	$(KARMA) start karma.conf.js --single-run $(KARMA_OPTS)
-
-browser-test-amd: $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
-	$(KARMA) start karma.amd.conf.js --single-run $(KARMA_OPTS)
 
 bower.json: package.json src/release/make-bower.json.js
 	@src/release/make-bower.json.js > $@
