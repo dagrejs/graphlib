@@ -1,6 +1,6 @@
 import * as allShortestPathsTest from "./all-shortest-paths-test";
 import { Graph } from "../../lib/graph";
-import { expect } from "../chai";
+import { expect } from "chai";
 import { dijkstraAll } from "../../lib/alg/dijkstra-all";
 
 describe("alg.dijkstraAll", function() {

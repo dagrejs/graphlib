@@ -1,5 +1,5 @@
 import { Graph } from "../../lib/graph";
-import { expect } from "../chai";
+import { expect } from "chai";
 import { dijkstra } from "../../lib/alg/dijkstra";
 
 describe("alg.dijkstra", function() {

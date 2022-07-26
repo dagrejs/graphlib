@@ -1,5 +1,5 @@
 import { Graph } from "../lib/graph";
-import { expect } from "./chai";
+import { expect } from "chai";
 import { read, write } from "../lib/json";
 
 describe("json", function() {

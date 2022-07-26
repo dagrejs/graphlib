@@ -1,5 +1,5 @@
 import * as _  from "lodash";
-import { expect } from "../chai";
+import { expect } from "chai";
 import { PriorityQueue } from "../../lib/data/priority-queue";
 
 describe("data.PriorityQueue", function() {

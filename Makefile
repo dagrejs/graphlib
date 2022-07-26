@@ -11,11 +11,8 @@ TSC = ./node_modules/typescript/bin/tsc
 JSHINT_OPTS = --reporter node_modules/jshint-stylish/index.js
 
 BUILD_DIR = build
-COVERAGE_DIR = $(BUILD_DIR)/cov
-DIST_DIR = dist
 
 SRC_FILES = lib/version.js $(shell find lib -type f -name '*.js')
-TEST_FILES = $(shell find test -type f -name '*.js' | grep -v 'bundle-test.js' | grep -v 'bundle.amd-test.js' | grep -v 'test-main.js')
 BUILD_FILES = $(addprefix $(BUILD_DIR)/, \
 						$(MOD).js $(MOD).min.js \
 						$(MOD).core.js $(MOD).core.min.js)
@@ -55,7 +52,7 @@ bower.json: package.json src/release/make-bower.json.js
 
 lint:
 	@$(JSHINT) $(JSHINT_OPTS) $(filter-out node_modules, $?)
-	@$(ESLINT) $(SRC_FILES) $(TEST_FILES)
+	@$(ESLINT) $(SRC_FILES)
 	@$(TSC) --noEmit
 
 $(BUILD_DIR)/$(MOD).js: $(SRC_FILES) | unit-test

@@ -1,5 +1,5 @@
 import { Graph } from "../../lib/graph";
-import { expect } from "../chai";
+import { expect } from "chai";
 import { isAcyclic } from "../../lib/alg/is-acyclic";
 
 describe("alg.isAcyclic", function() {

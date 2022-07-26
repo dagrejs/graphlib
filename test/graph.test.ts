@@ -1,6 +1,6 @@
 import * as _  from "lodash";
 import { Graph } from "../lib/graph";
-import { expect } from "./chai";
+import { expect } from "chai";
 
 describe("Graph", function() {
   var g;
