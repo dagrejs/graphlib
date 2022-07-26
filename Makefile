@@ -12,7 +12,7 @@ JSHINT_OPTS = --reporter node_modules/jshint-stylish/index.js
 
 BUILD_DIR = build
 
-SRC_FILES = lib/version.js $(shell find lib -type f -name '*.js')
+SRC_FILES = $(shell find lib -type f -name '*.js')
 BUILD_FILES = $(addprefix $(BUILD_DIR)/, \
 						$(MOD).js $(MOD).min.js \
 						$(MOD).core.js $(MOD).core.min.js)
