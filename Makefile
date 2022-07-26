@@ -37,7 +37,7 @@ $(DIRS):
 
 test: unit-test browser-test browser-test-amd
 
-unit-test:
+unit-test: $(BUILD_DIR)
 	@$(NPM) test
 
 browser-test: $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
