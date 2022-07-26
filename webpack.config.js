@@ -5,11 +5,11 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const config = {
   entry: './lib/index.js',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     filename: 'graphlib.js',
     library: {
       name: 'graphlib',
-      type: 'umd'
+      type: 'assign'
     }
   },
   module: {
