@@ -4,10 +4,10 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const config = {
   entry: './lib/index.js',
-  devtool: 'inline-source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'graphlib.js'
+    filename: 'graphlib.js',
+    library: 'graphlib'
   },
   module: {
     rules: [
