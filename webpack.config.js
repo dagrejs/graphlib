@@ -9,7 +9,7 @@ const config = {
     filename: 'graphlib.js',
     library: {
       name: 'graphlib',
-      type: 'assign'
+      type: 'umd'
     }
   },
   module: {
