@@ -4,8 +4,7 @@
     "baseUrl": "./",
     "noImplicitAny": false,
     "noImplicitReturns": false,
-    "outDir": "./dist/",
-    "outDir": "dist",
+    "outDir": "build",
     "rootDir": "./",
     "sourceMap": true,
     "strict": true
