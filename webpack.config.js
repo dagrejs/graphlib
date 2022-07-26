@@ -7,7 +7,10 @@ const config = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'graphlib.js',
-    library: 'graphlib'
+    library: {
+      name: 'graphlib',
+      type: 'assign'
+    }
   },
   module: {
     rules: [
