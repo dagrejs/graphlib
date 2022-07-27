@@ -1,7 +1,7 @@
-var expect = require("../chai").expect;
-var Graph = require("../..").Graph;
-var dijkstraAll = require("../..").alg.dijkstraAll;
-var allShortestPathsTest = require("./all-shortest-paths-test");
+import * as allShortestPathsTest from "./all-shortest-paths-test";
+import { Graph } from "../../lib/graph";
+import { expect } from "chai";
+import { dijkstraAll } from "../../lib/alg/dijkstra-all";
 
 describe("alg.dijkstraAll", function() {
   allShortestPathsTest.tests(dijkstraAll);

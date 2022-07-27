@@ -1,7 +1,7 @@
-var _ = require("lodash");
-var expect = require("../chai").expect;
-var Graph = require("../..").Graph;
-var findCycles = require("../..").alg.findCycles;
+import * as _  from "lodash";
+import { Graph } from "../../lib/graph";
+import { expect } from "chai";
+import { findCycles } from "../../lib/alg/find-cycles";
 
 describe("alg.findCycles", function() {
   it("returns an empty array for an empty graph", function() {

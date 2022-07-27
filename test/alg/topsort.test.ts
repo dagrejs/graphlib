@@ -1,7 +1,7 @@
-var expect = require("../chai").expect;
-var _ = require("lodash");
-var Graph = require("../..").Graph;
-var topsort = require("../..").alg.topsort;
+import * as _  from "lodash";
+import { Graph } from "../../lib/graph";
+import { expect } from "chai";
+import { topsort } from "../../lib/alg/topsort";
 
 describe("alg.topsort", function() {
   it("returns an empty array for an empty graph", function() {

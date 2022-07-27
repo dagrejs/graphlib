@@ -1,6 +1,6 @@
-var _ = require("lodash");
-var expect = require("./chai").expect;
-var Graph = require("..").Graph;
+import * as _  from "lodash";
+import { Graph } from "../lib/graph";
+import { expect } from "chai";
 
 describe("Graph", function() {
   var g;

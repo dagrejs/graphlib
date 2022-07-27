@@ -1,7 +1,7 @@
-var _ = require("lodash");
-var expect = require("../chai").expect;
-var Graph = require("../..").Graph;
-var prim = require("../..").alg.prim;
+import * as _  from "lodash";
+import { Graph } from "../../lib/graph";
+import { expect } from "chai";
+import { prim } from "../../lib/alg/prim";
 
 describe("alg.prim", function() {
   it("returns an empty graph for an empty input", function() {

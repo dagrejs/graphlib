@@ -1,7 +1,6 @@
-var expect = require("./chai").expect;
-var Graph = require("..").Graph;
-var read = require("..").json.read;
-var write = require("..").json.write;
+import { Graph } from "../lib/graph";
+import { expect } from "chai";
+import { read, write } from "../lib/json";
 
 describe("json", function() {
   it("preserves the graph options", function() {

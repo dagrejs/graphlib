@@ -1,7 +1,7 @@
-var expect = require("../chai").expect;
-var Graph = require("../..").Graph;
-var floydWarshall = require("../..").alg.floydWarshall;
-var allShortestPathsTest = require("./all-shortest-paths-test");
+import * as allShortestPathsTest from "./all-shortest-paths-test";
+import { Graph } from "../../lib/graph";
+import { expect } from "chai";
+import { floydWarshall } from "../../lib/alg/floyd-warshall";
 
 describe("alg.floydWarshall", function() {
   allShortestPathsTest.tests(floydWarshall);
