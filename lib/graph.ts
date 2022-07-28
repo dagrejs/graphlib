@@ -1,4 +1,4 @@
-import * as _  from "lodash";
+import _ from "lodash";
 
 var DEFAULT_EDGE_NAME = "\x00";
 var GRAPH_NODE = "\x00";
@@ -34,16 +34,16 @@ export class Graph {
   private _isCompound: boolean;
 
   // Label for the graph itself
-  private _label?; string;
+  private _label?: string|number|Object;
 
   // Defaults to be set when creating a new node
-  private _defaultNodeLabelFn = _.constant(undefined);
+  private _defaultNodeLabelFn: (v: string) => any = () => undefined;
 
   // Defaults to be set when creating a new edge
-  private _defaultEdgeLabelFn = _.constant(undefined);
+  private _defaultEdgeLabelFn: (v: string|Edge, w?: string, name?: string) => any = () => undefined;
 
   // v -> label
-  private _nodes = {};
+  private _nodes: Record<string, string> = {};
 
   private _parent?: Object;
 
@@ -62,7 +62,7 @@ export class Graph {
   private _sucs = {};
 
   // e -> edgeObj
-  private _edgeObjs = {};
+  private _edgeObjs: Record<string, Edge> = {};
 
   // e -> label
   private _edgeLabels = {};
@@ -74,9 +74,9 @@ export class Graph {
   private _edgeCount = 0;
 
   constructor(opts: GraphOptions = {}) {
-    this._isDirected = _.has(opts, "directed") ? opts.directed! : true;
-    this._isMultigraph = _.has(opts, "multigraph") ? opts.multigraph! : false;
-    this._isCompound = _.has(opts, "compound") ? opts.compound! : false;
+    this._isDirected = opts.hasOwnProperty("directed") ? opts.directed! : true;
+    this._isMultigraph = opts.hasOwnProperty("multigraph") ? opts.multigraph! : false;
+    this._isCompound = opts.hasOwnProperty("compound") ? opts.compound! : false;
 
     if (this._isCompound) {
       // v -> parent
@@ -115,7 +115,7 @@ export class Graph {
   /**
    * Sets the label of the graph.
    */
-  setGraph(label: any): Graph {
+  setGraph(label?: string|number|Object): Graph {
     this._label = label;
     return this;
   }
@@ -123,7 +123,11 @@ export class Graph {
   /**
    * Gets the graph label.
    */
-  graph(): string | void {
+  graph(): string|number|Object|undefined {
+    if (typeof this._label === 'object') {
+      return Object.assign({}, this._label);
+    }
+
     return this._label;
   }
 
@@ -138,7 +142,7 @@ export class Graph {
    * Complexity: O(1).
    */
   setDefaultNodeLabel(newDefault: (v: string) => any | any): Graph {
-    if (!_.isFunction(newDefault)) {
+    if (typeof newDefault !== 'function') {
       newDefault = _.constant(newDefault);
     }
     this._defaultNodeLabelFn = newDefault;
@@ -159,7 +163,7 @@ export class Graph {
    * Complexity: O(1).
    */
   nodes(): string[] {
-    return _.keys(this._nodes);
+    return Object.keys(this._nodes);
   }
 
   /**
@@ -168,8 +172,8 @@ export class Graph {
    */
   sources(): string[] {
     var self = this;
-    return _.filter(this.nodes(), function(v) {
-      return _.isEmpty(self._in[v]);
+    return this.nodes().filter(function(v) {
+      return Object.keys(self._in[v]).length === 0;
     });
   }
 
@@ -179,8 +183,8 @@ export class Graph {
    */
   sinks(): string[] {
     var self = this;
-    return _.filter(this.nodes(), function(v) {
-      return _.isEmpty(self._out[v]);
+    return this.nodes().filter(function(v) {
+      return Object.keys(self._out[v]).length === 0;
     });
   }
 
@@ -191,7 +195,7 @@ export class Graph {
   setNodes(vs: string[], value?: string): Graph {
     var args = arguments;
     var self = this;
-    _.each(vs, function(v) {
+    vs.forEach(function(v) {
       if (args.length > 1) {
         self.setNode(v, value);
       } else {
@@ -208,7 +212,7 @@ export class Graph {
    * Complexity: O(1).
    */
   setNode(v: string, value?: any): Graph {
-    if (_.has(this._nodes, v)) {
+    if (this._nodes.hasOwnProperty(v)) {
       if (arguments.length > 1) {
         this._nodes[v] = value;
       }
@@ -241,7 +245,7 @@ export class Graph {
    * Detects whether graph has a node with specified name or not.
    */
   hasNode(v: string): boolean {
-    return _.has(this._nodes, v);
+    return this._nodes.hasOwnProperty(v);
   }
 
   /**
@@ -252,21 +256,21 @@ export class Graph {
    */
   removeNode(v: string): Graph {
     var self = this;
-    if (_.has(this._nodes, v)) {
+    if (this._nodes.hasOwnProperty(v)) {
       var removeEdge = function(e) { self.removeEdge(self._edgeObjs[e]); };
       delete this._nodes[v];
       if (this._isCompound) {
         this._removeFromParentsChildList(v);
         delete this._parent![v];
-        _.each(this.children(v), function(child) {
+        this.children(v)!.forEach(function(child) {
           self.setParent(child);
         });
         delete this._children![v];
       }
-      _.each(_.keys(this._in[v]), removeEdge);
+      Object.keys(this._in[v]).forEach(removeEdge);
       delete this._in[v];
       delete this._preds[v];
-      _.each(_.keys(this._out[v]), removeEdge);
+      Object.keys(this._out[v]).forEach(removeEdge);
       delete this._out[v];
       delete this._sucs[v];
       --this._nodeCount;
@@ -285,13 +289,13 @@ export class Graph {
       throw new Error("Cannot set parent in a non-compound graph");
     }
 
-    if (_.isUndefined(parent)) {
+    if (parent === undefined) {
       parent = GRAPH_NODE;
     } else {
       // Coerce parent to string
       parent += "";
       for (var ancestor = parent;
-        !_.isUndefined(ancestor);
+        ancestor !== undefined;
         ancestor = (this.parent(ancestor as string) as string)) {
         if (ancestor === v) {
           throw new Error("Setting " + parent+ " as parent of " + v +
@@ -330,15 +334,11 @@ export class Graph {
    * Gets list of direct children of node v.
    * Complexity: O(1).
    */
-  children(v?: string): string[] | void {
-    if (_.isUndefined(v)) {
-      v = GRAPH_NODE;
-    }
-
+  children(v = GRAPH_NODE): string[] | void {
     if (this._isCompound) {
       var children = this._children![v!];
       if (children) {
-        return _.keys(children);
+        return Object.keys(children);
       }
     } else if (v === GRAPH_NODE) {
       return this.nodes();
@@ -357,7 +357,7 @@ export class Graph {
   predecessors(v: string): string[] | void {
     var predsV = this._preds[v];
     if (predsV) {
-      return _.keys(predsV);
+      return Object.keys(predsV);
     }
   }
 
@@ -369,7 +369,7 @@ export class Graph {
   successors(v: string): string[] | void {
     var sucsV = this._sucs[v];
     if (sucsV) {
-      return _.keys(sucsV);
+      return Object.keys(sucsV);
     }
   }
 
@@ -381,7 +381,12 @@ export class Graph {
   neighbors(v: string): string[] | void {
     var preds = this.predecessors(v);
     if (preds) {
-      return _.union(preds, this.successors(v));
+      const union = new Set(preds);
+      for (const succ of this.successors(v)!) {
+        union.add(succ);
+      }
+
+      return Array.from(union.values());
     }
   }
 
@@ -417,7 +422,7 @@ export class Graph {
       }
     });
 
-    _.each(this._edgeObjs, function(e) {
+    Object.values(this._edgeObjs).forEach(function(e) {
       if (copy.hasNode(e.v) && copy.hasNode(e.w)) {
         copy.setEdge(e, self.edge(e));
       }
@@ -437,7 +442,7 @@ export class Graph {
     }
 
     if (this._isCompound) {
-      _.each(copy.nodes(), function(v) {
+      copy.nodes().forEach(function(v) {
         copy.setParent(v, findParent(v));
       });
     }
@@ -454,8 +459,8 @@ export class Graph {
    * with no label specified and returned value * will be used as a label for edge.
    * Complexity: O(1).
    */
-  setDefaultEdgeLabel(newDefault: (v: string, w?: string, name?: string) => any | any): Graph {
-    if (!_.isFunction(newDefault)) {
+  setDefaultEdgeLabel(newDefault: (v: string|Edge, w?: string, name?: string) => any | any): Graph {
+    if (typeof newDefault !== 'function') {
       newDefault = _.constant(newDefault);
     }
     this._defaultEdgeLabelFn = newDefault;
@@ -475,7 +480,7 @@ export class Graph {
    * Complexity: O(|E|).
    */
   edges(): Edge[] {
-    return _.values(this._edgeObjs);
+    return Object.values(this._edgeObjs);
   }
 
   /**
@@ -487,7 +492,7 @@ export class Graph {
   setPath(vs: string[], value?: any): Graph {
     var self = this;
     var args = arguments;
-    _.reduce(vs, function(v, w) {
+    vs.reduce(function(v, w) {
       if (args.length > 1) {
         self.setEdge(v, w, value);
       } else {
@@ -529,19 +534,19 @@ export class Graph {
 
     v = "" + v;
     w = "" + w;
-    if (!_.isUndefined(name)) {
+    if (name !== undefined) {
       name = "" + name;
     }
 
     var e = edgeArgsToId(this._isDirected, v, w, name);
-    if (_.has(this._edgeLabels, e)) {
+    if (this._edgeLabels.hasOwnProperty(e)) {
       if (valueSpecified) {
         this._edgeLabels[e] = value;
       }
       return this;
     }
 
-    if (!_.isUndefined(name) && !this._isMultigraph) {
+    if (name !== undefined && !this._isMultigraph) {
       throw new Error("Cannot set a named edge when isMultigraph = false");
     }
 
@@ -586,7 +591,7 @@ export class Graph {
     var e = (arguments.length === 1
       ? edgeObjToId(this._isDirected, arguments[0])
       : edgeArgsToId(this._isDirected, vOrEdge, w, name));
-    return _.has(this._edgeLabels, e);
+    return this._edgeLabels.hasOwnProperty(e);
   }
 
   /**
@@ -620,11 +625,11 @@ export class Graph {
   inEdges(v: string, u?: string): Edge[] | void {
     var inV = this._in[v];
     if (inV) {
-      var edges = _.values(inV);
+      var edges = Object.values(inV) as Edge[];
       if (!u) {
         return edges;
       }
-      return _.filter(edges, function(edge) { return edge.v === u; });
+      return edges.filter(function(edge) { return edge.v === u; });
     }
   }
 
@@ -636,11 +641,11 @@ export class Graph {
   outEdges(v:string, w?: string): Edge[] | void {
     var outV = this._out[v];
     if (outV) {
-      var edges = _.values(outV);
+      var edges = Object.values(outV) as Edge[];
       if (!w) {
         return edges;
       }
-      return _.filter(edges, function(edge) { return edge.w === w; });
+      return edges.filter(function(edge) { return edge.w === w; });
     }
   }
 
@@ -678,7 +683,7 @@ function edgeArgsToId(isDirected, v_, w_, name) {
     w = tmp;
   }
   return v + EDGE_KEY_DELIM + w + EDGE_KEY_DELIM +
-             (_.isUndefined(name) ? DEFAULT_EDGE_NAME : name);
+             (name === undefined ? DEFAULT_EDGE_NAME : name);
 }
 
 function edgeArgsToObj(isDirected, v_, w_, name) {
