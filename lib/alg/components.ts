@@ -1,4 +1,3 @@
-import * as _  from "lodash";
 import { Graph } from "../graph";
 
 export function components(g: Graph) {
@@ -7,14 +6,14 @@ export function components(g: Graph) {
   var cmpt;
 
   function dfs(v) {
-    if (_.has(visited, v)) return;
+    if (visited.hasOwnProperty(v)) return;
     visited[v] = true;
     cmpt.push(v);
-    _.each(g.successors(v), dfs);
-    _.each(g.predecessors(v), dfs);
+    g.successors(v)!.forEach(dfs);
+    g.predecessors(v)!.forEach(dfs);
   }
 
-  _.each(g.nodes(), function(v) {
+  g.nodes().forEach(function(v) {
     cmpt = [];
     dfs(v);
     if (cmpt.length) {

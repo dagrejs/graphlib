@@ -1,4 +1,3 @@
-import * as _  from "lodash";
 import { Graph } from "../graph";
 
 export function tarjan(g: Graph) {
@@ -16,7 +15,7 @@ export function tarjan(g: Graph) {
     stack.push(v);
 
     g.successors(v)!.forEach(function(w) {
-      if (!_.has(visited, w)) {
+      if (!visited.hasOwnProperty(w)) {
         dfs(w);
         entry.lowlink = Math.min(entry.lowlink, visited[w].lowlink);
       } else if (visited[w].onStack) {
@@ -37,7 +36,7 @@ export function tarjan(g: Graph) {
   }
 
   g.nodes().forEach(function(v) {
-    if (!_.has(visited, v)) {
+    if (!visited.hasOwnProperty(v)) {
       dfs(v);
     }
   });
