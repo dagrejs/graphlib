@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 var DEFAULT_EDGE_NAME = "\x00";
 var GRAPH_NODE = "\x00";
 var EDGE_KEY_DELIM = "\x01";
@@ -142,10 +140,11 @@ export class Graph {
    * Complexity: O(1).
    */
   setDefaultNodeLabel(newDefault: (v: string) => any | any): Graph {
-    if (typeof newDefault !== 'function') {
-      newDefault = _.constant(newDefault);
-    }
     this._defaultNodeLabelFn = newDefault;
+    if (typeof newDefault !== 'function') {
+      this._defaultNodeLabelFn = () => newDefault;
+    }
+
     return this;
   }
 
@@ -416,7 +415,7 @@ export class Graph {
     copy.setGraph(this.graph());
 
     var self = this;
-    _.each(this._nodes, function(value, v) {
+    Object.entries(this._nodes).forEach(function([v, value]) {
       if (filter(v)) {
         copy.setNode(v, value);
       }
@@ -460,10 +459,11 @@ export class Graph {
    * Complexity: O(1).
    */
   setDefaultEdgeLabel(newDefault: (v: string|Edge, w?: string, name?: string) => any | any): Graph {
-    if (typeof newDefault !== 'function') {
-      newDefault = _.constant(newDefault);
-    }
     this._defaultEdgeLabelFn = newDefault;
+    if (typeof newDefault !== 'function') {
+      this._defaultEdgeLabelFn = () => newDefault;
+    }
+
     return this;
   }
 

@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const config = {
   entry: './lib/index.js',
@@ -27,10 +26,7 @@ const config = {
       '.ts',
       '.js'
     ]
-  },
-  plugins: [
-    new LodashModuleReplacementPlugin
-  ]
+  }
 };
 
 module.exports = config;
