@@ -29,8 +29,8 @@ bench: compile unit-test lint
 compile:
 	@$(TSC)
 
-lib/version.js: package.json
-	@src/release/make-version.js > $@
+lib/version.ts: package.json
+	@src/release/make-version.ts > $@
 
 $(DIRS):
 	@mkdir -p $@
