@@ -1,4 +1,3 @@
-import * as _  from "lodash";
 import { Graph } from "../graph";
 import { PriorityQueue } from "../data/priority-queue";
 
@@ -24,7 +23,7 @@ export function prim(g: Graph, weightFunc) {
     return result;
   }
 
-  _.each(g.nodes(), function(v) {
+  g.nodes().forEach(function(v) {
     pq.add(v, Number.POSITIVE_INFINITY);
     result.setNode(v);
   });
@@ -35,7 +34,7 @@ export function prim(g: Graph, weightFunc) {
   var init = false;
   while (pq.size() > 0) {
     v = pq.removeMin();
-    if (_.has(parents, v)) {
+    if (parents.hasOwnProperty(v)) {
       result.setEdge(v, parents[v]);
     } else if (init) {
       throw new Error("Input graph is not connected: " + g);
