@@ -8,7 +8,7 @@ export interface GraphOptions {
   compound?: boolean;
 }
 
-interface Edge {
+export interface Edge {
   v: string;
   w: string;
 
