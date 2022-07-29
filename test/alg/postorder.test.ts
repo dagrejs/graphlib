@@ -1,4 +1,3 @@
-import * as _  from "lodash";
 import { Graph } from "../../lib/graph";
 import { expect } from "chai";
 import { postorder } from "../../lib/alg/postorder";
@@ -16,7 +15,7 @@ describe("alg.postorder", function() {
     g.setPath(["a", "c", "d", "e"]);
 
     var nodes = postorder(g, "a");
-    expect(_.sortBy(nodes)).to.eql(["a", "b", "c", "d", "e"]);
+    expect(nodes.sort()).to.eql(["a", "b", "c", "d", "e"]);
   });
 
   it("works for a tree", function() {
@@ -26,11 +25,11 @@ describe("alg.postorder", function() {
     g.setEdge("c", "e");
 
     var nodes = postorder(g, "a");
-    expect(_.sortBy(nodes)).to.eql(["a", "b", "c", "d", "e"]);
     expect(nodes.indexOf("b")).to.be.lt(nodes.indexOf("a"));
     expect(nodes.indexOf("c")).to.be.lt(nodes.indexOf("a"));
     expect(nodes.indexOf("d")).to.be.lt(nodes.indexOf("c"));
     expect(nodes.indexOf("e")).to.be.lt(nodes.indexOf("c"));
+    expect(nodes.sort()).to.eql(["a", "b", "c", "d", "e"]);
   });
 
   it("works for an array of roots", function() {
@@ -41,9 +40,9 @@ describe("alg.postorder", function() {
     g.setNode("f");
 
     var nodes = postorder(g, ["a", "b", "c", "e"]);
-    expect(_.sortBy(nodes)).to.eql(["a", "b", "c", "d", "e"]);
     expect(nodes.indexOf("b")).to.be.lt(nodes.indexOf("a"));
     expect(nodes.indexOf("d")).to.be.lt(nodes.indexOf("c"));
+    expect(nodes.sort()).to.eql(["a", "b", "c", "d", "e"]);
   });
 
   it("works for multiple connected roots", function() {
@@ -53,10 +52,10 @@ describe("alg.postorder", function() {
     g.setEdge("d", "c");
 
     var nodes = postorder(g, ["a", "d"]);
-    expect(_.sortBy(nodes)).to.eql(["a", "b", "c", "d"]);
     expect(nodes.indexOf("b")).to.be.lt(nodes.indexOf("a"));
     expect(nodes.indexOf("c")).to.be.lt(nodes.indexOf("a"));
     expect(nodes.indexOf("c")).to.be.lt(nodes.indexOf("d"));
+    expect(nodes.sort()).to.eql(["a", "b", "c", "d"]);
   });
 
   it("fails if root is not in the graph", function() {

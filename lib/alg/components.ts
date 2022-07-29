@@ -1,9 +1,9 @@
 import { Graph } from "../graph";
 
-export function components(g: Graph) {
+export function components(g: Graph): string[][] {
   var visited = {};
-  var cmpts: string[] = [];
-  var cmpt;
+  var cmpts: string[][] = [];
+  var cmpt: string[];
 
   function dfs(v) {
     if (visited.hasOwnProperty(v)) return;
