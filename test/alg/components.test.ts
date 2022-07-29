@@ -1,4 +1,3 @@
-import * as _  from "lodash";
 import { Graph } from "../../lib/graph";
 import { expect } from "chai";
 import { components } from "../../lib/alg/components";
@@ -13,7 +12,7 @@ describe("alg.components", function() {
     g.setNode("a");
     g.setNode("b");
 
-    var result = _.sortBy(components(g), function(arr) { return _.min(arr); });
+    var result = components(g).sort((a, b) => a[0].localeCompare(b[0]));
     expect(result).to.eql([["a"], ["b"]]);
   });
 
@@ -22,7 +21,7 @@ describe("alg.components", function() {
     g.setEdge("a", "b");
     g.setEdge("b", "c");
 
-    var result = _.map(components(g), function(xs) { return _.sortBy(xs); });
+    var result = components(g).map(xs => xs.sort());
     expect(result).to.eql([["a", "b", "c"]]);
   });
 
@@ -32,8 +31,7 @@ describe("alg.components", function() {
     g.setEdge("d", "c");
     g.setEdge("e", "f");
 
-    var result = _.sortBy(_.map(components(g),
-      function(xs) { return _.sortBy(xs); }), "0");
+    var result = components(g).map(xs => xs.sort()).sort((a, b) => a[0].localeCompare(b[0]));
     expect(result).to.eql([["a", "b", "c", "d"], ["e", "f"]]);
   });
 });

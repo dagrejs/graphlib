@@ -1,11 +1,10 @@
-import * as _  from "lodash";
 import { Graph, GraphOptions } from "./graph";
 
 interface JsonGraph {
   options: GraphOptions;
   nodes: JsonNode[];
   edges: JsonEdge[];
-  value: string;
+  value: string|number|Object;
 }
 
 interface JsonNode {
@@ -35,39 +34,40 @@ export function write(g: Graph): JsonGraph {
     nodes: writeNodes(g),
     edges: writeEdges(g)
   };
-  if (!_.isUndefined(g.graph())) {
-    json.value = _.clone(g.graph());
+
+  if (g.graph() !== undefined) {
+    json.value = g.graph()!;
   }
   return json as JsonGraph;
 }
 
 function writeNodes(g: Graph): JsonNode[] {
-  return _.map(g.nodes(), function(v) {
+  return g.nodes().map(function(v) {
     var nodeValue = g.node(v);
     var parent = g.parent(v);
     var node: Partial<JsonNode> = { v: v };
-    if (!_.isUndefined(nodeValue)) {
+    if (nodeValue !== undefined) {
       node.value = nodeValue;
     }
-    if (!_.isUndefined(parent)) {
+    if (parent !== undefined) {
       node.parent = parent;
     }
     return node;
-  });
+  }) as JsonNode[];
 }
 
 function writeEdges(g: Graph): JsonEdge[] {
-  return _.map(g.edges(), function(e) {
+  return g.edges().map(function(e) {
     var edgeValue = g.edge(e);
     var edge: Partial<JsonEdge> = { v: e.v, w: e.w };
-    if (!_.isUndefined(e.name)) {
+    if (e.name !== undefined) {
       edge.name = e.name;
     }
-    if (!_.isUndefined(edgeValue)) {
+    if (edgeValue !== undefined) {
       edge.value = edgeValue;
     }
     return edge;
-  });
+  }) as JsonEdge[];
 }
 
 /**
@@ -82,13 +82,13 @@ function writeEdges(g: Graph): JsonEdge[] {
  */
 export function read(json: JsonGraph): Graph {
   var g = new Graph(json.options).setGraph(json.value);
-  _.each(json.nodes, function(entry) {
+  json.nodes.forEach(function(entry) {
     g.setNode(entry.v, entry.value);
     if (entry.parent) {
       g.setParent(entry.v, entry.parent);
     }
   });
-  _.each(json.edges, function(entry) {
+  json.edges.forEach(function(entry) {
     g.setEdge({ v: entry.v, w: entry.w, name: entry.name }, entry.value);
   });
   return g;

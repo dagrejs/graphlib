@@ -1,4 +1,3 @@
-import * as _  from "lodash";
 import { Graph } from "../../lib/graph";
 import { expect } from "chai";
 import { findCycles } from "../../lib/alg/find-cycles";
@@ -43,8 +42,6 @@ describe("alg.findCycles", function() {
 });
 
 // A helper that sorts components and their contents
-function sort(cmpts) {
-  return _.sortBy(_.map(cmpts, function(cmpt) {
-    return _.sortBy(cmpt);
-  }), function(cmpts) { return cmpts[0]; });
+function sort(cmpts: string[][]) {
+  return cmpts.map(cmpt => cmpt.sort()).sort((a, b) => a[0].localeCompare(b[0]));
 }

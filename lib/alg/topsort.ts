@@ -1,4 +1,3 @@
-import * as _  from "lodash";
 import { Graph } from "../graph";
 
 topsort.CycleException = CycleException;
@@ -9,22 +8,22 @@ export function topsort(g: Graph) {
   var results: string[] = [];
 
   function visit(node) {
-    if (_.has(stack, node)) {
+    if (stack.hasOwnProperty(node)) {
       throw new CycleException();
     }
 
-    if (!_.has(visited, node)) {
+    if (!visited.hasOwnProperty(node)) {
       stack[node] = true;
       visited[node] = true;
-      _.each(g.predecessors(node), visit);
+      g.predecessors(node)!.forEach(visit);
       delete stack[node];
       results.push(node);
     }
   }
 
-  _.each(g.sinks(), visit);
+  g.sinks().forEach(visit);
 
-  if (_.size(visited) !== g.nodeCount()) {
+  if (Object.keys(visited).length !== g.nodeCount()) {
     throw new CycleException();
   }
 

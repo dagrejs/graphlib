@@ -1,4 +1,3 @@
-import * as _  from "lodash";
 import { expect } from "chai";
 import { PriorityQueue } from "../../lib/data/priority-queue";
 
@@ -29,8 +28,8 @@ describe("data.PriorityQueue", function() {
       pq.add(false, 3);
       pq.add(undefined, 4);
       pq.add(null, 5);
-      expect(_.sortBy(pq.keys())).to.eql(
-        _.sortBy(["a", "1", "false", "undefined", "null"]));
+      expect(pq.keys().sort()).to.eql(
+        ["a", "1", "false", "undefined", "null"].sort());
     });
   });
 

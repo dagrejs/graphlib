@@ -1,9 +1,12 @@
-import * as _  from "lodash";
 import { Graph } from "../graph";
 
-var DEFAULT_WEIGHT_FUNC = _.constant(1);
+var DEFAULT_WEIGHT_FUNC = () => 1;
 
-export function floydWarshall(g: Graph, weightFn = DEFAULT_WEIGHT_FUNC, edgeFn = function(v) { return g.outEdges(v); }) {
+export function floydWarshall(
+  g: Graph,
+  weightFn: (edge: any) => any = DEFAULT_WEIGHT_FUNC,
+  edgeFn = function(v) { return g.outEdges(v); }
+) {
   return runFloydWarshall(g, weightFn, edgeFn);
 }
 

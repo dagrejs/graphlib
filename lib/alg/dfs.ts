@@ -1,4 +1,3 @@
-import * as _  from "lodash";
 import { Graph } from "../graph";
 
 type Order = "pre"|"post";
@@ -11,16 +10,19 @@ type Order = "pre"|"post";
  *
  * Order must be one of "pre" or "post".
  */
-export function dfs(g: Graph, vs: string|string[], order: Order): string[] {
-  if (!_.isArray(vs)) {
-    vs = [vs as string];
+export function dfs(g: Graph, vOrVs: string|string[], order: Order): string[] {
+  let vs: string[];
+  if (Array.isArray(vOrVs)) {
+    vs = vOrVs
+  } else {
+    vs = [vOrVs as string];
   }
 
   var navigation = (g.isDirected() ? g.successors : g.neighbors).bind(g);
 
   var acc = [];
   var visited = {};
-  _.each(vs, function(v) {
+  vs.forEach(function(v) {
     if (!g.hasNode(v)) {
       throw new Error("Graph does not have node: " + v);
     }
@@ -31,11 +33,11 @@ export function dfs(g: Graph, vs: string|string[], order: Order): string[] {
 }
 
 function doDfs(g, v, postorder, visited, navigation, acc) {
-  if (!_.has(visited, v)) {
+  if (!visited.hasOwnProperty(v)) {
     visited[v] = true;
 
     if (!postorder) { acc.push(v); }
-    _.each(navigation(v), function(w) {
+    navigation(v).forEach(function(w) {
       doDfs(g, w, postorder, visited, navigation, acc);
     });
     if (postorder) { acc.push(v); }

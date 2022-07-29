@@ -1,5 +1,3 @@
-import * as _  from "lodash";
-
 interface Data {
   key: string
   priority: number;
@@ -34,7 +32,7 @@ export class PriorityQueue {
    * Returns `true` if **key** is in the queue and `false` if not.
    */
   has(key) {
-    return _.has(this._keyIndices, key);
+    return this._keyIndices.hasOwnProperty(key);
   }
 
   /**
@@ -67,7 +65,7 @@ export class PriorityQueue {
   add(key: string, priority: number) {
     var keyIndices = this._keyIndices;
     key = String(key);
-    if (!_.has(keyIndices, key)) {
+    if (!keyIndices.hasOwnProperty(key)) {
       var arr = this._arr;
       var index = arr.length;
       keyIndices[key] = index;
