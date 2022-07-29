@@ -58,11 +58,11 @@ $(BUILD_DIR)/$(MOD).js:  unit-test
 $(BUILD_DIR)/$(MOD).min.js:
 	@$(NPM) run build-prod
 
-$(BUILD_DIR)/$(MOD).core.js: $(SRC_FILES) | unit-test
-	@$(BROWSERIFY) $< > $@ --no-bundle-external -s graphlib
+$(BUILD_DIR)/$(MOD).core.js: unit-test
+	@$(NPM) run build-dev
 
-$(BUILD_DIR)/$(MOD).core.min.js: $(BUILD_DIR)/$(MOD).core.js
-	@$(UGLIFY) $< --comments '@license' > $@
+$(BUILD_DIR)/$(MOD).core.min.js:
+	@$(NPM) run build-prod
 
 dist: $(BUILD_FILES) | bower.json test
 	@rm -rf $@
