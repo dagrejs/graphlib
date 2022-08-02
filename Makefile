@@ -56,13 +56,13 @@ $(BUILD_DIR)/$(MOD).js:  unit-test
 	@$(NPM) run build-dev
 
 $(BUILD_DIR)/$(MOD).min.js:
-	@$(NPM) run build-prod
+	@$(NPM) run build-prod -- -o $(BUILD_DIR)/$(MOD).min.js
 
 $(BUILD_DIR)/$(MOD).core.js: unit-test
-	@$(NPM) run build-dev
+	@$(NPM) run build-dev -- -o $(BUILD_DIR)/$(MOD).core.js
 
 $(BUILD_DIR)/$(MOD).core.min.js:
-	@$(NPM) run build-prod
+	@$(NPM) run build-prod -- -o $(BUILD_DIR)/$(MOD).core.min.js
 
 dist: $(BUILD_FILES) | bower.json test
 	@rm -rf $@
