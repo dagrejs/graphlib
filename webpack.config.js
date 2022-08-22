@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 const config = {
-  entry: './index.ts',
+  entry: './lib/index.js',
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'graphlib.js',
