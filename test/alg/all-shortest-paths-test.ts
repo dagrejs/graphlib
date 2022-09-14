@@ -1,19 +1,18 @@
 import { Graph } from "../../lib/graph";
-import { expect } from "chai";
 
 export function tests(sp) {
   describe("allShortestPaths", function() {
     it("returns 0 for the node itself", function() {
       var g = new Graph();
       g.setNode("a");
-      expect(sp(g)).to.eql({ a: { a: { distance: 0 } }});
+      expect(sp(g)).toEqual({ a: { a: { distance: 0 } }});
     });
 
     it("returns the distance and path from all nodes to other nodes", function() {
       var g = new Graph();
       g.setEdge("a", "b");
       g.setEdge("b", "c");
-      expect(sp(g)).to.eql({
+      expect(sp(g)).toEqual({
         a: {
           a: { distance: 0 },
           b: { distance: 1, predecessor: "a" },
@@ -37,7 +36,7 @@ export function tests(sp) {
       g.setEdge("a", "b", 2);
       g.setEdge("b", "c", 3);
 
-      expect(sp(g, weightFn(g))).to.eql({
+      expect(sp(g, weightFn(g))).toEqual({
         a: {
           a: { distance: 0 },
           b: { distance: 2, predecessor: "a" },
@@ -61,7 +60,7 @@ export function tests(sp) {
       g.setEdge("a", "b");
       g.setEdge("b", "c");
 
-      expect(sp(g, undefined, function(v) { return g.inEdges(v); })).to.eql({
+      expect(sp(g, undefined, function(v) { return g.inEdges(v); })).toEqual({
         a: {
           a: { distance: 0 },
           b: { distance: Number.POSITIVE_INFINITY },
@@ -87,7 +86,7 @@ export function tests(sp) {
       g.setEdge("c", "a", 4);
       g.setEdge("b", "d", 6);
 
-      expect(sp(g, weightFn(g), g.nodeEdges.bind(g))).to.eql({
+      expect(sp(g, weightFn(g), g.nodeEdges.bind(g))).toEqual({
         a: {
           a: { distance: 0 },
           b: { distance: 1, predecessor: "a" },
