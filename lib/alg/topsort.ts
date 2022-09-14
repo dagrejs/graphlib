@@ -28,5 +28,4 @@ export function topsort(g: Graph) {
   return results;
 }
 
-export function CycleException() {}
-CycleException.prototype = new Error(); // must be an instance of Error to pass testing
+export class CycleException extends Error {}
