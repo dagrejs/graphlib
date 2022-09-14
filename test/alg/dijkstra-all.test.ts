@@ -1,6 +1,5 @@
 import * as allShortestPathsTest from "./all-shortest-paths-test";
 import { Graph } from "../../lib/graph";
-import { expect } from "chai";
 import { dijkstraAll } from "../../lib/alg/dijkstra-all";
 
 describe("alg.dijkstraAll", function() {
@@ -13,7 +12,7 @@ describe("alg.dijkstraAll", function() {
     g.setEdge("b", "d",  3);
     g.setEdge("c", "d",  3);
 
-    expect(function() { dijkstraAll(g, weight(g)); }).to.throw();
+    expect(function() { dijkstraAll(g, weight(g)); }).toThrowError();
   });
 });
 

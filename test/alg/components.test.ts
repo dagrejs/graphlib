@@ -1,10 +1,9 @@
 import { Graph } from "../../lib/graph";
-import { expect } from "chai";
 import { components } from "../../lib/alg/components";
 
 describe("alg.components", function() {
   it("returns an empty list for an empty graph", function() {
-    expect(components(new Graph({ directed: false }))).to.be.empty;
+    expect(components(new Graph({ directed: false }))).toHaveLength(0);
   });
 
   it("returns singleton lists for unconnected nodes", function() {
@@ -13,7 +12,7 @@ describe("alg.components", function() {
     g.setNode("b");
 
     var result = components(g).sort((a, b) => a[0].localeCompare(b[0]));
-    expect(result).to.eql([["a"], ["b"]]);
+    expect(result).toEqual([["a"], ["b"]]);
   });
 
   it("returns a list of nodes in a component", function() {
@@ -22,7 +21,7 @@ describe("alg.components", function() {
     g.setEdge("b", "c");
 
     var result = components(g).map(xs => xs.sort());
-    expect(result).to.eql([["a", "b", "c"]]);
+    expect(result).toEqual([["a", "b", "c"]]);
   });
 
   it("returns nodes connected by a neighbor relationship in a digraph", function() {
@@ -32,6 +31,6 @@ describe("alg.components", function() {
     g.setEdge("e", "f");
 
     var result = components(g).map(xs => xs.sort()).sort((a, b) => a[0].localeCompare(b[0]));
-    expect(result).to.eql([["a", "b", "c", "d"], ["e", "f"]]);
+    expect(result).toEqual([["a", "b", "c", "d"], ["e", "f"]]);
   });
 });

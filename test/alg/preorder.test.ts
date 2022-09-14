@@ -1,12 +1,11 @@
 import { Graph } from "../../lib/graph";
-import { expect } from "chai";
 import { preorder } from "../../lib/alg/preorder";
 
 describe("alg.preorder", function() {
   it("returns the root for a singleton graph", function() {
     var g = new Graph();
     g.setNode("a");
-    expect(preorder(g, "a")).to.eql(["a"]);
+    expect(preorder(g, "a")).toEqual(["a"]);
   });
 
   it("visits each node in the graph once", function() {
@@ -15,7 +14,7 @@ describe("alg.preorder", function() {
     g.setPath(["a", "c", "d", "e"]);
 
     var nodes = preorder(g, "a");
-    expect(nodes.sort()).to.eql(["a", "b", "c", "d", "e"]);
+    expect(nodes.sort()).toEqual(["a", "b", "c", "d", "e"]);
   });
 
   it("works for a tree", function() {
@@ -25,11 +24,11 @@ describe("alg.preorder", function() {
     g.setEdge("c", "e");
 
     var nodes = preorder(g, "a");
-    expect(nodes.sort()).to.eql(["a", "b", "c", "d", "e"]);
-    expect(nodes.indexOf("b")).to.be.gt(nodes.indexOf("a"));
-    expect(nodes.indexOf("c")).to.be.gt(nodes.indexOf("a"));
-    expect(nodes.indexOf("d")).to.be.gt(nodes.indexOf("c"));
-    expect(nodes.indexOf("e")).to.be.gt(nodes.indexOf("c"));
+    expect(nodes.sort()).toEqual(["a", "b", "c", "d", "e"]);
+    expect(nodes.indexOf("b")).toBeGreaterThan(nodes.indexOf("a"));
+    expect(nodes.indexOf("c")).toBeGreaterThan(nodes.indexOf("a"));
+    expect(nodes.indexOf("d")).toBeGreaterThan(nodes.indexOf("c"));
+    expect(nodes.indexOf("e")).toBeGreaterThan(nodes.indexOf("c"));
   });
 
   it("works for an array of roots", function() {
@@ -40,14 +39,14 @@ describe("alg.preorder", function() {
     g.setNode("f");
 
     var nodes = preorder(g, ["a", "c", "e"]);
-    expect(nodes.sort()).to.eql(["a", "b", "c", "d", "e"]);
-    expect(nodes.indexOf("b")).to.be.gt(nodes.indexOf("a"));
-    expect(nodes.indexOf("d")).to.be.gt(nodes.indexOf("c"));
+    expect(nodes.sort()).toEqual(["a", "b", "c", "d", "e"]);
+    expect(nodes.indexOf("b")).toBeGreaterThan(nodes.indexOf("a"));
+    expect(nodes.indexOf("d")).toBeGreaterThan(nodes.indexOf("c"));
   });
 
   it("fails if root is not in the graph", function() {
     var g = new Graph();
     g.setNode("a");
-    expect(function() { preorder(g, "b"); }).to.throw();
+    expect(function() { preorder(g, "b"); }).toThrowError();
   });
 });
