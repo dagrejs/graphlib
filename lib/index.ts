@@ -28,12 +28,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-module.exports = {
-  Graph: require("./graph").Graph,
-  json: {
-    read: require("./json").read,
-    write: require("./json").write,
-  },
-  alg: require("./alg"),
-  version: require("./version").version
-};
+export * as alg from "./alg/index";
+export { Graph } from "./graph";
+export { read, write } from "./json";
+export { version } from "./version";

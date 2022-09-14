@@ -4,18 +4,20 @@
   "description": "A directed and undirected multi-graph library",
   "author": "Chris Pettitt <cpettitt@gmail.com>",
   "license": "MIT",
-  "main": "index.js",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "scripts": {
-    "build-dev": "webpack --mode development",
-    "build-prod": "webpack --mode production",
+    "build": "tsc",
     "clean": "rm dist/graphlib.js",
     "lint": "tsc --noEmit",
+    "postversion": "git push && git push --tags",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
     "test": "jest"
   },
   "files": [
-    "index.js",
-    "dist/",
-    "lib/"
+    "build/"
   ],
   "keywords": [
     "graph",

@@ -1,6 +1,6 @@
 import { Graph } from "../../lib/graph";
 import { expect } from "chai";
-import { topsort } from "../../lib/alg/topsort";
+import { topsort, CycleException } from "../../lib/alg/topsort";
 
 describe("alg.topsort", function() {
   it("returns an empty array for an empty graph", function() {
@@ -28,20 +28,20 @@ describe("alg.topsort", function() {
   it("throws CycleException if there is a cycle #1", function() {
     var g = new Graph();
     g.setPath(["b", "c", "a", "b"]);
-    expect(function() { topsort(g); }).to.throw(topsort.CycleException);
+    expect(function() { topsort(g); }).to.throw(CycleException);
   });
 
   it("throws CycleException if there is a cycle #2", function() {
     var g = new Graph();
     g.setPath(["b", "c", "a", "b"]);
     g.setEdge("b", "d");
-    expect(function() { topsort(g); }).to.throw(topsort.CycleException);
+    expect(function() { topsort(g); }).to.throw(CycleException);
   });
 
   it("throws CycleException if there is a cycle #3", function() {
     var g = new Graph();
     g.setPath(["b", "c", "a", "b"]);
     g.setNode("d");
-    expect(function() { topsort(g); }).to.throw(topsort.CycleException);
+    expect(function() { topsort(g); }).to.throw(CycleException);
   });
 });

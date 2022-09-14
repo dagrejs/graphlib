@@ -44,9 +44,6 @@ browser-test: $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
 	$(KARMA) start --single-run $(KARMA_OPTS)
 	$(KARMA) start karma.conf.js --single-run $(KARMA_OPTS)
 
-bower.json: package.json src/release/make-bower.json.js
-	@src/release/make-bower.json.js > $@
-
 lint:
 	@$(JSHINT) $(JSHINT_OPTS) $(filter-out node_modules, $?)
 	@$(ESLINT) $(SRC_FILES)
@@ -64,7 +61,7 @@ $(BUILD_DIR)/$(MOD).core.js: unit-test
 $(BUILD_DIR)/$(MOD).core.min.js:
 	@$(NPM) run build-prod -- -c ./webpack.config.core.prod.js
 
-dist: $(BUILD_FILES) | bower.json test
+dist: $(BUILD_FILES) | test
 	@rm -rf $@
 	@mkdir -p $@
 	@cp $^ dist

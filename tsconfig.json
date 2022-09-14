@@ -2,12 +2,15 @@
   "extends": "@tsconfig/recommended/tsconfig.json",
   "compilerOptions": {
     "baseUrl": "./",
+    "declaration": true,
+    "module": "esnext",
     "noImplicitAny": false,
     "noImplicitReturns": false,
     "outDir": "build",
     "rootDir": "./",
     "sourceMap": true,
-    "strict": true
+    "strict": true,
+    "target": "es2015"
   },
-  "exclude": ["node_modules", "test"]
+  "include": ["lib/**/*"]
 }

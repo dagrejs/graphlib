@@ -1,7 +1,5 @@
 import { Graph } from "../graph";
 
-topsort.CycleException = CycleException;
-
 export function topsort(g: Graph) {
   var visited = {};
   var stack = {};
@@ -30,5 +28,5 @@ export function topsort(g: Graph) {
   return results;
 }
 
-function CycleException() {}
+export function CycleException() {}
 CycleException.prototype = new Error(); // must be an instance of Error to pass testing
