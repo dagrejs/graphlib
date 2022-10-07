@@ -8,6 +8,7 @@
   "types": "./build/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "build-global": "webpack --mode production",
     "clean": "rm dist/graphlib.js",
     "lint": "tsc --noEmit",
     "postversion": "git push && git push --tags",

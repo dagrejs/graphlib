@@ -38,7 +38,7 @@ test: unit-test browser-test
 unit-test: $(BUILD_DIR)
 	@$(NPM) test
 
-browser-test: $(BUILD_DIR)/$(MOD).js
+browser-test: $(BUILD_DIR)/$(MOD).global.js
 	$(KARMA) start --single-run $(KARMA_OPTS)
 	$(KARMA) start karma.conf.js --single-run $(KARMA_OPTS)
 
@@ -49,6 +49,9 @@ lint:
 
 $(BUILD_DIR)/$(MOD).js:  unit-test
 	@$(NPM) run build
+
+$(BUILD_DIR)/$(MOD).global.js: unit-test
+	@$(NPM) run build-global
 
 dist: $(BUILD_FILES) | test
 	@rm -rf $@

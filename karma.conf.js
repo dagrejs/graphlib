@@ -15,7 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'build/graphlib.js',
+      'build/graphlib.global.js',
 
       'node_modules/chai/chai.js',
       'test/bundle-test.js'

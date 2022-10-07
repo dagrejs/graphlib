@@ -2,10 +2,10 @@ const webpack = require('webpack');
 const path = require('path');
 
 const config = {
-  entry: './lib/index.js',
+  entry: './build/index.js',
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: 'graphlib.js',
+    filename: 'graphlib.global.js',
     library: {
       name: 'graphlib',
       type: 'assign'
