@@ -13,9 +13,7 @@ JSHINT_OPTS = --reporter node_modules/jshint-stylish/index.js
 BUILD_DIR = build
 
 SRC_FILES = $(shell find lib -type f -name '*.js')
-BUILD_FILES = $(addprefix $(BUILD_DIR)/, \
-						$(MOD).js $(MOD).min.js \
-						$(MOD).core.js $(MOD).core.min.js)
+BUILD_FILES = $(addprefix $(BUILD_DIR)/, $(MOD).js)
 
 DIRS = $(BUILD_DIR)
 
@@ -40,7 +38,7 @@ test: unit-test browser-test
 unit-test: $(BUILD_DIR)
 	@$(NPM) test
 
-browser-test: $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
+browser-test: $(BUILD_DIR)/$(MOD).js
 	$(KARMA) start --single-run $(KARMA_OPTS)
 	$(KARMA) start karma.conf.js --single-run $(KARMA_OPTS)
 
@@ -50,16 +48,7 @@ lint:
 	@$(TSC) --noEmit
 
 $(BUILD_DIR)/$(MOD).js:  unit-test
-	@$(NPM) run build-dev
-
-$(BUILD_DIR)/$(MOD).min.js:
-	@$(NPM) run build-prod -- -c ./webpack.config.prod.js
-
-$(BUILD_DIR)/$(MOD).core.js: unit-test
-	@$(NPM) run build-dev -- -c ./webpack.config.core.js
-
-$(BUILD_DIR)/$(MOD).core.min.js:
-	@$(NPM) run build-prod -- -c ./webpack.config.core.prod.js
+	@$(NPM) run build
 
 dist: $(BUILD_FILES) | test
 	@rm -rf $@
