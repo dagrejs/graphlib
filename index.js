@@ -28,7 +28,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-export { Graph } from "./lib/graph";
-export { read, write } from "./lib/json";
-export * from "./lib/alg";
+export * from "./lib/graph";
+export * as json from "./lib/json";
+export * as alg from "./lib/alg";
 export { version } from "./lib/version";

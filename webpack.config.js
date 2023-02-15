@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 const config = {
-  entry: './lib/index.js',
+  entry: './index.js',
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'graphlib.js',
@@ -11,6 +11,7 @@ const config = {
       type: 'assign'
     }
   },
+  devtool: 'eval-cheap-source-map',
   module: {
     rules: [
       {

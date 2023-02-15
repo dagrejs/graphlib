@@ -122,12 +122,9 @@ export class Graph {
    * Gets the graph label.
    */
   graph(): string|number|Object|undefined {
-    if (typeof this._label === 'object') {
-      return Object.assign({}, this._label);
-    }
-
     return this._label;
   }
+
 
 
 /* === Node functions ========== */

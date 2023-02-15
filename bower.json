@@ -2,7 +2,7 @@
   "name": "graphlib",
   "version": "3.0.0",
   "main": [
-    "dist/graphlib.core.js"
+    "build/graphlib.js"
   ],
   "ignore": [
     ".*",

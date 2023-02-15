@@ -5,12 +5,14 @@
 
 var expect = chai.expect;
 
+
 describe("bundle", function() {
   it("exports graphlib", function() {
-    expect(graphlib).to.be.an("object");
+    expect(graphlib).to.be.an("module");
     expect(graphlib.Graph).to.be.a("function");
     expect(graphlib.json).to.be.a("object");
-    expect(graphlib.alg).to.be.a("object");
+    expect(graphlib.alg).to.be.a("module");
+    expect(graphlib.alg.findCycles).to.be.a("function");
     expect(graphlib.version).to.be.a("string");
   });
 
