@@ -1,4 +1,3 @@
-var _ = require("lodash");
 var expect = require("../chai").expect;
 var Graph = require("../..").Graph;
 var prim = require("../..").alg.prim;
@@ -33,11 +32,11 @@ describe("alg.prim", function() {
     source.setEdge("d", "e",  1);
 
     var g = prim(source, weightFn(source));
-    expect(_.sortBy(g.neighbors("a"))).to.eql(["b"]);
-    expect(_.sortBy(g.neighbors("b"))).to.eql(["a", "c", "d"]);
-    expect(_.sortBy(g.neighbors("c"))).to.eql(["b"]);
-    expect(_.sortBy(g.neighbors("d"))).to.eql(["b", "e"]);
-    expect(_.sortBy(g.neighbors("e"))).to.eql(["d"]);
+    expect(g.neighbors("a").sort()).to.eql(["b"]);
+    expect(g.neighbors("b").sort()).to.eql(["a", "c", "d"]);
+    expect(g.neighbors("c").sort()).to.eql(["b"]);
+    expect(g.neighbors("d").sort()).to.eql(["b", "e"]);
+    expect(g.neighbors("e").sort()).to.eql(["d"]);
   });
 
   it("throws an Error for unconnected graphs", function() {

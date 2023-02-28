@@ -1,4 +1,3 @@
-var _ = require("lodash");
 var expect = require("../chai").expect;
 var Graph = require("../..").Graph;
 var findCycles = require("../..").alg.findCycles;
@@ -44,7 +43,5 @@ describe("alg.findCycles", function() {
 
 // A helper that sorts components and their contents
 function sort(cmpts) {
-  return _.sortBy(_.map(cmpts, function(cmpt) {
-    return _.sortBy(cmpt);
-  }), function(cmpts) { return cmpts[0]; });
+  return cmpts.map(cmpt => cmpt.sort()).sort((a, b) => a[0].localeCompare(b[0]));
 }

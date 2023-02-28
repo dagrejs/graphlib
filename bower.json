@@ -20,6 +20,5 @@
     "test/**"
   ],
   "dependencies": {
-    "lodash": "^4.17.15"
   }
 }

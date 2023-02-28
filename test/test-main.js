@@ -20,14 +20,13 @@ require.config({
 
   paths:{
     chai: 'node_modules/chai/chai',
-    lodash: 'node_modules/lodash/lodash',
     graphlib: 'build/graphlib',
     'graphlib.core': 'build/graphlib.core'
   },
 
   shim: {
     'graphlib.core': {
-      deps: ['lodash'],
+      deps: [],
       exports: 'graphlib.core' //any even not existing var could be defined here.
     }
   },

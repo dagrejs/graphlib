@@ -15,7 +15,6 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'node_modules/lodash/lodash.js',
       'build/graphlib.core.js',
 
       'node_modules/chai/chai.js',
@@ -59,7 +58,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome', 'Firefox', 'PhantomJS'],
+    browsers: ['Chrome', 'Firefox'],
 
 
     // Continuous Integration mode

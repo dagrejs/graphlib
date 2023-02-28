@@ -1,4 +1,3 @@
-var _ = require("lodash");
 var expect = require("../chai").expect;
 var Graph = require("../..").Graph;
 var preorder = require("../..").alg.preorder;
@@ -16,7 +15,7 @@ describe("alg.preorder", function() {
     g.setPath(["a", "c", "d", "e"]);
 
     var nodes = preorder(g, "a");
-    expect(_.sortBy(nodes)).to.eql(["a", "b", "c", "d", "e"]);
+    expect(nodes.sort()).to.eql(["a", "b", "c", "d", "e"]);
   });
 
   it("works for a tree", function() {
@@ -26,7 +25,7 @@ describe("alg.preorder", function() {
     g.setEdge("c", "e");
 
     var nodes = preorder(g, "a");
-    expect(_.sortBy(nodes)).to.eql(["a", "b", "c", "d", "e"]);
+    expect(nodes.sort()).to.eql(["a", "b", "c", "d", "e"]);
     expect(nodes.indexOf("b")).to.be.gt(nodes.indexOf("a"));
     expect(nodes.indexOf("c")).to.be.gt(nodes.indexOf("a"));
     expect(nodes.indexOf("d")).to.be.gt(nodes.indexOf("c"));
@@ -41,7 +40,7 @@ describe("alg.preorder", function() {
     g.setNode("f");
 
     var nodes = preorder(g, ["a", "c", "e"]);
-    expect(_.sortBy(nodes)).to.eql(["a", "b", "c", "d", "e"]);
+    expect(nodes.sort()).to.eql(["a", "b", "c", "d", "e"]);
     expect(nodes.indexOf("b")).to.be.gt(nodes.indexOf("a"));
     expect(nodes.indexOf("d")).to.be.gt(nodes.indexOf("c"));
   });
