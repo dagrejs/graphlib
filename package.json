@@ -39,7 +39,7 @@
     "seedrandom": "3.0.5",
     "semver": "7.3.2",
     "sprintf": "0.1.5",
-    "uglify-js": "3.10.0"
+    "uglify-js": "3.17.4"
   },
   "repository": {
     "type": "git",

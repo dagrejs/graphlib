@@ -19,6 +19,5 @@
     "src/**",
     "test/**"
   ],
-  "dependencies": {
-  }
+  "dependencies": {}
 }

@@ -39,8 +39,6 @@ module.exports = {
 };
 
 },{"./lib":17,"./lib/alg":8,"./lib/json":18}],2:[function(require,module,exports){
-var _ = require("../lodash");
-
 module.exports = components;
 
 function components(g) {
@@ -49,14 +47,14 @@ function components(g) {
   var cmpt;
 
   function dfs(v) {
-    if (_.has(visited, v)) return;
+    if (visited.hasOwnProperty(v)) return;
     visited[v] = true;
     cmpt.push(v);
-    _.each(g.successors(v), dfs);
-    _.each(g.predecessors(v), dfs);
+    g.successors(v).forEach(dfs);
+    g.predecessors(v).forEach(dfs);
   }
 
-  _.each(g.nodes(), function(v) {
+  g.nodes().forEach(function(v) {
     cmpt = [];
     dfs(v);
     if (cmpt.length) {
@@ -67,9 +65,7 @@ function components(g) {
   return cmpts;
 }
 
-},{"../lodash":19}],3:[function(require,module,exports){
-var _ = require("../lodash");
-
+},{}],3:[function(require,module,exports){
 module.exports = dfs;
 
 /*
@@ -81,7 +77,7 @@ module.exports = dfs;
  * Order must be one of "pre" or "post".
  */
 function dfs(g, vs, order) {
-  if (!_.isArray(vs)) {
+  if (!Array.isArray(vs)) {
     vs = [vs];
   }
 
@@ -89,7 +85,7 @@ function dfs(g, vs, order) {
 
   var acc = [];
   var visited = {};
-  _.each(vs, function(v) {
+  vs.forEach(function(v) {
     if (!g.hasNode(v)) {
       throw new Error("Graph does not have node: " + v);
     }
@@ -100,36 +96,35 @@ function dfs(g, vs, order) {
 }
 
 function doDfs(g, v, postorder, visited, navigation, acc) {
-  if (!_.has(visited, v)) {
+  if (!visited.hasOwnProperty(v)) {
     visited[v] = true;
 
     if (!postorder) { acc.push(v); }
-    _.each(navigation(v), function(w) {
+    navigation(v).forEach(function(w) {
       doDfs(g, w, postorder, visited, navigation, acc);
     });
     if (postorder) { acc.push(v); }
   }
 }
 
-},{"../lodash":19}],4:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 var dijkstra = require("./dijkstra");
-var _ = require("../lodash");
 
 module.exports = dijkstraAll;
 
 function dijkstraAll(g, weightFunc, edgeFunc) {
-  return _.transform(g.nodes(), function(acc, v) {
+  return g.nodes().reduce(function(acc, v) {
     acc[v] = dijkstra(g, v, weightFunc, edgeFunc);
+    return acc;
   }, {});
 }
 
-},{"../lodash":19,"./dijkstra":5}],5:[function(require,module,exports){
-var _ = require("../lodash");
+},{"./dijkstra":5}],5:[function(require,module,exports){
 var PriorityQueue = require("../data/priority-queue");
 
 module.exports = dijkstra;
 
-var DEFAULT_WEIGHT_FUNC = _.constant(1);
+var DEFAULT_WEIGHT_FUNC = () => 1;
 
 function dijkstra(g, source, weightFn, edgeFn) {
   return runDijkstra(g, String(source),
@@ -179,24 +174,21 @@ function runDijkstra(g, source, weightFn, edgeFn) {
   return results;
 }
 
-},{"../data/priority-queue":15,"../lodash":19}],6:[function(require,module,exports){
-var _ = require("../lodash");
+},{"../data/priority-queue":15}],6:[function(require,module,exports){
 var tarjan = require("./tarjan");
 
 module.exports = findCycles;
 
 function findCycles(g) {
-  return _.filter(tarjan(g), function(cmpt) {
+  return tarjan(g).filter(function(cmpt) {
     return cmpt.length > 1 || (cmpt.length === 1 && g.hasEdge(cmpt[0], cmpt[0]));
   });
 }
 
-},{"../lodash":19,"./tarjan":13}],7:[function(require,module,exports){
-var _ = require("../lodash");
-
+},{"./tarjan":13}],7:[function(require,module,exports){
 module.exports = floydWarshall;
 
-var DEFAULT_WEIGHT_FUNC = _.constant(1);
+var DEFAULT_WEIGHT_FUNC = () => 1;
 
 function floydWarshall(g, weightFn, edgeFn) {
   return runFloydWarshall(g,
@@ -243,7 +235,7 @@ function runFloydWarshall(g, weightFn, edgeFn) {
   return results;
 }
 
-},{"../lodash":19}],8:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports = {
   components: require("./components"),
   dijkstra: require("./dijkstra"),
@@ -294,7 +286,6 @@ function preorder(g, vs) {
 }
 
 },{"./dfs":3}],12:[function(require,module,exports){
-var _ = require("../lodash");
 var Graph = require("../graph");
 var PriorityQueue = require("../data/priority-queue");
 
@@ -322,7 +313,7 @@ function prim(g, weightFunc) {
     return result;
   }
 
-  _.each(g.nodes(), function(v) {
+  g.nodes().forEach(function(v) {
     pq.add(v, Number.POSITIVE_INFINITY);
     result.setNode(v);
   });
@@ -333,7 +324,7 @@ function prim(g, weightFunc) {
   var init = false;
   while (pq.size() > 0) {
     v = pq.removeMin();
-    if (_.has(parents, v)) {
+    if (parents.hasOwnProperty(v)) {
       result.setEdge(v, parents[v]);
     } else if (init) {
       throw new Error("Input graph is not connected: " + g);
@@ -347,9 +338,7 @@ function prim(g, weightFunc) {
   return result;
 }
 
-},{"../data/priority-queue":15,"../graph":16,"../lodash":19}],13:[function(require,module,exports){
-var _ = require("../lodash");
-
+},{"../data/priority-queue":15,"../graph":16}],13:[function(require,module,exports){
 module.exports = tarjan;
 
 function tarjan(g) {
@@ -367,7 +356,7 @@ function tarjan(g) {
     stack.push(v);
 
     g.successors(v).forEach(function(w) {
-      if (!_.has(visited, w)) {
+      if (!visited.hasOwnProperty(w)) {
         dfs(w);
         entry.lowlink = Math.min(entry.lowlink, visited[w].lowlink);
       } else if (visited[w].onStack) {
@@ -388,7 +377,7 @@ function tarjan(g) {
   }
 
   g.nodes().forEach(function(v) {
-    if (!_.has(visited, v)) {
+    if (!visited.hasOwnProperty(v)) {
       dfs(v);
     }
   });
@@ -396,9 +385,7 @@ function tarjan(g) {
   return results;
 }
 
-},{"../lodash":19}],14:[function(require,module,exports){
-var _ = require("../lodash");
-
+},{}],14:[function(require,module,exports){
 module.exports = topsort;
 topsort.CycleException = CycleException;
 
@@ -408,22 +395,22 @@ function topsort(g) {
   var results = [];
 
   function visit(node) {
-    if (_.has(stack, node)) {
+    if (stack.hasOwnProperty(node)) {
       throw new CycleException();
     }
 
-    if (!_.has(visited, node)) {
+    if (!visited.hasOwnProperty(node)) {
       stack[node] = true;
       visited[node] = true;
-      _.each(g.predecessors(node), visit);
+      g.predecessors(node).forEach(visit);
       delete stack[node];
       results.push(node);
     }
   }
 
-  _.each(g.sinks(), visit);
+  g.sinks().forEach(visit);
 
-  if (_.size(visited) !== g.nodeCount()) {
+  if (Object.keys(visited).length !== g.nodeCount()) {
     throw new CycleException();
   }
 
@@ -432,9 +419,8 @@ function topsort(g) {
 
 function CycleException() {}
 CycleException.prototype = new Error(); // must be an instance of Error to pass testing
-},{"../lodash":19}],15:[function(require,module,exports){
-var _ = require("../lodash");
 
+},{}],15:[function(require,module,exports){
 module.exports = PriorityQueue;
 
 /**
@@ -467,7 +453,7 @@ PriorityQueue.prototype.keys = function() {
  * Returns `true` if **key** is in the queue and `false` if not.
  */
 PriorityQueue.prototype.has = function(key) {
-  return _.has(this._keyIndices, key);
+  return this._keyIndices.hasOwnProperty(key);
 };
 
 /**
@@ -505,7 +491,7 @@ PriorityQueue.prototype.min = function() {
 PriorityQueue.prototype.add = function(key, priority) {
   var keyIndices = this._keyIndices;
   key = String(key);
-  if (!_.has(keyIndices, key)) {
+  if (!keyIndices.hasOwnProperty(key)) {
     var arr = this._arr;
     var index = arr.length;
     keyIndices[key] = index;
@@ -586,10 +572,8 @@ PriorityQueue.prototype._swap = function(i, j) {
   keyIndices[origArrI.key] = j;
 };
 
-},{"../lodash":19}],16:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 "use strict";
-
-var _ = require("./lodash");
 
 module.exports = Graph;
 
@@ -608,18 +592,24 @@ var EDGE_KEY_DELIM = "\x01";
 //    we're going to get to a performant hashtable in JavaScript.
 
 function Graph(opts) {
-  this._isDirected = _.has(opts, "directed") ? opts.directed : true;
-  this._isMultigraph = _.has(opts, "multigraph") ? opts.multigraph : false;
-  this._isCompound = _.has(opts, "compound") ? opts.compound : false;
+  this._isDirected = true;
+  this._isMultigraph = false;
+  this._isCompound = false;
+
+  if (opts) {
+    this._isDirected = opts.hasOwnProperty("directed") ? opts.directed : true;
+    this._isMultigraph = opts.hasOwnProperty("multigraph") ? opts.multigraph : false;
+    this._isCompound = opts.hasOwnProperty("compound") ? opts.compound : false;
+  }
 
   // Label for the graph itself
   this._label = undefined;
 
   // Defaults to be set when creating a new node
-  this._defaultNodeLabelFn = _.constant(undefined);
+  this._defaultNodeLabelFn = () => undefined;
 
   // Defaults to be set when creating a new edge
-  this._defaultEdgeLabelFn = _.constant(undefined);
+  this._defaultEdgeLabelFn = () => undefined;
 
   // v -> label
   this._nodes = {};
@@ -661,23 +651,38 @@ Graph.prototype._edgeCount = 0;
 
 /* === Graph functions ========= */
 
+/**
+ * Whether graph was created with 'directed' flag set to true or not.
+ */
 Graph.prototype.isDirected = function() {
   return this._isDirected;
 };
 
+/**
+ * Whether graph was created with 'multigraph' flag set to true or not.
+ */
 Graph.prototype.isMultigraph = function() {
   return this._isMultigraph;
 };
 
+/**
+ * Whether graph was created with 'compound' flag set to true or not.
+ */
 Graph.prototype.isCompound = function() {
   return this._isCompound;
 };
 
+/**
+ * Sets the label of the graph.
+ */
 Graph.prototype.setGraph = function(label) {
   this._label = label;
   return this;
 };
 
+/**
+ * Gets the graph label.
+ */
 Graph.prototype.graph = function() {
   return this._label;
 };
@@ -685,40 +690,65 @@ Graph.prototype.graph = function() {
 
 /* === Node functions ========== */
 
+/**
+ * Sets the default node label. If newDefault is a function, it will be
+ * invoked ach time when setting a label for a node. Otherwise, this label
+ * will be assigned as default label in case if no label was specified while
+ * setting a node.
+ * Complexity: O(1).
+ */
 Graph.prototype.setDefaultNodeLabel = function(newDefault) {
-  if (!_.isFunction(newDefault)) {
-    newDefault = _.constant(newDefault);
-  }
   this._defaultNodeLabelFn = newDefault;
+  if (typeof newDefault !== 'function') {
+    this._defaultNodeLabelFn = () => newDefault;
+  }
+
   return this;
 };
 
+/**
+ * Gets the number of nodes in the graph.
+ * Complexity: O(1).
+ */
 Graph.prototype.nodeCount = function() {
   return this._nodeCount;
 };
 
+/**
+ * Gets all nodes of the graph. Note, the in case of compound graph subnodes are
+ * not included in list.
+ * Complexity: O(1).
+ */
 Graph.prototype.nodes = function() {
-  return _.keys(this._nodes);
+  return Object.keys(this._nodes);
 };
 
+/**
+ * Gets list of nodes without in-edges.
+ * Complexity: O(|V|).
+ */
 Graph.prototype.sources = function() {
   var self = this;
-  return _.filter(this.nodes(), function(v) {
-    return _.isEmpty(self._in[v]);
-  });
+  return this.nodes().filter(v => Object.keys(self._in[v]).length === 0);
 };
 
+/**
+ * Gets list of nodes without out-edges.
+ * Complexity: O(|V|).
+ */
 Graph.prototype.sinks = function() {
   var self = this;
-  return _.filter(this.nodes(), function(v) {
-    return _.isEmpty(self._out[v]);
-  });
+  return this.nodes().filter(v => Object.keys(self._out[v]).length === 0);
 };
 
+/**
+ * Invokes setNode method for each node in names list.
+ * Complexity: O(|names|).
+ */
 Graph.prototype.setNodes = function(vs, value) {
   var args = arguments;
   var self = this;
-  _.each(vs, function(v) {
+  vs.forEach(function(v) {
     if (args.length > 1) {
       self.setNode(v, value);
     } else {
@@ -728,8 +758,14 @@ Graph.prototype.setNodes = function(vs, value) {
   return this;
 };
 
+/**
+ * Creates or updates the value for the node v in the graph. If label is supplied
+ * it is set as the value for the node. If label is not supplied and the node was
+ * created by this call then the default node label will be assigned.
+ * Complexity: O(1).
+ */
 Graph.prototype.setNode = function(v, value) {
-  if (_.has(this._nodes, v)) {
+  if (this._nodes.hasOwnProperty(v)) {
     if (arguments.length > 1) {
       this._nodes[v] = value;
     }
@@ -750,31 +786,44 @@ Graph.prototype.setNode = function(v, value) {
   return this;
 };
 
+/**
+ * Gets the label of node with specified name.
+ * Complexity: O(|V|).
+ */
 Graph.prototype.node = function(v) {
   return this._nodes[v];
 };
 
+/**
+ * Detects whether graph has a node with specified name or not.
+ */
 Graph.prototype.hasNode = function(v) {
-  return _.has(this._nodes, v);
+  return this._nodes.hasOwnProperty(v);
 };
 
+/**
+ * Remove the node with the name from the graph or do nothing if the node is not in
+ * the graph. If the node was removed this function also removes any incident
+ * edges.
+ * Complexity: O(1).
+ */
 Graph.prototype.removeNode =  function(v) {
   var self = this;
-  if (_.has(this._nodes, v)) {
-    var removeEdge = function(e) { self.removeEdge(self._edgeObjs[e]); };
+  if (this._nodes.hasOwnProperty(v)) {
+    var removeEdge = e => self.removeEdge(self._edgeObjs[e]);
     delete this._nodes[v];
     if (this._isCompound) {
       this._removeFromParentsChildList(v);
       delete this._parent[v];
-      _.each(this.children(v), function(child) {
+      this.children(v).forEach(function(child) {
         self.setParent(child);
       });
       delete this._children[v];
     }
-    _.each(_.keys(this._in[v]), removeEdge);
+    Object.keys(this._in[v]).forEach(removeEdge);
     delete this._in[v];
     delete this._preds[v];
-    _.each(_.keys(this._out[v]), removeEdge);
+    Object.keys(this._out[v]).forEach(removeEdge);
     delete this._out[v];
     delete this._sucs[v];
     --this._nodeCount;
@@ -782,18 +831,24 @@ Graph.prototype.removeNode =  function(v) {
   return this;
 };
 
+/**
+ * Sets node p as a parent for node v if it is defined, or removes the
+ * parent for v if p is undefined. Method throws an exception in case of
+ * invoking it in context of noncompound graph.
+ * Average-case complexity: O(1).
+ */
 Graph.prototype.setParent = function(v, parent) {
   if (!this._isCompound) {
     throw new Error("Cannot set parent in a non-compound graph");
   }
 
-  if (_.isUndefined(parent)) {
+  if (parent === undefined) {
     parent = GRAPH_NODE;
   } else {
     // Coerce parent to string
     parent += "";
     for (var ancestor = parent;
-      !_.isUndefined(ancestor);
+      ancestor !== undefined;
       ancestor = this.parent(ancestor)) {
       if (ancestor === v) {
         throw new Error("Setting " + parent+ " as parent of " + v +
@@ -815,6 +870,10 @@ Graph.prototype._removeFromParentsChildList = function(v) {
   delete this._children[this._parent[v]][v];
 };
 
+/**
+ * Gets parent node for node v.
+ * Complexity: O(1).
+ */
 Graph.prototype.parent = function(v) {
   if (this._isCompound) {
     var parent = this._parent[v];
@@ -824,15 +883,15 @@ Graph.prototype.parent = function(v) {
   }
 };
 
-Graph.prototype.children = function(v) {
-  if (_.isUndefined(v)) {
-    v = GRAPH_NODE;
-  }
-
+/**
+ * Gets list of direct children of node v.
+ * Complexity: O(1).
+ */
+Graph.prototype.children = function(v = GRAPH_NODE) {
   if (this._isCompound) {
     var children = this._children[v];
     if (children) {
-      return _.keys(children);
+      return Object.keys(children);
     }
   } else if (v === GRAPH_NODE) {
     return this.nodes();
@@ -841,24 +900,44 @@ Graph.prototype.children = function(v) {
   }
 };
 
+/**
+ * Return all nodes that are predecessors of the specified node or undefined if node v is not in
+ * the graph. Behavior is undefined for undirected graphs - use neighbors instead.
+ * Complexity: O(|V|).
+ */
 Graph.prototype.predecessors = function(v) {
   var predsV = this._preds[v];
   if (predsV) {
-    return _.keys(predsV);
+    return Object.keys(predsV);
   }
 };
 
+/**
+ * Return all nodes that are successors of the specified node or undefined if node v is not in
+ * the graph. Behavior is undefined for undirected graphs - use neighbors instead.
+ * Complexity: O(|V|).
+ */
 Graph.prototype.successors = function(v) {
   var sucsV = this._sucs[v];
   if (sucsV) {
-    return _.keys(sucsV);
+    return Object.keys(sucsV);
   }
 };
 
+/**
+ * Return all nodes that are predecessors or successors of the specified node or undefined if
+ * node v is not in the graph.
+ * Complexity: O(|V|).
+ */
 Graph.prototype.neighbors = function(v) {
   var preds = this.predecessors(v);
   if (preds) {
-    return _.union(preds, this.successors(v));
+    const union = new Set(preds);
+    for (var succ of this.successors(v)) {
+      union.add(succ);
+    }
+
+    return Array.from(union.values());
   }
 };
 
@@ -872,6 +951,12 @@ Graph.prototype.isLeaf = function (v) {
   return neighbors.length === 0;
 };
 
+/**
+ * Creates new graph with nodes filtered via filter. Edges incident to rejected node
+ * are also removed. In case of compound graph, if parent is rejected by filter,
+ * than all its children are rejected too.
+ * Average-case complexity: O(|E|+|V|).
+ */
 Graph.prototype.filterNodes = function(filter) {
   var copy = new this.constructor({
     directed: this._isDirected,
@@ -882,13 +967,13 @@ Graph.prototype.filterNodes = function(filter) {
   copy.setGraph(this.graph());
 
   var self = this;
-  _.each(this._nodes, function(value, v) {
+  Object.entries(this._nodes).forEach(function([v, value]) {
     if (filter(v)) {
       copy.setNode(v, value);
     }
   });
 
-  _.each(this._edgeObjs, function(e) {
+  Object.values(this._edgeObjs).forEach(function(e) {
     if (copy.hasNode(e.v) && copy.hasNode(e.w)) {
       copy.setEdge(e, self.edge(e));
     }
@@ -908,9 +993,7 @@ Graph.prototype.filterNodes = function(filter) {
   }
 
   if (this._isCompound) {
-    _.each(copy.nodes(), function(v) {
-      copy.setParent(v, findParent(v));
-    });
+    copy.nodes().forEach(v => copy.setParent(v, findParent(v)));
   }
 
   return copy;
@@ -918,26 +1001,48 @@ Graph.prototype.filterNodes = function(filter) {
 
 /* === Edge functions ========== */
 
+/**
+ * Sets the default edge label or factory function. This label will be
+ * assigned as default label in case if no label was specified while setting
+ * an edge or this function will be invoked each time when setting an edge
+ * with no label specified and returned value * will be used as a label for edge.
+ * Complexity: O(1).
+ */
 Graph.prototype.setDefaultEdgeLabel = function(newDefault) {
-  if (!_.isFunction(newDefault)) {
-    newDefault = _.constant(newDefault);
-  }
   this._defaultEdgeLabelFn = newDefault;
+  if (typeof newDefault !== 'function') {
+    this._defaultEdgeLabelFn = () => newDefault;
+  }
+
   return this;
 };
 
+/**
+ * Gets the number of edges in the graph.
+ * Complexity: O(1).
+ */
 Graph.prototype.edgeCount = function() {
   return this._edgeCount;
 };
 
+/**
+ * Gets edges of the graph. In case of compound graph subgraphs are not considered.
+ * Complexity: O(|E|).
+ */
 Graph.prototype.edges = function() {
-  return _.values(this._edgeObjs);
+  return Object.values(this._edgeObjs);
 };
 
+/**
+ * Establish an edges path over the nodes in nodes list. If some edge is already
+ * exists, it will update its label, otherwise it will create an edge between pair
+ * of nodes with label provided or default label if no label provided.
+ * Complexity: O(|nodes|).
+ */
 Graph.prototype.setPath = function(vs, value) {
   var self = this;
   var args = arguments;
-  _.reduce(vs, function(v, w) {
+  vs.reduce(function(v, w) {
     if (args.length > 1) {
       self.setEdge(v, w, value);
     } else {
@@ -948,9 +1053,11 @@ Graph.prototype.setPath = function(vs, value) {
   return this;
 };
 
-/*
- * setEdge(v, w, [value, [name]])
- * setEdge({ v, w, [name] }, [value])
+/**
+ * Creates or updates the label for the edge (v, w) with the optionally supplied
+ * name. If label is supplied it is set as the value for the edge. If label is not
+ * supplied and the edge was created by this call then the default edge label will
+ * be assigned. The name parameter is only useful with multigraphs.
  */
 Graph.prototype.setEdge = function() {
   var v, w, name, value;
@@ -977,19 +1084,19 @@ Graph.prototype.setEdge = function() {
 
   v = "" + v;
   w = "" + w;
-  if (!_.isUndefined(name)) {
+  if (name !== undefined) {
     name = "" + name;
   }
 
   var e = edgeArgsToId(this._isDirected, v, w, name);
-  if (_.has(this._edgeLabels, e)) {
+  if (this._edgeLabels.hasOwnProperty(e)) {
     if (valueSpecified) {
       this._edgeLabels[e] = value;
     }
     return this;
   }
 
-  if (!_.isUndefined(name) && !this._isMultigraph) {
+  if (name !== undefined && !this._isMultigraph) {
     throw new Error("Cannot set a named edge when isMultigraph = false");
   }
 
@@ -1015,6 +1122,10 @@ Graph.prototype.setEdge = function() {
   return this;
 };
 
+/**
+ * Gets the label for the specified edge.
+ * Complexity: O(1).
+ */
 Graph.prototype.edge = function(v, w, name) {
   var e = (arguments.length === 1
     ? edgeObjToId(this._isDirected, arguments[0])
@@ -1022,13 +1133,21 @@ Graph.prototype.edge = function(v, w, name) {
   return this._edgeLabels[e];
 };
 
+/**
+ * Detects whether the graph contains specified edge or not. No subgraphs are considered.
+ * Complexity: O(1).
+ */
 Graph.prototype.hasEdge = function(v, w, name) {
   var e = (arguments.length === 1
     ? edgeObjToId(this._isDirected, arguments[0])
     : edgeArgsToId(this._isDirected, v, w, name));
-  return _.has(this._edgeLabels, e);
+  return this._edgeLabels.hasOwnProperty(e);
 };
 
+/**
+ * Removes the specified edge from the graph. No subgraphs are considered.
+ * Complexity: O(1).
+ */
 Graph.prototype.removeEdge = function(v, w, name) {
   var e = (arguments.length === 1
     ? edgeObjToId(this._isDirected, arguments[0])
@@ -1048,28 +1167,43 @@ Graph.prototype.removeEdge = function(v, w, name) {
   return this;
 };
 
+/**
+ * Return all edges that point to the node v. Optionally filters those edges down to just those
+ * coming from node u. Behavior is undefined for undirected graphs - use nodeEdges instead.
+ * Complexity: O(|E|).
+ */
 Graph.prototype.inEdges = function(v, u) {
   var inV = this._in[v];
   if (inV) {
-    var edges = _.values(inV);
+    var edges = Object.values(inV);
     if (!u) {
       return edges;
     }
-    return _.filter(edges, function(edge) { return edge.v === u; });
+    return edges.filter(edge => edge.v === u);
   }
 };
 
+/**
+ * Return all edges that are pointed at by node v. Optionally filters those edges down to just
+ * those point to w. Behavior is undefined for undirected graphs - use nodeEdges instead.
+ * Complexity: O(|E|).
+ */
 Graph.prototype.outEdges = function(v, w) {
   var outV = this._out[v];
   if (outV) {
-    var edges = _.values(outV);
+    var edges = Object.values(outV);
     if (!w) {
       return edges;
     }
-    return _.filter(edges, function(edge) { return edge.w === w; });
+    return edges.filter(edge => edge.w === w);
   }
 };
 
+/**
+ * Returns all edges to or from node v regardless of direction. Optionally filters those edges
+ * down to just those between nodes v and w regardless of direction.
+ * Complexity: O(|E|).
+ */
 Graph.prototype.nodeEdges = function(v, w) {
   var inEdges = this.inEdges(v, w);
   if (inEdges) {
@@ -1098,7 +1232,7 @@ function edgeArgsToId(isDirected, v_, w_, name) {
     w = tmp;
   }
   return v + EDGE_KEY_DELIM + w + EDGE_KEY_DELIM +
-             (_.isUndefined(name) ? DEFAULT_EDGE_NAME : name);
+             (name === undefined ? DEFAULT_EDGE_NAME : name);
 }
 
 function edgeArgsToObj(isDirected, v_, w_, name) {
@@ -1120,15 +1254,14 @@ function edgeObjToId(isDirected, edgeObj) {
   return edgeArgsToId(isDirected, edgeObj.v, edgeObj.w, edgeObj.name);
 }
 
-},{"./lodash":19}],17:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 // Includes only the "core" of graphlib
 module.exports = {
   Graph: require("./graph"),
   version: require("./version")
 };
 
-},{"./graph":16,"./version":20}],18:[function(require,module,exports){
-var _ = require("./lodash");
+},{"./graph":16,"./version":19}],18:[function(require,module,exports){
 var Graph = require("./graph");
 
 module.exports = {
@@ -1136,6 +1269,10 @@ module.exports = {
   read: read
 };
 
+/**
+ * Creates a JSON representation of the graph that can be serialized to a string with
+ * JSON.stringify. The graph can later be restored using json.read.
+ */
 function write(g) {
   var json = {
     options: {
@@ -1146,21 +1283,22 @@ function write(g) {
     nodes: writeNodes(g),
     edges: writeEdges(g)
   };
-  if (!_.isUndefined(g.graph())) {
-    json.value = _.clone(g.graph());
+
+  if (g.graph() !== undefined) {
+    json.value = structuredClone(g.graph());
   }
   return json;
 }
 
 function writeNodes(g) {
-  return _.map(g.nodes(), function(v) {
+  return g.nodes().map(function(v) {
     var nodeValue = g.node(v);
     var parent = g.parent(v);
     var node = { v: v };
-    if (!_.isUndefined(nodeValue)) {
+    if (nodeValue !== undefined) {
       node.value = nodeValue;
     }
-    if (!_.isUndefined(parent)) {
+    if (parent !== undefined) {
       node.parent = parent;
     }
     return node;
@@ -1168,70 +1306,44 @@ function writeNodes(g) {
 }
 
 function writeEdges(g) {
-  return _.map(g.edges(), function(e) {
+  return g.edges().map(function(e) {
     var edgeValue = g.edge(e);
     var edge = { v: e.v, w: e.w };
-    if (!_.isUndefined(e.name)) {
+    if (e.name !== undefined) {
       edge.name = e.name;
     }
-    if (!_.isUndefined(edgeValue)) {
+    if (edgeValue !== undefined) {
       edge.value = edgeValue;
     }
     return edge;
   });
 }
 
+/**
+ * Takes JSON as input and returns the graph representation.
+ *
+ * @example
+ * var g2 = graphlib.json.read(JSON.parse(str));
+ * g2.nodes();
+ * // ['a', 'b']
+ * g2.edges()
+ * // [ { v: 'a', w: 'b' } ]
+ */
 function read(json) {
   var g = new Graph(json.options).setGraph(json.value);
-  _.each(json.nodes, function(entry) {
+  json.nodes.forEach(function(entry) {
     g.setNode(entry.v, entry.value);
     if (entry.parent) {
       g.setParent(entry.v, entry.parent);
     }
   });
-  _.each(json.edges, function(entry) {
+  json.edges.forEach(function(entry) {
     g.setEdge({ v: entry.v, w: entry.w, name: entry.name }, entry.value);
   });
   return g;
 }
 
-},{"./graph":16,"./lodash":19}],19:[function(require,module,exports){
-/* global window */
-
-var lodash;
-
-if (typeof require === "function") {
-  try {
-    lodash = {
-      clone: require("lodash/clone"),
-      constant: require("lodash/constant"),
-      each: require("lodash/each"),
-      filter: require("lodash/filter"),
-      has:  require("lodash/has"),
-      isArray: require("lodash/isArray"),
-      isEmpty: require("lodash/isEmpty"),
-      isFunction: require("lodash/isFunction"),
-      isUndefined: require("lodash/isUndefined"),
-      keys: require("lodash/keys"),
-      map: require("lodash/map"),
-      reduce: require("lodash/reduce"),
-      size: require("lodash/size"),
-      transform: require("lodash/transform"),
-      union: require("lodash/union"),
-      values: require("lodash/values")
-    };
-  } catch (e) {
-    // continue regardless of error
-  }
-}
-
-if (!lodash) {
-  lodash = window._;
-}
-
-module.exports = lodash;
-
-},{"lodash/clone":undefined,"lodash/constant":undefined,"lodash/each":undefined,"lodash/filter":undefined,"lodash/has":undefined,"lodash/isArray":undefined,"lodash/isEmpty":undefined,"lodash/isFunction":undefined,"lodash/isUndefined":undefined,"lodash/keys":undefined,"lodash/map":undefined,"lodash/reduce":undefined,"lodash/size":undefined,"lodash/transform":undefined,"lodash/union":undefined,"lodash/values":undefined}],20:[function(require,module,exports){
+},{"./graph":16}],19:[function(require,module,exports){
 module.exports = '2.1.8';
 
 },{}]},{},[1])(1)
