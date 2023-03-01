@@ -1,9 +1,3 @@
-
-# Important!
-
-**This project is starting to be maintained again. **
-
-
 # Graphlib
 
 Graphlib is a JavaScript library that provides data structures for undirected

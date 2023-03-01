@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node-version: [12.x]
+        node-version: [18.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -29,7 +29,7 @@ jobs:
 
     - name: Build
       run: |
-        make compile
+        make build/graphlib.js build/graphlib.min.js
 
     - name: Lint
       run: |
