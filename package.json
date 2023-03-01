@@ -27,7 +27,7 @@
     "benchmark": "2.1.4",
     "browserify": "16.5.1",
     "chai": "^4.3.6",
-    "eslint": "7.4.0",
+    "eslint": "8.35.0",
     "istanbul": "^0.4.5",
     "jshint": "2.13.5",
     "jshint-stylish": "2.2.1",
