@@ -1,15 +1,15 @@
 MOD = graphlib
 
 NPM = npm
+NYC = nyc
 BROWSERIFY = ./node_modules/browserify/bin/cmd.js
-ISTANBUL = ./node_modules/istanbul/lib/cli.js
 JSHINT = ./node_modules/jshint/bin/jshint
 ESLINT = ./node_modules/eslint/bin/eslint.js
 KARMA = ./node_modules/karma/bin/karma
 MOCHA = ./node_modules/mocha/bin/_mocha
 UGLIFY = ./node_modules/uglify-js/bin/uglifyjs
 
-ISTANBUL_OPTS = --dir $(COVERAGE_DIR) --report html
+NYC_OPTS = --dir $(COVERAGE_DIR) --report html
 JSHINT_OPTS = --reporter node_modules/jshint-stylish/index.js
 MOCHA_OPTS = -R dot
 
@@ -41,7 +41,7 @@ $(DIRS):
 test: unit-test browser-test
 
 unit-test: $(SRC_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
-	@$(ISTANBUL) cover $(ISTANBUL_OPTS) $(MOCHA) --dir $(COVERAGE_DIR) -- $(MOCHA_OPTS) $(TEST_FILES) || $(MOCHA) $(MOCHA_OPTS) $(TEST_FILES)
+	$(NYC) $(NYC_OPTS) $(MOCHA) --dir $(COVERAGE_DIR) -- $(MOCHA_OPTS) $(TEST_FILES) || $(MOCHA) $(MOCHA_OPTS) $(TEST_FILES)
 
 browser-test: $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
 	$(KARMA) start --single-run $(KARMA_OPTS)
