@@ -8,6 +8,8 @@ and directed multi-graphs along with algorithms that can be used with them.
 
 To learn more [see our Wiki](https://github.com/cpettitt/graphlib/wiki).
 
+There are 2 versions on NPM, but only [the one in the DagreJs org](https://www.npmjs.com/package/@dagrejs/graphlib) is receiving updates right now.
+
 # License
 
 Graphlib is licensed under the terms of the MIT License. See the
