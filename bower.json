@@ -1,6 +1,6 @@
 {
   "name": "graphlib",
-  "version": "2.1.8",
+  "version": "2.1.11",
   "main": [
     "dist/graphlib.core.js"
   ],
@@ -18,6 +18,5 @@
     "package.json",
     "src/**",
     "test/**"
-  ],
-  "dependencies": {}
+  ]
 }
