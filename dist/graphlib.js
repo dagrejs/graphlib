@@ -1377,7 +1377,7 @@ function read(json) {
 }
 
 },{"./graph":16}],19:[function(require,module,exports){
-module.exports = '2.1.11';
+module.exports = '2.1.12';
 
 },{}]},{},[1])(1)
 });
