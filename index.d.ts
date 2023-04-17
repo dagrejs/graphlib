@@ -138,12 +138,12 @@ declare module '@dagrejs/graphlib' {
     setPath(nodes: string[], label?: any): Graph;
 
     /**
-		 * Detects whether graph has a node with specified name or not.
-		 
-		 * 
-		 * @argument name - name of the node.
-		 * @returns true if graph has node with specified name, false - otherwise.
-		 */
+     * Detects whether graph has a node with specified name or not.
+
+     *
+     * @argument name - name of the node.
+     * @returns true if graph has node with specified name, false - otherwise.
+     */
     hasNode(name: string): boolean;
 
     /**
@@ -361,14 +361,14 @@ declare module '@dagrejs/graphlib' {
      * @argument label - label value.
      * @returns the graph, allowing this to be chained with other functions.
      */
-    setGraph(label: string): Graph;
+    setGraph(label: any): Graph;
 
     /**
      * Gets the graph label.
      *
      * @returns currently assigned label for the graph or undefined if no label assigned.
      */
-    graph(): void | string;
+    graph(): any;
 
     /**
      * Gets the number of nodes in the graph.
@@ -599,4 +599,3 @@ declare module '@dagrejs/graphlib' {
     function postorder(graph: Graph, vs: string[]): string[];
   }
 }
-
