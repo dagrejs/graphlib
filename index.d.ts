@@ -231,6 +231,26 @@ declare module '@dagrejs/graphlib' {
     edge(e: Edge): any;
 
     /**
+     * Gets the label for the specified edge and converts it to an object.
+     * Complexity: O(1).
+     *
+     * @argument v - edge source node.
+     * @argument w - edge sink node.
+     * @argument name - name of the edge (actual for multigraph).
+     * @returns value associated with specified edge.
+     */
+    edgeAsObj(v: string, w: string, name?: string): Object;
+
+    /**
+     * Gets the label for the specified edge and converts it to an object.
+     * Complexity: O(1).
+     *
+     * @argument edge - edge descriptor.
+     * @returns value associated with specified edge.
+     */
+    edgeAsObj(e: Edge): Object;
+
+    /**
      * Detects whether the graph contains specified edge or not. No subgraphs are considered.
      * Complexity: O(1).
      *
