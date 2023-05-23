@@ -658,6 +658,7 @@ describe("Graph", function() {
       expect(g.edges()).eqls([{ v: "1", w: "2" }]);
       expect(g.edge("1", "2")).to.equal("foo");
       expect(g.edge(1, 2)).to.equal("foo");
+      expect(g.edgeAsObj(1, 2)).to.eql({label: "foo"});
     });
 
     it("uses the stringified form of the id #2", function() {
@@ -666,6 +667,7 @@ describe("Graph", function() {
       expect(g.edges()).eqls([{ v: "1", w: "2" }]);
       expect(g.edge("1", "2")).to.equal("foo");
       expect(g.edge(1, 2)).to.equal("foo");
+      expect(g.edgeAsObj(1, 2)).to.eql({label: "foo"});
     });
 
     it("uses the stringified form of the id with a name", function() {
@@ -673,6 +675,7 @@ describe("Graph", function() {
       g.setEdge(1, 2, "foo", 3);
       expect(g.edge("1", "2", "3")).to.equal("foo");
       expect(g.edge(1, 2, 3)).to.equal("foo");
+      expect(g.edgeAsObj(1, 2, 3)).to.eql({label: "foo"});
       expect(g.edges()).eqls([{ v: "1", w: "2", name: "3" }]);
     });
 
@@ -762,22 +765,29 @@ describe("Graph", function() {
     it("returns the value of the edge if it is part of the graph", function() {
       g.setEdge("a", "b", { foo: "bar" });
       expect(g.edge("a", "b")).to.eql({ foo: "bar" });
+      expect(g.edgeAsObj("a", "b")).to.eql({ foo: "bar" });
       expect(g.edge({ v: "a", w: "b" })).to.eql({ foo: "bar" });
+      expect(g.edgeAsObj({ v: "a", w: "b" })).to.eql({ foo: "bar" });
       expect(g.edge("b", "a")).to.be.undefined;
+      expect(g.edgeAsObj("b", "a")).to.eql({label: undefined });
     });
 
     it("returns the value of a multi-edge if it is part of the graph", function() {
       var g = new Graph({ multigraph: true });
       g.setEdge("a", "b", { bar: "baz" }, "foo");
       expect(g.edge("a", "b", "foo")).to.eql({ bar: "baz" });
+      expect(g.edgeAsObj("a", "b", "foo")).to.eql({ bar: "baz" });
       expect(g.edge("a", "b")).to.be.undefined;
+      expect(g.edgeAsObj("a", "b")).to.eql({label: undefined});
     });
 
     it("returns an edge in either direction in an undirected graph", function() {
       var g = new Graph({ directed: false });
       g.setEdge("a", "b", { foo: "bar" });
       expect(g.edge("a", "b")).to.eql({ foo: "bar" });
+      expect(g.edgeAsObj("a", "b")).to.eql({ foo: "bar" });
       expect(g.edge("b", "a")).to.eql({ foo: "bar" });
+      expect(g.edgeAsObj("b", "a")).to.eql({ foo: "bar" });
     });
   });
 
