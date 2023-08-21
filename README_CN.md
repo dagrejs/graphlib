@@ -1,7 +1,7 @@
 # 进度
 - [x] 翻译 [API](https://github.com/dagrejs/graphlib/wiki/API-Reference) - 2022/03/23 21:06
 
-> 中文 | [English](ReadMe.md)
+> 中文 | [English](README.md)
 
 [TOC]
 
