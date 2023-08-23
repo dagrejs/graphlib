@@ -1,4 +1,4 @@
-> English | [中文](ReadMe_CN.md)
+> English | [中文](README_CN.md)
 # Graphlib
 
 Graphlib is a JavaScript library that provides data structures for undirected
