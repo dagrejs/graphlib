@@ -11,11 +11,6 @@ To learn more [see our Wiki](https://github.com/cpettitt/graphlib/wiki).
 
 There are 2 versions on NPM, but only [the one in the DagreJs org](https://www.npmjs.com/package/@dagrejs/graphlib) is receiving updates right now.
 
-```js
-graphlib.alg.topsort(g)
-// [ '1', '2', '3', '4' ] or [ '1', '3', '2', '4' ]
-```
-
 # License
 
 Graphlib is licensed under the terms of the MIT License. See the [LICENSE](LICENSE) file for details.
