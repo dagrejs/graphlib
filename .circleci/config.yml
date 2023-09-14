@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  prodsec: snyk/prodsec-orb@1.0
+
 defaults: &defaults
   docker:
     - image: cimg/node:12.22
@@ -55,6 +58,15 @@ workflows:
   version: 2
   test_and_release:
     jobs:
+      - prodsec/secrets-scan:
+          name: Scan repository for secrets
+          context:
+            - snyk-bot-slack
+          channel: os-team-managed-alerts
+          filters:
+            branches:
+              ignore:
+                - master
       - build:
           name: Build
       - release:
