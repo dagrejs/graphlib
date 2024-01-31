@@ -1,2 +1,1 @@
-const version = '2.1.14-pre';
-export default version;
+export default '2.1.14-pre';
