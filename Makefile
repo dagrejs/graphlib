@@ -92,6 +92,6 @@ lib/%.js: mjs-lib/%.js
 	npx babel "$<" -o "$@"
 
 convert-clean:
-	rsync --ignore-existing --delete -r mjs-lib/ lib/
+	rsync --existing --ignore-existing --delete -r mjs-lib/ lib/
 
-convert: $(CJS_FILES)
+convert: convert-clean $(CJS_FILES)
