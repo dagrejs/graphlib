@@ -86,5 +86,5 @@ node_modules: package.json
 
 convert: mjs-lib/*.js mjs-lib/**/*.js
 	rm -rf lib; mkdir lib
-	for f in mjs-lib/**/*.js mjs-lib/*.js; do echo "$${f} > lib$${f/mjs-lib/}"; npx babel "$${f}" -o "lib$${f/mjs-lib/}"; done
+	for f in mjs-lib/**/*.js mjs-lib/*.js; do echo "$${f} > lib$${f/mjs-lib/}"; npx babel "$${f}" -o "lib$${f/mjs-lib/}" || exit 1; done
 
