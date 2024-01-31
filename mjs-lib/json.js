@@ -1,17 +1,10 @@
-"use strict";
+import { default as Graph } from "./graph.js";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.read = read;
-exports.write = write;
-var _graph = _interopRequireDefault(require("./graph.js"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 /**
  * Creates a JSON representation of the graph that can be serialized to a string with
  * JSON.stringify. The graph can later be restored using json.read.
  */
-function write(g) {
+export function write(g) {
   var json = {
     options: {
       directed: g.isDirected(),
@@ -21,18 +14,18 @@ function write(g) {
     nodes: writeNodes(g),
     edges: writeEdges(g)
   };
+
   if (g.graph() !== undefined) {
     json.value = structuredClone(g.graph());
   }
   return json;
 }
+
 function writeNodes(g) {
-  return g.nodes().map(function (v) {
+  return g.nodes().map(function(v) {
     var nodeValue = g.node(v);
     var parent = g.parent(v);
-    var node = {
-      v: v
-    };
+    var node = { v: v };
     if (nodeValue !== undefined) {
       node.value = nodeValue;
     }
@@ -42,13 +35,11 @@ function writeNodes(g) {
     return node;
   });
 }
+
 function writeEdges(g) {
-  return g.edges().map(function (e) {
+  return g.edges().map(function(e) {
     var edgeValue = g.edge(e);
-    var edge = {
-      v: e.v,
-      w: e.w
-    };
+    var edge = { v: e.v, w: e.w };
     if (e.name !== undefined) {
       edge.name = e.name;
     }
@@ -69,20 +60,16 @@ function writeEdges(g) {
  * g2.edges()
  * // [ { v: 'a', w: 'b' } ]
  */
-function read(json) {
-  var g = new _graph["default"](json.options).setGraph(json.value);
-  json.nodes.forEach(function (entry) {
+export function read(json) {
+  var g = new Graph(json.options).setGraph(json.value);
+  json.nodes.forEach(function(entry) {
     g.setNode(entry.v, entry.value);
     if (entry.parent) {
       g.setParent(entry.v, entry.parent);
     }
   });
-  json.edges.forEach(function (entry) {
-    g.setEdge({
-      v: entry.v,
-      w: entry.w,
-      name: entry.name
-    }, entry.value);
+  json.edges.forEach(function(entry) {
+    g.setEdge({ v: entry.v, w: entry.w, name: entry.name }, entry.value);
   });
   return g;
 }

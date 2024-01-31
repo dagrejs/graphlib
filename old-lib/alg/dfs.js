@@ -1,9 +1,5 @@
-"use strict";
+module.exports = dfs;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = dfs;
 /*
  * A helper that preforms a pre- or post-order traversal on the input graph
  * and returns the nodes in the order they were visited. If the graph is
@@ -16,22 +12,23 @@ function dfs(g, vs, order) {
   if (!Array.isArray(vs)) {
     vs = [vs];
   }
-  var navigation = g.isDirected() ? function (v) {
-    return g.successors(v);
-  } : function (v) {
-    return g.neighbors(v);
-  };
+
+  var navigation = g.isDirected() ? v => g.successors(v) : v => g.neighbors(v);
   var orderFunc = order === "post" ? postOrderDfs : preOrderDfs;
+
   var acc = [];
   var visited = {};
-  vs.forEach(function (v) {
+  vs.forEach(v => {
     if (!g.hasNode(v)) {
       throw new Error("Graph does not have node: " + v);
     }
+
     orderFunc(v, navigation, visited, acc);
   });
+
   return acc;
 }
+
 function postOrderDfs(v, navigation, visited, acc) {
   var stack = [[v, false]];
   while (stack.length > 0) {
@@ -42,13 +39,12 @@ function postOrderDfs(v, navigation, visited, acc) {
       if (!visited.hasOwnProperty(curr[0])) {
         visited[curr[0]] = true;
         stack.push([curr[0], true]);
-        forEachRight(navigation(curr[0]), function (w) {
-          return stack.push([w, false]);
-        });
+        forEachRight(navigation(curr[0]), w => stack.push([w, false]));
       }
     }
   }
 }
+
 function preOrderDfs(v, navigation, visited, acc) {
   var stack = [v];
   while (stack.length > 0) {
@@ -56,16 +52,16 @@ function preOrderDfs(v, navigation, visited, acc) {
     if (!visited.hasOwnProperty(curr)) {
       visited[curr] = true;
       acc.push(curr);
-      forEachRight(navigation(curr), function (w) {
-        return stack.push(w);
-      });
+      forEachRight(navigation(curr), w => stack.push(w));
     }
   }
 }
+
 function forEachRight(array, iteratee) {
   var length = array.length;
   while (length--) {
     iteratee(array[length], length, array);
   }
+
   return array;
 }

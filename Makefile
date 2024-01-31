@@ -16,7 +16,8 @@ BUILD_DIR = build
 COVERAGE_DIR = ./.nyc_output
 DIST_DIR = dist
 
-SRC_FILES = index.js lib/version.js $(shell find lib -type f -name '*.js')
+# Why is this doubled up?
+SRC_FILES = lib/index.js lib/version.js $(shell find lib -type f -name '*.js')
 TEST_FILES = $(shell find test -type f -name '*.js' | grep -v 'bundle-test.js' | grep -v 'test-main.js')
 BUILD_FILES = $(addprefix $(BUILD_DIR)/, \
 						$(MOD).js $(MOD).min.js \
@@ -24,7 +25,7 @@ BUILD_FILES = $(addprefix $(BUILD_DIR)/, \
 
 DIRS = $(BUILD_DIR)
 
-.PHONY: all bench clean browser-test unit-test test dist
+.PHONY: all bench clean browser-test unit-test test dist convert
 
 all: unit-test lint
 
@@ -82,3 +83,8 @@ clean:
 node_modules: package.json
 	@$(NPM) install
 	@touch $@
+
+convert: mjs-lib/*.js mjs-lib/**/*.js
+	rm -rf lib; mkdir lib
+	for f in mjs-lib/**/*.js mjs-lib/*.js; do echo "$${f} > lib$${f/mjs-lib/}"; npx babel "$${f}" -o "lib$${f/mjs-lib/}"; done
+

@@ -1,13 +1,8 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = components;
-function components(g) {
+export default function components(g) {
   var visited = {};
   var cmpts = [];
   var cmpt;
+
   function dfs(v) {
     if (visited.hasOwnProperty(v)) return;
     visited[v] = true;
@@ -15,12 +10,14 @@ function components(g) {
     g.successors(v).forEach(dfs);
     g.predecessors(v).forEach(dfs);
   }
-  g.nodes().forEach(function (v) {
+
+  g.nodes().forEach(function(v) {
     cmpt = [];
     dfs(v);
     if (cmpt.length) {
       cmpts.push(cmpt);
     }
   });
+
   return cmpts;
 }

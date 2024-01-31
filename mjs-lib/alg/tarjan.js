@@ -1,14 +1,9 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = tarjan;
-function tarjan(g) {
+export default function tarjan(g) {
   var index = 0;
   var stack = [];
   var visited = {}; // node id -> { onStack, lowlink, index }
   var results = [];
+
   function dfs(v) {
     var entry = visited[v] = {
       onStack: true,
@@ -16,7 +11,8 @@ function tarjan(g) {
       index: index++
     };
     stack.push(v);
-    g.successors(v).forEach(function (w) {
+
+    g.successors(v).forEach(function(w) {
       if (!visited.hasOwnProperty(w)) {
         dfs(w);
         entry.lowlink = Math.min(entry.lowlink, visited[w].lowlink);
@@ -24,6 +20,7 @@ function tarjan(g) {
         entry.lowlink = Math.min(entry.lowlink, visited[w].index);
       }
     });
+
     if (entry.lowlink === entry.index) {
       var cmpt = [];
       var w;
@@ -35,10 +32,12 @@ function tarjan(g) {
       results.push(cmpt);
     }
   }
-  g.nodes().forEach(function (v) {
+
+  g.nodes().forEach(function(v) {
     if (!visited.hasOwnProperty(v)) {
       dfs(v);
     }
   });
+
   return results;
 }
