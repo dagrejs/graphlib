@@ -12,13 +12,14 @@
   "module": "./mjs-lib/index.js",
   "exports": {
     "import": "./mjs-lib/index.js",
-    "require": "./lib/index.js"
+    "require": "./index.js"
   },
   "files": [
     "index.js",
     "index.d.ts",
     "dist/",
-    "lib/"
+    "lib/",
+    "mjs-lib/"
   ],
   "engines": {
     "node": ">17.0.0"
