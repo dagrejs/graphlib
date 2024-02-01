@@ -19,7 +19,7 @@ DIST_DIR = dist
 
 MJS_FILES = $(shell find mjs-lib -type f -name '*.js')
 # CJS_FILES are based off mjs files.
-CJS_FILES = index.js $(shell find mjs-lib -type f -name '*.js' -printf lib/%P\\n)
+CJS_FILES = $(shell find mjs-lib -type f -name '*.js' -printf lib/%P\\n)
 TEST_FILES = $(shell find test -type f -name '*.js' | grep -v 'bundle-test.js' | grep -v 'test-main.js')
 BUILD_FILES = $(addprefix $(BUILD_DIR)/, \
 						$(MOD).js $(MOD).min.js \
@@ -41,7 +41,7 @@ $(DIRS):
 
 test: unit-test browser-test
 
-unit-test: convert $(CJS_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
+unit-test: convert index.js $(CJS_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
 	-$(NYC) $(MOCHA) --dir $(COVERAGE_DIR) -- $(MOCHA_OPTS) $(TEST_FILES) || $(MOCHA) $(MOCHA_OPTS) $(TEST_FILES)
 
 browser-test: $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
@@ -58,13 +58,13 @@ lint:
 	@$(JSHINT) $(JSHINT_OPTS) $(filter-out node_modules, $?)
 	@$(ESLINT) $(MJS_FILES) $(TEST_FILES)
 
-$(BUILD_DIR)/$(MOD).js: $(CJS_FILES) | unit-test
+$(BUILD_DIR)/$(MOD).js: index.js $(CJS_FILES) | unit-test
 	@$(BROWSERIFY) $< > $@ -s graphlib
 
 $(BUILD_DIR)/$(MOD).min.js: $(BUILD_DIR)/$(MOD).js
 	@$(UGLIFY) $< --comments '@license' > $@
 
-$(BUILD_DIR)/$(MOD).core.js: $(CJS_FILES) | unit-test
+$(BUILD_DIR)/$(MOD).core.js: index.js $(CJS_FILES) | unit-test
 	@$(BROWSERIFY) $< > $@ --no-bundle-external -s graphlib
 
 $(BUILD_DIR)/$(MOD).core.min.js: $(BUILD_DIR)/$(MOD).core.js
