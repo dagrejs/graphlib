@@ -58,13 +58,13 @@ lint:
 	@$(JSHINT) $(JSHINT_OPTS) $(filter-out node_modules, $?)
 	@$(ESLINT) $(MJS_FILES) $(TEST_FILES)
 
-$(BUILD_DIR)/$(MOD).js: index.js $(CJS_FILES) | unit-test
+$(BUILD_DIR)/$(MOD).js: $(CJS_FILES) | unit-test
 	@$(BROWSERIFY) $< > $@ -s graphlib
 
 $(BUILD_DIR)/$(MOD).min.js: $(BUILD_DIR)/$(MOD).js
 	@$(UGLIFY) $< --comments '@license' > $@
 
-$(BUILD_DIR)/$(MOD).core.js: index.js $(CJS_FILES) | unit-test
+$(BUILD_DIR)/$(MOD).core.js: $(CJS_FILES) | unit-test
 	@$(BROWSERIFY) $< > $@ --no-bundle-external -s graphlib
 
 $(BUILD_DIR)/$(MOD).core.min.js: $(BUILD_DIR)/$(MOD).core.js
