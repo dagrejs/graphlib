@@ -19,7 +19,7 @@ DIST_DIR = dist
 
 MJS_FILES = $(shell find mjs-lib -type f -name '*.js')
 # CJS_FILES are based off mjs files.
-CJS_FILES = $(shell find mjs-lib -type f -name '*.js' -printf lib/%P\\n)
+CJS_FILES = index.js $(shell find mjs-lib -type f -name '*.js' -printf lib/%P\\n)
 TEST_FILES = $(shell find test -type f -name '*.js' | grep -v 'bundle-test.js' | grep -v 'test-main.js')
 BUILD_FILES = $(addprefix $(BUILD_DIR)/, \
 						$(MOD).js $(MOD).min.js \
