@@ -39,16 +39,13 @@ module.exports = {
 };
 
 },{"./lib":17,"./lib/alg":8,"./lib/json":18}],2:[function(require,module,exports){
-"use strict";
+module.exports = components;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = components;
 function components(g) {
   var visited = {};
   var cmpts = [];
   var cmpt;
+
   function dfs(v) {
     if (visited.hasOwnProperty(v)) return;
     visited[v] = true;
@@ -56,24 +53,21 @@ function components(g) {
     g.successors(v).forEach(dfs);
     g.predecessors(v).forEach(dfs);
   }
-  g.nodes().forEach(function (v) {
+
+  g.nodes().forEach(function(v) {
     cmpt = [];
     dfs(v);
     if (cmpt.length) {
       cmpts.push(cmpt);
     }
   });
+
   return cmpts;
 }
-module.exports = exports.default;
 
 },{}],3:[function(require,module,exports){
-"use strict";
+module.exports = dfs;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = dfs;
 /*
  * A helper that preforms a pre- or post-order traversal on the input graph
  * and returns the nodes in the order they were visited. If the graph is
@@ -86,18 +80,23 @@ function dfs(g, vs, order) {
   if (!Array.isArray(vs)) {
     vs = [vs];
   }
+
   var navigation = g.isDirected() ? v => g.successors(v) : v => g.neighbors(v);
   var orderFunc = order === "post" ? postOrderDfs : preOrderDfs;
+
   var acc = [];
   var visited = {};
   vs.forEach(v => {
     if (!g.hasNode(v)) {
       throw new Error("Graph does not have node: " + v);
     }
+
     orderFunc(v, navigation, visited, acc);
   });
+
   return acc;
 }
+
 function postOrderDfs(v, navigation, visited, acc) {
   var stack = [[v, false]];
   while (stack.length > 0) {
@@ -113,6 +112,7 @@ function postOrderDfs(v, navigation, visited, acc) {
     }
   }
 }
+
 function preOrderDfs(v, navigation, visited, acc) {
   var stack = [v];
   while (stack.length > 0) {
@@ -124,142 +124,129 @@ function preOrderDfs(v, navigation, visited, acc) {
     }
   }
 }
+
 function forEachRight(array, iteratee) {
   var length = array.length;
   while (length--) {
     iteratee(array[length], length, array);
   }
+
   return array;
 }
-module.exports = exports.default;
 
 },{}],4:[function(require,module,exports){
-"use strict";
+var dijkstra = require("./dijkstra");
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = dijkstraAll;
-var _dijkstra = _interopRequireDefault(require("./dijkstra.js"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+module.exports = dijkstraAll;
+
 function dijkstraAll(g, weightFunc, edgeFunc) {
-  return g.nodes().reduce(function (acc, v) {
-    acc[v] = (0, _dijkstra.default)(g, v, weightFunc, edgeFunc);
+  return g.nodes().reduce(function(acc, v) {
+    acc[v] = dijkstra(g, v, weightFunc, edgeFunc);
     return acc;
   }, {});
 }
-module.exports = exports.default;
 
-},{"./dijkstra.js":5}],5:[function(require,module,exports){
-"use strict";
+},{"./dijkstra":5}],5:[function(require,module,exports){
+var PriorityQueue = require("../data/priority-queue");
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = dijkstra;
-var _priorityQueue = _interopRequireDefault(require("../data/priority-queue.js"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+module.exports = dijkstra;
+
 var DEFAULT_WEIGHT_FUNC = () => 1;
+
 function dijkstra(g, source, weightFn, edgeFn) {
-  return runDijkstra(g, String(source), weightFn || DEFAULT_WEIGHT_FUNC, edgeFn || function (v) {
-    return g.outEdges(v);
-  });
+  return runDijkstra(g, String(source),
+    weightFn || DEFAULT_WEIGHT_FUNC,
+    edgeFn || function(v) { return g.outEdges(v); });
 }
+
 function runDijkstra(g, source, weightFn, edgeFn) {
   var results = {};
-  var pq = new _priorityQueue.default();
+  var pq = new PriorityQueue();
   var v, vEntry;
-  var updateNeighbors = function (edge) {
+
+  var updateNeighbors = function(edge) {
     var w = edge.v !== v ? edge.v : edge.w;
     var wEntry = results[w];
     var weight = weightFn(edge);
     var distance = vEntry.distance + weight;
+
     if (weight < 0) {
-      throw new Error("dijkstra does not allow negative edge weights. " + "Bad edge: " + edge + " Weight: " + weight);
+      throw new Error("dijkstra does not allow negative edge weights. " +
+                      "Bad edge: " + edge + " Weight: " + weight);
     }
+
     if (distance < wEntry.distance) {
       wEntry.distance = distance;
       wEntry.predecessor = v;
       pq.decrease(w, distance);
     }
   };
-  g.nodes().forEach(function (v) {
+
+  g.nodes().forEach(function(v) {
     var distance = v === source ? 0 : Number.POSITIVE_INFINITY;
-    results[v] = {
-      distance: distance
-    };
+    results[v] = { distance: distance };
     pq.add(v, distance);
   });
+
   while (pq.size() > 0) {
     v = pq.removeMin();
     vEntry = results[v];
     if (vEntry.distance === Number.POSITIVE_INFINITY) {
       break;
     }
+
     edgeFn(v).forEach(updateNeighbors);
   }
+
   return results;
 }
-module.exports = exports.default;
 
-},{"../data/priority-queue.js":15}],6:[function(require,module,exports){
-"use strict";
+},{"../data/priority-queue":15}],6:[function(require,module,exports){
+var tarjan = require("./tarjan");
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = findCycles;
-var _tarjan = _interopRequireDefault(require("./tarjan.js"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+module.exports = findCycles;
+
 function findCycles(g) {
-  return (0, _tarjan.default)(g).filter(function (cmpt) {
-    return cmpt.length > 1 || cmpt.length === 1 && g.hasEdge(cmpt[0], cmpt[0]);
+  return tarjan(g).filter(function(cmpt) {
+    return cmpt.length > 1 || (cmpt.length === 1 && g.hasEdge(cmpt[0], cmpt[0]));
   });
 }
-module.exports = exports.default;
 
-},{"./tarjan.js":13}],7:[function(require,module,exports){
-"use strict";
+},{"./tarjan":13}],7:[function(require,module,exports){
+module.exports = floydWarshall;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = floydWarshall;
 var DEFAULT_WEIGHT_FUNC = () => 1;
+
 function floydWarshall(g, weightFn, edgeFn) {
-  return runFloydWarshall(g, weightFn || DEFAULT_WEIGHT_FUNC, edgeFn || function (v) {
-    return g.outEdges(v);
-  });
+  return runFloydWarshall(g,
+    weightFn || DEFAULT_WEIGHT_FUNC,
+    edgeFn || function(v) { return g.outEdges(v); });
 }
+
 function runFloydWarshall(g, weightFn, edgeFn) {
   var results = {};
   var nodes = g.nodes();
-  nodes.forEach(function (v) {
+
+  nodes.forEach(function(v) {
     results[v] = {};
-    results[v][v] = {
-      distance: 0
-    };
-    nodes.forEach(function (w) {
+    results[v][v] = { distance: 0 };
+    nodes.forEach(function(w) {
       if (v !== w) {
-        results[v][w] = {
-          distance: Number.POSITIVE_INFINITY
-        };
+        results[v][w] = { distance: Number.POSITIVE_INFINITY };
       }
     });
-    edgeFn(v).forEach(function (edge) {
+    edgeFn(v).forEach(function(edge) {
       var w = edge.v === v ? edge.w : edge.v;
       var d = weightFn(edge);
-      results[v][w] = {
-        distance: d,
-        predecessor: v
-      };
+      results[v][w] = { distance: d, predecessor: v };
     });
   });
-  nodes.forEach(function (k) {
+
+  nodes.forEach(function(k) {
     var rowK = results[k];
-    nodes.forEach(function (i) {
+    nodes.forEach(function(i) {
       var rowI = results[i];
-      nodes.forEach(function (j) {
+      nodes.forEach(function(j) {
         var ik = rowI[k];
         var kj = rowK[j];
         var ij = rowI[j];
@@ -271,160 +258,72 @@ function runFloydWarshall(g, weightFn, edgeFn) {
       });
     });
   });
+
   return results;
 }
-module.exports = exports.default;
 
 },{}],8:[function(require,module,exports){
-"use strict";
+module.exports = {
+  components: require("./components"),
+  dijkstra: require("./dijkstra"),
+  dijkstraAll: require("./dijkstra-all"),
+  findCycles: require("./find-cycles"),
+  floydWarshall: require("./floyd-warshall"),
+  isAcyclic: require("./is-acyclic"),
+  postorder: require("./postorder"),
+  preorder: require("./preorder"),
+  prim: require("./prim"),
+  tarjan: require("./tarjan"),
+  topsort: require("./topsort")
+};
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "components", {
-  enumerable: true,
-  get: function () {
-    return _components.default;
-  }
-});
-Object.defineProperty(exports, "dijkstra", {
-  enumerable: true,
-  get: function () {
-    return _dijkstra.default;
-  }
-});
-Object.defineProperty(exports, "dijkstraAll", {
-  enumerable: true,
-  get: function () {
-    return _dijkstraAll.default;
-  }
-});
-Object.defineProperty(exports, "findCycles", {
-  enumerable: true,
-  get: function () {
-    return _findCycles.default;
-  }
-});
-Object.defineProperty(exports, "floydWarshall", {
-  enumerable: true,
-  get: function () {
-    return _floydWarshall.default;
-  }
-});
-Object.defineProperty(exports, "isAcyclic", {
-  enumerable: true,
-  get: function () {
-    return _isAcyclic.default;
-  }
-});
-Object.defineProperty(exports, "postorder", {
-  enumerable: true,
-  get: function () {
-    return _postorder.default;
-  }
-});
-Object.defineProperty(exports, "preorder", {
-  enumerable: true,
-  get: function () {
-    return _preorder.default;
-  }
-});
-Object.defineProperty(exports, "prim", {
-  enumerable: true,
-  get: function () {
-    return _prim.default;
-  }
-});
-Object.defineProperty(exports, "tarjan", {
-  enumerable: true,
-  get: function () {
-    return _tarjan.default;
-  }
-});
-Object.defineProperty(exports, "topsort", {
-  enumerable: true,
-  get: function () {
-    return _topsort.default;
-  }
-});
-var _components = _interopRequireDefault(require("./components.js"));
-var _dijkstra = _interopRequireDefault(require("./dijkstra.js"));
-var _dijkstraAll = _interopRequireDefault(require("./dijkstra-all.js"));
-var _findCycles = _interopRequireDefault(require("./find-cycles.js"));
-var _floydWarshall = _interopRequireDefault(require("./floyd-warshall.js"));
-var _isAcyclic = _interopRequireDefault(require("./is-acyclic.js"));
-var _postorder = _interopRequireDefault(require("./postorder.js"));
-var _preorder = _interopRequireDefault(require("./preorder.js"));
-var _prim = _interopRequireDefault(require("./prim.js"));
-var _tarjan = _interopRequireDefault(require("./tarjan.js"));
-var _topsort = _interopRequireDefault(require("./topsort.js"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./components":2,"./dijkstra":5,"./dijkstra-all":4,"./find-cycles":6,"./floyd-warshall":7,"./is-acyclic":9,"./postorder":10,"./preorder":11,"./prim":12,"./tarjan":13,"./topsort":14}],9:[function(require,module,exports){
+var topsort = require("./topsort");
 
-},{"./components.js":2,"./dijkstra-all.js":4,"./dijkstra.js":5,"./find-cycles.js":6,"./floyd-warshall.js":7,"./is-acyclic.js":9,"./postorder.js":10,"./preorder.js":11,"./prim.js":12,"./tarjan.js":13,"./topsort.js":14}],9:[function(require,module,exports){
-"use strict";
+module.exports = isAcyclic;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isAcyclic;
-var _topsort = _interopRequireDefault(require("./topsort.js"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function isAcyclic(g) {
   try {
-    (0, _topsort.default)(g);
+    topsort(g);
   } catch (e) {
-    if (e instanceof _topsort.default.CycleException) {
+    if (e instanceof topsort.CycleException) {
       return false;
     }
     throw e;
   }
   return true;
 }
-module.exports = exports.default;
 
-},{"./topsort.js":14}],10:[function(require,module,exports){
-"use strict";
+},{"./topsort":14}],10:[function(require,module,exports){
+var dfs = require("./dfs");
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = postorder;
-var _dfs = _interopRequireDefault(require("./dfs.js"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+module.exports = postorder;
+
 function postorder(g, vs) {
-  return (0, _dfs.default)(g, vs, "post");
+  return dfs(g, vs, "post");
 }
-module.exports = exports.default;
 
-},{"./dfs.js":3}],11:[function(require,module,exports){
-"use strict";
+},{"./dfs":3}],11:[function(require,module,exports){
+var dfs = require("./dfs");
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = preorder;
-var _dfs = _interopRequireDefault(require("./dfs.js"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+module.exports = preorder;
+
 function preorder(g, vs) {
-  return (0, _dfs.default)(g, vs, "pre");
+  return dfs(g, vs, "pre");
 }
-module.exports = exports.default;
 
-},{"./dfs.js":3}],12:[function(require,module,exports){
-"use strict";
+},{"./dfs":3}],12:[function(require,module,exports){
+var Graph = require("../graph");
+var PriorityQueue = require("../data/priority-queue");
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = prim;
-var _graph = _interopRequireDefault(require("../graph.js"));
-var _priorityQueue = _interopRequireDefault(require("../data/priority-queue.js"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+module.exports = prim;
+
 function prim(g, weightFunc) {
-  var result = new _graph.default();
+  var result = new Graph();
   var parents = {};
-  var pq = new _priorityQueue.default();
+  var pq = new PriorityQueue();
   var v;
+
   function updateNeighbors(edge) {
     var w = edge.v === v ? edge.w : edge.v;
     var pri = pq.priority(w);
@@ -436,16 +335,19 @@ function prim(g, weightFunc) {
       }
     }
   }
+
   if (g.nodeCount() === 0) {
     return result;
   }
-  g.nodes().forEach(function (v) {
+
+  g.nodes().forEach(function(v) {
     pq.add(v, Number.POSITIVE_INFINITY);
     result.setNode(v);
   });
 
   // Start from an arbitrary node
   pq.decrease(g.nodes()[0], 0);
+
   var init = false;
   while (pq.size() > 0) {
     v = pq.removeMin();
@@ -456,24 +358,22 @@ function prim(g, weightFunc) {
     } else {
       init = true;
     }
+
     g.nodeEdges(v).forEach(updateNeighbors);
   }
+
   return result;
 }
-module.exports = exports.default;
 
-},{"../data/priority-queue.js":15,"../graph.js":16}],13:[function(require,module,exports){
-"use strict";
+},{"../data/priority-queue":15,"../graph":16}],13:[function(require,module,exports){
+module.exports = tarjan;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = tarjan;
 function tarjan(g) {
   var index = 0;
   var stack = [];
   var visited = {}; // node id -> { onStack, lowlink, index }
   var results = [];
+
   function dfs(v) {
     var entry = visited[v] = {
       onStack: true,
@@ -481,7 +381,8 @@ function tarjan(g) {
       index: index++
     };
     stack.push(v);
-    g.successors(v).forEach(function (w) {
+
+    g.successors(v).forEach(function(w) {
       if (!visited.hasOwnProperty(w)) {
         dfs(w);
         entry.lowlink = Math.min(entry.lowlink, visited[w].lowlink);
@@ -489,6 +390,7 @@ function tarjan(g) {
         entry.lowlink = Math.min(entry.lowlink, visited[w].index);
       }
     });
+
     if (entry.lowlink === entry.index) {
       var cmpt = [];
       var w;
@@ -500,30 +402,27 @@ function tarjan(g) {
       results.push(cmpt);
     }
   }
-  g.nodes().forEach(function (v) {
+
+  g.nodes().forEach(function(v) {
     if (!visited.hasOwnProperty(v)) {
       dfs(v);
     }
   });
+
   return results;
 }
-module.exports = exports.default;
 
 },{}],14:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = topsort;
 function topsort(g) {
   var visited = {};
   var stack = {};
   var results = [];
+
   function visit(node) {
     if (stack.hasOwnProperty(node)) {
       throw new CycleException();
     }
+
     if (!visited.hasOwnProperty(node)) {
       stack[node] = true;
       visited[node] = true;
@@ -532,27 +431,26 @@ function topsort(g) {
       results.push(node);
     }
   }
+
   g.sinks().forEach(visit);
+
   if (Object.keys(visited).length !== g.nodeCount()) {
     throw new CycleException();
   }
+
   return results;
 }
+
 class CycleException extends Error {
   constructor() {
     super(...arguments);
   }
 }
+
+module.exports = topsort;
 topsort.CycleException = CycleException;
-module.exports = exports.default;
 
 },{}],15:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
 /**
  * A min-priority queue data structure. This algorithm is derived from Cormen,
  * et al., "Introduction to Algorithms". The basic idea of a min-priority
@@ -575,9 +473,7 @@ class PriorityQueue {
    * Returns the keys that are in the queue. Takes `O(n)` time.
    */
   keys() {
-    return this.#arr.map(function (x) {
-      return x.key;
-    });
+    return this.#arr.map(function(x) { return x.key; });
   }
 
   /**
@@ -626,10 +522,7 @@ class PriorityQueue {
       var arr = this.#arr;
       var index = arr.length;
       keyIndices[key] = index;
-      arr.push({
-        key: key,
-        priority: priority
-      });
+      arr.push({key: key, priority: priority});
       this.#decrease(index);
       return true;
     }
@@ -657,11 +550,13 @@ class PriorityQueue {
   decrease(key, priority) {
     var index = this.#keyIndices[key];
     if (priority > this.#arr[index].priority) {
-      throw new Error("New priority is greater than current priority. " + "Key: " + key + " Old: " + this.#arr[index].priority + " New: " + priority);
+      throw new Error("New priority is greater than current priority. " +
+          "Key: " + key + " Old: " + this.#arr[index].priority + " New: " + priority);
     }
     this.#arr[index].priority = priority;
     this.#decrease(index);
   }
+
   #heapify(i) {
     var arr = this.#arr;
     var l = 2 * i;
@@ -678,6 +573,7 @@ class PriorityQueue {
       }
     }
   }
+
   #decrease(index) {
     var arr = this.#arr;
     var priority = arr[index].priority;
@@ -691,6 +587,7 @@ class PriorityQueue {
       index = parent;
     }
   }
+
   #swap(i, j) {
     var arr = this.#arr;
     var keyIndices = this.#keyIndices;
@@ -702,16 +599,12 @@ class PriorityQueue {
     keyIndices[origArrI.key] = j;
   }
 }
-exports.default = PriorityQueue;
-module.exports = exports.default;
+
+module.exports = PriorityQueue;
 
 },{}],16:[function(require,module,exports){
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
 var DEFAULT_EDGE_NAME = "\x00";
 var GRAPH_NODE = "\x00";
 var EDGE_KEY_DELIM = "\x01";
@@ -766,14 +659,18 @@ class Graph {
 
   /* Number of edges in the graph. Should only be changed by the implementation. */
   #edgeCount = 0;
+
   #parent;
+
   #children;
+
   constructor(opts) {
     if (opts) {
       this.#isDirected = opts.hasOwnProperty("directed") ? opts.directed : true;
       this.#isMultigraph = opts.hasOwnProperty("multigraph") ? opts.multigraph : false;
       this.#isCompound = opts.hasOwnProperty("compound") ? opts.compound : false;
     }
+
     if (this.#isCompound) {
       // v -> parent
       this.#parent = {};
@@ -822,6 +719,7 @@ class Graph {
     return this.#label;
   }
 
+
   /* === Node functions ========== */
 
   /**
@@ -836,6 +734,7 @@ class Graph {
     if (typeof newDefault !== 'function') {
       this.#defaultNodeLabelFn = () => newDefault;
     }
+
     return this;
   }
 
@@ -881,7 +780,7 @@ class Graph {
   setNodes(vs, value) {
     var args = arguments;
     var self = this;
-    vs.forEach(function (v) {
+    vs.forEach(function(v) {
       if (args.length > 1) {
         self.setNode(v, value);
       } else {
@@ -904,6 +803,7 @@ class Graph {
       }
       return this;
     }
+
     this.#nodes[v] = arguments.length > 1 ? value : this.#defaultNodeLabelFn(v);
     if (this.#isCompound) {
       this.#parent[v] = GRAPH_NODE;
@@ -947,7 +847,7 @@ class Graph {
       if (this.#isCompound) {
         this.#removeFromParentsChildList(v);
         delete this.#parent[v];
-        this.children(v).forEach(function (child) {
+        this.children(v).forEach(function(child) {
           self.setParent(child);
         });
         delete this.#children[v];
@@ -973,6 +873,7 @@ class Graph {
     if (!this.#isCompound) {
       throw new Error("Cannot set parent in a non-compound graph");
     }
+
     if (parent === undefined) {
       parent = GRAPH_NODE;
     } else {
@@ -980,17 +881,21 @@ class Graph {
       parent += "";
       for (var ancestor = parent; ancestor !== undefined; ancestor = this.parent(ancestor)) {
         if (ancestor === v) {
-          throw new Error("Setting " + parent + " as parent of " + v + " would create a cycle");
+          throw new Error("Setting " + parent+ " as parent of " + v +
+              " would create a cycle");
         }
       }
+
       this.setNode(parent);
     }
+
     this.setNode(v);
     this.#removeFromParentsChildList(v);
     this.#parent[v] = parent;
     this.#children[parent][v] = true;
     return this;
   }
+
   #removeFromParentsChildList(v) {
     delete this.#children[this.#parent[v]][v];
   }
@@ -1061,9 +966,11 @@ class Graph {
       for (var succ of this.successors(v)) {
         union.add(succ);
       }
+
       return Array.from(union.values());
     }
   }
+
   isLeaf(v) {
     var neighbors;
     if (this.isDirected()) {
@@ -1086,18 +993,22 @@ class Graph {
       multigraph: this.#isMultigraph,
       compound: this.#isCompound
     });
+
     copy.setGraph(this.graph());
+
     var self = this;
-    Object.entries(this.#nodes).forEach(function ([v, value]) {
+    Object.entries(this.#nodes).forEach(function([v, value]) {
       if (filter(v)) {
         copy.setNode(v, value);
       }
     });
-    Object.values(this.#edgeObjs).forEach(function (e) {
+
+    Object.values(this.#edgeObjs).forEach(function(e) {
       if (copy.hasNode(e.v) && copy.hasNode(e.w)) {
         copy.setEdge(e, self.edge(e));
       }
     });
+
     var parents = {};
     function findParent(v) {
       var parent = self.parent(v);
@@ -1110,9 +1021,11 @@ class Graph {
         return findParent(parent);
       }
     }
+
     if (this.#isCompound) {
       copy.nodes().forEach(v => copy.setParent(v, findParent(v)));
     }
+
     return copy;
   }
 
@@ -1130,6 +1043,7 @@ class Graph {
     if (typeof newDefault !== 'function') {
       this.#defaultEdgeLabelFn = () => newDefault;
     }
+
     return this;
   }
 
@@ -1158,7 +1072,7 @@ class Graph {
   setPath(vs, value) {
     var self = this;
     var args = arguments;
-    vs.reduce(function (v, w) {
+    vs.reduce(function(v, w) {
       if (args.length > 1) {
         self.setEdge(v, w, value);
       } else {
@@ -1179,6 +1093,7 @@ class Graph {
     var v, w, name, value;
     var valueSpecified = false;
     var arg0 = arguments[0];
+
     if (typeof arg0 === "object" && arg0 !== null && "v" in arg0) {
       v = arg0.v;
       w = arg0.w;
@@ -1196,11 +1111,13 @@ class Graph {
         valueSpecified = true;
       }
     }
+
     v = "" + v;
     w = "" + w;
     if (name !== undefined) {
       name = "" + name;
     }
+
     var e = edgeArgsToId(this.#isDirected, v, w, name);
     if (this.#edgeLabels.hasOwnProperty(e)) {
       if (valueSpecified) {
@@ -1208,6 +1125,7 @@ class Graph {
       }
       return this;
     }
+
     if (name !== undefined && !this.#isMultigraph) {
       throw new Error("Cannot set a named edge when isMultigraph = false");
     }
@@ -1216,11 +1134,14 @@ class Graph {
     // First ensure the nodes exist.
     this.setNode(v);
     this.setNode(w);
+
     this.#edgeLabels[e] = valueSpecified ? value : this.#defaultEdgeLabelFn(v, w, name);
+
     var edgeObj = edgeArgsToObj(this.#isDirected, v, w, name);
     // Ensure we add undirected edges in a consistent way.
     v = edgeObj.v;
     w = edgeObj.w;
+
     Object.freeze(edgeObj);
     this.#edgeObjs[e] = edgeObj;
     incrementOrInitEntry(this.#preds[w], v);
@@ -1236,7 +1157,9 @@ class Graph {
    * Complexity: O(1).
    */
   edge(v, w, name) {
-    var e = arguments.length === 1 ? edgeObjToId(this.#isDirected, arguments[0]) : edgeArgsToId(this.#isDirected, v, w, name);
+    var e = (arguments.length === 1
+      ? edgeObjToId(this.#isDirected, arguments[0])
+      : edgeArgsToId(this.#isDirected, v, w, name));
     return this.#edgeLabels[e];
   }
 
@@ -1247,10 +1170,9 @@ class Graph {
   edgeAsObj() {
     const edge = this.edge(...arguments);
     if (typeof edge !== "object") {
-      return {
-        label: edge
-      };
+      return {label: edge};
     }
+
     return edge;
   }
 
@@ -1259,7 +1181,9 @@ class Graph {
    * Complexity: O(1).
    */
   hasEdge(v, w, name) {
-    var e = arguments.length === 1 ? edgeObjToId(this.#isDirected, arguments[0]) : edgeArgsToId(this.#isDirected, v, w, name);
+    var e = (arguments.length === 1
+      ? edgeObjToId(this.#isDirected, arguments[0])
+      : edgeArgsToId(this.#isDirected, v, w, name));
     return this.#edgeLabels.hasOwnProperty(e);
   }
 
@@ -1268,7 +1192,9 @@ class Graph {
    * Complexity: O(1).
    */
   removeEdge(v, w, name) {
-    var e = arguments.length === 1 ? edgeObjToId(this.#isDirected, arguments[0]) : edgeArgsToId(this.#isDirected, v, w, name);
+    var e = (arguments.length === 1
+      ? edgeObjToId(this.#isDirected, arguments[0])
+      : edgeArgsToId(this.#isDirected, v, w, name));
     var edge = this.#edgeObjs[e];
     if (edge) {
       v = edge.v;
@@ -1328,7 +1254,7 @@ class Graph {
     }
   }
 }
-exports.default = Graph;
+
 function incrementOrInitEntry(map, k) {
   if (map[k]) {
     map[k]++;
@@ -1336,11 +1262,11 @@ function incrementOrInitEntry(map, k) {
     map[k] = 1;
   }
 }
+
 function decrementOrRemoveEntry(map, k) {
-  if (! --map[k]) {
-    delete map[k];
-  }
+  if (!--map[k]) { delete map[k]; }
 }
+
 function edgeArgsToId(isDirected, v_, w_, name) {
   var v = "" + v_;
   var w = "" + w_;
@@ -1349,8 +1275,10 @@ function edgeArgsToId(isDirected, v_, w_, name) {
     v = w;
     w = tmp;
   }
-  return v + EDGE_KEY_DELIM + w + EDGE_KEY_DELIM + (name === undefined ? DEFAULT_EDGE_NAME : name);
+  return v + EDGE_KEY_DELIM + w + EDGE_KEY_DELIM +
+             (name === undefined ? DEFAULT_EDGE_NAME : name);
 }
+
 function edgeArgsToObj(isDirected, v_, w_, name) {
   var v = "" + v_;
   var w = "" + w_;
@@ -1359,59 +1287,34 @@ function edgeArgsToObj(isDirected, v_, w_, name) {
     v = w;
     w = tmp;
   }
-  var edgeObj = {
-    v: v,
-    w: w
-  };
+  var edgeObj =  { v: v, w: w };
   if (name) {
     edgeObj.name = name;
   }
   return edgeObj;
 }
+
 function edgeObjToId(isDirected, edgeObj) {
   return edgeArgsToId(isDirected, edgeObj.v, edgeObj.w, edgeObj.name);
 }
-module.exports = exports.default;
+
+module.exports = Graph;
 
 },{}],17:[function(require,module,exports){
-"use strict";
+// Includes only the "core" of graphlib
+module.exports = {
+  Graph: require("./graph"),
+  version: require("./version")
+};
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "Graph", {
-  enumerable: true,
-  get: function () {
-    return _graph.default;
-  }
-});
-exports.json = exports.alg = void 0;
-Object.defineProperty(exports, "version", {
-  enumerable: true,
-  get: function () {
-    return _version.default;
-  }
-});
-var _graph = _interopRequireDefault(require("./graph.js"));
-var _version = _interopRequireDefault(require("./version.js"));
-var _json = _interopRequireWildcard(require("./json.js"));
-exports.json = _json;
-var _alg = _interopRequireWildcard(require("./alg/index.js"));
-exports.alg = _alg;
-function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./graph":16,"./version":19}],18:[function(require,module,exports){
+var Graph = require("./graph");
 
-},{"./alg/index.js":8,"./graph.js":16,"./json.js":18,"./version.js":19}],18:[function(require,module,exports){
-"use strict";
+module.exports = {
+  write: write,
+  read: read
+};
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.read = read;
-exports.write = write;
-var _graph = _interopRequireDefault(require("./graph.js"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /**
  * Creates a JSON representation of the graph that can be serialized to a string with
  * JSON.stringify. The graph can later be restored using json.read.
@@ -1426,18 +1329,18 @@ function write(g) {
     nodes: writeNodes(g),
     edges: writeEdges(g)
   };
+
   if (g.graph() !== undefined) {
     json.value = structuredClone(g.graph());
   }
   return json;
 }
+
 function writeNodes(g) {
-  return g.nodes().map(function (v) {
+  return g.nodes().map(function(v) {
     var nodeValue = g.node(v);
     var parent = g.parent(v);
-    var node = {
-      v: v
-    };
+    var node = { v: v };
     if (nodeValue !== undefined) {
       node.value = nodeValue;
     }
@@ -1447,13 +1350,11 @@ function writeNodes(g) {
     return node;
   });
 }
+
 function writeEdges(g) {
-  return g.edges().map(function (e) {
+  return g.edges().map(function(e) {
     var edgeValue = g.edge(e);
-    var edge = {
-      v: e.v,
-      w: e.w
-    };
+    var edge = { v: e.v, w: e.w };
     if (e.name !== undefined) {
       edge.name = e.name;
     }
@@ -1475,32 +1376,21 @@ function writeEdges(g) {
  * // [ { v: 'a', w: 'b' } ]
  */
 function read(json) {
-  var g = new _graph.default(json.options).setGraph(json.value);
-  json.nodes.forEach(function (entry) {
+  var g = new Graph(json.options).setGraph(json.value);
+  json.nodes.forEach(function(entry) {
     g.setNode(entry.v, entry.value);
     if (entry.parent) {
       g.setParent(entry.v, entry.parent);
     }
   });
-  json.edges.forEach(function (entry) {
-    g.setEdge({
-      v: entry.v,
-      w: entry.w,
-      name: entry.name
-    }, entry.value);
+  json.edges.forEach(function(entry) {
+    g.setEdge({ v: entry.v, w: entry.w, name: entry.name }, entry.value);
   });
   return g;
 }
 
-},{"./graph.js":16}],19:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _default = exports.default = '2.2.0';
-module.exports = exports.default;
+},{"./graph":16}],19:[function(require,module,exports){
+module.exports = '2.2.1';
 
 },{}]},{},[1])(1)
 });
