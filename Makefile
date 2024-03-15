@@ -16,24 +16,22 @@ BUILD_DIR = build
 COVERAGE_DIR = ./.nyc_output
 DIST_DIR = dist
 
-
-MJS_FILES = $(shell find mjs-lib -type f -name '*.js')
-# CJS_FILES are based off mjs files.
-CJS_FILES = $(shell find mjs-lib -type f -name '*.js' -printf lib/%P\\n)
+SRC_FILES = index.js lib/version.js $(shell find lib -type f -name '*.js')
 TEST_FILES = $(shell find test -type f -name '*.js' | grep -v 'bundle-test.js' | grep -v 'test-main.js')
 BUILD_FILES = $(addprefix $(BUILD_DIR)/, \
 						$(MOD).js $(MOD).min.js \
 						$(MOD).core.js $(MOD).core.min.js)
+
 DIRS = $(BUILD_DIR)
 
-.PHONY: all bench clean convert-clean browser-test unit-test test dist
+.PHONY: all bench clean browser-test unit-test test dist
 
 all: unit-test lint
 
 bench: unit-test lint
 	@src/bench.js
 
-mjs-lib/version.js: package.json
+lib/version.js: package.json
 	@src/release/make-version.js > $@
 
 $(DIRS):
@@ -41,30 +39,27 @@ $(DIRS):
 
 test: unit-test browser-test
 
-unit-test: convert index.js $(CJS_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
-	-$(NYC) $(MOCHA) --dir $(COVERAGE_DIR) -- $(MOCHA_OPTS) $(TEST_FILES) || $(MOCHA) $(MOCHA_OPTS) $(TEST_FILES)
+unit-test: $(SRC_FILES) $(TEST_FILES) node_modules | $(BUILD_DIR)
+	$(NYC) $(MOCHA) --dir $(COVERAGE_DIR) -- $(MOCHA_OPTS) $(TEST_FILES) || $(MOCHA) $(MOCHA_OPTS) $(TEST_FILES)
 
 browser-test: $(BUILD_DIR)/$(MOD).js $(BUILD_DIR)/$(MOD).core.js
-	-$(KARMA) start --single-run $(KARMA_OPTS)
-	-$(KARMA) start karma.core.conf.js --single-run $(KARMA_OPTS)
+	$(KARMA) start --single-run $(KARMA_OPTS)
+	$(KARMA) start karma.core.conf.js --single-run $(KARMA_OPTS)
 
 bower.json: package.json src/release/make-bower.json.js
 	@src/release/make-bower.json.js > $@
 
-# index.js still uses require!
-index.js: convert
-
 lint:
 	@$(JSHINT) $(JSHINT_OPTS) $(filter-out node_modules, $?)
-	@$(ESLINT) $(MJS_FILES) $(TEST_FILES)
+	@$(ESLINT) $(SRC_FILES) $(TEST_FILES)
 
-$(BUILD_DIR)/$(MOD).js: index.js $(CJS_FILES) | unit-test
+$(BUILD_DIR)/$(MOD).js: index.js $(SRC_FILES) | unit-test
 	@$(BROWSERIFY) $< > $@ -s graphlib
 
 $(BUILD_DIR)/$(MOD).min.js: $(BUILD_DIR)/$(MOD).js
 	@$(UGLIFY) $< --comments '@license' > $@
 
-$(BUILD_DIR)/$(MOD).core.js: index.js $(CJS_FILES) | unit-test
+$(BUILD_DIR)/$(MOD).core.js: index.js $(SRC_FILES) | unit-test
 	@$(BROWSERIFY) $< > $@ --no-bundle-external -s graphlib
 
 $(BUILD_DIR)/$(MOD).core.min.js: $(BUILD_DIR)/$(MOD).core.js
@@ -79,7 +74,7 @@ release: dist
 	@echo
 	@echo Starting release...
 	@echo
-	@src/release/release.sh $(MOD) dist # TODO LOOK
+	@src/release/release.sh $(MOD) dist
 
 clean:
 	rm -rf $(BUILD_DIR)
@@ -87,11 +82,3 @@ clean:
 node_modules: package.json
 	@$(NPM) install
 	@touch $@
-
-lib/%.js: mjs-lib/%.js
-	npx babel "$<" -o "$@"
-
-convert-clean:
-	rsync --existing --ignore-existing --delete -r mjs-lib/ lib/
-
-convert: convert-clean $(CJS_FILES)

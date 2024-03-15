@@ -6,9 +6,7 @@
     "mocha": true
   },
   "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module",
-    "allowImportExportEverywhere": true
+    "ecmaVersion": "latest"
   },
   "env": {
     "es6": true,
