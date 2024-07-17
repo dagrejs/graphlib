@@ -1390,7 +1390,7 @@ function read(json) {
 }
 
 },{"./graph":16}],19:[function(require,module,exports){
-module.exports = '2.2.2';
+module.exports = '2.2.3';
 
 },{}]},{},[1])(1)
 });
