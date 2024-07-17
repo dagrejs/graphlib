@@ -5,7 +5,7 @@ Graphlib is a JavaScript library that provides data structures for undirected
 and directed multi-graphs along with algorithms that can be used with them.
 
 [![Build Status](https://github.com/dagrejs/graphlib/workflows/Build%20Status/badge.svg?branch=master)](https://github.com/dagrejs/graphlib/actions?query=workflow%3A%22Build+Status%22)
-[![npm](https://img.shields.io/npm/v/@dagrejs/graphlib.svg)](https://www.npmjs.com/package/graphlib)
+[![npm](https://img.shields.io/npm/v/@dagrejs/graphlib.svg)](https://www.npmjs.com/package/@dagrejs/graphlib)
 
 To learn more [see our Wiki](https://github.com/cpettitt/graphlib/wiki).
 
