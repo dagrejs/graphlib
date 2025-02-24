@@ -477,7 +477,7 @@ declare module "@dagrejs/graphlib" {
 		 * @argument json - JSON serializable graph representation
 		 * @returns graph constructed acccording to specified representation
 		 */
-		function read<GraphLabel, NodeLabel, EdgeLabel>(
+		function read<GraphLabel = any, NodeLabel = any, EdgeLabel = any>(
 			json: Object,
 		): Graph<GraphLabel, NodeLabel, EdgeLabel>;
 	}
