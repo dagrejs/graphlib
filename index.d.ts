@@ -138,12 +138,12 @@ declare module "@dagrejs/graphlib" {
     setPath(nodes: string[], label?: EdgeLabel): this;
 
     /**
-   * Detects whether graph has a node with specified name or not.
+     * Detects whether graph has a node with specified name or not.
 
-   *
-   * @argument name - name of the node.
-   * @returns true if graph has node with specified name, false - otherwise.
-   */
+     *
+     * @argument name - name of the node.
+     * @returns true if graph has node with specified name, false - otherwise.
+     */
     hasNode(name: string): boolean;
 
     /**
