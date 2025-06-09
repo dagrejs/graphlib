@@ -3,7 +3,7 @@
 // Definitions by: Dan Vanderkam <http://danvk.org/>, Dan Mironenko <wolfson@bracketedrebels.com>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-declare module '@dagrejs/graphlib' {
+declare module "@dagrejs/graphlib" {
   export interface GraphOptions {
     directed?: boolean; // default: true.
     multigraph?: boolean; // default: false.
@@ -17,7 +17,7 @@ declare module '@dagrejs/graphlib' {
     name?: string;
   }
 
-  export class Graph {
+  export class Graph<GraphLabel = any, NodeLabel = any, EdgeLabel = any> {
     constructor(options?: GraphOptions);
 
     /**
@@ -28,7 +28,7 @@ declare module '@dagrejs/graphlib' {
      * @argument label - default node label.
      * @returns the graph, allowing this to be chained with other functions.
      */
-    setDefaultNodeLabel(label: any): Graph;
+    setDefaultNodeLabel(label: NodeLabel): this;
 
     /**
      * Sets the default node label factory function. This function will be invoked
@@ -39,7 +39,7 @@ declare module '@dagrejs/graphlib' {
      * @argument labelFn - default node label factory function.
      * @returns the graph, allowing this to be chained with other functions.
      */
-    setDefaultNodeLabel(labelFn: (v: string) => any): Graph;
+    setDefaultNodeLabel(labelFn: (v: string) => NodeLabel): this;
 
     /**
      * Creates or updates the value for the node v in the graph. If label is supplied
@@ -51,7 +51,7 @@ declare module '@dagrejs/graphlib' {
      * @argument label - value to set for node.
      * @returns the graph, allowing this to be chained with other functions.
      */
-    setNode(name: string, label?: any): Graph;
+    setNode(name: string, label?: NodeLabel): this;
 
     /**
      * Invokes setNode method for each node in names list.
@@ -61,7 +61,7 @@ declare module '@dagrejs/graphlib' {
      * @argument label - value to set for each node in list.
      * @returns the graph, allowing this to be chained with other functions.
      */
-    setNodes(names: string[], label?: any): Graph;
+    setNodes(names: string[], label?: NodeLabel): this;
 
     /**
      * Sets node p as a parent for node v if it is defined, or removes the
@@ -73,7 +73,7 @@ declare module '@dagrejs/graphlib' {
      * @argument p - node to be parent for v.
      * @returns the graph, allowing this to be chained with other functions.
      */
-    setParent(v: string, p?: string): Graph;
+    setParent(v: string, p?: string): this;
 
     /**
      * Gets parent node for node v.
@@ -102,7 +102,7 @@ declare module '@dagrejs/graphlib' {
      * @argument filter - filtration function detecting whether the node should stay or not.
      * @returns new graph made from current and nodes filtered.
      */
-    filterNodes(filter: (v: string) => boolean): Graph;
+    filterNodes(filter: (v: string) => boolean): this;
 
     /**
      * Sets the default edge label. This label will be assigned as default label
@@ -112,7 +112,7 @@ declare module '@dagrejs/graphlib' {
      * @argument label - default edge label.
      * @returns the graph, allowing this to be chained with other functions.
      */
-    setDefaultEdgeLabel(label: any): Graph;
+    setDefaultEdgeLabel(label: EdgeLabel): this;
 
     /**
      * Sets the default edge label factory function. This function will be invoked
@@ -123,7 +123,7 @@ declare module '@dagrejs/graphlib' {
      * @argument labelFn - default edge label factory function.
      * @returns the graph, allowing this to be chained with other functions.
      */
-    setDefaultEdgeLabel(labelFn: (v: string) => any): Graph;
+    setDefaultEdgeLabel(labelFn: (v: string) => EdgeLabel): this;
 
     /**
      * Establish an edges path over the nodes in nodes list. If some edge is already
@@ -135,7 +135,7 @@ declare module '@dagrejs/graphlib' {
      * @argument label - value to set for each edge between pairs of nodes.
      * @returns the graph, allowing this to be chained with other functions.
      */
-    setPath(nodes: string[], label?: any): Graph;
+    setPath(nodes: string[], label?: EdgeLabel): this;
 
     /**
      * Detects whether graph has a node with specified name or not.
@@ -155,7 +155,7 @@ declare module '@dagrejs/graphlib' {
      * @argument name - name of the node.
      * @returns the graph, allowing this to be chained with other functions.
      */
-    removeNode(name: string): Graph;
+    removeNode(name: string): this;
 
     /**
      * Gets all nodes of the graph. Note, the in case of compound graph subnodes are
@@ -172,7 +172,7 @@ declare module '@dagrejs/graphlib' {
      *
      * @returns label value of the node.
      */
-    node(name: string): any;
+    node(name: string): NodeLabel;
 
     /**
      * Creates or updates the label for the edge (v, w) with the optionally supplied
@@ -187,7 +187,7 @@ declare module '@dagrejs/graphlib' {
      * @argument name - unique name of the edge in order to identify it in multigraph.
      * @returns the graph, allowing this to be chained with other functions.
      */
-    setEdge(v: string, w: string, label?: any, name?: string): Graph;
+    setEdge(v: string, w: string, label?: EdgeLabel, name?: string): this;
 
     /**
      * Creates or updates the label for the specified edge. If label is supplied it is
@@ -200,7 +200,7 @@ declare module '@dagrejs/graphlib' {
      * @argument label - value to associate with the edge.
      * @returns the graph, allowing this to be chained with other functions.
      */
-    setEdge(edge: Edge, label?: any): Graph;
+    setEdge(edge: Edge, label?: EdgeLabel): this;
 
     /**
      * Gets edges of the graph. In case of compound graph subgraphs are not considered.
@@ -219,7 +219,7 @@ declare module '@dagrejs/graphlib' {
      * @argument name - name of the edge (actual for multigraph).
      * @returns value associated with specified edge.
      */
-    edge(v: string, w: string, name?: string): any;
+    edge(v: string, w: string, name?: string): EdgeLabel;
 
     /**
      * Gets the label for the specified edge.
@@ -228,7 +228,7 @@ declare module '@dagrejs/graphlib' {
      * @argument edge - edge descriptor.
      * @returns value associated with specified edge.
      */
-    edge(e: Edge): any;
+    edge(e: Edge): EdgeLabel;
 
     /**
      * Gets the label for the specified edge and converts it to an object.
@@ -277,7 +277,7 @@ declare module '@dagrejs/graphlib' {
      * @argument edge - edge descriptor.
      * @returns the graph, allowing this to be chained with other functions.
      */
-    removeEdge(edge: Edge): Graph;
+    removeEdge(edge: Edge): this;
 
     /**
      * Removes the specified edge from the graph. No subgraphs are considered.
@@ -288,7 +288,7 @@ declare module '@dagrejs/graphlib' {
      * @argument name - name of the edge (actual for multigraph).
      * @returns the graph, allowing this to be chained with other functions.
      */
-    removeEdge(v: string, w: string, name?: string): Graph;
+    removeEdge(v: string, w: string, name?: string): this;
 
     /**
      * Return all edges that point to the node v. Optionally filters those edges down to just those
@@ -381,14 +381,14 @@ declare module '@dagrejs/graphlib' {
      * @argument label - label value.
      * @returns the graph, allowing this to be chained with other functions.
      */
-    setGraph(label: any): Graph;
+    setGraph(label: GraphLabel): this;
 
     /**
      * Gets the graph label.
      *
      * @returns currently assigned label for the graph or undefined if no label assigned.
      */
-    graph(): any;
+    graph(): GraphLabel;
 
     /**
      * Gets the number of nodes in the graph.
@@ -446,7 +446,9 @@ declare module '@dagrejs/graphlib' {
      * @argument json - JSON serializable graph representation
      * @returns graph constructed acccording to specified representation
      */
-    function read(json: Object): Graph;
+    function read<GraphLabel = any, NodeLabel = any, EdgeLabel = any>(
+      json: Object,
+    ): Graph<GraphLabel, NodeLabel, EdgeLabel>;
   }
 
   export interface Path {
@@ -487,7 +489,7 @@ declare module '@dagrejs/graphlib' {
       graph: Graph,
       source: string,
       weightFn?: (e: Edge) => number,
-      edgeFn?: (v: string) => Edge[]
+      edgeFn?: (v: string) => Edge[],
     ): { [node: string]: Path };
 
     /**
@@ -507,7 +509,7 @@ declare module '@dagrejs/graphlib' {
     function dijkstraAll(
       graph: Graph,
       weightFn?: (e: Edge) => number,
-      edgeFn?: (v: string) => Edge[]
+      edgeFn?: (v: string) => Edge[],
     ): { [source: string]: { [node: string]: Path } };
 
     /**
@@ -555,7 +557,7 @@ declare module '@dagrejs/graphlib' {
     function floydWarshall(
       graph: Graph,
       weightFn?: (e: Edge) => number,
-      edgeFn?: (v: string) => Edge[]
+      edgeFn?: (v: string) => Edge[],
     ): { [source: string]: { [node: string]: Path } };
 
     /**
