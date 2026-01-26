@@ -6,9 +6,9 @@ describe("Graph", function() {
 
   beforeEach(function() {
     g = new Graph();
-  	gUndirected = new Graph({
-		directed: false
-	});
+    gUndirected = new Graph({
+      directed: false
+    });
   });
 
   describe("initial state", function() {
@@ -93,7 +93,7 @@ describe("Graph", function() {
     it("returns nodes in the graph that have no edges (undirected graph)", function() {
       gUndirected.setPath(["a", "b", "c", "d"]);
       gUndirected.removeNode("c");
-      expect(_.sortBy(gUndirected.sinks())).to.eql(["d"]);
+      expect(gUndirected.sinks().sort()).to.eql(["d"]);
     });
   });
 
