@@ -1,44 +1,46 @@
 {
-  "name": "graphlib",
-  "version": "2.1.8-pre",
+  "name": "@dagrejs/graphlib",
+  "version": "2.2.5-pre",
   "description": "A directed and undirected multi-graph library",
   "author": "Chris Pettitt <cpettitt@gmail.com>",
-  "license": "MIT",
-  "main": "index.js",
-  "files": [
-    "index.js",
-    "dist/",
-    "lib/"
+  "contributors": [
+    "David Newell"
   ],
+  "license": "MIT",
+  "main": "dist/graphlib.cjs.js",
+  "module": "dist/graphlib.esm.js",
+  "scripts": {
+    "build": "node build.js",
+    "test": "jest",
+    "lint": "eslint . --ext .js,.ts"
+  },
+  "files": [
+    "dist/"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/dagre.d.ts",
+      "import": "./dist/dagre.esm.js",
+      "require": "./dist/dagre.cjs.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/dagre.d.ts",
   "keywords": [
     "graph",
     "algorithms"
   ],
-  "dependencies": {
-    "lodash": "^4.17.11"
-  },
   "devDependencies": {
-    "benchmark": "^2.1.4",
-    "browserify": "^16.2.3",
-    "chai": "^4.1.2",
-    "istanbul": "^0.4.5",
-    "eslint": "^5.13.0",
-    "jshint": "^2.9.6",
-    "jshint-stylish": "^2.2.1",
-    "karma": "^3.0.0",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-firefox-launcher": "^1.1.0",
-    "karma-mocha": "^1.3.0",
-    "karma-phantomjs-launcher": "^1.0.4",
-    "karma-requirejs": "^1.1.0",
-    "karma-safari-launcher": "^1.0.0",
-    "mocha": "^5.0.0",
-    "phantomjs-prebuilt": "^2.1.16",
-    "requirejs": "^2.3.5",
-    "seedrandom": "^2.4.3",
-    "semver": "^5.5.0",
-    "sprintf": "^0.1.5",
-    "uglify-js": "^3.3.10"
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.14.9",
+    "benchmark": "2.1.4",
+    "esbuild": "^0.27.0",
+    "eslint": "8.35.0",
+    "jest": "^30.2.0",
+    "requirejs": "2.3.7",
+    "semver": "7.5.4",
+    "sprintf": "0.1.5",
+    "uglify-js": "3.17.4"
   },
   "repository": {
     "type": "git",

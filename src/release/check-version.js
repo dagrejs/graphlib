@@ -7,7 +7,7 @@
  */
 
 var fs = require("fs"),
-    semver = require("semver");
+  semver = require("semver");
 
 var packageFile = fs.readFileSync("package.json");
 var packageJson = JSON.parse(packageFile);
@@ -17,7 +17,7 @@ if (!("version" in packageJson)) {
 }
 
 var ver = semver.parse(packageJson.version),
-    preRelease = process.env.PRE_RELEASE;
+  preRelease = process.env.PRE_RELEASE;
 
 if (ver.prerelease.length > 0 && !preRelease) {
   bail("ERROR: version is a pre-release: " + ver);
