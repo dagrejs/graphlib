@@ -2,9 +2,13 @@ var Graph = require("..").Graph;
 
 describe("Graph", function() {
   var g;
+  var gUndirected;
 
   beforeEach(function() {
     g = new Graph();
+    gUndirected = new Graph({
+      directed: false
+    });
   });
 
   describe("initial state", function() {
@@ -80,10 +84,16 @@ describe("Graph", function() {
   });
 
   describe("sinks", function() {
-    it("returns nodes in the graph that have no out-edges", function() {
+    it("returns nodes in the graph that have no out-edges (directed graph)", function() {
       g.setPath(["a", "b", "c"]);
       g.setNode("d");
       expect(g.sinks().sort()).toEqual(["c", "d"]);
+    });
+
+    it("returns nodes in the graph that have no edges (undirected graph)", function() {
+      gUndirected.setPath(["a", "b", "c", "d"]);
+      gUndirected.removeNode("c");
+      expect(gUndirected.sinks().sort()).to.eql(["d"]);
     });
   });
 
