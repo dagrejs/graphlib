@@ -1,0 +1,1 @@
+{"version":3,"file":"extract-path.d.ts","sourceRoot":"","sources":["../../../../lib/alg/extract-path.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAC,IAAI,EAAC,MAAM,UAAU,CAAC;AAEnC,UAAU,aAAa;IACnB,MAAM,EAAE,MAAM,CAAC;IACf,IAAI,EAAE,MAAM,EAAE,CAAC;CAClB;AAED,wBAAgB,WAAW,CACvB,aAAa,EAAE,MAAM,CAAC,MAAM,EAAE,IAAI,CAAC,EACnC,MAAM,EAAE,MAAM,EACd,WAAW,EAAE,MAAM,GACpB,aAAa,CAYf"}

@@ -1,6 +1,6 @@
 {
   "name": "@dagrejs/graphlib",
-  "version": "3.0.5-pre",
+  "version": "4.0.0-pre",
   "description": "A directed and undirected multi-graph library",
   "author": "Chris Pettitt <cpettitt@gmail.com>",
   "contributors": [
@@ -10,37 +10,57 @@
   "main": "dist/graphlib.cjs.js",
   "module": "dist/graphlib.esm.js",
   "scripts": {
-    "build": "node build.js",
+    "build": "npm run build:types && tsx build.ts",
+    "build:types": "tsc -p tsconfig.build.json",
     "test": "jest",
-    "lint": "eslint . --ext .js,.ts"
+    "lint": "eslint . --ext .ts",
+    "typecheck": "tsc --noEmit",
+    "bench": "tsx src/bench.ts",
+    "version:check": "tsx src/release/check-version.ts",
+    "version:bump": "tsx src/release/bump-version.ts",
+    "version:make": "tsx src/release/make-version.ts > lib/version.ts",
+    "prepublishOnly": "npm run build && npm test"
   },
   "files": [
     "dist/"
   ],
   "exports": {
     ".": {
-      "types": "./dist/graphlib.d.ts",
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/graphlib.esm.js",
       "require": "./dist/graphlib.cjs.js"
     },
     "./package.json": "./package.json"
   },
-  "types": "./dist/graphlib.d.ts",
+  "types": "./dist/types/index.d.ts",
   "keywords": [
     "graph",
     "algorithms"
   ],
   "devDependencies": {
-    "@types/jest": "^29.5.12",
-    "@types/node": "^20.14.9",
+    "@eslint/js": "^10.0.1",
+    "@types/benchmark": "^2.1.5",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.3.0",
+    "@types/seedrandom": "^3.0.8",
+    "@types/semver": "^7.7.1",
+    "@types/sprintf-js": "^1.1.4",
+    "@typescript-eslint/eslint-plugin": "^8.56.0",
+    "@typescript-eslint/parser": "^8.56.0",
     "benchmark": "2.1.4",
-    "esbuild": "^0.27.0",
-    "eslint": "8.35.0",
+    "esbuild": "^0.27.3",
+    "eslint": "^10.0.0",
+    "globals": "^17.3.0",
     "jest": "^30.2.0",
-    "requirejs": "2.3.7",
-    "semver": "7.5.4",
-    "sprintf": "0.1.5",
-    "uglify-js": "3.17.4"
+    "jiti": "^2.6.1",
+    "seedrandom": "^3.0.5",
+    "semver": "^7.7.4",
+    "sprintf-js": "^1.1.3",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1"
   },
   "repository": {
     "type": "git",

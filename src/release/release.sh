@@ -1,6 +1,8 @@
+#!/bin/bash
+
 # Fail on error
 set -e
-[ -n "$DEBUG"] && set -x
+[ -n "$DEBUG" ] && set -x
 
 bail() {
     echo $1 >&2
@@ -14,10 +16,10 @@ PAGES_DIR=/tmp/$PROJECT-pages
 DIST_DIR=$2
 
 # Check version. Is this a release? If not abort
-VERSION=$(./src/release/check-version.js)
+VERSION=$(npm run version:check --silent)
 SHORT_VERSION=$(echo $VERSION | cut -f1 -d-)
 
-echo Attemping to publish version: $VERSION
+echo Attempting to publish version: $VERSION
 
 # Preflight checks
 [ -n "$PROJECT" ] || bail "No project name was specified."
@@ -58,9 +60,9 @@ npm publish --access=public
 echo Published to npm
 
 # Update patch level version + commit
-./src/release/bump-version.js
-make lib/version.js
-git commit package.json lib/version.js -m "Bump version and set as pre-release"
+npm run version:bump
+npm run version:make
+git commit package.json lib/version.ts -m "Bump version and set as pre-release"
 git push origin
 echo Updated patch version
 

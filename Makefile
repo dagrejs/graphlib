@@ -4,27 +4,27 @@ NPM = npm
 
 DIST_DIR = dist
 
-SRC_FILES = index.js lib/version.js $(shell find lib -type f -name '*.js')
-TEST_FILES = $(shell find test -type f -name '*.js' | grep -v 'bundle-test.js')
+SRC_FILES = index.ts lib/version.ts $(shell find lib -type f -name '*.ts')
+TEST_FILES = $(shell find test -type f -name '*.ts')
 BUILD_FILES = $(addprefix $(DIST_DIR)/, $(MOD).cjs.js $(MOD).esm.js $(MOD).min.js $(MOD).js)
 
 .PHONY: all bench clean test dist lint build release node_modules
 
 all: build test
 
-bench: test
-	@src/bench.js
+bench: build
+	@$(NPM) run bench
 
-lib/version.js: package.json
-	@src/release/make-version.js > $@
+lib/version.ts: package.json
+	@$(NPM) run version:make
 
 lint:
 	@echo "Running lint check via npm (ESLint)..."
-	@$(NPM) run lint 
+	@$(NPM) run lint
 
 build:
-	@echo "Running project build via npm (esbuild)..."
-	@$(NPM) run build 
+	@echo "Running project build via npm (esbuild + tsc)..."
+	@$(NPM) run build
 
 test: lint
 	@$(NPM) run test
