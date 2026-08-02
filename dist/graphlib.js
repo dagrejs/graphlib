@@ -669,7 +669,7 @@ var graphlib = (() => {
   }
 
   // lib/version.ts
-  var version = "4.0.1";
+  var version = "4.0.2";
 
   // lib/json.ts
   var json_exports = {};
@@ -1067,7 +1067,7 @@ var graphlib = (() => {
   // lib/alg/find-cycles.ts
   function findCycles(graph) {
     return tarjan(graph).filter(function(cmpt) {
-      return cmpt.length > 1 || cmpt.length === 1 && graph.hasEdge(cmpt[0], cmpt[0]);
+      return cmpt.length > 1 || cmpt.length === 1 && graph.outEdges(cmpt[0], cmpt[0]).length > 0;
     });
   }
 
