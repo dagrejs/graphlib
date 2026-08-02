@@ -1,6 +1,6 @@
 import { Graph } from '../graph';
 export declare class CycleException extends Error {
-    constructor(...args: unknown[]);
+    constructor(message?: string);
 }
 /**
  * Given a graph this function applies topological sorting to it.

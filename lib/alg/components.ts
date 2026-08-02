@@ -17,8 +17,8 @@ export function components(graph: Graph): string[][] {
         if (v in visited) return;
         visited[v] = true;
         cmpt.push(v);
-        graph.successors(v)!.forEach(dfs);
-        graph.predecessors(v)!.forEach(dfs);
+        graph.successors(v)?.forEach(dfs);
+        graph.predecessors(v)?.forEach(dfs);
     }
 
     graph.nodes().forEach(function (v) {

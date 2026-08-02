@@ -1,5 +1,5 @@
 import { Graph } from './graph';
-import type { GraphOptions } from './types';
+import type { GraphOptions, Label } from './types';
 interface JsonGraph {
     options: GraphOptions;
     nodes: JsonNode[];
@@ -38,6 +38,6 @@ export declare function write(graph: Graph): JsonGraph;
  * g2.edges()
  * // [ { v: 'a', w: 'b' } ]
  */
-export declare function read<GraphLabel = any, NodeLabel = any, EdgeLabel = any>(json: JsonGraph): Graph<GraphLabel, NodeLabel, EdgeLabel>;
+export declare function read<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label>(json: JsonGraph): Graph<GraphLabel, NodeLabel, EdgeLabel>;
 export {};
 //# sourceMappingURL=json.d.ts.map

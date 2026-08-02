@@ -41,11 +41,14 @@ export function prim(graph: Graph, weightFn: WeightFunction): Graph {
     });
 
     // Start from an arbitrary node
-    pq.decrease(graph.nodes()[0]!, 0);
+    const firstNode = graph.nodes()[0];
+    if (firstNode !== undefined) {
+        pq.decrease(firstNode, 0);
+    }
 
     let init = false;
     while (pq.size() > 0) {
-        v = pq.removeMin()!;
+        v = pq.removeMin();
         if (v in parents) {
             result.setEdge(v, parents[v]!);
         } else if (init) {
@@ -54,7 +57,7 @@ export function prim(graph: Graph, weightFn: WeightFunction): Graph {
             init = true;
         }
 
-        graph.nodeEdges(v)!.forEach(updateNeighbors);
+        graph.nodeEdges(v)?.forEach(updateNeighbors);
     }
 
     return result;

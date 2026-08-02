@@ -14,7 +14,7 @@ export function bellmanFord(
         String(source),
         weightFn || DEFAULT_WEIGHT_FUNC,
         edgeFn || function (v) {
-            return g.outEdges(v)!;
+            return g.outEdges(v) ?? [];
         }
     );
 }
@@ -31,10 +31,13 @@ function runBellmanFord(
     const nodes = g.nodes();
 
     const relaxEdge = function (edge: Edge): void {
+        const uEntry = results[edge.v];
+        const wEntry = results[edge.w];
+        if (!uEntry || !wEntry) return;
         const edgeWeight = weightFn(edge);
-        if (results[edge.v]!.distance + edgeWeight < results[edge.w]!.distance) {
+        if (uEntry.distance + edgeWeight < wEntry.distance) {
             results[edge.w] = {
-                distance: results[edge.v]!.distance + edgeWeight,
+                distance: uEntry.distance + edgeWeight,
                 predecessor: edge.v
             };
             didADistanceUpgrade = true;

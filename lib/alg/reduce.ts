@@ -11,7 +11,7 @@ import {Graph} from '../graph';
 export function reduce<T>(
     g: Graph,
     vs: string | string[],
-    order: string,
+    order: "pre" | "post",
     fn: (acc: T, v: string) => T,
     acc: T
 ): T {

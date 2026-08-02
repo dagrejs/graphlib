@@ -29,7 +29,7 @@ export function dijkstra(
     edgeFn?: EdgeFunction
 ): Record<string, Path> {
     const defaultEdgeFn: EdgeFunction = function (v) {
-        return graph.outEdges(v)!;
+        return graph.outEdges(v) ?? [];
     };
 
     return runDijkstra(graph, String(source),
@@ -49,7 +49,8 @@ function runDijkstra(
 
     const updateNeighbors = function (edge: Edge): void {
         const w = edge.v !== v ? edge.v : edge.w;
-        const wEntry = results[w]!;
+        const wEntry = results[w];
+        if (!wEntry) return;
         const weight = weightFn(edge);
         const distance = vEntry.distance + weight;
 
@@ -72,11 +73,12 @@ function runDijkstra(
     });
 
     while (pq.size() > 0) {
-        v = pq.removeMin()!;
-        vEntry = results[v]!;
-        if (vEntry.distance === Number.POSITIVE_INFINITY) {
+        v = pq.removeMin();
+        const entry = results[v];
+        if (!entry || entry.distance === Number.POSITIVE_INFINITY) {
             break;
         }
+        vEntry = entry;
 
         edgeFn(v).forEach(updateNeighbors);
     }

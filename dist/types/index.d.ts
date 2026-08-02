@@ -31,5 +31,5 @@ export { Graph } from './lib/graph';
 export { version } from './lib/version';
 export * as json from './lib/json';
 export * as alg from './lib/alg/index';
-export type { GraphOptions, Edge, Path, WeightFunction, EdgeFunction } from './lib/types.js';
+export type { GraphOptions, Edge, Path, WeightFunction, EdgeFunction, Label } from './lib/types.js';
 //# sourceMappingURL=index.d.ts.map
