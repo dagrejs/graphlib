@@ -1,6 +1,6 @@
 Changelog: @dagrejs/graphlib (v3.0.0+)
 
-## v4.0.2
+## v4.0.3
 
 Fixes & Improvements
 * alg.findCycles: Fixed detection of self-loop cycles created with named edges in multigraphs (#111, #235).
