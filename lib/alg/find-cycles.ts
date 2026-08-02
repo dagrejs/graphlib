@@ -1,4 +1,5 @@
 import {Graph} from '../graph';
+import type {Edge} from '../types';
 import {tarjan} from './tarjan';
 
 /**
@@ -14,6 +15,10 @@ import {tarjan} from './tarjan';
  */
 export function findCycles(graph: Graph): string[][] {
     return tarjan(graph).filter(function (cmpt) {
-        return cmpt.length > 1 || (cmpt.length === 1 && graph.hasEdge(cmpt[0]!, cmpt[0]!));
+        // A single-node component is a cycle iff the node has a self-loop. We check via outEdges
+        // rather than hasEdge(v, v) because the latter only matches the default (unnamed) edge and
+        // would miss a named self-loop edge in a multigraph.
+        return cmpt.length > 1
+            || (cmpt.length === 1 && (graph.outEdges(cmpt[0]!, cmpt[0]!) as Edge[]).length > 0);
     });
 }

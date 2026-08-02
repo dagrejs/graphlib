@@ -30,6 +30,13 @@ describe("alg.findCycles", () => {
         expect(sort(findCycles(g))).toEqual([["a", "b", "c"]]);
     });
 
+    it("detects a self-loop created with a named edge in a multigraph", () => {
+        const g = new Graph({multigraph: true});
+        g.setNode("a");
+        g.setEdge("a", "a", "label", "name");
+        expect(sort(findCycles(g))).toEqual([["a"]]);
+    });
+
     it("returns multiple entries for multiple cycles", () => {
         const g = new Graph();
         g.setPath(["a", "b", "a"]);
