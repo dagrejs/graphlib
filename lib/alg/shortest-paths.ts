@@ -14,8 +14,7 @@ export function shortestPaths(
         source,
         weightFn,
         edgeFn ?? ((v: string) => {
-            const edges = g.outEdges(v);
-            return edges ?? [];
+            return g.outEdges(v) ?? [];
         })
     );
 }
@@ -34,11 +33,14 @@ function runShortestPaths(
     const nodes = g.nodes();
 
     for (let i = 0; i < nodes.length; i++) {
-        const adjList = edgeFn(nodes[i]!);
+        const node = nodes[i];
+        if (node === undefined) continue;
+        const adjList = edgeFn(node);
 
         for (let j = 0; j < adjList.length; j++) {
-            const edge = adjList[j]!;
-            const inVertex = edge.v === nodes[i] ? edge.v : edge.w;
+            const edge = adjList[j];
+            if (!edge) continue;
+            const inVertex = edge.v === node ? edge.v : edge.w;
             const outVertex = inVertex === edge.v ? edge.w : edge.v;
 
             if (weightFn({v: inVertex, w: outVertex}) < 0) {

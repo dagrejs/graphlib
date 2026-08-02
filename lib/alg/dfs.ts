@@ -7,7 +7,7 @@ import {reduce} from './reduce';
  *
  * If the order is not "post", it will be treated as "pre".
  */
-export function dfs(g: Graph, vs: string | string[], order: string): string[] {
+export function dfs(g: Graph, vs: string | string[], order: "pre" | "post"): string[] {
     return reduce(g, vs, order, function (acc, v) {
         acc.push(v);
         return acc;

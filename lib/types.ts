@@ -38,6 +38,9 @@ export type WeightFunction = (e: Edge) => number;
 /** Function that takes a node and returns the edges incident to it */
 export type EdgeFunction = (v: string) => Edge[];
 
+/** Standard label type for node, edge, or graph labels */
+export type Label = string | number | boolean | Record<string, any>;
+
 /** Factory function that creates a label for a node */
 export type NodeLabelFactory<NodeLabel> = (v: string) => NodeLabel;
 

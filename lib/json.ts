@@ -1,5 +1,5 @@
 import {Graph} from './graph';
-import type {GraphOptions} from './types';
+import type {GraphOptions, Label} from './types';
 
 interface JsonGraph {
     options: GraphOptions;
@@ -93,7 +93,7 @@ function writeEdges(g: Graph): JsonEdge[] {
  * g2.edges()
  * // [ { v: 'a', w: 'b' } ]
  */
-export function read<GraphLabel = any, NodeLabel = any, EdgeLabel = any>(
+export function read<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label>(
     json: JsonGraph
 ): Graph<GraphLabel, NodeLabel, EdgeLabel> {
     const g = new Graph<GraphLabel, NodeLabel, EdgeLabel>(json.options);

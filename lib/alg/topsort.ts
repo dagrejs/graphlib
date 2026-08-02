@@ -1,8 +1,9 @@
 import {Graph} from '../graph';
 
 export class CycleException extends Error {
-    constructor(...args: unknown[]) {
-        super(...args as ConstructorParameters<typeof Error>);
+    constructor(message?: string) {
+        super(message);
+        this.name = "CycleException";
     }
 }
 
@@ -27,7 +28,7 @@ export function topsort(graph: Graph): string[] {
         if (!(node in visited)) {
             stack[node] = true;
             visited[node] = true;
-            graph.predecessors(node)!.forEach(visit);
+            graph.predecessors(node)?.forEach(visit);
             delete stack[node];
             results.push(node);
         }

@@ -17,8 +17,13 @@ export function extractPath(
         throw new Error("Invalid destination vertex");
     }
 
+    const destPath = shortestPaths[destination];
+    if (!destPath) {
+        throw new Error("Invalid destination vertex");
+    }
+
     return {
-        weight: shortestPaths[destination]!.distance,
+        weight: destPath.distance,
         path: runExtractPath(shortestPaths, source, destination)
     };
 }
@@ -29,12 +34,14 @@ function runExtractPath(
     destination: string
 ): string[] {
     const path: string[] = [];
-    let currentNode = destination;
+    let currentNode: string | undefined = destination;
 
-    while (currentNode !== source) {
+    while (currentNode !== undefined && currentNode !== source) {
         path.push(currentNode);
-        currentNode = shortestPaths[currentNode]!.predecessor!;
+        currentNode = shortestPaths[currentNode]?.predecessor;
     }
-    path.push(source);
+    if (currentNode === source) {
+        path.push(source);
+    }
     return path.reverse();
 }

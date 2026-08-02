@@ -83,6 +83,9 @@ export class PriorityQueue {
      * Removes and returns the smallest key in the queue. Takes `O(log n)` time.
      */
     removeMin(): string {
+        if (this.size() === 0) {
+            throw new Error("Queue underflow");
+        }
         this._swap(0, this._arr.length - 1);
         const min = this._arr.pop()!;
         delete this._keyIndices[min.key];

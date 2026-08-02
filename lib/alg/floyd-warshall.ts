@@ -30,7 +30,7 @@ export function floydWarshall(
     return runFloydWarshall(graph,
         weightFn || DEFAULT_WEIGHT_FUNC,
         edgeFn || function (v) {
-            return graph.outEdges(v)!;
+            return graph.outEdges(v) ?? [];
         });
 }
 
@@ -43,32 +43,37 @@ function runFloydWarshall(
     const nodes = graph.nodes();
 
     nodes.forEach(function (v) {
-        results[v] = {};
-        results[v]![v] = {distance: 0, predecessor: ''};
+        const rowV: Record<string, Path> = {};
+        results[v] = rowV;
+        rowV[v] = {distance: 0, predecessor: ''};
         nodes.forEach(function (w) {
             if (v !== w) {
-                results[v]![w] = {distance: Number.POSITIVE_INFINITY, predecessor: ''};
+                rowV[w] = {distance: Number.POSITIVE_INFINITY, predecessor: ''};
             }
         });
         edgeFn(v).forEach(function (edge) {
             const w = edge.v === v ? edge.w : edge.v;
             const d = weightFn(edge);
-            results[v]![w] = {distance: d, predecessor: v};
+            rowV[w] = {distance: d, predecessor: v};
         });
     });
 
     nodes.forEach(function (k) {
-        const rowK = results[k]!;
+        const rowK = results[k];
+        if (!rowK) return;
         nodes.forEach(function (i) {
-            const rowI = results[i]!;
+            const rowI = results[i];
+            if (!rowI) return;
             nodes.forEach(function (j) {
-                const ik = rowI[k]!;
-                const kj = rowK[j]!;
-                const ij = rowI[j]!;
-                const altDistance = ik.distance + kj.distance;
-                if (altDistance < ij.distance) {
-                    ij.distance = altDistance;
-                    ij.predecessor = kj.predecessor;
+                const ik = rowI[k];
+                const kj = rowK[j];
+                const ij = rowI[j];
+                if (ik && kj && ij) {
+                    const altDistance = ik.distance + kj.distance;
+                    if (altDistance < ij.distance) {
+                        ij.distance = altDistance;
+                        ij.predecessor = kj.predecessor;
+                    }
                 }
             });
         });

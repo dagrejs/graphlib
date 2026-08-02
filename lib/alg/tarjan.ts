@@ -33,12 +33,18 @@ export function tarjan(graph: Graph): string[][] {
         };
         stack.push(v);
 
-        graph.successors(v)!.forEach(function (w) {
+        graph.successors(v)?.forEach(function (w) {
             if (!(w in visited)) {
                 dfs(w);
-                entry.lowlink = Math.min(entry.lowlink, visited[w]!.lowlink);
-            } else if (visited[w]!.onStack) {
-                entry.lowlink = Math.min(entry.lowlink, visited[w]!.index);
+                const wEntry = visited[w];
+                if (wEntry) {
+                    entry.lowlink = Math.min(entry.lowlink, wEntry.lowlink);
+                }
+            } else {
+                const wEntry = visited[w];
+                if (wEntry?.onStack) {
+                    entry.lowlink = Math.min(entry.lowlink, wEntry.index);
+                }
             }
         });
 
@@ -47,7 +53,10 @@ export function tarjan(graph: Graph): string[][] {
             let w: string;
             do {
                 w = stack.pop()!;
-                visited[w]!.onStack = false;
+                const wEntry = visited[w];
+                if (wEntry) {
+                    wEntry.onStack = false;
+                }
                 cmpt.push(w);
             } while (v !== w);
             results.push(cmpt);

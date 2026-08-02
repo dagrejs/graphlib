@@ -309,6 +309,7 @@ var graphlib = (() => {
           return parent;
         }
       }
+      return void 0;
     }
     /**
      * Gets list of direct children of node v.
@@ -343,6 +344,7 @@ var graphlib = (() => {
       if (predsV) {
         return Object.keys(predsV);
       }
+      return void 0;
     }
     /**
      * Return all nodes that are successors of the specified node or undefined if node v is not in
@@ -357,6 +359,7 @@ var graphlib = (() => {
       if (sucsV) {
         return Object.keys(sucsV);
       }
+      return void 0;
     }
     /**
      * Return all nodes that are predecessors or successors of the specified node or undefined if
@@ -370,20 +373,25 @@ var graphlib = (() => {
       const preds = this.predecessors(v);
       if (preds) {
         const union = new Set(preds);
-        for (const succ of this.successors(v)) {
-          union.add(succ);
+        const sucs = this.successors(v);
+        if (sucs) {
+          for (const succ of sucs) {
+            union.add(succ);
+          }
         }
         return Array.from(union.values());
       }
+      return void 0;
     }
     isLeaf(v) {
+      var _a;
       let neighbors;
       if (this.isDirected()) {
         neighbors = this.successors(v);
       } else {
         neighbors = this.neighbors(v);
       }
-      return neighbors.length === 0;
+      return ((_a = neighbors == null ? void 0 : neighbors.length) != null ? _a : 0) === 0;
     }
     /**
      * Creates new graph with nodes filtered via filter. Edges incident to rejected node
@@ -415,8 +423,8 @@ var graphlib = (() => {
       const findParent = (v) => {
         const parent = this.parent(v);
         if (!parent || copy.hasNode(parent)) {
-          parents[v] = parent != null ? parent : void 0;
-          return parent != null ? parent : void 0;
+          parents[v] = parent;
+          return parent;
         } else if (parent in parents) {
           return parents[parent];
         } else {
@@ -543,7 +551,7 @@ var graphlib = (() => {
     }
     edgeAsObj(v, w, name) {
       const edgeLabel = arguments.length === 1 ? this.edge(v) : this.edge(v, w, name);
-      if (typeof edgeLabel !== "object") {
+      if (typeof edgeLabel !== "object" || edgeLabel === null) {
         return { label: edgeLabel };
       }
       return edgeLabel;
@@ -611,6 +619,7 @@ var graphlib = (() => {
       if (v in this._nodes) {
         return this.filterEdges({ ...this._in[v], ...this._out[v] }, v, w);
       }
+      return void 0;
     }
     _removeFromParentsChildList(v) {
       delete this._children[this._parent[v]][v];
@@ -669,7 +678,7 @@ var graphlib = (() => {
   }
 
   // lib/version.ts
-  var version = "4.0.3";
+  var version = "4.0.4-pre";
 
   // lib/json.ts
   var json_exports = {};
@@ -764,7 +773,8 @@ var graphlib = (() => {
       String(source),
       weightFn || DEFAULT_WEIGHT_FUNC,
       edgeFn || function(v) {
-        return g.outEdges(v);
+        var _a;
+        return (_a = g.outEdges(v)) != null ? _a : [];
       }
     );
   }
@@ -774,10 +784,13 @@ var graphlib = (() => {
     let iterations = 0;
     const nodes = g.nodes();
     const relaxEdge = function(edge) {
+      const uEntry = results[edge.v];
+      const wEntry = results[edge.w];
+      if (!uEntry || !wEntry) return;
       const edgeWeight = weightFn(edge);
-      if (results[edge.v].distance + edgeWeight < results[edge.w].distance) {
+      if (uEntry.distance + edgeWeight < wEntry.distance) {
         results[edge.w] = {
-          distance: results[edge.v].distance + edgeWeight,
+          distance: uEntry.distance + edgeWeight,
           predecessor: edge.v
         };
         didADistanceUpgrade = true;
@@ -821,11 +834,12 @@ var graphlib = (() => {
     const cmpts = [];
     let cmpt;
     function dfs2(v) {
+      var _a, _b;
       if (v in visited) return;
       visited[v] = true;
       cmpt.push(v);
-      graph.successors(v).forEach(dfs2);
-      graph.predecessors(v).forEach(dfs2);
+      (_a = graph.successors(v)) == null ? void 0 : _a.forEach(dfs2);
+      (_b = graph.predecessors(v)) == null ? void 0 : _b.forEach(dfs2);
     }
     graph.nodes().forEach(function(v) {
       cmpt = [];
@@ -904,6 +918,9 @@ var graphlib = (() => {
      * Removes and returns the smallest key in the queue. Takes `O(log n)` time.
      */
     removeMin() {
+      if (this.size() === 0) {
+        throw new Error("Queue underflow");
+      }
       this._swap(0, this._arr.length - 1);
       const min = this._arr.pop();
       delete this._keyIndices[min.key];
@@ -973,7 +990,8 @@ var graphlib = (() => {
   var DEFAULT_WEIGHT_FUNC2 = () => 1;
   function dijkstra(graph, source, weightFn, edgeFn) {
     const defaultEdgeFn = function(v) {
-      return graph.outEdges(v);
+      var _a;
+      return (_a = graph.outEdges(v)) != null ? _a : [];
     };
     return runDijkstra(
       graph,
@@ -989,6 +1007,7 @@ var graphlib = (() => {
     const updateNeighbors = function(edge) {
       const w = edge.v !== v ? edge.v : edge.w;
       const wEntry = results[w];
+      if (!wEntry) return;
       const weight = weightFn(edge);
       const distance = vEntry.distance + weight;
       if (weight < 0) {
@@ -1007,10 +1026,11 @@ var graphlib = (() => {
     });
     while (pq.size() > 0) {
       v = pq.removeMin();
-      vEntry = results[v];
-      if (vEntry.distance === Number.POSITIVE_INFINITY) {
+      const entry = results[v];
+      if (!entry || entry.distance === Number.POSITIVE_INFINITY) {
         break;
       }
+      vEntry = entry;
       edgeFn(v).forEach(updateNeighbors);
     }
     return results;
@@ -1031,18 +1051,25 @@ var graphlib = (() => {
     const visited = {};
     const results = [];
     function dfs2(v) {
+      var _a;
       const entry = visited[v] = {
         onStack: true,
         lowlink: index,
         index: index++
       };
       stack.push(v);
-      graph.successors(v).forEach(function(w) {
+      (_a = graph.successors(v)) == null ? void 0 : _a.forEach(function(w) {
         if (!(w in visited)) {
           dfs2(w);
-          entry.lowlink = Math.min(entry.lowlink, visited[w].lowlink);
-        } else if (visited[w].onStack) {
-          entry.lowlink = Math.min(entry.lowlink, visited[w].index);
+          const wEntry = visited[w];
+          if (wEntry) {
+            entry.lowlink = Math.min(entry.lowlink, wEntry.lowlink);
+          }
+        } else {
+          const wEntry = visited[w];
+          if (wEntry == null ? void 0 : wEntry.onStack) {
+            entry.lowlink = Math.min(entry.lowlink, wEntry.index);
+          }
         }
       });
       if (entry.lowlink === entry.index) {
@@ -1050,7 +1077,10 @@ var graphlib = (() => {
         let w;
         do {
           w = stack.pop();
-          visited[w].onStack = false;
+          const wEntry = visited[w];
+          if (wEntry) {
+            wEntry.onStack = false;
+          }
           cmpt.push(w);
         } while (v !== w);
         results.push(cmpt);
@@ -1067,7 +1097,10 @@ var graphlib = (() => {
   // lib/alg/find-cycles.ts
   function findCycles(graph) {
     return tarjan(graph).filter(function(cmpt) {
-      return cmpt.length > 1 || cmpt.length === 1 && graph.outEdges(cmpt[0], cmpt[0]).length > 0;
+      var _a;
+      const firstNode = cmpt[0];
+      if (!firstNode) return false;
+      return cmpt.length > 1 || cmpt.length === 1 && ((_a = graph.outEdges(firstNode, firstNode)) != null ? _a : []).length > 0;
     });
   }
 
@@ -1078,7 +1111,8 @@ var graphlib = (() => {
       graph,
       weightFn || DEFAULT_WEIGHT_FUNC3,
       edgeFn || function(v) {
-        return graph.outEdges(v);
+        var _a;
+        return (_a = graph.outEdges(v)) != null ? _a : [];
       }
     );
   }
@@ -1086,31 +1120,36 @@ var graphlib = (() => {
     const results = {};
     const nodes = graph.nodes();
     nodes.forEach(function(v) {
-      results[v] = {};
-      results[v][v] = { distance: 0, predecessor: "" };
+      const rowV = {};
+      results[v] = rowV;
+      rowV[v] = { distance: 0, predecessor: "" };
       nodes.forEach(function(w) {
         if (v !== w) {
-          results[v][w] = { distance: Number.POSITIVE_INFINITY, predecessor: "" };
+          rowV[w] = { distance: Number.POSITIVE_INFINITY, predecessor: "" };
         }
       });
       edgeFn(v).forEach(function(edge) {
         const w = edge.v === v ? edge.w : edge.v;
         const d = weightFn(edge);
-        results[v][w] = { distance: d, predecessor: v };
+        rowV[w] = { distance: d, predecessor: v };
       });
     });
     nodes.forEach(function(k) {
       const rowK = results[k];
+      if (!rowK) return;
       nodes.forEach(function(i) {
         const rowI = results[i];
+        if (!rowI) return;
         nodes.forEach(function(j) {
           const ik = rowI[k];
           const kj = rowK[j];
           const ij = rowI[j];
-          const altDistance = ik.distance + kj.distance;
-          if (altDistance < ij.distance) {
-            ij.distance = altDistance;
-            ij.predecessor = kj.predecessor;
+          if (ik && kj && ij) {
+            const altDistance = ik.distance + kj.distance;
+            if (altDistance < ij.distance) {
+              ij.distance = altDistance;
+              ij.predecessor = kj.predecessor;
+            }
           }
         });
       });
@@ -1120,8 +1159,9 @@ var graphlib = (() => {
 
   // lib/alg/topsort.ts
   var CycleException = class extends Error {
-    constructor(...args) {
-      super(...args);
+    constructor(message) {
+      super(message);
+      this.name = "CycleException";
     }
   };
   function topsort(graph) {
@@ -1129,13 +1169,14 @@ var graphlib = (() => {
     const stack = {};
     const results = [];
     function visit(node) {
+      var _a;
       if (node in stack) {
         throw new CycleException();
       }
       if (!(node in visited)) {
         stack[node] = true;
         visited[node] = true;
-        graph.predecessors(node).forEach(visit);
+        (_a = graph.predecessors(node)) == null ? void 0 : _a.forEach(visit);
         delete stack[node];
         results.push(node);
       }
@@ -1214,6 +1255,7 @@ var graphlib = (() => {
 
   // lib/alg/prim.ts
   function prim(graph, weightFn) {
+    var _a;
     const result = new Graph();
     const parents = {};
     const pq = new PriorityQueue();
@@ -1236,7 +1278,10 @@ var graphlib = (() => {
       pq.add(v2, Number.POSITIVE_INFINITY);
       result.setNode(v2);
     });
-    pq.decrease(graph.nodes()[0], 0);
+    const firstNode = graph.nodes()[0];
+    if (firstNode !== void 0) {
+      pq.decrease(firstNode, 0);
+    }
     let init = false;
     while (pq.size() > 0) {
       v = pq.removeMin();
@@ -1247,7 +1292,7 @@ var graphlib = (() => {
       } else {
         init = true;
       }
-      graph.nodeEdges(v).forEach(updateNeighbors);
+      (_a = graph.nodeEdges(v)) == null ? void 0 : _a.forEach(updateNeighbors);
     }
     return result;
   }
@@ -1259,8 +1304,8 @@ var graphlib = (() => {
       source,
       weightFn,
       edgeFn != null ? edgeFn : ((v) => {
-        const edges = g.outEdges(v);
-        return edges != null ? edges : [];
+        var _a;
+        return (_a = g.outEdges(v)) != null ? _a : [];
       })
     );
   }
@@ -1271,10 +1316,13 @@ var graphlib = (() => {
     let negativeEdgeExists = false;
     const nodes = g.nodes();
     for (let i = 0; i < nodes.length; i++) {
-      const adjList = edgeFn(nodes[i]);
+      const node = nodes[i];
+      if (node === void 0) continue;
+      const adjList = edgeFn(node);
       for (let j = 0; j < adjList.length; j++) {
         const edge = adjList[j];
-        const inVertex = edge.v === nodes[i] ? edge.v : edge.w;
+        if (!edge) continue;
+        const inVertex = edge.v === node ? edge.v : edge.w;
         const outVertex = inVertex === edge.v ? edge.w : edge.v;
         if (weightFn({ v: inVertex, w: outVertex }) < 0) {
           negativeEdgeExists = true;
