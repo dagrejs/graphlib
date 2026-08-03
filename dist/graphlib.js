@@ -678,7 +678,7 @@ var graphlib = (() => {
   }
 
   // lib/version.ts
-  var version = "4.0.4-pre";
+  var version = "4.0.4";
 
   // lib/json.ts
   var json_exports = {};
