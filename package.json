@@ -7,7 +7,8 @@
     "David Newell"
   ],
   "license": "MIT",
-  "main": "dist/graphlib.cjs.js",
+  "type": "module",
+  "main": "dist/graphlib.cjs",
   "module": "dist/graphlib.esm.js",
   "scripts": {
     "build": "npm run build:types && tsx build.ts",
@@ -28,7 +29,7 @@
     ".": {
       "types": "./dist/types/index.d.ts",
       "import": "./dist/graphlib.esm.js",
-      "require": "./dist/graphlib.cjs.js"
+      "require": "./dist/graphlib.cjs"
     },
     "./package.json": "./package.json"
   },
