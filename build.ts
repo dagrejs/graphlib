@@ -19,7 +19,7 @@ async function build(): Promise<void> {
     // 1. CommonJS (CJS) - For Node.js `require()`
     await esbuild({
         ...sharedConfig,
-        outfile: 'dist/graphlib.cjs.js',
+        outfile: 'dist/graphlib.cjs',
         format: 'cjs',
         platform: 'node',
     });
