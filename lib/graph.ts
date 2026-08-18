@@ -1,4 +1,4 @@
-import type {Edge, EdgeLabelFactory, GraphOptions, Label, NodeLabelFactory} from './types';
+import type {Edge, EdgeLabelFactory, GraphOptions, Label, NodeLabelFactory} from './types.js';
 
 const DEFAULT_EDGE_NAME = "\x00";
 const GRAPH_NODE = "\x00";

@@ -1,7 +1,7 @@
-import {dijkstra} from './dijkstra';
-import {bellmanFord} from './bellman-ford';
-import {Graph} from '../graph';
-import type {EdgeFunction, Path, WeightFunction} from '../types';
+import {dijkstra} from './dijkstra.js';
+import {bellmanFord} from './bellman-ford.js';
+import {Graph} from '../graph.js';
+import type {EdgeFunction, Path, WeightFunction} from '../types.js';
 
 export function shortestPaths(
     g: Graph,
