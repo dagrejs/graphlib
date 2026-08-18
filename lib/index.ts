@@ -1,2 +1,2 @@
-export {Graph} from './graph';
-export {version} from './version';
+export {Graph} from './graph.js';
+export {version} from './version.js';

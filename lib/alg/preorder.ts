@@ -1,5 +1,5 @@
-import {Graph} from '../graph';
-import {dfs} from './dfs';
+import {Graph} from '../graph.js';
+import {dfs} from './dfs.js';
 
 /**
  * Performs pre-order depth first traversal on the input graph. If the graph is
