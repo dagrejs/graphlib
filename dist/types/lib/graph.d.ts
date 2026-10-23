@@ -1,4 +1,4 @@
-import type { Edge, EdgeLabelFactory, GraphOptions, Label, NodeLabelFactory } from './types';
+import type { Edge, EdgeLabelFactory, GraphOptions, Label, NodeLabelFactory } from './types.js';
 export declare class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
     private _isDirected;
     private _isMultigraph;

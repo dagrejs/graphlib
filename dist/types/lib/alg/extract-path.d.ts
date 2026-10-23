@@ -1,4 +1,4 @@
-import type { Path } from '../types';
+import type { Path } from '../types.js';
 interface ExtractedPath {
     weight: number;
     path: string[];

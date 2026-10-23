@@ -1,5 +1,5 @@
-import { Graph } from '../graph';
-import type { WeightFunction } from '../types';
+import { Graph } from '../graph.js';
+import type { WeightFunction } from '../types.js';
 /**
  * Prim's algorithm takes a connected undirected graph and generates a minimum spanning tree. This
  * function returns the minimum spanning tree as an undirected graph. This algorithm is derived

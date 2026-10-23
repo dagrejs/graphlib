@@ -1,4 +1,4 @@
-import { Graph } from '../graph';
+import { Graph } from '../graph.js';
 /**
  * Given a Graph, graph, this function returns all nodes that are part of a cycle. As there
  * may be more than one cycle in a graph this function return an array of these cycles,

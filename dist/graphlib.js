@@ -678,7 +678,7 @@ var graphlib = (() => {
   }
 
   // lib/version.ts
-  var version = "4.0.5";
+  var version = "4.0.6";
 
   // lib/json.ts
   var json_exports = {};
@@ -736,7 +736,7 @@ var graphlib = (() => {
     }
     json.nodes.forEach((entry) => {
       g.setNode(entry.v, entry.value);
-      if (entry.parent) {
+      if (entry.parent != null) {
         g.setParent(entry.v, entry.parent);
       }
     });

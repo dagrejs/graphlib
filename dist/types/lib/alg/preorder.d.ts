@@ -1,4 +1,4 @@
-import { Graph } from '../graph';
+import { Graph } from '../graph.js';
 /**
  * Performs pre-order depth first traversal on the input graph. If the graph is
  * undirected then this algorithm will navigate using neighbors. If the graph

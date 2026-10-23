@@ -1,5 +1,5 @@
-import { Graph } from './graph';
-import type { GraphOptions, Label } from './types';
+import { Graph } from './graph.js';
+import type { GraphOptions, Label } from './types.js';
 interface JsonGraph {
     options: GraphOptions;
     nodes: JsonNode[];

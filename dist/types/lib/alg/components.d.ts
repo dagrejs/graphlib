@@ -1,4 +1,4 @@
-import { Graph } from '../graph';
+import { Graph } from '../graph.js';
 /**
  * Finds all connected components in a graph and returns an array of these components.
  * Each component is itself an array that contains the ids of nodes in the component.

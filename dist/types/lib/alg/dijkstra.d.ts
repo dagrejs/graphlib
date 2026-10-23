@@ -1,5 +1,5 @@
-import { Graph } from '../graph';
-import type { EdgeFunction, Path, WeightFunction } from '../types';
+import { Graph } from '../graph.js';
+import type { EdgeFunction, Path, WeightFunction } from '../types.js';
 /**
  * This function is an implementation of Dijkstra's algorithm which finds the shortest
  * path from source to all other nodes in graph. This function returns a map of

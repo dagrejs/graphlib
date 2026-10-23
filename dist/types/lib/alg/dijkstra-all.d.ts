@@ -1,5 +1,5 @@
-import { Graph } from '../graph';
-import type { EdgeFunction, Path, WeightFunction } from '../types';
+import { Graph } from '../graph.js';
+import type { EdgeFunction, Path, WeightFunction } from '../types.js';
 /**
  * This function finds the shortest path from each node to every other reachable node in
  * the graph. It is similar to alg.dijkstra, but instead of returning a single-source

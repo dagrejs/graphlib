@@ -1,4 +1,4 @@
-import { Graph } from '../graph';
+import { Graph } from '../graph.js';
 /**
  * This function is an implementation of Tarjan's algorithm which finds all strongly connected
  * components in the directed graph g. Each strongly connected component is composed of nodes that
