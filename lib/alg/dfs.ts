@@ -1,5 +1,5 @@
-import {Graph} from '../graph';
-import {reduce} from './reduce';
+import {Graph} from '../graph.js';
+import {reduce} from './reduce.js';
 
 /*
  * Pre- or post-order traversal on the input graph.

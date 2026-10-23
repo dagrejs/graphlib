@@ -1,6 +1,6 @@
-import {Graph} from '../graph';
-import type {EdgeFunction, Path, WeightFunction} from '../types';
-import {dijkstra} from './dijkstra';
+import {Graph} from '../graph.js';
+import type {EdgeFunction, Path, WeightFunction} from '../types.js';
+import {dijkstra} from './dijkstra.js';
 
 /**
  * This function finds the shortest path from each node to every other reachable node in
