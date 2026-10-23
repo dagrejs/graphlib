@@ -1,6 +1,6 @@
-import {Graph} from '../graph';
-import {PriorityQueue} from '../data/priority-queue';
-import type {Edge, WeightFunction} from '../types';
+import {Graph} from '../graph.js';
+import {PriorityQueue} from '../data/priority-queue.js';
+import type {Edge, WeightFunction} from '../types.js';
 
 /**
  * Prim's algorithm takes a connected undirected graph and generates a minimum spanning tree. This

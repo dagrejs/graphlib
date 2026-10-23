@@ -1,5 +1,5 @@
-import {Graph} from '../graph';
-import type {Edge, EdgeFunction, Path, WeightFunction} from '../types';
+import {Graph} from '../graph.js';
+import type {Edge, EdgeFunction, Path, WeightFunction} from '../types.js';
 
 const DEFAULT_WEIGHT_FUNC: WeightFunction = () => 1;
 

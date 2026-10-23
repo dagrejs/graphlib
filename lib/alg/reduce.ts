@@ -1,4 +1,4 @@
-import {Graph} from '../graph';
+import {Graph} from '../graph.js';
 
 /*
  * A helper that preforms a pre- or post-order traversal on the input graph

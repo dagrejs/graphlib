@@ -28,9 +28,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-export {Graph} from './lib/graph';
-export {version} from './lib/version';
-export * as json from './lib/json';
-export * as alg from './lib/alg/index';
+export {Graph} from './lib/graph.js';
+export {version} from './lib/version.js';
+export * as json from './lib/json.js';
+export * as alg from './lib/alg/index.js';
 
 export type {GraphOptions, Edge, Path, WeightFunction, EdgeFunction, Label} from './lib/types.js';

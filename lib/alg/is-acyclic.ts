@@ -1,5 +1,5 @@
-import {Graph} from '../graph';
-import {CycleException, topsort} from './topsort';
+import {Graph} from '../graph.js';
+import {CycleException, topsort} from './topsort.js';
 
 /**
  * Given a Graph, graph, this function returns true if the graph has no cycles and returns false if it

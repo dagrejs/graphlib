@@ -1,5 +1,5 @@
-import {Graph} from '../graph';
-import {tarjan} from './tarjan';
+import {Graph} from '../graph.js';
+import {tarjan} from './tarjan.js';
 
 /**
  * Given a Graph, graph, this function returns all nodes that are part of a cycle. As there

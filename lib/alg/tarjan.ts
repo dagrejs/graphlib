@@ -1,4 +1,4 @@
-import {Graph} from '../graph';
+import {Graph} from '../graph.js';
 
 interface VisitedEntry {
     onStack: boolean;

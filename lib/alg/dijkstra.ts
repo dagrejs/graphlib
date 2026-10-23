@@ -1,6 +1,6 @@
-import {Graph} from '../graph';
-import {PriorityQueue} from '../data/priority-queue';
-import type {Edge, EdgeFunction, Path, WeightFunction} from '../types';
+import {Graph} from '../graph.js';
+import {PriorityQueue} from '../data/priority-queue.js';
+import type {Edge, EdgeFunction, Path, WeightFunction} from '../types.js';
 
 const DEFAULT_WEIGHT_FUNC: WeightFunction = () => 1;
 
