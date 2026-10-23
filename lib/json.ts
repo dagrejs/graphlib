@@ -104,7 +104,7 @@ export function read<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label>(
 
     json.nodes.forEach(entry => {
         g.setNode(entry.v, entry.value as NodeLabel);
-        if (entry.parent) {
+        if (entry.parent != null) {
             g.setParent(entry.v, entry.parent);
         }
     });

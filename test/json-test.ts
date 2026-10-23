@@ -47,6 +47,15 @@ describe("json", () => {
         expect(rw(g).edge("a", "b", "foo")).toEqual({foo: "bar"});
     });
 
+    it("preserves an empty-string parent through JSON serialization", () => {
+        const g = new Graph({compound: true}).setParent("child", "");
+        const restored = read(JSON.parse(JSON.stringify(write(g))));
+
+        expect(restored.parent("child")).toBe("");
+        expect(restored.children("")).toEqual(["child"]);
+        expect(restored.children()).toEqual([""]);
+    });
+
     it("preserves parent / child relationships", () => {
         expect(rw(new Graph({compound: true}).setNode("a")).parent("a")).toBeUndefined();
         expect(rw(new Graph({compound: true}).setParent("a", "parent")).parent("a")).toBe("parent");
