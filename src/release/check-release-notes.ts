@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Verifies that changelog.md contains release notes for the current version
- * in package.json.
+ * Verifies changelog.md contains release notes for the current version.
  */
 
 import fs from 'fs';
@@ -44,7 +43,6 @@ if (!sectionContent) {
     bail(`ERROR: Release notes for v${ver.version} in ${CHANGELOG_FILE} are empty`);
 }
 
-// Write an error message to stderr and then exit immediately with an error.
 function bail(msg: string): never {
     process.stderr.write(msg + '\n');
     process.exit(1);
