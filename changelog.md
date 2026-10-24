@@ -1,5 +1,15 @@
 Changelog: @dagrejs/graphlib (v3.0.0+)
 
+## v4.0.7
+
+Fixes & Improvements
+* ESM & Package Exports: Added `"type": "module"` to `package.json` and renamed the CommonJS bundle to `dist/graphlib.cjs` so both ESM `import` and CommonJS `require()` resolve properly (#233, #237).
+* TypeScript Declarations: Added `.js` extensions to relative imports and updated `tsconfig.build.json` to use `nodenext` resolution so emitted `.d.ts` files resolve cleanly under `node16`/`nodenext` (#238, #239).
+* TypeScript Types: Strengthened generic type definitions across `Graph`, `json`, and `alg` functions (#236).
+* json.read: Preserved empty-string (`""`) parent IDs during JSON serialization roundtrips (#247).
+* Release & Tooling: Added a preflight release check to ensure `changelog.md` is updated before releasing (#251) and added `.pre-commit-config.yaml` to run tests (#250).
+* Dependency Updates: Maintenance updates for devDependencies (`@babel/core`, `handlebars`, `brace-expansion`, `baseline-browser-mapping`, `js-yaml`, `browserslist`, `@humanfs/node`).
+
 ## v4.0.3
 
 Fixes & Improvements
