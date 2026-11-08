@@ -30,15 +30,16 @@ function runBellmanFord(
     let iterations = 0;
     const nodes = g.nodes();
 
-    const relaxEdge = function (edge: Edge): void {
-        const uEntry = results[edge.v];
-        const wEntry = results[edge.w];
+    const relaxEdge = function (edge: Edge, v: string): void {
+        const w = edge.v === v ? edge.w : edge.v;
+        const uEntry = results[v];
+        const wEntry = results[w];
         if (!uEntry || !wEntry) return;
         const edgeWeight = weightFn(edge);
         if (uEntry.distance + edgeWeight < wEntry.distance) {
-            results[edge.w] = {
+            results[w] = {
                 distance: uEntry.distance + edgeWeight,
-                predecessor: edge.v
+                predecessor: v
             };
             didADistanceUpgrade = true;
         }
@@ -47,11 +48,8 @@ function runBellmanFord(
     const relaxAllEdges = function (): void {
         nodes.forEach(function (vertex) {
             edgeFn(vertex).forEach(function (edge) {
-                // If the vertex on which the edgeFun in called is
-                // the edge.w, then we treat the edge as if it was reversed
-                const inVertex = edge.v === vertex ? edge.v : edge.w;
-                const outVertex = inVertex === edge.v ? edge.w : edge.v;
-                relaxEdge({v: inVertex, w: outVertex});
+                // Keep the original edge for weight lookup, even when traversed in reverse.
+                relaxEdge(edge, vertex);
             });
         });
     };
