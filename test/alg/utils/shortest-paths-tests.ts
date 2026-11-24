@@ -88,6 +88,27 @@ export function tests(algorithm: (g: Graph, source: string, weightFn?: WeightFun
                 d: {distance: 0, predecessor: ''}
             });
         });
+
+        it("uses an optionally supplied weight function with named edges", () => {
+            const g = new Graph({multigraph: true});
+            g.setEdge("a", "b", 10);
+            g.setEdge("a", "b", 2, "fast");
+
+            expect(algorithm(g, "a", weightFn(g))).toEqual({
+                a: {distance: 0, predecessor: ''},
+                b: {distance: 2, predecessor: "a"}
+            });
+        });
+
+        it("uses weight and edge functions together for incoming edges", () => {
+            const g = new Graph();
+            g.setEdge("a", "b", 2);
+
+            expect(algorithm(g, "b", weightFn(g), (v) => g.inEdges(v) ?? [])).toEqual({
+                a: {distance: 2, predecessor: "b"},
+                b: {distance: 0, predecessor: ''}
+            });
+        });
     });
 }
 
@@ -111,6 +132,16 @@ describe("alg.shortestPaths", () => {
         g.setEdge("d", "c", 2);
 
         expect(alg.shortestPaths(g, "a", weightFn(g))).toEqual(alg.bellmanFord(g, "a", weightFn(g)));
+    });
+
+    it("uses bellman-ford if the graph contains a named negative edge", () => {
+        const g = new Graph({multigraph: true});
+        g.setEdge("a", "b", -1, "x");
+
+        expect(alg.shortestPaths(g, "a", weightFn(g))).toEqual({
+            a: {distance: 0, predecessor: ''},
+            b: {distance: -1, predecessor: "a"}
+        });
     });
 });
 

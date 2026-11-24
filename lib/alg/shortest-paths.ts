@@ -40,10 +40,7 @@ function runShortestPaths(
         for (let j = 0; j < adjList.length; j++) {
             const edge = adjList[j];
             if (!edge) continue;
-            const inVertex = edge.v === node ? edge.v : edge.w;
-            const outVertex = inVertex === edge.v ? edge.w : edge.v;
-
-            if (weightFn({v: inVertex, w: outVertex}) < 0) {
+            if (weightFn(edge) < 0) {
                 negativeEdgeExists = true;
             }
         }
