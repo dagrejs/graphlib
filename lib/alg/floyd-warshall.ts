@@ -54,7 +54,10 @@ function runFloydWarshall(
         edgeFn(v).forEach(function (edge) {
             const w = edge.v === v ? edge.w : edge.v;
             const d = weightFn(edge);
-            rowV[w] = {distance: d, predecessor: v};
+            const vw = rowV[w];
+            if (!vw || d < vw.distance) {
+                rowV[w] = {distance: d, predecessor: v};
+            }
         });
     });
 

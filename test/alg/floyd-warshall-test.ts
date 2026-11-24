@@ -41,6 +41,49 @@ describe("alg.floydWarshall", () => {
         });
     });
 
+    it("uses the lightest of parallel edges", () => {
+        const g = new Graph({multigraph: true});
+        g.setEdge("a", "b", 1, "fast");
+        g.setEdge("a", "b", 5, "slow");
+        g.setEdge("b", "c", 4, "slow");
+        g.setEdge("b", "c", 2, "fast");
+
+        expect(floydWarshall(g, weightFn(g))).toEqual({
+            a: {
+                a: {distance: 0, predecessor: ''},
+                b: {distance: 1, predecessor: "a"},
+                c: {distance: 3, predecessor: "b"}
+            },
+            b: {
+                a: {distance: Number.POSITIVE_INFINITY, predecessor: ''},
+                b: {distance: 0, predecessor: ''},
+                c: {distance: 2, predecessor: "b"}
+            },
+            c: {
+                a: {distance: Number.POSITIVE_INFINITY, predecessor: ''},
+                b: {distance: Number.POSITIVE_INFINITY, predecessor: ''},
+                c: {distance: 0, predecessor: ''}
+            }
+        });
+    });
+
+    it("does not include positive weight self edges", () => {
+        const g = new Graph();
+        g.setEdge("a", "a", 2);
+        g.setEdge("a", "b", 1);
+
+        expect(floydWarshall(g, weightFn(g))).toEqual({
+            a: {
+                a: {distance: 0, predecessor: ''},
+                b: {distance: 1, predecessor: "a"}
+            },
+            b: {
+                a: {distance: Number.POSITIVE_INFINITY, predecessor: ''},
+                b: {distance: 0, predecessor: ''}
+            }
+        });
+    });
+
     it("does include negative weight self edges", () => {
         const g = new Graph();
         g.setEdge("a", "a", -1);
