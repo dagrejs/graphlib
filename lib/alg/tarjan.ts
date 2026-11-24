@@ -1,10 +1,14 @@
 import {Graph} from '../graph.js';
+import type {Edge} from '../types.js';
 
 interface VisitedEntry {
     onStack: boolean;
     lowlink: number;
     index: number;
 }
+
+type VisitNeighbor = (w: string, edge?: Edge) => void;
+type ForEachNeighbor = (visit: VisitNeighbor, v: string, parentEdge?: Edge) => void;
 
 /**
  * This function is an implementation of Tarjan's algorithm which finds all strongly connected
@@ -20,12 +24,27 @@ interface VisitedEntry {
  * the ids of all nodes in the component.
  */
 export function tarjan(graph: Graph): string[][] {
+    return tarjanCore(graph, (visit, v) => {
+        graph.successors(v)?.forEach(w => visit(w));
+    });
+}
+
+export function tarjanUndirected(graph: Graph): string[][] {
+    return tarjanCore(graph, (visit, v, parentEdge) => {
+        graph.nodeEdges(v)?.forEach(edge => {
+            if (edge === parentEdge) return;
+            visit(edge.v === v ? edge.w : edge.v, edge);
+        });
+    });
+}
+
+function tarjanCore(graph: Graph, forEachNeighbor: ForEachNeighbor): string[][] {
     let index = 0;
     const stack: string[] = [];
     const visited: Record<string, VisitedEntry> = {}; // node id -> { onStack, lowlink, index }
     const results: string[][] = [];
 
-    function dfs(v: string): void {
+    function dfs(v: string, parentEdge?: Edge): void {
         const entry = visited[v] = {
             onStack: true,
             lowlink: index,
@@ -33,9 +52,9 @@ export function tarjan(graph: Graph): string[][] {
         };
         stack.push(v);
 
-        graph.successors(v)?.forEach(function (w) {
+        forEachNeighbor((w: string, edge?: Edge): void => {
             if (!(w in visited)) {
-                dfs(w);
+                dfs(w, edge);
                 const wEntry = visited[w];
                 if (wEntry) {
                     entry.lowlink = Math.min(entry.lowlink, wEntry.lowlink);
@@ -46,7 +65,7 @@ export function tarjan(graph: Graph): string[][] {
                     entry.lowlink = Math.min(entry.lowlink, wEntry.index);
                 }
             }
-        });
+        }, v, parentEdge);
 
         if (entry.lowlink === entry.index) {
             const cmpt: string[] = [];
