@@ -678,7 +678,7 @@ var graphlib = (() => {
   }
 
   // lib/version.ts
-  var version = "4.0.7";
+  var version = "4.0.8";
 
   // lib/json.ts
   var json_exports = {};
@@ -783,15 +783,16 @@ var graphlib = (() => {
     let didADistanceUpgrade;
     let iterations = 0;
     const nodes = g.nodes();
-    const relaxEdge = function(edge) {
-      const uEntry = results[edge.v];
-      const wEntry = results[edge.w];
+    const relaxEdge = function(edge, v) {
+      const w = edge.v === v ? edge.w : edge.v;
+      const uEntry = results[v];
+      const wEntry = results[w];
       if (!uEntry || !wEntry) return;
       const edgeWeight = weightFn(edge);
       if (uEntry.distance + edgeWeight < wEntry.distance) {
-        results[edge.w] = {
+        results[w] = {
           distance: uEntry.distance + edgeWeight,
-          predecessor: edge.v
+          predecessor: v
         };
         didADistanceUpgrade = true;
       }
@@ -799,9 +800,7 @@ var graphlib = (() => {
     const relaxAllEdges = function() {
       nodes.forEach(function(vertex) {
         edgeFn(vertex).forEach(function(edge) {
-          const inVertex = edge.v === vertex ? edge.v : edge.w;
-          const outVertex = inVertex === edge.v ? edge.w : edge.v;
-          relaxEdge({ v: inVertex, w: outVertex });
+          relaxEdge(edge, vertex);
         });
       });
     };
@@ -1046,21 +1045,35 @@ var graphlib = (() => {
 
   // lib/alg/tarjan.ts
   function tarjan(graph) {
+    return tarjanCore(graph, (visit, v) => {
+      var _a;
+      (_a = graph.successors(v)) == null ? void 0 : _a.forEach((w) => visit(w));
+    });
+  }
+  function tarjanUndirected(graph) {
+    return tarjanCore(graph, (visit, v, parentEdge) => {
+      var _a;
+      (_a = graph.nodeEdges(v)) == null ? void 0 : _a.forEach((edge) => {
+        if (edge === parentEdge) return;
+        visit(edge.v === v ? edge.w : edge.v, edge);
+      });
+    });
+  }
+  function tarjanCore(graph, forEachNeighbor) {
     let index = 0;
     const stack = [];
     const visited = {};
     const results = [];
-    function dfs2(v) {
-      var _a;
+    function dfs2(v, parentEdge) {
       const entry = visited[v] = {
         onStack: true,
         lowlink: index,
         index: index++
       };
       stack.push(v);
-      (_a = graph.successors(v)) == null ? void 0 : _a.forEach(function(w) {
+      forEachNeighbor((w, edge) => {
         if (!(w in visited)) {
-          dfs2(w);
+          dfs2(w, edge);
           const wEntry = visited[w];
           if (wEntry) {
             entry.lowlink = Math.min(entry.lowlink, wEntry.lowlink);
@@ -1071,7 +1084,7 @@ var graphlib = (() => {
             entry.lowlink = Math.min(entry.lowlink, wEntry.index);
           }
         }
-      });
+      }, v, parentEdge);
       if (entry.lowlink === entry.index) {
         const cmpt = [];
         let w;
@@ -1096,7 +1109,13 @@ var graphlib = (() => {
 
   // lib/alg/find-cycles.ts
   function findCycles(graph) {
-    return tarjan(graph).filter(function(cmpt) {
+    let components2;
+    if (graph.isDirected()) {
+      components2 = tarjan(graph);
+    } else {
+      components2 = tarjanUndirected(graph);
+    }
+    return components2.filter(function(cmpt) {
       var _a;
       const firstNode = cmpt[0];
       if (!firstNode) return false;
@@ -1131,7 +1150,10 @@ var graphlib = (() => {
       edgeFn(v).forEach(function(edge) {
         const w = edge.v === v ? edge.w : edge.v;
         const d = weightFn(edge);
-        rowV[w] = { distance: d, predecessor: v };
+        const vw = rowV[w];
+        if (!vw || d < vw.distance) {
+          rowV[w] = { distance: d, predecessor: v };
+        }
       });
     });
     nodes.forEach(function(k) {
@@ -1190,13 +1212,37 @@ var graphlib = (() => {
 
   // lib/alg/is-acyclic.ts
   function isAcyclic(graph) {
-    try {
-      topsort(graph);
-    } catch (e) {
-      if (e instanceof CycleException) {
+    if (graph.isDirected()) {
+      try {
+        topsort(graph);
+      } catch (e) {
+        if (e instanceof CycleException) {
+          return false;
+        }
+        throw e;
+      }
+      return true;
+    }
+    return isUndirectedAcyclic(graph);
+  }
+  function isUndirectedAcyclic(graph) {
+    const visited = /* @__PURE__ */ new Set();
+    function hasCycle(v, parentEdge) {
+      var _a;
+      visited.add(v);
+      for (const edge of (_a = graph.nodeEdges(v)) != null ? _a : []) {
+        if (edge === parentEdge) continue;
+        const w = edge.v === v ? edge.w : edge.v;
+        if (visited.has(w) || hasCycle(w, edge)) {
+          return true;
+        }
+      }
+      return false;
+    }
+    for (const v of graph.nodes()) {
+      if (!visited.has(v) && hasCycle(v)) {
         return false;
       }
-      throw e;
     }
     return true;
   }
@@ -1322,9 +1368,7 @@ var graphlib = (() => {
       for (let j = 0; j < adjList.length; j++) {
         const edge = adjList[j];
         if (!edge) continue;
-        const inVertex = edge.v === node ? edge.v : edge.w;
-        const outVertex = inVertex === edge.v ? edge.w : edge.v;
-        if (weightFn({ v: inVertex, w: outVertex }) < 0) {
+        if (weightFn(edge) < 0) {
           negativeEdgeExists = true;
         }
       }

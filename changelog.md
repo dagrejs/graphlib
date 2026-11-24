@@ -1,5 +1,12 @@
 Changelog: @dagrejs/graphlib (v3.0.0+)
 
+## v4.0.8
+
+Fixes & Improvements
+* alg.findCycles & alg.isAcyclic: Added cycle detection support for undirected graphs (#253).
+* alg.bellmanFord & alg.shortestPaths: Preserved named edge objects when calling `weightFn` during shortest path weight lookups and negative-weight checks, including on reverse traversals (#254, #256).
+* alg.floydWarshall: Kept only the lightest edge when initializing the distance table so parallel edges use the minimum weight and positive self-loops do not overwrite zero self-distances (#255, #257).
+
 ## v4.0.7
 
 Fixes & Improvements

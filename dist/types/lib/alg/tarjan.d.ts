@@ -13,4 +13,5 @@ import { Graph } from '../graph.js';
  * the ids of all nodes in the component.
  */
 export declare function tarjan(graph: Graph): string[][];
+export declare function tarjanUndirected(graph: Graph): string[][];
 //# sourceMappingURL=tarjan.d.ts.map
