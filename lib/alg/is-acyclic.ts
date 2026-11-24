@@ -1,4 +1,5 @@
 import {Graph} from '../graph.js';
+import type {Edge} from '../types.js';
 import {CycleException, topsort} from './topsort.js';
 
 /**
@@ -10,13 +11,40 @@ import {CycleException, topsort} from './topsort.js';
  * @returns whether graph contain cycles or not.
  */
 export function isAcyclic(graph: Graph): boolean {
-    try {
-        topsort(graph);
-    } catch (e) {
-        if (e instanceof CycleException) {
+    if (graph.isDirected()) {
+        try {
+            topsort(graph);
+        } catch (e) {
+            if (e instanceof CycleException) {
+                return false;
+            }
+            throw e;
+        }
+        return true;
+    }
+
+    return isUndirectedAcyclic(graph);
+}
+
+function isUndirectedAcyclic(graph: Graph): boolean {
+    const visited = new Set<string>();
+
+    function hasCycle(v: string, parentEdge?: Edge): boolean {
+        visited.add(v);
+        for (const edge of graph.nodeEdges(v) ?? []) {
+            if (edge === parentEdge) continue;
+            const w = edge.v === v ? edge.w : edge.v;
+            if (visited.has(w) || hasCycle(w, edge)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    for (const v of graph.nodes()) {
+        if (!visited.has(v) && hasCycle(v)) {
             return false;
         }
-        throw e;
     }
     return true;
 }
