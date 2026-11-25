@@ -518,6 +518,9 @@ export class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
      * @returns the graph, allowing this to be chained with other functions.
      */
     setPath(nodes: string[], label?: EdgeLabel): this {
+        if (nodes.length === 0) {
+            return this;
+        }
         nodes.reduce((v, w) => {
             if (label !== undefined) {
                 this.setEdge(v, w, label);
