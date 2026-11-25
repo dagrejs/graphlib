@@ -23,4 +23,3 @@ describe.each([true, false])('empty node edge filters (directed: %s)', directed 
         expect(g.nodeEdges('b', '')).toEqual([]);
     });
 });
-
