@@ -13,7 +13,7 @@ interface PriorityQueueEntry {
 
 export class PriorityQueue {
     private _arr: PriorityQueueEntry[] = [];
-    private _keyIndices: Record<string, number> = {};
+    private _keyIndices: Record<string, number> = Object.create(null);
 
     /**
      * Returns the number of elements in the queue. Takes `O(1)` time.

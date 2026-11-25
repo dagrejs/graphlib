@@ -43,7 +43,7 @@ function runDijkstra(
     weightFn: WeightFunction,
     edgeFn: EdgeFunction
 ): Record<string, Path> {
-    const results: Record<string, Path> = {};
+    const results: Record<string, Path> = Object.create(null);
     const pq = new PriorityQueue();
     let v: string, vEntry: Path;
 

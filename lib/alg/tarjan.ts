@@ -41,7 +41,7 @@ export function tarjanUndirected(graph: Graph): string[][] {
 function tarjanCore(graph: Graph, forEachNeighbor: ForEachNeighbor): string[][] {
     let index = 0;
     const stack: string[] = [];
-    const visited: Record<string, VisitedEntry> = {}; // node id -> { onStack, lowlink, index }
+    const visited: Record<string, VisitedEntry> = Object.create(null); // node id -> { onStack, lowlink, index }
     const results: string[][] = [];
 
     function dfs(v: string, parentEdge?: Edge): void {

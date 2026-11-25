@@ -21,7 +21,7 @@ export function reduce<T>(
 
     const navigation = ((v: string) => (g.isDirected() ? g.successors(v) : g.neighbors(v)) ?? []);
 
-    const visited: Record<string, boolean> = {};
+    const visited: Record<string, boolean> = Object.create(null);
     vs.forEach(function (v) {
         if (!g.hasNode(v)) {
             throw new Error("Graph does not have node: " + v);

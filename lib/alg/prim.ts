@@ -15,7 +15,7 @@ import type {Edge, WeightFunction} from '../types.js';
  */
 export function prim(graph: Graph, weightFn: WeightFunction): Graph {
     const result = new Graph();
-    const parents: Record<string, string> = {};
+    const parents: Record<string, string> = Object.create(null);
     const pq = new PriorityQueue();
     let v: string;
 

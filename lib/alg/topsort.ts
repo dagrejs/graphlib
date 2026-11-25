@@ -16,8 +16,8 @@ export class CycleException extends Error {
  * @returns an array of nodes such that for each edge u -> v, u appears before v in the array.
  */
 export function topsort(graph: Graph): string[] {
-    const visited: Record<string, boolean> = {};
-    const stack: Record<string, boolean> = {};
+    const visited: Record<string, boolean> = Object.create(null);
+    const stack: Record<string, boolean> = Object.create(null);
     const results: string[] = [];
 
     function visit(node: string): void {
