@@ -27,13 +27,12 @@ export function reduce<T>(
             throw new Error("Graph does not have node: " + v);
         }
 
-        acc = doReduce(g, v, order === "post", visited, navigation, fn, acc);
+        acc = doReduce(v, order === "post", visited, navigation, fn, acc);
     });
     return acc;
 }
 
 function doReduce<T>(
-    g: Graph,
     v: string,
     postorder: boolean,
     visited: Record<string, boolean>,
@@ -41,17 +40,33 @@ function doReduce<T>(
     fn: (acc: T, v: string) => T,
     acc: T
 ): T {
-    if (!(v in visited)) {
-        visited[v] = true;
+    if (v in visited) {
+        return acc;
+    }
+
+    const stack: {node: string; neighbors: string[]; next: number}[] = [];
+    const enter = (node: string): void => {
+        visited[node] = true;
 
         if (!postorder) {
-            acc = fn(acc, v);
+            acc = fn(acc, node);
         }
-        navigation(v).forEach(function (w) {
-            acc = doReduce(g, w, postorder, visited, navigation, fn, acc);
-        });
-        if (postorder) {
-            acc = fn(acc, v);
+        stack.push({node, neighbors: navigation(node), next: 0});
+    };
+
+    enter(v);
+    while (stack.length > 0) {
+        const frame = stack[stack.length - 1]!;
+        if (frame.next < frame.neighbors.length) {
+            const neighbor = frame.neighbors[frame.next++]!;
+            if (!(neighbor in visited)) {
+                enter(neighbor);
+            }
+        } else {
+            stack.pop();
+            if (postorder) {
+                acc = fn(acc, frame.node);
+            }
         }
     }
     return acc;
