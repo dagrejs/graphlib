@@ -450,7 +450,7 @@ export class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
         const parents: Record<string, string | undefined> = {};
         const findParent = (v: string): string | undefined => {
             const parent = this.parent(v);
-            if (!parent || copy.hasNode(parent)) {
+            if (parent === undefined || copy.hasNode(parent)) {
                 parents[v] = parent;
                 return parent;
             } else if (parent in parents) {
@@ -812,7 +812,7 @@ export class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
             return;
         }
         const edges = Object.values(setV);
-        if (!remoteEdge) {
+        if (remoteEdge === undefined) {
             return edges;
         }
         return edges.filter((edge) => {
