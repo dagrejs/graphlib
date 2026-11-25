@@ -14,7 +14,7 @@ import type {Edge, WeightFunction} from '../types.js';
  * @returns minimum spanning tree of graph.
  */
 export function prim(graph: Graph, weightFn: WeightFunction): Graph {
-    const result = new Graph();
+    const result = new Graph({directed: false});
     const parents: Record<string, string> = {};
     const pq = new PriorityQueue();
     let v: string;
