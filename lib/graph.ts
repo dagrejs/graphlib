@@ -180,8 +180,9 @@ export class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
      * @returns the graph, allowing this to be chained with other functions.
      */
     setNodes(names: string[], label?: NodeLabel): this {
+        const valueSpecified = arguments.length > 1;
         names.forEach((v) => {
-            if (label !== undefined) {
+            if (valueSpecified) {
                 this.setNode(v, label);
             } else {
                 this.setNode(v);
@@ -518,8 +519,9 @@ export class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
      * @returns the graph, allowing this to be chained with other functions.
      */
     setPath(nodes: string[], label?: EdgeLabel): this {
+        const valueSpecified = arguments.length > 1;
         nodes.reduce((v, w) => {
-            if (label !== undefined) {
+            if (valueSpecified) {
                 this.setEdge(v, w, label);
             } else {
                 this.setEdge(v, w);
