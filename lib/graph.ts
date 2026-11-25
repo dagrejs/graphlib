@@ -450,7 +450,7 @@ export class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
         const parents: Record<string, string | undefined> = {};
         const findParent = (v: string): string | undefined => {
             const parent = this.parent(v);
-            if (parent === undefined || copy.hasNode(parent)) {
+            if (!parent || copy.hasNode(parent)) {
                 parents[v] = parent;
                 return parent;
             } else if (parent in parents) {

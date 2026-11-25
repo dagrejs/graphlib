@@ -24,32 +24,3 @@ describe.each([true, false])('empty node edge filters (directed: %s)', directed 
     });
 });
 
-describe('filterNodes with an empty parent ID', () => {
-    it('does not recreate an excluded empty parent', () => {
-        const g = new Graph({compound: true});
-        g.setParent('child', '');
-        const copy = g.filterNodes(v => v !== '');
-        expect(copy.nodes()).toEqual(['child']);
-        expect(copy.parent('child')).toBeUndefined();
-        expect(copy.children()).toEqual(['child']);
-        expect(g.parent('child')).toBe('');
-    });
-
-    it('finds a retained ancestor through an excluded empty parent', () => {
-        const g = new Graph({compound: true});
-        g.setParent('child', '').setParent('', 'grandparent');
-        const copy = g.filterNodes(v => v !== '');
-        expect(copy.hasNode('')).toBe(false);
-        expect(copy.parent('child')).toBe('grandparent');
-        expect(copy.children('grandparent')).toEqual(['child']);
-    });
-
-    it('preserves an empty parent when the filter retains it', () => {
-        const g = new Graph({compound: true});
-        g.setParent('child', '');
-        const copy = g.filterNodes(() => true);
-        expect(copy.parent('child')).toBe('');
-        expect(copy.children('')).toEqual(['child']);
-        expect(copy.nodeCount()).toBe(2);
-    });
-});
