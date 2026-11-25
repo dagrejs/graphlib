@@ -15,6 +15,7 @@ import {execFileSync} from 'child_process';
 import {existsSync, mkdtempSync, rmSync, writeFileSync} from 'fs';
 import {tmpdir} from 'os';
 import {join, resolve} from 'path';
+import {pathToFileURL} from 'url';
 
 const repoRoot = process.cwd();
 const esmPath = resolve(repoRoot, 'dist', 'graphlib.esm.js');
@@ -23,7 +24,7 @@ const cjsPath = resolve(repoRoot, 'dist', 'graphlib.cjs');
 // ESM smoke check run under tsx — mirrors the #233 repro. Under a correct
 // package.json the named exports resolve; under the buggy format only `default`
 // is present, so `Graph` is undefined and `new Graph()` throws.
-const esmCheck = `import {Graph, alg, json, version} from ${JSON.stringify(esmPath)};
+const esmCheck = `import {Graph, alg, json, version} from ${JSON.stringify(pathToFileURL(esmPath).href)};
 
 const problems = [];
 if (typeof Graph !== 'function') problems.push('Graph is ' + typeof Graph + ', expected function');
