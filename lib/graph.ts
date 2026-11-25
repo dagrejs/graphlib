@@ -158,7 +158,7 @@ export class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
      * @returns the graph source nodes.
      */
     sources(): string[] {
-        return this.nodes().filter(v => Object.keys(this._in[v]!).length === 0);
+        return this.nodes().filter(v => this.inEdges(v)!.length === 0);
     }
 
     /**
@@ -168,7 +168,7 @@ export class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
      * @returns the graph sink nodes.
      */
     sinks(): string[] {
-        return this.nodes().filter(v => Object.keys(this._out[v]!).length === 0);
+        return this.nodes().filter(v => this.outEdges(v)!.length === 0);
     }
 
     /**
