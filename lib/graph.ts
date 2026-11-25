@@ -858,7 +858,7 @@ function edgeArgsToObj(isDirected: boolean, v_: string, w_: string, name?: strin
         w = tmp;
     }
     const edgeObj: Edge = {v: v, w: w};
-    if (name) {
+    if (name !== undefined) {
         edgeObj.name = name;
     }
     return edgeObj;
