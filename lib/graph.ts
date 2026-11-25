@@ -812,7 +812,7 @@ export class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
             return;
         }
         const edges = Object.values(setV);
-        if (!remoteEdge) {
+        if (remoteEdge === undefined) {
             return edges;
         }
         return edges.filter((edge) => {
