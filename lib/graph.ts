@@ -1,7 +1,7 @@
 import type {Edge, EdgeLabelFactory, GraphOptions, Label, NodeLabelFactory} from './types.js';
 
 const DEFAULT_EDGE_NAME = "\x00";
-const GRAPH_NODE = "\x00";
+const GRAPH_NODE = Symbol("graph-root");
 const EDGE_KEY_DELIM = "\x01";
 
 // Implementation notes:
@@ -39,8 +39,8 @@ export class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
     private _nodeCount: number = 0;
     /* Number of edges in the graph. Should only be changed by the implementation. */
     private _edgeCount: number = 0;
-    private _parent?: Record<string, string>;
-    private _children?: Record<string, Record<string, boolean>>;
+    private _parent?: Record<string, string | typeof GRAPH_NODE>;
+    private _children?: Record<string | symbol, Record<string, boolean>>;
 
     constructor(opts?: GraphOptions) {
         if (opts) {
@@ -291,25 +291,22 @@ export class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
             throw new Error("Cannot set parent in a non-compound graph");
         }
 
-        if (parent === undefined) {
-            parent = GRAPH_NODE;
-        } else {
-            // Coerce parent to string
-            parent += "";
-            for (let ancestor: string | undefined = parent; ancestor !== undefined; ancestor = this.parent(ancestor)) {
+        const parentId = parent === undefined ? GRAPH_NODE : "" + parent;
+        if (parentId !== GRAPH_NODE) {
+            for (let ancestor: string | undefined = parentId; ancestor !== undefined; ancestor = this.parent(ancestor)) {
                 if (ancestor === v) {
-                    throw new Error("Setting " + parent + " as parent of " + v +
+                    throw new Error("Setting " + parentId + " as parent of " + v +
                         " would create a cycle");
                 }
             }
 
-            this.setNode(parent);
+            this.setNode(parentId);
         }
 
         this.setNode(v);
         this._removeFromParentsChildList(v);
-        this._parent![v] = parent;
-        this._children![parent]![v] = true;
+        this._parent![v] = parentId;
+        this._children![parentId]![v] = true;
         return this;
     }
 
@@ -337,15 +334,16 @@ export class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
      * @param v - node to get children of.
      * @returns children nodes names list.
      */
-    children(v: string = GRAPH_NODE): string[] {
+    children(v?: string): string[] {
+        const node = v === undefined ? GRAPH_NODE : v;
         if (this._isCompound) {
-            const children = this._children![v];
+            const children = this._children![node];
             if (children) {
                 return Object.keys(children);
             }
-        } else if (v === GRAPH_NODE) {
+        } else if (node === GRAPH_NODE) {
             return this.nodes();
-        } else if (this.hasNode(v)) {
+        } else if (this.hasNode(node)) {
             return [];
         }
         return [];
