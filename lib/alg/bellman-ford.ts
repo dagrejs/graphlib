@@ -25,7 +25,7 @@ function runBellmanFord(
     weightFn: WeightFunction,
     edgeFn: EdgeFunction
 ): Record<string, Path> {
-    const results: Record<string, Path> = {};
+    const results: Record<string, Path> = Object.create(null);
     let didADistanceUpgrade: boolean;
     let iterations = 0;
     const nodes = g.nodes();

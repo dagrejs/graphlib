@@ -24,5 +24,5 @@ export function dijkstraAll(
     return graph.nodes().reduce(function (acc, v) {
         acc[v] = dijkstra(graph, v, weightFn, edgeFn);
         return acc;
-    }, {} as Record<string, Record<string, Path>>);
+    }, Object.create(null) as Record<string, Record<string, Path>>);
 }

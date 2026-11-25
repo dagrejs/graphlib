@@ -22,19 +22,19 @@ export class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
     // Label for the graph itself
     private _label!: GraphLabel;
     // v -> label
-    private _nodes: Record<string, NodeLabel> = {};
+    private _nodes: Record<string, NodeLabel> = Object.create(null);
     // v -> edgeObj
-    private _in: Record<string, Record<string, Edge>> = {};
+    private _in: Record<string, Record<string, Edge>> = Object.create(null);
     // u -> v -> Number
-    private _preds: Record<string, Record<string, number>> = {};
+    private _preds: Record<string, Record<string, number>> = Object.create(null);
     // v -> edgeObj
-    private _out: Record<string, Record<string, Edge>> = {};
+    private _out: Record<string, Record<string, Edge>> = Object.create(null);
     // v -> w -> Number
-    private _sucs: Record<string, Record<string, number>> = {};
+    private _sucs: Record<string, Record<string, number>> = Object.create(null);
     // e -> edgeObj
-    private _edgeObjs: Record<string, Edge> = {};
+    private _edgeObjs: Record<string, Edge> = Object.create(null);
     // e -> label
-    private _edgeLabels: Record<string, EdgeLabel> = {};
+    private _edgeLabels: Record<string, EdgeLabel> = Object.create(null);
     /* Number of nodes in the graph. Should only be changed by the implementation. */
     private _nodeCount: number = 0;
     /* Number of edges in the graph. Should only be changed by the implementation. */
@@ -51,11 +51,11 @@ export class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
 
         if (this._isCompound) {
             // v -> parent
-            this._parent = {};
+            this._parent = Object.create(null);
 
             // v -> children
-            this._children = {};
-            this._children[GRAPH_NODE] = {};
+            this._children = Object.create(null);
+            this._children![GRAPH_NODE] = Object.create(null);
         }
     }
 
@@ -211,13 +211,13 @@ export class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
         this._nodes[name] = arguments.length > 1 ? label! : this._defaultNodeLabelFn(name);
         if (this._isCompound) {
             this._parent![name] = GRAPH_NODE;
-            this._children![name] = {};
+            this._children![name] = Object.create(null);
             this._children![GRAPH_NODE]![name] = true;
         }
-        this._in[name] = {};
-        this._preds[name] = {};
-        this._out[name] = {};
-        this._sucs[name] = {};
+        this._in[name] = Object.create(null);
+        this._preds[name] = Object.create(null);
+        this._out[name] = Object.create(null);
+        this._sucs[name] = Object.create(null);
         ++this._nodeCount;
         return this;
     }
@@ -447,7 +447,7 @@ export class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
             }
         });
 
-        const parents: Record<string, string | undefined> = {};
+        const parents: Record<string, string | undefined> = Object.create(null);
         const findParent = (v: string): string | undefined => {
             const parent = this.parent(v);
             if (!parent || copy.hasNode(parent)) {

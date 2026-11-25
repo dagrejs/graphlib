@@ -9,7 +9,7 @@ import {Graph} from '../graph.js';
  * @returns array of nodes list representing components
  */
 export function components(graph: Graph): string[][] {
-    const visited: Record<string, boolean> = {};
+    const visited: Record<string, boolean> = Object.create(null);
     const cmpts: string[][] = [];
     let cmpt: string[];
 

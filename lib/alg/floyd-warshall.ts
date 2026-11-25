@@ -39,11 +39,11 @@ function runFloydWarshall(
     weightFn: WeightFunction,
     edgeFn: EdgeFunction
 ): Record<string, Record<string, Path>> {
-    const results: Record<string, Record<string, Path>> = {};
+    const results: Record<string, Record<string, Path>> = Object.create(null);
     const nodes = graph.nodes();
 
     nodes.forEach(function (v) {
-        const rowV: Record<string, Path> = {};
+        const rowV: Record<string, Path> = Object.create(null);
         results[v] = rowV;
         rowV[v] = {distance: 0, predecessor: ''};
         nodes.forEach(function (w) {
