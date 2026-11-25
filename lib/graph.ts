@@ -1,8 +1,6 @@
 import type {Edge, EdgeLabelFactory, GraphOptions, Label, NodeLabelFactory} from './types.js';
 
-const DEFAULT_EDGE_NAME = "\x00";
 const GRAPH_NODE = "\x00";
-const EDGE_KEY_DELIM = "\x01";
 
 // Implementation notes:
 //
@@ -845,8 +843,7 @@ function edgeArgsToId(isDirected: boolean, v_: string, w_: string, name?: string
         v = w;
         w = tmp;
     }
-    return v + EDGE_KEY_DELIM + w + EDGE_KEY_DELIM +
-        (name === undefined ? DEFAULT_EDGE_NAME : name);
+    return JSON.stringify([v, w, name === undefined ? null : "" + name]);
 }
 
 function edgeArgsToObj(isDirected: boolean, v_: string, w_: string, name?: string): Edge {
