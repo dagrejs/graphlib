@@ -291,6 +291,9 @@ export class Graph<GraphLabel = Label, NodeLabel = Label, EdgeLabel = Label> {
             throw new Error("Cannot set parent in a non-compound graph");
         }
 
+        // Coerce v to string, so the cycle check below compares like with like
+        v += "";
+
         if (parent === undefined) {
             parent = GRAPH_NODE;
         } else {

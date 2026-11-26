@@ -407,6 +407,16 @@ describe("Graph", () => {
             }).toThrow();
         });
 
+        it("preserves the tree invariant for non-string ids", () => {
+            const one = 1 as unknown as string;
+            const two = 2 as unknown as string;
+            expect(() => g.setParent(one, one)).toThrow();
+            g.setParent(one, two);
+            expect(() => g.setParent(two, one)).toThrow();
+            expect(g.parent("1")).toBe("2");
+            expect(g.parent("2")).toBeUndefined();
+        });
+
         it("is chainable", () => {
             expect(g.setParent("a", "parent")).toBe(g);
         });
